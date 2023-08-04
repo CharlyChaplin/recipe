@@ -1,0 +1,1 @@
+pg_dump -c -C -d recipe -f dump.sql -U postgres
