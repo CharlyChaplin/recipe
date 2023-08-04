@@ -15,7 +15,7 @@ export const Info = styled(({ children, view = false, warning, ok, cancel, ...pr
 	top: 0;
 	width: fit-content;
 	transform: translate(-50%, ${({ view }) => view ? 1 : -110}%);
-	z-index: 50;
+	z-index: 10000;
 	background-color: Silver;
 	background-color: DarkSlateGray;
 	border-radius: ${rem(10)};

@@ -8,7 +8,7 @@ class FileController {
 		let filePath = '';
 
 		myFiles.forEach(file => {
-			filePath = `${userPath}/${file.name}`;
+			filePath = `users/${userPath}/${file.name}`;
 			file.mv(`static/${filePath}`, err => {
 				if (err) {
 					return res.status(500).send({ err: err, msg: "Error occurred" });

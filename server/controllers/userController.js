@@ -61,14 +61,16 @@ class UserController {
 
 			// создаём папки в static для юзера
 			// общая папка юзера
-			const mainPath = `static/${email}`;
+			const mainPath = `static/users/${email}`;
 			fs.mkdirSync(mainPath, err => console.log(err));
+			/*
 			// папка для хранения блогов
 			const blogPath = mainPath + '/blog';
 			fs.mkdirSync(blogPath, err => console.log(err));
 			// папка для хранения рецептов
 			const recipePath = mainPath + '/recipe';
 			fs.mkdirSync(recipePath, err => console.log(err));
+			*/
 
 			// отправляем письмо
 			const mailService = new MailService('admin@lexun.ru', 'test@lexun.ru', activationLink);
@@ -573,7 +575,7 @@ class UserController {
 
 
 			// удаляем папки юзера в static
-			fs.rmSync(`static/${email}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
+			fs.rmSync(`static/users/${email}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
 
 			// формируем воздвращающийся объект
 			userData = { ...userData, deletedUser: deleteFromUsers.rows[0].email }

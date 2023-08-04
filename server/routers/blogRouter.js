@@ -10,6 +10,7 @@ blogRouter.put('/change', BlogController.changeBlog);
 blogRouter.get('/getbyid/:id', BlogController.getBlogById);
 blogRouter.post('/getblog', BlogController.getOneBlog);
 blogRouter.get('/blogs', BlogController.getAllBlogs);
+blogRouter.get('/preview', BlogController.getPreviewBlogs);
 
 
 export default blogRouter;

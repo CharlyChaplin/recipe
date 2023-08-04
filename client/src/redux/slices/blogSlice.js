@@ -5,6 +5,7 @@ const initialState = {
 	loading: false,
 	blogData: [],
 	blogs: [],
+	blogsPreview: [],
 	errors: "",
 }
 
@@ -51,6 +52,18 @@ export const blogGetBlogs = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const resp = await axios.get('/blog/blogs');
+			return resp.data;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+);
+
+export const blogGetPreviewBlogs = createAsyncThunk(
+	'blog/getPreviewBlog',
+	async (_, { rejectWithValue }) => {
+		try {
+			const resp = await axios.get('/blog/preview');
 			return resp.data;
 		} catch (err) {
 			return rejectWithValue(err.message);
@@ -127,6 +140,20 @@ export const blogSlice = createSlice({
 		build.addCase(blogGetBlogs.rejected, (state, action) => {
 			state.loading = false;
 			state.blogs = [];
+			state.errors = action.payload;
+		});
+		//========================================================================================================================================================
+		build.addCase(blogGetPreviewBlogs.pending, (state, action) => {
+			state.loading = true;
+			state.errors = "";
+		});
+		build.addCase(blogGetPreviewBlogs.fulfilled, (state, action) => {
+			state.loading = false;
+			state.blogsPreview = action.payload;
+			state.errors = "";
+		});
+		build.addCase(blogGetPreviewBlogs.rejected, (state, action) => {
+			state.loading = false;
 			state.errors = action.payload;
 		});
 	}

@@ -134,6 +134,17 @@ class BlogController {
 
 	}
 
+	async getPreviewBlogs(req, res) {
+		const blogs = await db.query(`
+			SELECT name, dateadd, photopreview, caption, description
+			FROM blog, persondata;
+		`);
+
+		const blogsData = blogs.rows.map(blog => blog);
+
+		res.json(blogsData);
+	}
+
 	getBlogById(req, res) {
 		const { id } = req.params;
 		db.query(`SELECT * FROM phrase WHERE id=${id};`)

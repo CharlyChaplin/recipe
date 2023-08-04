@@ -60,7 +60,7 @@ const AvatarSelect = ({
 			.then(res => {
 				getFile({
 					name: res.data[0].name,
-					path: `http://localhost:7000/${source == 'userById' ? userById.email : userData.user.email}${res.data[0].path}`
+					path: `http://localhost:7000/users/${source == 'userById' ? userById.email : userData.user.email}${res.data[0].path}`
 				})
 			})
 			.catch(err => console.log(err));
