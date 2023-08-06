@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { adaptiveValue, rem } from "init/mixins";
+import { adaptiveValue, em, rem } from "init/mixins";
 import vars from "init/vars";
 import { rgba } from "polished";
 import { Link } from "react-router-dom";
@@ -10,14 +10,16 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 		{children}
 	</div>
 ))`
-	display: flex;
+	/* display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: center; */
+	display: grid;
 	width: 100%;
 	height: 100%;
 	padding: ${rem(55)};
 	border-radius: ${rem(30)};
-	overflow: hidden;
+	/* overflow: hidden; */
+	overflow: auto;
 	position: relative;
 	z-index: 0;
 	background: url(${({ image }) => image ? image : null}) 0 0 no-repeat;
@@ -27,7 +29,7 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 `;
 
 export const Overlay = styled.div`
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -51,6 +53,7 @@ export const ContentWrapper = styled(({ children, ...props }) => (
 	${adaptiveValue("border-radius", 20, 10)};
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(${rem(150)}, 1fr));
+	grid-auto-flow: column;
 	${adaptiveValue("gap", 50, 30)};
 	font-family: "RalewayRegular", sans-serif;
 `;
@@ -123,7 +126,7 @@ export const PreviewCategoryRecipeItem = styled(({ children, url, image, imageAl
 	}
 `;
 
-export const PreviewBlogItem = styled(({ children, url, dateadd, owner, image, imageAlt, caption, description, ...props}) => (
+export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, imageAlt, caption, description, ...props }) => (
 	<Link to={url} {...props}>
 		<header>
 			<time>{dateadd}</time>
@@ -143,5 +146,131 @@ export const PreviewBlogItem = styled(({ children, url, dateadd, owner, image, i
 		</article>
 	</Link>
 ))`
+	max-width: ${rem(420)};
+	width: ${rem(420)};
+	color: ${vars.text};
+	display: flex;
+	flex-direction: column;
+	&:hover {
+		header {
+			color: ${vars.text};
+		}
+		article {
+			&::after {
+				background-color: ${rgba(vars.dark, .5)};
+			}
+			div:nth-child(1) {
+				box-shadow: ${rem(2)} ${rem(4)} ${rem(3)} ${rem(0)} ${rgba(vars.blackColor, 0.3)};
+			}
+		}
+		
+	}
+	header {
+		display: flex;
+		flex-direction: row;
+		font-family: "Roboto", sans-serif;
+		font-size: ${rem(16)};
+		color: ${rgba(vars.text, .5)};
+		line-height: calc(18.75 / 16);
+		${adaptiveValue("margin-left", 15, 10, 1, 1390, 479.99)};
+		${adaptiveValue("margin-bottom", 10, 5)};
+		transition: all 0.25s ease 0s;
+		@media (max-width: ${em(479.98)}) {
+			justify-content: center;
+		}
+		span {
+			margin: 0 ${rem(10)};
+			height: ${rem(16)};
+			width: ${rem(1)};
+			background-color: ${vars.text};
+		}
+	}
+	article {
+		cursor: pointer;
+		height: 100%;
+		div:nth-child(1) {
+			float: left;
+			width: ${rem(170)};
+			height: ${rem(136)};
+			${adaptiveValue("min-width", 170, 100)};
+			${adaptiveValue("min-height", 136, 70)};
+			border-radius: ${rem(10)};
+			overflow: hidden;
+			margin-right: ${rem(20)};
+			margin-bottom: ${rem(5)};
+			margin-left: ${rem(15)};
+			${adaptiveValue("margin-top", 15, 25)};
+			transition: all 0.2s ease 0s;
+			box-shadow: ${rem(1)} ${rem(1)} ${rem(2)} ${rem(0)} ${rgba(vars.blackColor, .3)};
+			border: 2px solid ${rgba(vars.buttonBottomColor, .7)};
+			position: relative;
+			img {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				z-index: unset;
+				border-radius: unset;
+			}
+			@media (max-width: ${em(479.98)}) {
+				margin-right: 0;
+				margin-bottom: ${rem(25)};
+				align-self: center;
+				margin-left: 50%;
+				transform: translate(-50%, 0%);
+			}
+		}
+		div:nth-child(2) {
+			height: 100%;
+		}
+		aside {
+			height: 100%;
+			padding: ${rem(15)};
+			text-align: justify;
+			background: ${rgba(vars.whiteColor, .25)};
+			border: 1px solid ${rgba(vars.dark, .15)};
+			border-radius: ${rem(15)};
+			transition: all 0.25s ease 0s;
+			&:hover {
+				border: ${rem(1)} solid ${vars.accent};
+			}
+			span {
+				font-size: ${rem(14)};
+				font-family: "Roboto", sans-serif;
+				line-height: 1;
+			}
+			p {
+				font-family: "Raleway", sans-serif;
+				font-weight: 600;
+				${adaptiveValue("font-size", 24, 20)};
+				letter-spacing: ${rem(2)};
+				color: ${vars.text};
+				margin-bottom: ${rem(24)};
+				width: fit-content;
+				margin-left: 75%;
+				transform: translate(-50%, 0%);
+				position: relative;
+				&::after {
+					content: '';
+					transition: all 0.25s ease 0s;
+					position: absolute;
+					bottom: ${rem(-5)};
+					left: 0;
+					width: 100%;
+					height: ${rem(2)};
+					border-radius: ${rem(2)};
+					background-color: ${rgba(vars.dark, .25)};
+				}
+				${adaptiveValue("margin-top", 150, 150, 1, 479.98, 320)};
+				
+				@media (max-width: ${em(479.98)}) {
+					margin-left: 50%;
+				}
+			}
+		}
+	}
+	
 	
 `;

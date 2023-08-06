@@ -8,7 +8,7 @@ export const pathsPublic = {
 	'recipe': '/recipe',
 	'recipeedit': '/recipeedit',
 	'blog': '/blog',
-	'blogedit': '/blogedit',
+	'blogedit': '/blog/blogedit',
 	'about': '/about',
 	'profile': '/user/profile',
 }

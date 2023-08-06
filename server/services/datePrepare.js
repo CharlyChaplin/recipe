@@ -1,0 +1,1 @@
+export const datePrepare = val => val < 10 ? String('0' + val) : String(val);

@@ -6,6 +6,5 @@ export const BlogWrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: ${rem(50)};
-	border: 1px solid #f00;
 `;
 

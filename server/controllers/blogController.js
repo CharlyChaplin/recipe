@@ -2,6 +2,8 @@ import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
 import TokenService from '../services/tokenService.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
+import { datePrepare } from '../services/datePrepare.js';
+import { config } from 'dotenv';
 
 
 class BlogController {
@@ -140,8 +142,23 @@ class BlogController {
 			FROM blog, persondata;
 		`);
 
-		const blogsData = blogs.rows.map(blog => blog);
+		const blogsData = blogs.rows.map(blog => {
+			const time = new Date(blog.dateadd);
 
+			const day = datePrepare(time.getDate());
+			const month = datePrepare(time.getMonth() + 1);
+			const year = datePrepare(time.getFullYear());
+			const photopreview = config().parsed.LOCAL_ADDRESS + blog.photopreview
+
+			blog = {
+				...blog,
+				dateadd: `${day}.${month}.${year}`,
+				photopreview: photopreview
+			}
+			return (blog);
+		});
+
+		
 		res.json(blogsData);
 	}
 
@@ -151,6 +168,7 @@ class BlogController {
 			.then(resp => res.json(resp.rows))
 			.catch(err => res.json(err));
 	}
+
 }
 
 export default new BlogController;
