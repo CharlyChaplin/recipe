@@ -25,7 +25,6 @@ const BlogPage = () => {
 	}, [blogsPreview, dispatch]);
 
 
-
 	return (
 		<>
 			<MainWrapper image={bg}>
