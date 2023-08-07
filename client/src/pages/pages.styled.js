@@ -10,32 +10,30 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 		{children}
 	</div>
 ))`
-	/* display: flex;
-	flex-direction: row;
-	justify-content: center; */
 	display: grid;
 	width: 100%;
 	height: 100%;
 	padding: ${rem(55)};
 	border-radius: ${rem(30)};
-	/* overflow: hidden; */
 	overflow: auto;
-	position: relative;
 	z-index: 0;
 	background: url(${({ image }) => image ? image : null}) 0 0 no-repeat;
 	background-size: cover;
 	background-repeat: no-repeat;
 	color: ${vars.whiteColor};
-`;
-
-export const Overlay = styled.div`
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: ${rgba(vars.overlay, .85)};
-	z-index: -1;
+	position: relative;
+	
+	&::after {
+		display: block;
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: ${rgba(vars.overlay, .85)};
+		z-index: -1;
+	}
 `;
 
 export const ContentWrapper = styled(({ children, ...props }) => (
@@ -54,6 +52,7 @@ export const ContentWrapper = styled(({ children, ...props }) => (
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(${rem(150)}, 1fr));
 	grid-auto-flow: column;
+	justify-items: center;
 	${adaptiveValue("gap", 50, 30)};
 	font-family: "RalewayRegular", sans-serif;
 `;
@@ -147,7 +146,7 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 	</Link>
 ))`
 	max-width: ${rem(420)};
-	width: ${rem(420)};
+	/* width: ${rem(420)}; */
 	color: ${vars.text};
 	display: flex;
 	flex-direction: column;

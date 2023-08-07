@@ -11,9 +11,11 @@ export const Page = styled(({children, ...props}) => (
 	</main>
 ))`
 	flex: 1 1 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	padding: ${rem(0)} ${rem(7)};
-	/* position: relative; */
-	/* width: 100%; */
+	width: 100%;
 	overflow: hidden;
 	background-color: ${vars.dark};
 	z-index: 0;

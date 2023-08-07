@@ -1,16 +1,17 @@
 // Пути
 
 export const pathsPublic = {
-	'home': '/',
-	'signin': '/user/signin',
-	'signup': '/user/signup',
-	'logout': '/user/logout',
-	'recipe': '/recipe',
-	'recipeedit': '/recipeedit',
-	'blog': '/blog',
-	'blogedit': '/blog/blogedit',
-	'about': '/about',
-	'profile': '/user/profile',
+	home: '/',
+	signin: '/user/signin',
+	signup: '/user/signup',
+	logout: '/user/logout',
+	recipe: '/recipe',
+	recipeedit: '/recipeedit',
+	blog: '/blog',
+	blogedit: '/blog/blogedit',
+	blogdetail: '/blog/:id',
+	about: '/about',
+	profile: '/user/profile',
 }
 
 export const pathsPrivate = {

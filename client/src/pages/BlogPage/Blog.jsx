@@ -7,10 +7,12 @@ import { BlogWrapper } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { blogGetPreviewBlogs } from 'redux/slices/blogSlice';
 import { nanoid } from 'nanoid';
+import Spinner from 'components/Spinner/Spinner';
+import FallbackSpinner from 'components/FallbackSpinner/FallbackSpinner';
 
 
 const BlogPage = () => {
-	const { blogsPreview } = useSelector(state => state.blogReducer);
+	const { blogsPreview, loading } = useSelector(state => state.blogReducer);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -22,7 +24,7 @@ const BlogPage = () => {
 		dispatch(blogGetPreviewBlogs());
 	}, [blogsPreview, dispatch]);
 
-	console.log(blogsPreview);
+
 
 	return (
 		<>
@@ -33,25 +35,27 @@ const BlogPage = () => {
 					<ContentWrapper>
 
 						{
-							blogsPreview.length &&
-							blogsPreview.map(preview => (
-								<PreviewBlogItem
-									key={nanoid()}
-									url="blogedit"
-									owner={preview.name}
-									dateadd={preview.dateadd}
-									image={preview.photopreview}
-									imageAlt={preview.caption}
-									caption={preview.caption}
-									description={preview.description}
-								/>
-							))
+							!loading
+								?
+								blogsPreview.length > 0 &&
+								blogsPreview.map(preview => (
+									<PreviewBlogItem
+										key={nanoid()}
+										url={`/blog/${preview.id}`}
+										owner={preview.name}
+										dateadd={preview.dateadd}
+										image={preview.photopreview}
+										imageAlt={preview.caption}
+										caption={preview.caption}
+										description={preview.description}
+									/>
+								))
+								: <Spinner height={100} />
 						}
 
 
 					</ContentWrapper>
 				</BlogWrapper>
-				<Overlay />
 			</MainWrapper>
 		</>
 	);

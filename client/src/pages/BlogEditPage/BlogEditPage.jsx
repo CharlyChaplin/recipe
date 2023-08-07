@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { MainWrapper } from 'pages/pages.styled';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -14,23 +14,22 @@ const BlogEditPage = () => {
 		return () => localStorage.removeItem('blogEdit');
 	}, [blogData]);
 
-	function getBlog() {
+	const getBlog = useCallback(() => {
 		if (Object.keys(blogData).length) {
 			setReceivedData(blogData);
 			localStorage.setItem('blogEdit', JSON.stringify(blogData));
 		} else if (Array.from(blogData).length === 0) {
 			setReceivedData(JSON.parse(localStorage.getItem('blogEdit') || null));
 		}
-	};
+	}, [blogData]);
 
 
 	return (
 		<>
 			<MainWrapper>
 
-				{/* <ContentWrapper>
-					
-				</ContentWrapper> */}
+				
+
 			</MainWrapper>
 		</>
 	);
