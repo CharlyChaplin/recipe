@@ -139,8 +139,9 @@ class BlogController {
 	async getPreviewBlogs(req, res) {
 		const blogs = await db.query(`
 			SELECT A.id, name, dateadd, photopreview, caption, description
-			FROM blog A, persondata B;
+			FROM blog A, persondata B ORDER BY A.id;
 		`);
+
 
 		const blogsData = blogs.rows.map(blog => {
 			const photopreview = config().parsed.LOCAL_ADDRESS + blog.photopreview
@@ -174,7 +175,7 @@ class BlogController {
 				id: blog.rows[0].id,
 				name: owner.rows[0].name,
 				dateadd: datePrepare(blog.rows[0].dateadd),
-				photopreview: blog.rows[0].photopreview,
+				photopreview: config().parsed.LOCAL_ADDRESS + blog.rows[0].photopreview,
 				caption: blog.rows[0].caption,
 				description: blog.rows[0].description
 			}

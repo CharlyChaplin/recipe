@@ -32,7 +32,7 @@ export const FooterContainer = styled(({ children, ...props }) => (
 export const FooterIco = styled.div``;
 
 export const FooterAbout = styled.div`
-	font-family: "RalewayRegular", sans-serif;
+	font-family: "RalewaySemibold", sans-serif;
 	${adaptiveValue("font-size", 16, 14)};
 	a {
 		position: relative;
@@ -62,7 +62,7 @@ export const FooterYear = styled(({ children, ...props }) => (
 		<span>2023г.</span>
 	</div>
 ))`
-	font-family: "RobotoRegular", sans-serif;
+	font-family: "Giger", sans-serif;
 	${adaptiveValue("font-size", 15, 15)};
 	letter-spacing: ${rem(2)};
 `;

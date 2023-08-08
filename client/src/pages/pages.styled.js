@@ -3,6 +3,7 @@ import { adaptiveValue, em, rem } from "init/mixins";
 import vars from "init/vars";
 import { rgba } from "polished";
 import { Link } from "react-router-dom";
+import Button from "components/Button/Button";
 
 
 export const MainWrapper = styled(({ children, image, ...props }) => (
@@ -26,6 +27,7 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 	
 	&::after {
 		display: block;
+		align-content: center;
 		content: '';
 		position: absolute;
 		left: 0;
@@ -55,7 +57,7 @@ export const ContentWrapper = styled(({ children, ...props }) => (
 	grid-auto-flow: column;
 	justify-items: center;
 	
-	${adaptiveValue("gap", 50, 30)};
+	gap: ${rem(50)};
 	font-family: "RalewayRegular", sans-serif;
 `;
 
@@ -274,4 +276,12 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 	}
 	
 	
+`;
+
+export const ButtonBtn = styled(({ handleaction, ...props }) => (
+	<div {...props}>
+		<Button type='back' equalPadding action={handleaction}>Назад</Button>
+	</div>
+))`
+	align-self: flex-start;
 `;
