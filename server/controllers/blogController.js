@@ -143,16 +143,11 @@ class BlogController {
 		`);
 
 		const blogsData = blogs.rows.map(blog => {
-			const time = new Date(blog.dateadd);
-
-			const day = datePrepare(time.getDate());
-			const month = datePrepare(time.getMonth() + 1);
-			const year = datePrepare(time.getFullYear());
 			const photopreview = config().parsed.LOCAL_ADDRESS + blog.photopreview
 
 			blog = {
 				...blog,
-				dateadd: `${day}.${month}.${year}`,
+				dateadd: datePrepare(blog.dateadd),
 				photopreview: photopreview
 			}
 			return blog;
@@ -178,7 +173,7 @@ class BlogController {
 			const blogData = {
 				id: blog.rows[0].id,
 				name: owner.rows[0].name,
-				dateadd: blog.rows[0].dateadd,
+				dateadd: datePrepare(blog.rows[0].dateadd),
 				photopreview: blog.rows[0].photopreview,
 				caption: blog.rows[0].caption,
 				description: blog.rows[0].description

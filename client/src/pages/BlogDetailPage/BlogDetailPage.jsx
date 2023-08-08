@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/blog/bg.jpg';
 import { useParams } from 'react-router-dom';
 import { blogGetBlogById } from 'redux/slices/blogSlice';
+import { BlogDetailTop, ContentWrapperChangedForBlogDetail } from './styled';
 
 
 const BlogDetailPage = () => {
@@ -24,10 +25,14 @@ const BlogDetailPage = () => {
 	}, [dispatch, blogData]);
 
 
+	console.log(blogData);
+
 	return (
 		<>
 			<MainWrapper image={bg}>
-				Blog Detail PAGE
+				<ContentWrapperChangedForBlogDetail>
+					<BlogDetailTop dateadd={blogData.dateadd} owner={blogData.name} />
+				</ContentWrapperChangedForBlogDetail>
 			</MainWrapper>
 		</>
 	);

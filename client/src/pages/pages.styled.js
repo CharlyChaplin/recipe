@@ -11,6 +11,7 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 	</div>
 ))`
 	display: grid;
+	justify-items: center;
 	width: 100%;
 	height: 100%;
 	padding: ${rem(55)};
@@ -53,6 +54,7 @@ export const ContentWrapper = styled(({ children, ...props }) => (
 	grid-template-columns: repeat(auto-fit, minmax(${rem(150)}, 1fr));
 	grid-auto-flow: column;
 	justify-items: center;
+	
 	${adaptiveValue("gap", 50, 30)};
 	font-family: "RalewayRegular", sans-serif;
 `;
@@ -162,6 +164,9 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 				box-shadow: ${rem(2)} ${rem(4)} ${rem(3)} ${rem(0)} ${rgba(vars.blackColor, 0.3)};
 			}
 		}
+		aside p::after {
+			background-color: ${rgba(vars.dark, .5)};
+		}
 		
 	}
 	header {
@@ -174,9 +179,6 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 		${adaptiveValue("margin-left", 15, 10, 1, 1390, 479.99)};
 		${adaptiveValue("margin-bottom", 10, 5)};
 		transition: all 0.25s ease 0s;
-		@media (max-width: ${em(479.98)}) {
-			justify-content: center;
-		}
 		span {
 			margin: 0 ${rem(10)};
 			height: ${rem(16)};

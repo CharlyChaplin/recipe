@@ -23,6 +23,7 @@ const BlogPage = () => {
 	const getPreview = useCallback(() => {
 		dispatch(blogGetPreviewBlogs());
 	}, [blogsPreview, dispatch]);
+	
 
 
 	return (
