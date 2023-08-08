@@ -138,8 +138,8 @@ class BlogController {
 
 	async getPreviewBlogs(req, res) {
 		const blogs = await db.query(`
-			SELECT name, dateadd, photopreview, caption, description
-			FROM blog, persondata;
+			SELECT A.id, name, dateadd, photopreview, caption, description
+			FROM blog A, persondata B;
 		`);
 
 		const blogsData = blogs.rows.map(blog => {
@@ -155,18 +155,38 @@ class BlogController {
 				dateadd: `${day}.${month}.${year}`,
 				photopreview: photopreview
 			}
-			return (blog);
+			return blog;
 		});
 
-		
 		res.json(blogsData);
 	}
 
-	getBlogById(req, res) {
+	async getBlogById(req, res) {
 		const { id } = req.params;
-		db.query(`SELECT * FROM phrase WHERE id=${id};`)
-			.then(resp => res.json(resp.rows))
-			.catch(err => res.json(err));
+		try {
+			const blog = await db.query(`
+				SELECT A.id, A.user_id, name, dateadd, photopreview, caption, description
+				FROM blog A, persondata B
+				WHERE A.id = ${id};
+			`);
+			if (!blog.rowCount) ApiError.BadRequest("Error in getBlogById");
+
+			const owner = await db.query(`
+				SELECT name FROM persondata
+				WHERE user_id=${blog.rows[0].user_id};
+			`);
+			const blogData = {
+				id: blog.rows[0].id,
+				name: owner.rows[0].name,
+				dateadd: blog.rows[0].dateadd,
+				photopreview: blog.rows[0].photopreview,
+				caption: blog.rows[0].caption,
+				description: blog.rows[0].description
+			}
+			res.json(blogData);
+		} catch (err) {
+			res.json(err);
+		}
 	}
 
 }

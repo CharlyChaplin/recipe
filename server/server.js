@@ -28,5 +28,5 @@ app.use(errorMiddleware);
 app.listen(PORT, console.log(`Server has started on port ${PORT}`));
 
 db.connect()
-	.then(_ => console.log("DB OK"))
+	.then(_ => console.log("=============== DB OK ==============="))
 	.catch(err => console.log(`Error DB (${err})`));
