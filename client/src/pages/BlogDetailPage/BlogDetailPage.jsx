@@ -6,10 +6,11 @@ import { blogGetBlogById } from 'redux/slices/blogSlice';
 import { BlogDetailCaption, BlogDetailPhoto, BlogDetailTop, BlogTextWrapper, BlogWrapper, ContentWrapperChangedForBlogDetail, MainWrapperChangedForBlogDetail } from './styled';
 import { paths } from 'routes/helper';
 import { ButtonBtn } from 'pages/pages.styled';
+import Spinner from 'components/Spinner/Spinner';
 
 
 const BlogDetailPage = () => {
-	const { blogData } = useSelector(state => state.blogReducer);
+	const { blogData, loading } = useSelector(state => state.blogReducer);
 	const [receivedData, setReceivedData] = useState();
 	const { id } = useParams();
 	const dispatch = useDispatch();
@@ -39,10 +40,17 @@ const BlogDetailPage = () => {
 				<BlogWrapper>
 					<ButtonBtn handleaction={backAction} />
 					<ContentWrapperChangedForBlogDetail>
-						<BlogDetailTop dateadd={blogData.dateadd} owner={blogData.name} />
-						<BlogDetailPhoto image={blogData.photopreview} imageAltText={blogData.caption} />
-						<BlogDetailCaption text={blogData.caption} />
-						<BlogTextWrapper content={blogData.description} />
+						{
+							loading
+								? <Spinner height={100} />
+								: <>
+									<BlogDetailTop dateadd={blogData.dateadd} owner={blogData.name} />
+									<BlogDetailPhoto image={blogData.photopreview} imageAltText={blogData.caption} />
+									<BlogDetailCaption text={blogData.caption} />
+									<BlogTextWrapper content={blogData.description} />
+								</>
+						}
+
 					</ContentWrapperChangedForBlogDetail>
 				</BlogWrapper>
 

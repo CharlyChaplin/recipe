@@ -1,13 +1,13 @@
 import { styled } from "styled-components";
 import { ContentWrapper, MainWrapper } from 'pages/pages.styled';
 import { adaptiveValue, rem } from "init/mixins";
-import { rgba } from "polished";
+import { darken, rgba } from "polished";
 import vars from "init/vars";
 
 
 export const MainWrapperChangedForBlogDetail = styled(MainWrapper)`
-	padding-top: ${rem(30)};
-	padding-left: ${rem(50)};
+	padding: ${rem(0)} ${rem(0)} ${rem(0)} ${rem(0)};
+	overflow: hidden;
 `;
 
 export const BlogWrapper = styled(({ children, ...props }) => (
@@ -17,10 +17,18 @@ export const BlogWrapper = styled(({ children, ...props }) => (
 ))`
 	width: 100%;
 	height: 100%;
-	display: flex;
+	/* display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: center; */
+	display: grid;
+	justify-content: center;
+	align-content: start;
 	gap: ${rem(66)};
+	position: relative;
+	overflow: auto;
+	padding-bottom: ${rem(50)};
+	
+	
 `;
 
 export const ContentWrapperChangedForBlogDetail = styled(ContentWrapper)`
@@ -31,8 +39,9 @@ export const ContentWrapperChangedForBlogDetail = styled(ContentWrapper)`
 	${adaptiveValue("padding", 35, 35)};
 	color: ${vars.text};
 	font-family: "RobotoRegular", sans-serif;
-	font-size: ${rem(16)};
+	font-size: ${rem(17)};
 	gap: ${rem(18)};
+	margin-top: ${rem(50)};
 `;
 
 export const BlogDetailTop = styled(({ dateadd, owner, ...props }) => (
@@ -73,6 +82,8 @@ export const BlogDetailPhoto = styled(({ image, imageAltText, ...props }) => (
 	margin-bottom: ${rem(7)};
 	max-width: ${rem(250)};
 	max-height: ${rem(136)};
+	width: ${rem(250)};
+	height: ${rem(136)};
 	img {
 		width: 100%;
 	}
@@ -113,10 +124,9 @@ export const BlogTextWrapper = styled(({ content, ...props }) => (
 	max-width: ${rem(446)};
 	text-align: justify;
 	color: ${vars.text};
-	font-family: "RobotoRegular", sans-serif;
-	line-height: 1.25;
-	letter-spacing: ${rem(.2)};
-	font-size: ${rem(16)};
+	font-family: sans-serif;
+	line-height: 1.4;
+	letter-spacing: ${rem(.9)};
 	
 	article {
 		text-indent: ${rem(25)};

@@ -15,7 +15,7 @@ import RobotoLightWoff2 from '../assets/fonts/RobotoLight.woff2';
 import RobotoRegularWoff from '../assets/fonts/RobotoRegular.woff';
 import RobotoRegularWoff2 from '../assets/fonts/RobotoRegular.woff2';
 import { adaptiveValue, rem } from './mixins.js';
-import { rgba } from 'polished';
+import { darken, rgba } from 'polished';
 
 const fonts = `
 @font-face{
@@ -131,6 +131,10 @@ const InitStyle = createGlobalStyle`
 		height: 100%;
 	}
 	
+	html {
+		font-family: sans-serif;
+	}
+	
 	body {
 		line-height: 1;
 		text-rendering: geometricPrecision;
@@ -171,6 +175,44 @@ const InitStyle = createGlobalStyle`
 	h1, h2, h3, h4, h5, h6 {
 		font-weight: inherit;
 		font-size: inherit;
+	}
+	
+	
+	
+	/* width */
+	&::-webkit-scrollbar {
+		width: ${rem(10)};
+	}
+	/* The track NOT covered by the handle.*/
+	&::-webkit-scrollbar-track-piece {
+		background: ${rgba(Vars.darkGreen, .25)};
+		border-radius: ${rem(5)};
+	}
+	/* button */
+	&::-webkit-scrollbar-button {
+		background: transparent;
+	}
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+		background: ${darken(.25, Vars.lightGreen)};
+		border-radius: ${rem(10)};
+	}
+	/* Handle on hover */
+	&::-webkit-scrollbar-thumb:hover {
+		background: ${rgba(Vars.accent, .5)};
+	}
+	/* Track */
+	&::-webkit-scrollbar-track {
+		/* box-shadow: inset ${rem(0)} ${rem(0)} ${rem(5)} ${Vars.redColor}; */
+		/* border-radius: ${rem(10)}; */
+	}
+	/* Corner */
+	&::-webkit-scrollbar-corner {
+		/* background: ${Vars.redColor}; */
+	}
+	/* Resizer */
+	&::-webkit-resizer {
+		background: ${Vars.redColor};
 	}
 `;
 

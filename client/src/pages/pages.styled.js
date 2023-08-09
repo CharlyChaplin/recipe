@@ -283,5 +283,8 @@ export const ButtonBtn = styled(({ handleaction, ...props }) => (
 		<Button type='back' equalPadding action={handleaction}>Назад</Button>
 	</div>
 ))`
+	position: fixed;
 	align-self: flex-start;
+	margin-top: ${rem(30)};
+	margin-left: ${rem(50)};
 `;
