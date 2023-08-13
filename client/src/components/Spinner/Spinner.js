@@ -14,7 +14,7 @@ const spiner = keyframes`
 //========================================================================================================================================================
 
 
-const Spinner = styled(({ height, ...props }) => (
+const Spinner = styled(({ height, sizeIncrease, ...props }) => (
 	<div {...props}></div>
 ))`
 	display: flex;
@@ -22,6 +22,7 @@ const Spinner = styled(({ height, ...props }) => (
 	align-items: center;
 	width: ${({height}) => height ? rem(height) : rem(16)};
 	height: ${({height}) => height ? rem(height) : rem(16)};
+	transform: scale(${({sizeIncrease}) => sizeIncrease ? sizeIncrease : 1});
 	&:after {
 		content: " ";
 		display: block;

@@ -29,6 +29,7 @@ export const InputLabel = styled.div`
 export const InputElement = styled(({
 	name,
 	value,
+	center,
 	autoFocus,
 	type,
 	placeholder,
@@ -47,6 +48,7 @@ export const InputElement = styled(({
 		onKeyDown={onKeyDown}
 	/>
 ))`
+	display: block;
 	width: 100%;
 	border-radius: ${radius};
 	letter-spacing: ${rem(1)};
@@ -60,6 +62,19 @@ export const InputElement = styled(({
 	}
 	&:active, &:focus {
 		outline: none;
+	}
+	// выравнивание placeholder по центру
+	&::-webkit-input-placeholder {
+		text-align: ${({center}) => center ? 'center' : 'left'};
+	}
+	&::-moz-placeholder {
+		text-align: ${({center}) => center ? 'center' : 'left'};
+	}
+	&:-moz-placeholder {
+		text-align: ${({center}) => center ? 'center' : 'left'};
+	}
+	&:-ms-input-placeholder {
+		text-align: ${({center}) => center ? 'center' : 'left'};
 	}
 `;
 

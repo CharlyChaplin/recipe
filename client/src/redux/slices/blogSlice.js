@@ -21,7 +21,17 @@ export const blogAddBlog = createAsyncThunk(
 	}
 );
 
-
+export const blogEditBlog = createAsyncThunk(
+	'blog/edit',
+	async (data, { rejectWithValue }) => {
+		try {
+			const resp = await axios.post('/blog/edit', data);
+			return resp.data;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+)
 
 export const blogDeleteBlog = createAsyncThunk(
 	'blog/delete',
@@ -102,6 +112,22 @@ export const blogSlice = createSlice({
 			state.errors = "";
 		});
 		build.addCase(blogAddBlog.rejected, (state, action) => {
+			state.loading = false;
+			state.blogData = [];
+			state.errors = action.payload;
+		});
+		//========================================================================================================================================================
+		build.addCase(blogEditBlog.pending, (state, action) => {
+			state.loading = true;
+			state.blogData = [];
+			state.errors = "";
+		});
+		build.addCase(blogEditBlog.fulfilled, (state, action) => {
+			state.loading = false;
+			state.blogData = action.payload;
+			state.errors = "";
+		});
+		build.addCase(blogEditBlog.rejected, (state, action) => {
 			state.loading = false;
 			state.blogData = [];
 			state.errors = action.payload;

@@ -60,14 +60,44 @@ class BlogController {
 		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
+
 		// после всех проверок достаём блоги для изменения в БД
-		const { oldBlog, newBlog } = req.body;
-		db.query(`
-			UPDATE blog SET "caption"='${newPhrase}'
-			WHERE "caption"='${oldPhrase}' RETURNING *;
-		`)
-			.then(resp => res.json(resp.rows[0]))
-			.catch(err => res.status(400).json(err));
+		let { dateadd, owner, caption, description, oldBlogCaption } = req.body;
+
+		// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
+		if (!dateadd) {
+			const currentDateAdd = await db.query(`SELECT dateadd FROM blog WHERE caption='${oldBlogCaption}';`);
+			dateadd = datePrepare(currentDateAdd.rows[0].dateadd);
+		};
+		if (!caption) {
+			const currentCaption = await db.query(`SELECT caption FROM blog WHERE caption='${oldBlogCaption}';`);
+			caption = currentCaption.rows[0].caption;
+		};
+		if (!description) {
+			const currentDescription = await db.query(`SELECT description FROM blog WHERE caption='${oldBlogCaption}';`);
+			description = currentDescription.rows[0].description;
+		};
+		if (!owner) {
+			const currentOwner = await db.query(`
+				SELECT b.user_id FROM blog AS A, persondata AS B
+				WHERE A.caption='${oldBlogCaption}' AND A.user_id=B.user_id;
+			`);
+			owner = currentOwner.rows[0].user_id;
+		}
+
+		try {
+			const updatedBlog = await db.query(`
+				UPDATE blog
+				SET dateadd='${dateadd}', user_id=${owner}, caption='${caption}', description='${description}'
+				WHERE caption='${oldBlogCaption}'
+				RETURNING *;
+			`);
+			if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");
+			res.json(updatedBlog.rows);
+		} catch (err) {
+			res.status(400).json(err);
+		}
+
 	}
 
 	async getOneBlog(req, res) {
@@ -88,6 +118,9 @@ class BlogController {
 				SELECT name FROM persondata
 				WHERE user_id=${isBlog.rows[0].user_id};
 			`);
+			isBlog.rows[0].dateadd = datePrepare(isBlog.rows[0].dateadd);
+			isBlog.rows[0].photopreview = config().parsed.LOCAL_ADDRESS + isBlog.rows[0].photopreview;
+			isBlog.rows[0].photoorig = config().parsed.LOCAL_ADDRESS + isBlog.rows[0].photoorig;
 			const userData = Object.assign(
 				{},
 				owner.rows[0],
@@ -97,7 +130,7 @@ class BlogController {
 			delete userData.id;
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json(err)
+			res.status(400).json(err);
 		}
 	}
 
@@ -139,9 +172,10 @@ class BlogController {
 	async getPreviewBlogs(req, res) {
 		const blogs = await db.query(`
 			SELECT A.id, name, dateadd, photopreview, caption, description
-			FROM blog A, persondata B ORDER BY A.id;
+			FROM blog A, persondata B
+			WHERE A.user_id = B.user_id
+			ORDER BY A.id;
 		`);
-
 
 		const blogsData = blogs.rows.map(blog => {
 			const photopreview = config().parsed.LOCAL_ADDRESS + blog.photopreview

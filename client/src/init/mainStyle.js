@@ -15,7 +15,7 @@ import RobotoLightWoff2 from '../assets/fonts/RobotoLight.woff2';
 import RobotoRegularWoff from '../assets/fonts/RobotoRegular.woff';
 import RobotoRegularWoff2 from '../assets/fonts/RobotoRegular.woff2';
 import { adaptiveValue, rem } from './mixins.js';
-import { darken, rgba } from 'polished';
+import { darken, lighten, rgba } from 'polished';
 
 const fonts = `
 @font-face{
@@ -185,7 +185,7 @@ const InitStyle = createGlobalStyle`
 	}
 	/* The track NOT covered by the handle.*/
 	&::-webkit-scrollbar-track-piece {
-		background: ${rgba(Vars.darkGreen, .25)};
+		background: ${rgba(Vars.dark, .25)};
 		border-radius: ${rem(5)};
 	}
 	/* button */
@@ -199,12 +199,12 @@ const InitStyle = createGlobalStyle`
 	}
 	/* Handle on hover */
 	&::-webkit-scrollbar-thumb:hover {
-		background: ${rgba(Vars.accent, .5)};
+		background: ${lighten(.075, Vars.darkGreen)};
 	}
 	/* Track */
 	&::-webkit-scrollbar-track {
-		/* box-shadow: inset ${rem(0)} ${rem(0)} ${rem(5)} ${Vars.redColor}; */
-		/* border-radius: ${rem(10)}; */
+		/* box-shadow: inset ${rem(0)} ${rem(0)} ${rem(5)} ${Vars.redColor};
+		border-radius: ${rem(10)}; */
 	}
 	/* Corner */
 	&::-webkit-scrollbar-corner {
@@ -212,7 +212,7 @@ const InitStyle = createGlobalStyle`
 	}
 	/* Resizer */
 	&::-webkit-resizer {
-		background: ${Vars.redColor};
+		/* background: ${Vars.redColor}; */
 	}
 `;
 

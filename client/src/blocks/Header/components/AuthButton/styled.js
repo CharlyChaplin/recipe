@@ -43,9 +43,9 @@ export const AuthElementWrapper = styled(({ children, isAuth, showMenu, ...props
 	&:hover {
 		border: 1px solid ${rgba(vars.accent, .75)};
 		cursor: pointer;
-		${AuthText} {
+		/* ${AuthText} {
 			color: ${({ isAuth }) => !isAuth ? vars.logoLight : vars.whiteColor};
-		}
+		} */
 	}
 	${Spinner} {
 		

@@ -15,9 +15,10 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 	justify-items: center;
 	width: 100%;
 	height: 100%;
-	padding: ${rem(55)};
+	/* overflow: auto; */
+	overflow: hidden;
+	/* padding: ${rem(55)}; */
 	border-radius: ${rem(30)};
-	overflow: auto;
 	z-index: 0;
 	background: url(${({ image }) => image ? image : null}) 0 0 no-repeat;
 	background-size: cover;
@@ -39,6 +40,16 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 	}
 `;
 
+export const InnerWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: ${rem(50)};
+	overflow: auto;
+	width: 100%;
+	padding: ${rem(30)} 0 ${rem(40)} 0;
+`;
+
 export const ContentWrapper = styled(({ children, ...props }) => (
 	<div {...props}>
 		{children}
@@ -53,12 +64,13 @@ export const ContentWrapper = styled(({ children, ...props }) => (
 
 	${adaptiveValue("border-radius", 20, 10)};
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(${rem(150)}, 1fr));
-	grid-auto-flow: column;
+	grid-template-columns: repeat(auto-fill, minmax(${rem(420)}, 1fr));
+	grid-auto-flow: row;
 	justify-items: center;
 	
 	gap: ${rem(50)};
 	font-family: "RalewayRegular", sans-serif;
+	max-width: 80%;
 `;
 
 export const PreviewCategoryRecipeItem = styled(({ children, url, image, imageAlt, title, ...props }) => (
@@ -285,6 +297,10 @@ export const ButtonBtn = styled(({ handleaction, ...props }) => (
 ))`
 	position: fixed;
 	align-self: flex-start;
-	margin-top: ${rem(30)};
+	/* margin-top: ${rem(30)}; */
 	margin-left: ${rem(50)};
+`;
+
+export const ContentPaddingTop = styled.div`
+	margin-top: ${rem(10)};
 `;

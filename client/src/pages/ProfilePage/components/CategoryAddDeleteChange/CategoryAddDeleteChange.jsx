@@ -39,7 +39,7 @@ const categoryAddChangeDelete = () => {
 		if (e.key === "Enter") {
 			switch (type) {
 				case 'add':
-					handleAdd();
+					if (newCategory.length) handleAdd();
 					break;
 				case 'change':
 					handleCorrectCategory();

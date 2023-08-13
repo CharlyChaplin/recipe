@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
-import { ContentWrapper, MainWrapper, Overlay, PreviewBlogItem } from 'pages/pages.styled';
+import { ContentPaddingTop, ContentWrapper, InnerWrapper, MainWrapper, PreviewBlogItem } from 'pages/pages.styled';
 import bg from 'assets/img/blog/bg.jpg';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
-import { BlogWrapper } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { blogGetPreviewBlogs } from 'redux/slices/blogSlice';
 import { nanoid } from 'nanoid';
 import Spinner from 'components/Spinner/Spinner';
-import FallbackSpinner from 'components/FallbackSpinner/FallbackSpinner';
 
 
 const BlogPage = () => {
@@ -30,7 +28,8 @@ const BlogPage = () => {
 		<>
 			<MainWrapper image={bg}>
 
-				<BlogWrapper>
+				<InnerWrapper>
+					<ContentPaddingTop />
 					<SectionHeader color={vars.whiteColor}>Блог</SectionHeader>
 					<ContentWrapper>
 
@@ -55,7 +54,7 @@ const BlogPage = () => {
 
 
 					</ContentWrapper>
-				</BlogWrapper>
+				</InnerWrapper>
 			</MainWrapper>
 		</>
 	);

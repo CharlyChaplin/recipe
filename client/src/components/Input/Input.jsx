@@ -9,6 +9,7 @@ const Input = ({
 	name = "",
 	value = "",
 	placeholder = "",
+	center = false,
 	autoFocus = false,
 	handleChange = () => { },
 	handleKeyPress = () => { }
@@ -23,6 +24,7 @@ const Input = ({
 						? <InputElement
 							name={name}
 							value={value}
+							center={center}
 							autoFocus={autoFocus}
 							type={type}
 							placeholder={placeholder}

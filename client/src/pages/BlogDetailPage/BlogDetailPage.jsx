@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/blog/bg.jpg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { blogGetBlogById } from 'redux/slices/blogSlice';
-import { BlogDetailCaption, BlogDetailPhoto, BlogDetailTop, BlogTextWrapper, BlogWrapper, ContentWrapperChangedForBlogDetail, MainWrapperChangedForBlogDetail } from './styled';
+import { BlogDetailCaption, BlogDetailPhoto, BlogDetailTop, BlogTextWrapper, ContentWrapperChangedForBlogDetail, MainWrapperChangedForBlogDetail } from './styled';
 import { paths } from 'routes/helper';
-import { ButtonBtn } from 'pages/pages.styled';
+import { ButtonBtn, InnerWrapper } from 'pages/pages.styled';
 import Spinner from 'components/Spinner/Spinner';
 
 
@@ -27,18 +27,14 @@ const BlogDetailPage = () => {
 		dispatch(blogGetBlogById(id));
 	}, [dispatch, blogData]);
 
-	function backAction() {
-		navigate(paths.blog);
-	}
 
-	console.log(blogData);
 
 	return (
 		<>
 			<MainWrapperChangedForBlogDetail image={bg}>
 
-				<BlogWrapper>
-					<ButtonBtn handleaction={backAction} />
+				<InnerWrapper>
+					<ButtonBtn handleaction={() => navigate(paths.blog)} />
 					<ContentWrapperChangedForBlogDetail>
 						{
 							loading
@@ -52,7 +48,7 @@ const BlogDetailPage = () => {
 						}
 
 					</ContentWrapperChangedForBlogDetail>
-				</BlogWrapper>
+				</InnerWrapper>
 
 			</MainWrapperChangedForBlogDetail>
 		</>
