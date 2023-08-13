@@ -7,6 +7,7 @@ const initialState = {
 	loading: false,
 	userData: [],
 	users: [],
+	usersName: [],
 	userById: [],
 	roles: [],
 	errors: "",
@@ -76,6 +77,18 @@ export const userGetUsers = createAsyncThunk(
 		}
 	}
 );
+
+export const userGetUsersNickname = createAsyncThunk(
+	'user/getUsersNickname',
+	async (_, { rejectWithValue }) => {
+		try {
+			const resp = await axios.get('/user/getusersname');
+			return resp.data;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+)
 
 export const userUpdate = createAsyncThunk(
 	'user/updateUser',
@@ -227,6 +240,21 @@ export const userSlice = createSlice({
 		build.addCase(userGetUsers.rejected, (state, action) => {
 			state.loading = false;
 			state.users = [];
+			state.errors = action.payload;
+		});
+		//========================================================================================================================================================
+		build.addCase(userGetUsersNickname.pending, (state, action) => {
+			state.loading = true;
+			state.errors = "";
+		});
+		build.addCase(userGetUsersNickname.fulfilled, (state, action) => {
+			state.loading = false;
+			state.usersName = action.payload;
+			state.errors = "";
+		});
+		build.addCase(userGetUsersNickname.rejected, (state, action) => {
+			state.loading = false;
+			state.usersName = [];
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================

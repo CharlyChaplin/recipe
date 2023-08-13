@@ -12,6 +12,8 @@ import vars from 'init/vars';
 import Input from 'components/Input/Input';
 import { blogEditBlog } from 'redux/slices/blogSlice';
 import { showInfo } from 'redux/slices/infoSlice';
+import DropdownList from 'components/DropdownList'
+import { userGetUsersNickname } from 'redux/slices/userSlice';
 
 
 let dataSource;
@@ -24,8 +26,10 @@ const BlogEditPage = () => {
 		description: '',
 		oldBlogCaption: ''
 	});
-	const { userData } = useSelector(state => state.userReducer);
+	const { userData, users, usersName } = useSelector(state => state.userReducer);
 	const { blogData, loading, errors } = useSelector(state => state.blogReducer);
+	const [selected, setSelected] = useState('');
+	const [inputText, setInputText] = useState(selected);
 	const [receivedData, setReceivedData] = useState();	// для перерисовки компонента
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -33,8 +37,11 @@ const BlogEditPage = () => {
 
 	useEffect(() => {
 		getBlog();
+		if (userData?.user?.role === 1) dispatch(userGetUsersNickname());
+
 
 		dataSource = Object.keys(blogData).length ? blogData : JSON.parse(localStorage.getItem('blogEdit') || null);
+		setInputText(blogData.name);
 		setFields({ ...fields, oldBlogCaption: dataSource?.caption });
 
 		if (blogData[0]?.id) navigate(`/blog/${blogData[0].id}`);
@@ -51,6 +58,11 @@ const BlogEditPage = () => {
 		}
 	}, [blogData]);
 
+
+	function handleSelected(val) {
+		setSelected(val);
+		setFields({ ...fields, owner: val });
+	}
 
 	const changeInput = useCallback((e) => {
 		setFields({
@@ -106,7 +118,7 @@ const BlogEditPage = () => {
 										<Divisor />
 										{
 											userData?.user?.role === 1
-												? <Input name='owner' value={fields.owner} handleChange={changeInput} center placeholder={dataSource?.name} />
+												? <DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleSelected} inputText={inputText} setInputText={setInputText} />
 												: <BlogEditNotEdit data={dataSource?.name} />
 										}
 									</BlogEditTop>

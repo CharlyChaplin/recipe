@@ -91,7 +91,7 @@ export const BlogEditTextWrapper = styled(({ children, ...props }) => (
 	max-width: ${rem(646)};
 	min-width: ${rem(600)};
 	width: 100%;
-	min-height: ${rem(263)};
+	min-height: ${rem(400)};
 	text-align: justify;
 	color: ${vars.text};
 	font-family: sans-serif;

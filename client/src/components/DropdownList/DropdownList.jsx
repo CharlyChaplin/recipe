@@ -61,7 +61,7 @@ const DropdownList = ({
 	return (
 		<>
 			<Dropdown ref={collapseButton}>
-				<DropdownBody>
+				<DropdownBody buttonDeleteIcon={buttonDeleteIcon} buttonEditIcon={buttonEditIcon}>
 					<DropdownControl $position={labelPos}>
 						{!!labelText && labelText.length > 0 && <DropdownLabel $position={labelPos}>{labelText}</DropdownLabel>}
 

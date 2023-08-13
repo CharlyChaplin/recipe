@@ -15,6 +15,7 @@ userRouter.get('/logout', UserController.logout);
 userRouter.get('/activate/:link', UserController.activate);
 userRouter.get('/refresh', UserController.refresh);
 userRouter.get('/getusers', roleCheck(1), UserController.getUsers);
+userRouter.get('/getusersname', roleCheck(1), UserController.getUsersNickname);
 userRouter.get('/getuser', UserController.getUser);
 userRouter.get('/getroles', roleCheck(1), UserController.getRoles);
 userRouter.post('/updateuser', UserController.updateUser);

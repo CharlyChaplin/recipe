@@ -293,6 +293,16 @@ class UserController {
 
 		res.json(users.rows.map(el => { return (el.email) }));
 	}
+	
+	async getUsersNickname(req, res, next) {
+		const usersName = await db.query(`
+			SELECT B.name FROM users A, persondata B
+			WHERE A.id = B.user_id;
+		`);
+
+		const sendData = usersName.rows.map(item => item.name);
+		res.json(sendData);
+	}
 
 	async getUser(req, res, next) {
 		try {

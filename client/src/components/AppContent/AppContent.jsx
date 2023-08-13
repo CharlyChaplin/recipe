@@ -14,6 +14,7 @@ const RecipeEditPage = lazy(() => import('pages/RecipeEditPage'));
 const BlogPage = lazy(() => import('pages/BlogPage'));
 const BlogEditPage = lazy(() => import('pages/BlogEditPage'));
 const BlogDetailPage = lazy(() => import('pages/BlogDetailPage'));
+const BlogAddPage = lazy(() => import('pages/BlogAddPage'));
 const AboutPage = lazy(() => import('pages/AboutPage'));
 
 
@@ -34,7 +35,9 @@ const AppContent = () => {
 					<Route path={paths.recipeedit} element={<RecipeEditPage />} />
 					<Route path={paths.blog} element={<BlogPage />} />
 					<Route path={paths.blogedit} element={<BlogEditPage />} />
-					<Route path='/blog/:id' element={<BlogDetailPage />} />
+					<Route path={paths.blogdetail} element={<BlogDetailPage />} />
+					<Route path={paths.blogadd} element={<BlogAddPage />} />
+
 					<Route path={paths.about} element={<AboutPage />} />
 
 					<Route path='*' element={<ErrorPage errCode={404} errDescription="Ресурс не найден" backBtn />} />

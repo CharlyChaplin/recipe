@@ -17,11 +17,17 @@ export const Dropdown = styled.div`
 	.collapse_show {}
 `;
 
-export const DropdownBody = styled.div`
+export const DropdownBody = styled(({ buttonDeleteIcon, buttonEditIcon, children, ...props }) => {
+	return (
+		<div {...props}>
+			{children}
+		</div>
+	)
+})`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	gap: ${rem(67)};
+	gap: ${({ buttonDeleteIcon, buttonEditIcon }) => (buttonDeleteIcon || buttonEditIcon) ? rem(67) : rem(30)};
 	width: 100%;
 `;
 

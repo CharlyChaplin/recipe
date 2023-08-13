@@ -36,18 +36,20 @@ export const InputElement = styled(({
 	onChange = () => { },
 	onKeyDown = () => { },
 	...props
-}) => (
-	<input
-		{...props}
-		name={name}
-		value={value}
-		autoFocus={autoFocus}
-		type={type}
-		placeholder={placeholder}
-		onChange={onChange}
-		onKeyDown={onKeyDown}
-	/>
-))`
+}) => {
+	return (
+		<input
+			{...props}
+			name={name}
+			value={value}
+			autoFocus={autoFocus}
+			type={type}
+			placeholder={placeholder}
+			onChange={onChange}
+			onKeyDown={onKeyDown}
+		/>
+	)
+})`
 	display: block;
 	width: 100%;
 	border-radius: ${radius};
@@ -65,16 +67,16 @@ export const InputElement = styled(({
 	}
 	// выравнивание placeholder по центру
 	&::-webkit-input-placeholder {
-		text-align: ${({center}) => center ? 'center' : 'left'};
+		text-align: ${({ center }) => center ? 'center' : 'left'};
 	}
 	&::-moz-placeholder {
-		text-align: ${({center}) => center ? 'center' : 'left'};
+		text-align: ${({ center }) => center ? 'center' : 'left'};
 	}
 	&:-moz-placeholder {
-		text-align: ${({center}) => center ? 'center' : 'left'};
+		text-align: ${({ center }) => center ? 'center' : 'left'};
 	}
 	&:-ms-input-placeholder {
-		text-align: ${({center}) => center ? 'center' : 'left'};
+		text-align: ${({ center }) => center ? 'center' : 'left'};
 	}
 `;
 

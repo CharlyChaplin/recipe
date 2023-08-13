@@ -275,7 +275,7 @@ const ProfilePage = () => {
 								<ProfileActionItem>
 									<ProfileActionItemOperation>Блог:</ProfileActionItemOperation>
 									<ProfileActionTasks>
-										<Button equalPadding disabled action={e => showModal(e, 'blogAdd')}>{<AddICO />}</Button>
+										<Button equalPadding action={() => navigate(paths.blogadd)}>{<AddICO />}</Button>
 										<Button equalPadding action={e => showModal(e, 'blogDeleteChange')}>{<GearICO />}</Button>
 									</ProfileActionTasks>
 								</ProfileActionItem>

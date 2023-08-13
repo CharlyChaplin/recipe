@@ -10,6 +10,7 @@ const Input = ({
 	value = "",
 	placeholder = "",
 	center = false,
+	selectAll = false,
 	autoFocus = false,
 	handleChange = () => { },
 	handleKeyPress = () => { }

@@ -10,6 +10,7 @@ export const pathsPublic = {
 	blog: '/blog',
 	blogedit: '/blog/blogedit',
 	blogdetail: '/blog/:id',
+	blogadd: '/blog/add',
 	about: '/about',
 	profile: '/user/profile',
 }

@@ -4,35 +4,37 @@ import TokenService from '../services/tokenService.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import { datePrepare } from '../services/datePrepare.js';
 import { config } from 'dotenv';
+import ResetSeq from '../services/resetSequence.js';
 
 
 class BlogController {
 	async addBlog(req, res) {
-		const { accesstoken } = req.cookies;
-		if (!accesstoken) throw ApiError.UnathorizedError();
-		// проверяем accessToken на валидность
-		const isAccessValid = TokenService.validAccessToken(accesstoken);
-		// если токен валиден
-		let user_id = 0;
-		if (isAccessValid) {
-			// получаем id юзера, по email из токена
-			const getUser = await db.query(`
-				SELECT * FROM users
-				WHERE email = '${isAccessValid.email}';
-			`);
-			if (!getUser.rowCount) throw ApiError.UnathorizedError();
-			user_id = getUser.rows[0].id;
-		}
+		const { isAccessValid } = await primaryCheckUser(req.cookies);
+		if (!isAccessValid.email) throw ApiError.UnathorizedError();
+
 		// после всех проверок достаём фразу для занесения её в БД
-		const { phraseText } = req.body;
-		db.query(`SELECT MAX(id) FROM phrase;`)
-			.then(resp => db.query(`ALTER SEQUENCE phrase_id_seq RESTART WITH ${resp.rows[0].max + 1};`));
-		db.query(`INSERT INTO phrase(user_id, caption) VALUES (
-			'${user_id}','${phraseText}') RETURNING *;`)
-			.then(resp => res.json(resp.rows[0]))
-			.catch(err => {
-				res.status(400).json(err)
-			});
+		const { dateadd, owner, caption, description } = req.body;
+		const getUserId = await db.query(`SELECT id FROM users WHERE email='${isAccessValid.email}';`)
+		const userId = getUserId.rows[0].id;
+
+		const photoorig = null;
+		const photopreview = null;
+		console.log(dateadd, owner, caption, description, userId);
+
+		try {
+			// сбрасываем счётчик последовательности в таблице blog
+			ResetSeq.resetSequence('blog');
+			const newBlog = await db.query(`
+				INSERT INTO blog(user_id, dateadd, caption, photoorig, photopreview, description)
+				VALUES (${userId}, '${dateadd}', '${caption}', ${photoorig}, ${photopreview}, '${description}')
+				RETURNING *;
+			`);
+			console.log(newBlog.rows);
+			res.json("ok");
+		} catch (err) {
+			console.log(err);
+			res.status(400).json(err)
+		}
 	}
 
 	async deleteBlog(req, res) {
@@ -79,10 +81,16 @@ class BlogController {
 		};
 		if (!owner) {
 			const currentOwner = await db.query(`
-				SELECT b.user_id FROM blog AS A, persondata AS B
+				SELECT B.user_id FROM blog A, persondata B
 				WHERE A.caption='${oldBlogCaption}' AND A.user_id=B.user_id;
 			`);
 			owner = currentOwner.rows[0].user_id;
+		} else {
+			const getOwnerId = await db.query(`
+				SELECT user_id FROM persondata
+				WHERE name='${owner}';
+			`);
+			owner = getOwnerId.rows[0].user_id;
 		}
 
 		try {
