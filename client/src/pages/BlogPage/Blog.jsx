@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { blogGetPreviewBlogs } from 'redux/slices/blogSlice';
 import { nanoid } from 'nanoid';
 import Spinner from 'components/Spinner/Spinner';
+import NoData from 'components/NoData/NoData';
 
 
 const BlogPage = () => {
@@ -21,7 +22,7 @@ const BlogPage = () => {
 	const getPreview = useCallback(() => {
 		dispatch(blogGetPreviewBlogs());
 	}, [blogsPreview, dispatch]);
-	
+
 
 
 	return (
@@ -31,30 +32,37 @@ const BlogPage = () => {
 				<InnerWrapper>
 					<ContentPaddingTop />
 					<SectionHeader color={vars.whiteColor}>Блог</SectionHeader>
-					<ContentWrapper>
 
-						{
-							!loading
-								?
-								blogsPreview.length > 0 &&
-								blogsPreview.map(preview => (
-									<PreviewBlogItem
-										key={nanoid()}
-										url={`/blog/${preview.id}`}
-										owner={preview.name}
-										dateadd={preview.dateadd}
-										image={preview.photopreview}
-										imageAlt={preview.caption}
-										caption={preview.caption}
-										description={preview.description}
-									/>
-								))
-								: <Spinner height={100} />
-						}
+					{
+						loading
+							? <ContentWrapper spiner><Spinner height={100} /></ContentWrapper>
+							: <>
+								{
+									blogsPreview.length > 0
+										? <ContentWrapper>
+											{
+												blogsPreview.map(preview => (
+													<PreviewBlogItem
+														key={nanoid()}
+														url={`/blog/${preview.id}`}
+														owner={preview.name}
+														dateadd={preview.dateadd}
+														image={preview.photopreview}
+														imageAlt={preview.caption}
+														caption={preview.caption}
+														description={preview.description}
+													/>
+												))
+											}
+										</ContentWrapper>
+										: <ContentWrapper spiner><NoData /></ContentWrapper>
+								}
+							</>
 
 
-					</ContentWrapper>
+					}
 				</InnerWrapper>
+				
 			</MainWrapper>
 		</>
 	);

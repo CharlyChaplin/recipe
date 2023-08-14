@@ -50,8 +50,9 @@ const categoryAddChangeDelete = () => {
 		}
 	}
 
-	// действие на кнопке при добавлении фразы
+	// действие на кнопке при добавлении категории
 	const handleAdd = useCallback(async () => {
+		if (!newCategory.length) return;
 		modalStore.addNewCategory(newCategory);
 		try {
 			const resp = await axios.post('/category/add', { categoryText: newCategory });
@@ -95,7 +96,7 @@ const categoryAddChangeDelete = () => {
 		}
 	}, [dispatch]);
 
-	// обрабатываем исправленное значение фразы
+	// обрабатываем исправленное значение категории
 	const handleCorrectCategory = useCallback(async () => {
 		try {
 			const dataCategory = { oldCategory: selected, newCategory: changedCategory };
@@ -166,11 +167,7 @@ const categoryAddChangeDelete = () => {
 						<Button equalPadding action={handleCorrectCategory} >{<OkICO />}</Button>
 					</AddWrapper>
 				}
-
-
 			</ModalContentWrapper>
-
-
 		</>
 	);
 }

@@ -19,6 +19,7 @@ import { showInfo } from 'redux/slices/infoSlice';
 
 const BlogAddPage = () => {
 	const { userData, errors } = useSelector(state => state.userReducer);
+	const { blogData, loading } = useSelector(state => state.blogReducer);
 	const [fields, setFields] = useState({
 		dateadd: '',
 		owner: '',
@@ -31,8 +32,10 @@ const BlogAddPage = () => {
 
 	useEffect(() => {
 		setFields({ ...fields, dateadd: datePrepare(Date.now()), owner: userData?.user?.nickname });
-	}, []);
+		if (blogData?.id && !loading) navigate(`/blog/${blogData.id}`);
+	}, [blogData]);
 
+	
 
 	const changeInput = useCallback((e) => {
 		setFields({
@@ -57,13 +60,12 @@ const BlogAddPage = () => {
 		}
 
 		try {
-
 			dispatch(blogAddBlog(fd));
 			setTimeout(() => {
 				if (errors.length > 0 && !loading) {
 					dispatch(showInfo({ text: errors, cancel: true }));
 				} else {
-					dispatch(showInfo({ text: "Блог успешно обновлён", ok: true }));
+					dispatch(showInfo({ text: "Блог успешно добавлен", ok: true }));
 				}
 			}, 300);
 		} catch (error) {

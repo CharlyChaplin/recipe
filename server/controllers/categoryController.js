@@ -1,6 +1,5 @@
 import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
-import TokenService from '../services/tokenService.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
 
 

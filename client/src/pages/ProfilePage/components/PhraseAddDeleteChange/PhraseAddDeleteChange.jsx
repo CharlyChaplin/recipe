@@ -54,6 +54,7 @@ const phraseAddChangeDelete = () => {
 
 	// действие на кнопке при добавлении фразы
 	const handleAdd = useCallback(async () => {
+		if (!newPhrase.length) return;
 		modalStore.addNewPhrase(newPhrase);
 		try {
 			const resp = await axios.post('/phrase/add', { phraseText: newPhrase });

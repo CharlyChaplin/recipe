@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled } from "styled-components";
 import { adaptiveValue, rem } from "init/mixins.js";
 import vars from "init/vars.js";
@@ -56,8 +55,6 @@ export const AvatarBlockWrapper = styled(({ children, size, ...props }) => (
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	/* width: ${rem(122)}; */
-	/* height: ${rem(122)}; */
 	width: ${({ size }) => size ? rem(size) : '100%'};
 	height: ${({ size }) => size ? rem(size) : '100%'};
 	cursor: pointer;

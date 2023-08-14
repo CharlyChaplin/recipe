@@ -50,7 +50,7 @@ export const InnerWrapper = styled.div`
 	padding: ${rem(30)} 0 ${rem(40)} 0;
 `;
 
-export const ContentWrapper = styled(({ children, ...props }) => (
+export const ContentWrapper = styled(({ children, spiner, ...props }) => (
 	<div {...props}>
 		{children}
 	</div>
@@ -63,14 +63,14 @@ export const ContentWrapper = styled(({ children, ...props }) => (
 	${adaptiveValue("padding-right", 60, 40)};
 
 	${adaptiveValue("border-radius", 20, 10)};
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(${rem(420)}, 1fr));
+	display: ${(({ spiner }) => spiner ? 'block' : 'grid')};
+	grid-template-columns: repeat(auto-fit, minmax(${rem(420)}, 1fr));
 	grid-auto-flow: row;
 	justify-items: center;
-	
 	gap: ${rem(50)};
 	font-family: "RalewayRegular", sans-serif;
-	max-width: 80%;
+	max-width: 90%;
+	color: ${vars.text};
 `;
 
 export const PreviewCategoryRecipeItem = styled(({ children, url, image, imageAlt, title, ...props }) => (

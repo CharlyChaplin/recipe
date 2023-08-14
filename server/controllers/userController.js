@@ -42,14 +42,20 @@ class UserController {
 				RETURNING *;
 			`);
 
-			// сбрасываем счётчик последовательности в таблице persondata
-			ResetSeq.resetSequence('persondata');
-			// создаём запись в таблице persondata
-			const newPersonData = await db.query(`
+			try {
+				// сбрасываем счётчик последовательности в таблице persondata
+				ResetSeq.resetSequence('persondata');
+				// создаём запись в таблице persondata
+				const newPersonData = await db.query(`
 				INSERT INTO persondata (user_id)
 				VALUES (${newUser.rows[0].id})
 				RETURNING *;
 			`);
+			} catch (err) {
+				const deleteFromUsers = await db.query(`DELETE FROM users WHERE id=${newUser.rows[0].id} RETURNING *;`);
+				throw ApiError.BadRequest('Internal Error');
+			}
+
 			// сбрасываем счётчик последовательности в таблице token
 			ResetSeq.resetSequence('token');
 			// записываем в БД поле refreshToken. Это поле пустое, т.к. юзер не логинился
@@ -293,7 +299,7 @@ class UserController {
 
 		res.json(users.rows.map(el => { return (el.email) }));
 	}
-	
+
 	async getUsersNickname(req, res, next) {
 		const usersName = await db.query(`
 			SELECT B.name FROM users A, persondata B
@@ -574,13 +580,13 @@ class UserController {
 
 			// удаляем записи из таблиц
 			// persondata
-			const deleteFromPersondata = await db.query(`DELETE FROM persondata WHERE id=${getUserFromPersondataTable.rows[0].id} RETURNING *;`)
+			const deleteFromPersondata = await db.query(`DELETE FROM persondata WHERE id=${getUserFromPersondataTable.rows[0].id} RETURNING *;`);
 			if (!deleteFromPersondata) throw ApiError.BadRequest("Error while deleting from 'persondata' table.");
 			// token
-			const deleteFromToken = await db.query(`DELETE FROM token WHERE id=${getUserFromTokensTable.rows[0].id} RETURNING *;`)
+			const deleteFromToken = await db.query(`DELETE FROM token WHERE id=${getUserFromTokensTable.rows[0].id} RETURNING *;`);
 			if (!deleteFromToken) throw ApiError.BadRequest("Error while deleting from 'token' table.");
 			// users
-			const deleteFromUsers = await db.query(`DELETE FROM users WHERE id=${getUserFromMainTable.rows[0].id} RETURNING *;`)
+			const deleteFromUsers = await db.query(`DELETE FROM users WHERE id=${getUserFromMainTable.rows[0].id} RETURNING *;`);
 			if (!deleteFromUsers) throw ApiError.BadRequest("Error while deleting from 'users' table.");
 
 

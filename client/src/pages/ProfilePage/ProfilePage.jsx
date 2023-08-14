@@ -38,7 +38,7 @@ const ProfilePage = () => {
 	const { userData, loading, errors } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
 	const [modalVisible, setModalVisible] = useState(false);
-	const modalParams = useRef({});
+	let modalParams = useRef({});
 	const [fields, setFields] = useState({
 		nickname: '',
 		oldPassword: '',
@@ -74,18 +74,10 @@ const ProfilePage = () => {
 	function showModal(e, mode) {
 		e.preventDefault();
 		switch (mode) {
-			case 'recipeAdd':
-				// Object.assign(modalParams, {
-				// 	title: <SectionHeader>Добавить рецепт</SectionHeader>,
-				// 	content: <RecipeDelete />,
-				// 	okBtnCaption: "Применить",
-				// 	actionType: "recipeAdd",
-				// 	cancelBtnCaption: "Отмена",
-				// 	onClose: () => { getAuth(); setModalVisible(false) }
-				// });
-				break;
+			
 			case 'recipeDeleteChange':
 				dispatch(recipeGetRecipies());
+				Object.keys(modalParams).forEach(key => delete modalParams[key]);
 				Object.assign(modalParams, {
 					title: <SectionHeader>Удалить/изменить рецепт</SectionHeader>,
 					content: <RecipeDeleteChange />,
@@ -94,18 +86,9 @@ const ProfilePage = () => {
 				});
 				break;
 
-			case 'blogAdd':
-				// Object.assign(modalParams, {
-				// 	title: <SectionHeader>Удалить блог</SectionHeader>,
-				// 	content: <BlogAdd />,
-				// 	okBtnCaption: "Применить",
-				// 	actionType: "blogDelete",
-				// 	cancelBtnCaption: "Отмена",
-				// 	onClose: () => { getAuth(); setModalVisible(false) }
-				// });
-				break;
 			case 'blogDeleteChange':
 				dispatch(blogGetBlogs());
+				Object.keys(modalParams).forEach(key => delete modalParams[key]);
 				Object.assign(modalParams, {
 					title: <SectionHeader>Удалить/изменить блог</SectionHeader>,
 					content: <BlogDeleteChange />,
@@ -116,6 +99,7 @@ const ProfilePage = () => {
 
 			case 'categoryAddChangeDelete':
 				dispatch(categoryGetCategories());
+				Object.keys(modalParams).forEach(key => delete modalParams[key]);
 				Object.assign(modalParams, {
 					title: <SectionHeader>Категории</SectionHeader>,
 					content: <CategoryAddDeleteChange />,
@@ -127,6 +111,7 @@ const ProfilePage = () => {
 
 			case 'phraseAddChangeDelete':
 				dispatch(phraseGetPhrases());
+				Object.keys(modalParams).forEach(key => delete modalParams[key]);
 				Object.assign(modalParams, {
 					title: <SectionHeader>Фразы</SectionHeader>,
 					content: <PhraseAddChangeDelete />,
@@ -139,6 +124,7 @@ const ProfilePage = () => {
 			case 'userAddChangeDelete':
 				dispatch(userGetUsers());
 				dispatch(userGetRoles());
+				Object.keys(modalParams).forEach(key => delete modalParams[key]);
 				Object.assign(modalParams, {
 					title: <SectionHeader>Редактирование пользователя</SectionHeader>,
 					content: <UserAddChangeDelete />,

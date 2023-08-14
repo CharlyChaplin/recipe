@@ -1,5 +1,6 @@
 import React from 'react';
-import { MainWrapper } from 'pages/pages.styled';
+import { ContentPaddingTop, ContentWrapper, InnerWrapper, MainWrapper } from 'pages/pages.styled';
+import ImageInsert from 'components/ImageInsert/ImageInsert';
 
 
 
@@ -7,7 +8,14 @@ const HomePage = () => {
 	return (
 		<>
 			<MainWrapper>
-				Home
+				<InnerWrapper>
+					<ContentPaddingTop />
+					<ContentWrapper>
+						
+						<ImageInsert />
+						
+					</ContentWrapper>
+				</InnerWrapper>
 			</MainWrapper>
 		</>
 	);

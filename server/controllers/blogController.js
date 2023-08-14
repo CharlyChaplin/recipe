@@ -19,7 +19,6 @@ class BlogController {
 
 		const photoorig = null;
 		const photopreview = null;
-		console.log(dateadd, owner, caption, description, userId);
 
 		try {
 			// сбрасываем счётчик последовательности в таблице blog
@@ -29,8 +28,7 @@ class BlogController {
 				VALUES (${userId}, '${dateadd}', '${caption}', ${photoorig}, ${photopreview}, '${description}')
 				RETURNING *;
 			`);
-			console.log(newBlog.rows);
-			res.json("ok");
+			res.json(newBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
 			res.status(400).json(err)

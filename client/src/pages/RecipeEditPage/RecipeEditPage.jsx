@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const RecipeEditPage = () => {
 	const { recipeData } = useSelector(state => state.recipeReducer);
-	const [data, setData] = useState();
+	const [data, setData] = useState();	// для обновления компонента
 
 	useEffect(() => {
 		getRecipe();
@@ -30,10 +30,6 @@ const RecipeEditPage = () => {
 		<>
 			<MainWrapper>
 				Recipe EDIT
-				<br /><br />
-				{
-					data?.caption && data.caption
-				}
 			</MainWrapper>
 		</>
 	);
