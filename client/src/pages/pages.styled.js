@@ -69,7 +69,7 @@ export const ContentWrapper = styled(({ children, spiner, ...props }) => (
 	justify-items: center;
 	gap: ${rem(50)};
 	font-family: "RalewayRegular", sans-serif;
-	max-width: 90%;
+	max-width: ${rem(1050)};
 	color: ${vars.text};
 `;
 

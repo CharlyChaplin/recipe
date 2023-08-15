@@ -1,12 +1,21 @@
-import React from 'react';
-import { NewImageInput, NewImageOverlay, NewImagePicture, NewImageWrapper } from './styled';
+import React, { useEffect, useRef } from 'react';
+import { NewImageInput, NewImageOverlay, NewImagePicture, NewImagePlaceholder, NewImageWrapper } from './styled';
 import { useState } from 'react';
 
 
 const ImageInsert = () => {
 	const [draggable, setDraggable] = useState(false);
+
 	const [file, setFile] = useState(null);
-	const [inputFile, setInputFile] = useState(null);
+	const [previewUrl, setPreviewUrl] = useState("");
+	const fileInput = useRef(null);
+
+
+
+	useEffect(() => {
+		file && console.log(file);
+
+	}, [file, previewUrl]);
 
 	function handleDragEnter(e) {
 		e.preventDefault();
@@ -25,32 +34,33 @@ const ImageInsert = () => {
 		e.stopPropagation();
 		setDraggable(false);
 
-		const files = Array.from(e.dataTransfer.files);
-		if (files.length > 1) {
-			alert("Only single file allow.");
-			return;
-		}
+		const image = e.dataTransfer.files[0];
+		handleFile(image);
+
+
 		let fd = new FormData();
 
-		files.forEach((el, i) => {
-			fd.append(`file[${i}]`, el);
-			setFile(el);
-		});
+		fd.append('file', image);
 		fd.append('blogPath', 'okroshka');
 
-		for (let val of fd.values()) console.log(val);
+		// for (let val of fd.values()) console.log(val);
 	}
 
-	function getInputFile(e) {
-		console.log(e);
+	function handleFile(file) {
+		setFile(file);
+		setPreviewUrl(URL.createObjectURL(file));
 	}
 
 
 	return (
 		<>
-			<NewImageWrapper onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDragLeave} onDragOver={handleDragEnter} onDrop={handleDrop}>
-				<NewImagePicture image={file} />
-				<input type="file" onChange={getInputFile} />
+			<NewImageWrapper onClick={() => fileInput.current.click()} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDragLeave} onDragOver={handleDragEnter} onDrop={handleDrop}>
+				{
+					previewUrl && <NewImagePicture image={previewUrl} />
+				}
+				<input type="file" ref={fileInput} hidden accept='image/*' onChange={e => handleFile(e.target.files[0])} />
+				{!previewUrl && <NewImagePlaceholder />}
+
 				{
 					draggable && <NewImageOverlay />
 				}

@@ -29,19 +29,15 @@ export const NewImageWrapper = styled(({ children, ...props }) => (
 	position: relative;
 `;
 
-export const NewImagePicture = styled(({ image, ...props }) => {
-	console.log(image);
-	return (
-		<div {...props}>
-			{
-				image
-					? <img src={image} alt={image} />
-					: <span>Перетащите файл...</span>
-			}
-		</div>
-	)
-})`
-
+export const NewImagePicture = styled(({ image, ...props }) => (
+	<div {...props}>
+		{
+			image
+				? <img src={image} alt={image} />
+				: <span>Перетащите файл...</span>
+		}
+	</div>
+))`
 	img {
 		width: 100%;
 	}
@@ -51,6 +47,14 @@ export const NewImagePicture = styled(({ image, ...props }) => {
 	}
 `;
 
+export const NewImagePlaceholder = styled(({ ...props }) => (
+	<div {...props}>Выберите или перетащите файл...</div>
+))`
+	pointer-events: none;
+	text-align: center;
+	color: ${vars.placeholderColor};
+`;
+
 export const NewImageOverlay = styled.div`
 	position: absolute;
 	left: 0;
@@ -58,4 +62,5 @@ export const NewImageOverlay = styled.div`
 	width: 100%;
 	height: 100%;
 	background-color: ${rgba(vars.overlay, .25)};
+	pointer-events: none;
 `;
