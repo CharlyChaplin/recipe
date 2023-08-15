@@ -137,7 +137,7 @@ const phraseAddChangeDelete = () => {
 						handleChange={handleAddPhrase}
 						handleKeyPress={e => handleKeyPress(e, 'add')}
 					/>
-					<Button equalPadding action={handleAdd}>{<AddICO />}</Button>
+					<Button equalPadding action={handleAdd} disabled={!newPhrase.length > 0}>{<AddICO />}</Button>
 				</AddWrapper>
 
 				<HorizontalLine />

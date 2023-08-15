@@ -6,6 +6,7 @@ import { config } from 'dotenv';
 import ResetSeq from '../services/resetSequence.js';
 import translitPrepare from '../services/translitPrepare.js';
 import fs from 'fs';
+import limitText from '../services/limitText.js';
 
 
 class BlogController {
@@ -254,7 +255,8 @@ class BlogController {
 			blog = {
 				...blog,
 				dateadd: datePrepare(blog.dateadd),
-				photopreview: photopreview
+				photopreview: photopreview,
+				description: limitText(blog.description, 35),
 			}
 			return blog;
 		});

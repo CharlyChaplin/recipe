@@ -10,24 +10,24 @@ export const MainWrapperChangedForBlogDetail = styled(MainWrapper)`
 	overflow: hidden;
 `;
 
-export const BlogWrapper = styled(({ children, ...props }) => (
-	<div {...props}>
-		{children}
-	</div>
-))`
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: ${rem(66)};
-	position: relative;
-	overflow: auto;
-	padding-bottom: ${rem(50)};
-`;
+// export const BlogWrapper = styled(({ children, ...props }) => (
+// 	<div {...props}>
+// 		{children}
+// 	</div>
+// ))`
+// 	width: 100%;
+// 	height: 100%;
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	gap: ${rem(66)};
+// 	position: relative;
+// 	overflow: auto;
+// 	padding-bottom: ${rem(50)};
+// `;
 
 export const ContentWrapperChangedForBlogDetail = styled(ContentWrapper)`
-	width: fit-content;
+	width: ${rem(850)};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -116,7 +116,7 @@ export const BlogTextWrapper = styled(({ content, ...props }) => (
 	border: ${rem(2)} solid ${rgba(vars.lightGreen, .5)};
 	border-radius: ${rem(5)};
 	padding: ${rem(16)};
-	max-width: ${rem(446)};
+	width: 100%;
 	text-align: justify;
 	color: ${vars.text};
 	font-family: sans-serif;

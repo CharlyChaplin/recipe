@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { adaptiveValue, em, rem } from "init/mixins";
+import { adaptiveValue, em, rem, textclip } from "init/mixins";
 import vars from "init/vars";
 import { rgba } from "polished";
 import { Link } from "react-router-dom";
@@ -162,7 +162,6 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 	</Link>
 ))`
 	max-width: ${rem(420)};
-	/* width: ${rem(420)}; */
 	color: ${vars.text};
 	display: flex;
 	flex-direction: column;
@@ -252,9 +251,11 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 				border: ${rem(1)} solid ${vars.accent};
 			}
 			span {
-				font-size: ${rem(14)};
+				font-size: ${rem(16)};
 				font-family: "Roboto", sans-serif;
-				line-height: 1;
+				line-height: 140%;
+				hyphens: auto;
+				text-align: justify;
 			}
 			p {
 				font-family: "Raleway", sans-serif;
