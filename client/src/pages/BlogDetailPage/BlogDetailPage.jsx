@@ -2,11 +2,12 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/blog/bg.jpg';
 import { useNavigate, useParams } from 'react-router-dom';
-import { blogGetBlogById } from 'redux/slices/blogSlice';
+import { blogGetBlogById, clearBlogData } from 'redux/slices/blogSlice';
 import { BlogDetailCaption, BlogDetailPhoto, BlogDetailTop, BlogTextWrapper, ContentWrapperChangedForBlogDetail, MainWrapperChangedForBlogDetail } from './styled';
 import { paths } from 'routes/helper';
 import { ButtonBtn, InnerWrapper } from 'pages/pages.styled';
 import Spinner from 'components/Spinner/Spinner';
+import NoData from 'components/NoData/NoData';
 
 
 const BlogDetailPage = () => {
@@ -20,13 +21,12 @@ const BlogDetailPage = () => {
 	useEffect(() => {
 		getData();
 
-
+		return () => dispatch(clearBlogData());
 	}, []);
 
 	const getData = useCallback(() => {
 		dispatch(blogGetBlogById(id));
 	}, [dispatch, blogData]);
-
 
 
 	return (
@@ -39,12 +39,14 @@ const BlogDetailPage = () => {
 						{
 							loading
 								? <Spinner height={100} />
-								: <>
-									<BlogDetailTop dateadd={blogData.dateadd} owner={blogData.name} />
-									<BlogDetailPhoto image={blogData.photopreview} imageAltText={blogData.caption} />
-									<BlogDetailCaption text={blogData.caption} />
-									<BlogTextWrapper content={blogData.description} />
-								</>
+								: Object.values(blogData).length
+									? <>
+										<BlogDetailTop dateadd={blogData.dateadd} owner={blogData.name} />
+										<BlogDetailPhoto image={blogData.photopreview} imageAltText={blogData.caption} />
+										<BlogDetailCaption text={blogData.caption} />
+										<BlogTextWrapper content={blogData.description} />
+									</>
+									: <NoData text="Нет такого блога" />
 						}
 
 					</ContentWrapperChangedForBlogDetail>

@@ -4,9 +4,9 @@ import { rgba } from "polished";
 import { styled } from "styled-components";
 
 
-export const BlogAddPhoto = styled(({ image, imageAltText, ...props }) => (
+export const BlogAddPhoto = styled(({ children, ...props }) => (
 	<div {...props}>
-		<img src={image} alt={imageAltText} />
+		{children}
 	</div>
 ))`
 	border: ${rem(1)} solid ${vars.lightGreen};
@@ -18,7 +18,4 @@ export const BlogAddPhoto = styled(({ image, imageAltText, ...props }) => (
 	max-height: ${rem(136)};
 	width: ${rem(250)};
 	height: ${rem(136)};
-	img {
-		width: 100%;
-	}
 `;

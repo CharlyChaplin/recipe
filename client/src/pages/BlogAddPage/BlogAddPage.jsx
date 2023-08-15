@@ -10,19 +10,20 @@ import { useCallback } from 'react';
 import { BlogAddPhoto } from './styled';
 import Button from 'components/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import { blogAddBlog } from 'redux/slices/blogSlice';
+import { blogAddBlog, clearBlogData } from 'redux/slices/blogSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { datePrepare } from 'utils/datePrepare';
 import { showInfo } from 'redux/slices/infoSlice';
+import ImageInsert from 'components/ImageInsert/ImageInsert';
 
 
 const BlogAddPage = () => {
 	const { userData, errors } = useSelector(state => state.userReducer);
-	const { blogData, loading } = useSelector(state => state.blogReducer);
+	const { blogData, loading, completed } = useSelector(state => state.blogReducer);
 	const [fields, setFields] = useState({
 		dateadd: '',
-		owner: '',
+		picture: '',
 		caption: '',
 		description: '',
 	});
@@ -31,11 +32,21 @@ const BlogAddPage = () => {
 
 
 	useEffect(() => {
-		setFields({ ...fields, dateadd: datePrepare(Date.now()), owner: userData?.user?.nickname });
-		if (blogData?.id && !loading) navigate(`/blog/${blogData.id}`);
+		setFields({ ...fields, dateadd: datePrepare(Date.now()) });
+
 	}, [blogData]);
 
-	
+	useEffect(() => {
+		if (completed) {
+			dispatch(clearBlogData());
+			navigate(`/blog/${blogData.id}`);
+		};
+	}, [completed]);
+
+
+	function getSelectedFile(pictureFile) {
+		setFields({ ...fields, picture: pictureFile });
+	}
 
 	const changeInput = useCallback((e) => {
 		setFields({
@@ -46,15 +57,16 @@ const BlogAddPage = () => {
 
 
 	async function handleApplyBlog() {
+		const filledData = Object.entries(fields).filter(item => item[1]?.length > 0);
+		const { dateadd, caption, description } = Object.fromEntries(filledData);
+
 		const fd = new FormData();
-		const filledData = Object.entries(fields).filter(item => item[1].length > 0);
-		const { dateadd, owner, caption, description } = Object.fromEntries(filledData);
 		if (dateadd?.length > 0) fd.append('dateadd', fields.dateadd);
-		if (owner?.length > 0) fd.append('owner', fields.owner);
+		fd.append('file', fields.picture);
 		if (caption?.length > 0) fd.append('caption', fields.caption);
 		if (description?.length > 0) fd.append('description', fields.description);
 
-		if (!(dateadd && owner && caption && description)) {
+		if (!(dateadd && fields.picture && caption && description)) {
 			dispatch(showInfo({ text: "Заполните все поля", cancel: true }))
 			return;
 		}
@@ -90,7 +102,9 @@ const BlogAddPage = () => {
 							<BlogEditNotEdit data={userData?.user?.nickname} />
 						</BlogEditTop>
 
-						<BlogAddPhoto />
+						<BlogAddPhoto>
+							<ImageInsert selectedFile={getSelectedFile} />
+						</BlogAddPhoto>
 
 						<BlogEditCaption>
 							<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блога..." />

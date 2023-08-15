@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { rem } from "init/mixins";
+import vars from "init/vars";
 
 
 export const NoDataWrapper = styled(({ children, ...props }) => (
@@ -11,7 +12,7 @@ export const NoDataWrapper = styled(({ children, ...props }) => (
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: ${rem(25)};
+	gap: ${rem(40)};
 `;
 
 export const NoDataIcon = styled(({ children, ...props }) => (
@@ -34,4 +35,5 @@ export const NoDataText = styled(({ text, ...props }) => (
 ))`
 	font-family: sans-serif;
 	font-size: ${rem(22)};
+	color: ${vars.dark};
 `;

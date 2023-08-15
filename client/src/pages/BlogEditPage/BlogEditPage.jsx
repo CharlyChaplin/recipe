@@ -14,6 +14,8 @@ import { blogEditBlog } from 'redux/slices/blogSlice';
 import { showInfo } from 'redux/slices/infoSlice';
 import DropdownList from 'components/DropdownList'
 import { userGetUsersNickname } from 'redux/slices/userSlice';
+import { BlogAddPhoto } from 'pages/BlogAddPage/styled';
+import ImageInsert from 'components/ImageInsert/ImageInsert';
 
 
 let dataSource;
@@ -22,6 +24,7 @@ const BlogEditPage = () => {
 	const [fields, setFields] = useState({
 		dateadd: '',
 		owner: '',
+		picture: '',
 		caption: '',
 		description: '',
 		oldBlogCaption: ''
@@ -75,8 +78,10 @@ const BlogEditPage = () => {
 		const fd = new FormData();
 		const filledData = Object.entries(fields).filter(item => item[1].length > 0);
 		const { dateadd, owner, caption, description, oldBlogCaption } = Object.fromEntries(filledData);
+		
 		if (dateadd?.length > 0) fd.append('dateadd', fields.dateadd);
 		if (owner?.length > 0) fd.append('owner', fields.owner);
+		fd.append('file', fields.picture);
 		if (caption?.length > 0) fd.append('caption', fields.caption);
 		if (description?.length > 0) fd.append('description', fields.description);
 		if (oldBlogCaption?.length > 0) fd.append('oldBlogCaption', fields.oldBlogCaption);
@@ -96,6 +101,10 @@ const BlogEditPage = () => {
 		}
 	};
 
+
+	function getSelectedFile(pictureFile) {
+		setFields({ ...fields, picture: pictureFile });
+	}
 
 
 	return (
@@ -122,7 +131,12 @@ const BlogEditPage = () => {
 												: <BlogEditNotEdit data={dataSource?.name} />
 										}
 									</BlogEditTop>
-									<BlogEditPhoto image={dataSource?.photopreview} imageAltText={dataSource?.caption} />
+
+									<BlogAddPhoto>
+										<ImageInsert currentFile={blogData.photoorig} selectedFile={getSelectedFile} />
+									</BlogAddPhoto>
+									{/* <BlogEditPhoto image={dataSource?.photopreview} imageAltText={dataSource?.caption} /> */}
+
 									<BlogEditCaption>
 										{
 											userData?.user?.role === 1

@@ -4,7 +4,7 @@ import bg from 'assets/img/blog/bg.jpg';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
 import { useDispatch, useSelector } from 'react-redux';
-import { blogGetPreviewBlogs } from 'redux/slices/blogSlice';
+import { blogGetPreviewBlogs, clearBlogData } from 'redux/slices/blogSlice';
 import { nanoid } from 'nanoid';
 import Spinner from 'components/Spinner/Spinner';
 import NoData from 'components/NoData/NoData';
@@ -17,6 +17,7 @@ const BlogPage = () => {
 	useEffect(() => {
 		getPreview();
 
+		dispatch(clearBlogData());
 	}, []);
 
 	const getPreview = useCallback(() => {
@@ -62,7 +63,7 @@ const BlogPage = () => {
 
 					}
 				</InnerWrapper>
-				
+
 			</MainWrapper>
 		</>
 	);

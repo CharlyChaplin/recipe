@@ -7,13 +7,18 @@ const initialState = {
 	blogs: [],
 	blogsPreview: [],
 	errors: "",
+	completed: false
 }
 
 export const blogAddBlog = createAsyncThunk(
 	'blog/add',
-	async (data, { rejectWithValue }) => {
+	async (formData, { rejectWithValue }) => {
 		try {
-			const resp = await axios.post('/blog/add', data);
+			const resp = await axios.post('/blog/add', formData, {
+				headers: {
+					"Content-Type": 'multipart/formdata'
+				}
+			});
 			return resp.data;
 		} catch (err) {
 			return rejectWithValue(err.message);
@@ -25,7 +30,11 @@ export const blogEditBlog = createAsyncThunk(
 	'blog/edit',
 	async (data, { rejectWithValue }) => {
 		try {
-			const resp = await axios.post('/blog/edit', data);
+			const resp = await axios.post('/blog/edit', data, {
+				headers: {
+					"Content-Type": 'multipart/formdata'
+				}
+			});
 			return resp.data;
 		} catch (err) {
 			return rejectWithValue(err.message);
@@ -98,7 +107,12 @@ export const blogGetPreviewBlogs = createAsyncThunk(
 export const blogSlice = createSlice({
 	name: 'recipeSlice',
 	initialState,
-	reducers: {},
+	reducers: {
+		clearBlogData: (state, action) => {
+			state.blogData = [];
+			state.completed = false;
+		}
+	},
 	extraReducers: (build) => {
 		//========================================================================================================================================================
 		build.addCase(blogAddBlog.pending, (state, action) => {
@@ -110,6 +124,7 @@ export const blogSlice = createSlice({
 			state.loading = false;
 			state.blogData = action.payload;
 			state.errors = "";
+			state.completed = true;
 		});
 		build.addCase(blogAddBlog.rejected, (state, action) => {
 			state.loading = false;
@@ -213,6 +228,6 @@ export const blogSlice = createSlice({
 });
 
 
-export const { } = blogSlice.actions;
+export const { clearBlogData } = blogSlice.actions;
 
 export default blogSlice.reducer;

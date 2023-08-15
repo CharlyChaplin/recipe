@@ -1,27 +1,25 @@
 class ApiError extends Error {
 	status;
-	errors;
 
-	constructor(status, message, errors = []) {
+	constructor(status, message) {
 		super(message);
 		this.status = status;
-		this.errors = errors;
 	}
 
 	static UnathorizedError(message) {
 		return new ApiError(401, message ? message : "User not authorized");
 	}
 
-	static BadRequest(message, errors = []) {
-		return new ApiError(400, message, errors);
+	static BadRequest(message) {
+		return new ApiError(400, message);
 	}
 
-	static NotFoundURL(message, errors = []) {
-		return new ApiError(404, message, errors);
+	static NotFoundURL(message) {
+		return new ApiError(404, message);
 	}
 
-	static ValidationError(errors = []) {
-		return new ApiError(500, "Validation error", errors);
+	static ValidationError() {
+		return new ApiError(500, "Validation error");
 	}
 }
 

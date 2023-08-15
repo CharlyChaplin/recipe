@@ -5,17 +5,21 @@ import ImageInsert from 'components/ImageInsert/ImageInsert';
 
 
 const HomePage = () => {
+
+	// function getSelectedFile(val) { }
+
+
 	return (
 		<>
 			<MainWrapper>
-				<InnerWrapper>
+				{/* <InnerWrapper>
 					<ContentPaddingTop />
 					<ContentWrapper>
-						
-						<ImageInsert />
-						
+
+						<ImageInsert selectedFile={getSelectedFile} />
+
 					</ContentWrapper>
-				</InnerWrapper>
+				</InnerWrapper> */}
 			</MainWrapper>
 		</>
 	);
