@@ -29,6 +29,15 @@ const categoryAddChangeDelete = () => {
 	const [changedCategory, setChangedCategory] = useState('');
 	const [selected, setSelected] = useState('');
 	const [inputText, setInputText] = useState(selected);
+	const [categories, setCategories] = useState([]);
+
+	let categoryName = '';
+
+	useEffect(() => {
+		if (categoryData.length > 0) {
+			setCategories(categoryData.map(el => el.caption));
+		}
+	}, [categoryData]);
 
 
 	// получаем новую фразу в состояние
@@ -123,6 +132,7 @@ const categoryAddChangeDelete = () => {
 	}
 
 
+
 	return (
 		<>
 			<ModalContentWrapper>
@@ -142,7 +152,7 @@ const categoryAddChangeDelete = () => {
 				<HorizontalLine />
 
 				<DropdownList
-					elements={categoryData ? categoryData : []}
+					elements={categories ? categories : []}
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
 					inputText={inputText}
 					setInputText={setInputText}

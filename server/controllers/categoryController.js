@@ -1,6 +1,7 @@
 import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
+import translitPrepare from '../services/translitPrepare.js';
 
 
 class CategoryController {
@@ -77,8 +78,18 @@ class CategoryController {
 
 		try {
 			// после всех проверок достаём категории
-			const categories = await db.query(`SELECT caption FROM category;`);
-			res.json(categories.rows.map(item => item.caption));
+			const categories = await db.query(`SELECT * FROM category;`);
+
+			const categoryData = categories.rows.map(category => {
+				return (
+					{
+						caption: category.caption,
+						categoryname: translitPrepare(category.caption).toLowerCase().replace(" ", '_'),
+						photopreview: category.preview
+					}
+				)
+			});
+			res.json(categoryData);
 		} catch (err) {
 			res.status(400).json(err);
 		}

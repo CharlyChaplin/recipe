@@ -8,7 +8,7 @@ const categoryRouter = Router();
 categoryRouter.post('/add', roleCheck(1), CategoryController.addCategory);
 categoryRouter.post('/delete', roleCheck(1), CategoryController.deleteCategory);
 categoryRouter.post('/edit', roleCheck(1), CategoryController.editCategory);
-categoryRouter.get('/categories', roleCheck(1), CategoryController.getAllCategories);
+categoryRouter.get('/categories', CategoryController.getAllCategories);
 
 
 export default categoryRouter;

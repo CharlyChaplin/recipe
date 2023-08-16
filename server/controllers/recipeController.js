@@ -1,7 +1,8 @@
 import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
-import TokenService from '../services/tokenService.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
+import { config } from 'dotenv';
+import translitPrepare from '../services/translitPrepare.js';
 
 
 class RecipeController {
@@ -17,7 +18,7 @@ class RecipeController {
 		`);
 		if (!getUser.rowCount) throw ApiError.UnathorizedError();
 		user_id = getUser.rows[0].id;
-		
+
 		// после всех проверок достаём фразу для занесения её в БД
 		const { phraseText } = req.body;
 		db.query(`SELECT MAX(id) FROM phrase;`)
@@ -77,7 +78,7 @@ class RecipeController {
 				WHERE caption='${recipeCaption}';
 			`);
 			if (!isRecipe.rowCount) throw ApiError.BadRequest("Error while getting the recipe");
-			
+
 			// достаём владельца рецепта
 			const owner = await db.query(`
 				SELECT name FROM persondata
@@ -129,6 +130,27 @@ class RecipeController {
 				})
 				.catch(err => res.status(400).json(err));
 		}
+	}
+
+	async getPreviewRecipies(req, res) {
+		const recipiesCategory = await db.query(`
+			SELECT caption, preview
+			FROM category
+			ORDER BY caption ASC;
+		`);
+
+		const recipiesData = recipiesCategory.rows.map(recipe => {
+			const photopreview = config().parsed.LOCAL_ADDRESS + recipe.preview;
+
+			recipe = {
+				categoryname: translitPrepare(recipe.caption).toLowerCase().replace(" ", '_'),
+				caption: recipe.caption,
+				photopreview: photopreview
+			}
+			return recipe;
+		});
+
+		res.json(recipiesData);
 	}
 
 }

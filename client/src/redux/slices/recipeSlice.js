@@ -5,7 +5,9 @@ const initialState = {
 	loading: false,
 	recipeData: [],
 	recipies: [],
+	recipePreview: [],
 	errors: "",
+	completed: false
 }
 
 export const recipeAddRecipe = createAsyncThunk(
@@ -56,12 +58,29 @@ export const recipeGetRecipies = createAsyncThunk(
 	}
 );
 
+export const recipeGetPreviewRecipies = createAsyncThunk(
+	'blog/getPreviewRecipe',
+	async (_, { rejectWithValue }) => {
+		try {
+			const resp = await axios.get('/recipe/preview');
+			return resp.data;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+);
+
 
 
 export const recipeSlice = createSlice({
 	name: 'recipeSlice',
 	initialState,
-	reducers: {},
+	reducers: {
+		clearRecipeData: (state, action) => {
+			state.recipeData = [];
+			state.completed = false;
+		}
+	},
 	extraReducers: (build) => {
 		//========================================================================================================================================================
 		build.addCase(recipeAddRecipe.pending, (state, action) => {
@@ -127,10 +146,24 @@ export const recipeSlice = createSlice({
 			state.recipies = [];
 			state.errors = action.payload;
 		});
+		//========================================================================================================================================================
+		build.addCase(recipeGetPreviewRecipies.pending, (state, action) => {
+			state.loading = true;
+			state.errors = "";
+		});
+		build.addCase(recipeGetPreviewRecipies.fulfilled, (state, action) => {
+			state.loading = false;
+			state.recipePreview = action.payload;
+			state.errors = "";
+		});
+		build.addCase(recipeGetPreviewRecipies.rejected, (state, action) => {
+			state.loading = false;
+			state.errors = action.payload;
+		});
 	}
 });
 
 
-export const { } = recipeSlice.actions;
+export const { clearRecipeData } = recipeSlice.actions;
 
 export default recipeSlice.reducer;

@@ -6,7 +6,7 @@ function translitPrepare(word){
 		'й': 'y',		'к': 'k',		'л': 'l',		'м': 'm',		'н': 'n',
 		'о': 'o',		'п': 'p',		'р': 'r',		'с': 's',		'т': 't',
 		'у': 'u',		'ф': 'f',		'х': 'h',		'ц': 'c',		'ч': 'ch',
-		'ш': 'sh',		'щ': 'sch',		'ь': '',	 		'ы': 'y',		'ъ': '',
+		'ш': 'sh',		'щ': 'sch',		'ь': '',	 		'ы': 'y',		'ъ': '\'',
 		'э': 'e',		'ю': 'yu',		'я': 'ya',
  
 		'А': 'A',		'Б': 'B',		'В': 'V',		'Г': 'G',		'Д': 'D',
@@ -14,11 +14,12 @@ function translitPrepare(word){
 		'Й': 'Y',		'К': 'K',		'Л': 'L',		'М': 'M',		'Н': 'N',
 		'О': 'O',		'П': 'P',		'Р': 'R',		'С': 'S',		'Т': 'T',
 		'У': 'U',		'Ф': 'F',		'Х': 'H',		'Ц': 'C',		'Ч': 'Ch',
-		'Ш': 'Sh',		'Щ': 'Sch',		'Ь': '',	 		'Ы': 'Y',		'Ъ': '',
+		'Ш': 'Sh',		'Щ': 'Sch',		'Ь': '',	 		'Ы': 'Y',		'Ъ': '\'',
 		'Э': 'E',		'Ю': 'Yu',		'Я': 'Ya'
 	};
  
 	for (var i = 0; i < word.length; ++i) {
+		if (converter[word[i]] === '') continue;
 		answer += converter[word[i]] ? converter[word[i]] : word[i];
 	}
  
@@ -26,3 +27,5 @@ function translitPrepare(word){
 }
 
 export default translitPrepare;
+
+// console.log(translitPrepare("Салаты").toLowerCase().replace(" ", "_"));
