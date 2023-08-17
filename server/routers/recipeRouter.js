@@ -10,6 +10,7 @@ recipeRouter.put('/change', RecipeController.changeRecipe);
 recipeRouter.post('/getrecipe', RecipeController.getOneRecipe);
 recipeRouter.get('/recipies', RecipeController.getAllRecipies);
 recipeRouter.get('/preview', RecipeController.getPreviewRecipies);
+recipeRouter.post('/getcategoryitems', RecipeController.getRecipiesInCategory);
 
 
 export default recipeRouter;

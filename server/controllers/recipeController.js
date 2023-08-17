@@ -67,15 +67,15 @@ class RecipeController {
 	}
 
 	async getOneRecipe(req, res) {
-		const { isAccessValid } = await primaryCheckUser(req.cookies);
-		if (!isAccessValid.email) throw ApiError.UnathorizedError();
-
+		
+		// достаём данные рецепта
+		const { recipeCaption } = req.body;
+		
+		
 		try {
-			// после всех проверок достаём данные рецепта
-			const { recipeCaption } = req.body;
 			const isRecipe = await db.query(`
 				SELECT * FROM recipe
-				WHERE caption='${recipeCaption}';
+				WHERE caption_lat='${recipeCaption}';
 			`);
 			if (!isRecipe.rowCount) throw ApiError.BadRequest("Error while getting the recipe");
 
@@ -102,55 +102,87 @@ class RecipeController {
 		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-		// получаем id юзера, по email из токена
-		const getUser = await db.query(`
-			SELECT * FROM users
-			WHERE email = '${isAccessValid.email}';
+		try {
+			// получаем id юзера, по email из токена
+			const getUser = await db.query(`
+				SELECT * FROM users
+				WHERE email = '${isAccessValid.email}';
 		`);
-		if (!getUser.rowCount) throw ApiError.UnathorizedError();
-		const user_id = getUser.rows[0].id;
-		const role = getUser.rows[0].role;
-		const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
-		// после всех проверок достаём рецепты в зависимости от прав пользователя
-		if (roleDescription === 'admin') {
-			db.query('SELECT * FROM recipe;')
-				.then(resp => {
-					const out = resp.rows.map(item => item.caption);
-					res.json(out);
-				})
-				.catch(err => res.status(400).json(err));
-		} else if (roleDescription === 'user') {
-			db.query(`
-				SELECT * FROM recipe
-				WHERE user_id = ${user_id};
+			if (!getUser.rowCount) throw ApiError.UnathorizedError();
+			const user_id = getUser.rows[0].id;
+			const role = getUser.rows[0].role;
+			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
+			// после всех проверок достаём рецепты в зависимости от прав пользователя
+			if (roleDescription === 'admin') {
+				db.query('SELECT * FROM recipe;')
+					.then(resp => {
+						const out = resp.rows.map(item => item.caption);
+						res.json(out);
+					})
+					.catch(err => res.status(400).json(err));
+			} else if (roleDescription === 'user') {
+				db.query(`
+					SELECT * FROM recipe
+					WHERE user_id = ${user_id};
 			`)
-				.then(resp => {
-					const out = resp.rows.map(item => item.caption);
-					res.json(out);
-				})
-				.catch(err => res.status(400).json(err));
+					.then(resp => {
+						const out = resp.rows.map(item => item.caption);
+						res.json(out);
+					})
+					.catch(err => res.status(400).json(err));
+			}
+		} catch (err) {
+			res.status(400).json(err);
 		}
+
 	}
 
 	async getPreviewRecipies(req, res) {
-		const recipiesCategory = await db.query(`
-			SELECT caption, preview
-			FROM category
-			ORDER BY caption ASC;
+
+		try {
+			const recipiesCategory = await db.query(`
+				SELECT caption, photopreview
+				FROM category
+				ORDER BY caption ASC;
 		`);
 
-		const recipiesData = recipiesCategory.rows.map(recipe => {
-			const photopreview = config().parsed.LOCAL_ADDRESS + recipe.preview;
+			const recipiesData = recipiesCategory.rows.map(recipe => {
+				const photopreview = config().parsed.LOCAL_ADDRESS + recipe.photopreview;
 
-			recipe = {
-				categoryname: translitPrepare(recipe.caption).toLowerCase().replace(" ", '_'),
-				caption: recipe.caption,
-				photopreview: photopreview
-			}
-			return recipe;
-		});
+				recipe = {
+					categoryname: translitPrepare(recipe.caption).toLowerCase().replace(" ", '_'),
+					caption: recipe.caption,
+					photopreview: photopreview
+				}
+				return recipe;
+			});
 
-		res.json(recipiesData);
+			res.json(recipiesData);
+		} catch (err) {
+			res.status(400).json(err);
+		}
+	}
+
+	async getRecipiesInCategory(req, res) {
+		const { categoryName } = req.body;
+
+		try {
+			const recipiesFromCategory = await db.query(`
+				SELECT A.caption_lat, A.photopreview, A.caption
+				FROM recipe as A, category as B
+				WHERE A.category_id = B.id AND B.caption_lat = '${categoryName}';
+			`);
+
+			// выдаём массив, подцепляя пусть сервера к адресам картинок
+			const recipiesData = recipiesFromCategory.rowCount
+				? recipiesFromCategory.rows.map(el => ({ ...el, photopreview: config().parsed.LOCAL_ADDRESS + el.photopreview }))
+				: null;
+
+
+			res.json(recipiesData);
+		} catch (err) {
+			res.status(400).json(err);
+		}
 	}
 
 }

@@ -10,6 +10,7 @@ import { paths } from 'routes/helper';
 
 const HomePage = lazy(() => import('pages/HomePage'));
 const RecipePage = lazy(() => import('pages/RecipePage'));
+const RecipeDetailPage = lazy(() => import('pages/RecipeDetailPage'));
 const RecipeEditPage = lazy(() => import('pages/RecipeEditPage'));
 const BlogPage = lazy(() => import('pages/BlogPage'));
 const BlogEditPage = lazy(() => import('pages/BlogEditPage'));
@@ -33,6 +34,7 @@ const AppContent = () => {
 					<Route path={paths.home} element={<HomePage />} />
 					<Route path={paths.recipe} element={<RecipePage />} />
 					<Route path={paths.recipeedit} element={<RecipeEditPage />} />
+					<Route path={paths.recipedetail} element={<RecipeDetailPage />} />
 					<Route path={paths.blog} element={<BlogPage />} />
 					<Route path={paths.blogedit} element={<BlogEditPage />} />
 					<Route path={paths.blogdetail} element={<BlogDetailPage />} />

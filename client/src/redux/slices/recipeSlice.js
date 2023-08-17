@@ -6,6 +6,7 @@ const initialState = {
 	recipeData: [],
 	recipies: [],
 	recipePreview: [],
+	recipeInCategory: [],
 	errors: "",
 	completed: false
 }
@@ -59,10 +60,22 @@ export const recipeGetRecipies = createAsyncThunk(
 );
 
 export const recipeGetPreviewRecipies = createAsyncThunk(
-	'blog/getPreviewRecipe',
+	'recipe/getPreviewRecipe',
 	async (_, { rejectWithValue }) => {
 		try {
 			const resp = await axios.get('/recipe/preview');
+			return resp.data;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+);
+
+export const recipeGetByCategory = createAsyncThunk(
+	'recipe/getByCategory',
+	async (categoryName, { rejectWithValue }) => {
+		try {
+			const resp = await axios.post('/recipe/getcategoryitems', categoryName);
 			return resp.data;
 		} catch (err) {
 			return rejectWithValue(err.message);
@@ -117,7 +130,6 @@ export const recipeSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(recipeGetRecipe.pending, (state, action) => {
 			state.loading = true;
-			state.recipeData = [];
 			state.errors = "";
 		});
 		build.addCase(recipeGetRecipe.fulfilled, (state, action) => {
@@ -133,7 +145,6 @@ export const recipeSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(recipeGetRecipies.pending, (state, action) => {
 			state.loading = true;
-			state.recipies = [];
 			state.errors = "";
 		});
 		build.addCase(recipeGetRecipies.fulfilled, (state, action) => {
@@ -143,7 +154,6 @@ export const recipeSlice = createSlice({
 		});
 		build.addCase(recipeGetRecipies.rejected, (state, action) => {
 			state.loading = false;
-			state.recipies = [];
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
@@ -157,6 +167,20 @@ export const recipeSlice = createSlice({
 			state.errors = "";
 		});
 		build.addCase(recipeGetPreviewRecipies.rejected, (state, action) => {
+			state.loading = false;
+			state.errors = action.payload;
+		});
+		//========================================================================================================================================================
+		build.addCase(recipeGetByCategory.pending, (state, action) => {
+			state.loading = true;
+			state.errors = "";
+		});
+		build.addCase(recipeGetByCategory.fulfilled, (state, action) => {
+			state.loading = false;
+			state.recipeInCategory = action.payload;
+			state.errors = "";
+		});
+		build.addCase(recipeGetByCategory.rejected, (state, action) => {
 			state.loading = false;
 			state.errors = action.payload;
 		});

@@ -4,7 +4,7 @@ import { PreviewItemDescription, PreviewItemPhoto, PreviewItemWrapper } from './
 
 
 const PreviewItem = ({ url, image, imageAlt, description }) => {
-	console.log(url, image, imageAlt, description);
+	// console.log(url, image, imageAlt, description);
 
 	return (
 		<>

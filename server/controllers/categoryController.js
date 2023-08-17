@@ -85,7 +85,7 @@ class CategoryController {
 					{
 						caption: category.caption,
 						categoryname: translitPrepare(category.caption).toLowerCase().replace(" ", '_'),
-						photopreview: category.preview
+						photopreview: category.photopreview
 					}
 				)
 			});

@@ -242,26 +242,30 @@ class BlogController {
 	}
 
 	async getPreviewBlogs(req, res) {
-		const blogs = await db.query(`
-			SELECT A.id, name, dateadd, photopreview, caption, description
-			FROM blog A, persondata B
-			WHERE A.user_id = B.user_id
-			ORDER BY A.id;
+		try {
+			const blogs = await db.query(`
+				SELECT A.id, name, dateadd, photopreview, caption, description
+				FROM blog A, persondata B
+				WHERE A.user_id = B.user_id
+				ORDER BY A.id;
 		`);
 
-		const blogsData = blogs.rows.map(blog => {
-			const photopreview = config().parsed.LOCAL_ADDRESS + blog.photopreview
+			const blogsData = blogs.rows.map(blog => {
+				const photopreview = config().parsed.LOCAL_ADDRESS + blog.photopreview
 
-			blog = {
-				...blog,
-				dateadd: datePrepare(blog.dateadd),
-				photopreview: photopreview,
-				description: limitText(blog.description, 35),
-			}
-			return blog;
-		});
+				blog = {
+					...blog,
+					dateadd: datePrepare(blog.dateadd),
+					photopreview: photopreview,
+					description: limitText(blog.description, 35),
+				}
+				return blog;
+			});
 
-		res.json(blogsData);
+			res.json(blogsData);
+		} catch (err) {
+			res.status(400).json(err);
+		}
 	}
 
 	async getBlogById(req, res) {
