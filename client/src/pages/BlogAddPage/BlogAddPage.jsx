@@ -1,9 +1,9 @@
 import React from 'react';
 import bg from 'assets/img/blog/bg.jpg';
-import { ContentPaddingTop, InnerWrapper, MainWrapper } from 'pages/pages.styled';
+import { AddPhotoBlock, ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper } from 'pages/pages.styled';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
-import { BlogEditButtonWrapper, BlogEditCaption, BlogEditNotEdit, BlogEditTextWrapper, BlogEditTop, ContentWrapperChangedForBlogEdit, Divisor } from 'pages/BlogEditPage/styled';
+import { BlogEditButtonWrapper, BlogEditCaption, BlogEditTextWrapper, BlogEditTop, ContentWrapperChangedForBlogEdit, Divisor } from 'pages/BlogEditPage/styled';
 import Input from 'components/Input/Input';
 import { useState } from 'react';
 import { useCallback } from 'react';
@@ -99,12 +99,12 @@ const BlogAddPage = () => {
 						<BlogEditTop>
 							<Input name='dateadd' value={fields.dateadd} handleChange={changeInput} autoFocus center placeholder="Дата создания..." />
 							<Divisor />
-							<BlogEditNotEdit data={userData?.user?.nickname} />
+							<EditNotEdit data={userData?.user?.nickname} />
 						</BlogEditTop>
 
-						<BlogAddPhoto>
+						<AddPhotoBlock>
 							<ImageInsert selectedFile={getSelectedFile} />
-						</BlogAddPhoto>
+						</AddPhotoBlock>
 
 						<BlogEditCaption>
 							<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блога..." />

@@ -168,15 +168,30 @@ class RecipeController {
 				owner.rows[0],
 				isRecipe.rows[0],
 			);
+			
+			// получаем текущую категорию в виде кириллицы
+			const currentCategoryCyr = await db.query(`
+				SELECT caption FROM category
+				WHERE id = '${isRecipe.rows[0].category_id}';
+			`);
+			if (!currentCategoryCyr.rowCount) throw ApiError.BadRequest("Error while getting the categoryCyr");
+
+			// достаём ингредиенты рецепта
+			const ingredients = await db.query(`
+				SELECT caption FROM ingredient
+				WHERE recipe_id = ${isRecipe.rows[0].id}
+			`);
+			// формируем объект для выдачи
 			recipeData = {
 				...recipeData,
 				photopreview: config().parsed.LOCAL_ADDRESS + isRecipe.rows[0].photopreview,
-				photoorig: config().parsed.LOCAL_ADDRESS + isRecipe.rows[0].photoorig
+				photoorig: config().parsed.LOCAL_ADDRESS + isRecipe.rows[0].photoorig,
+				ingredients: ingredients.rows.map(item => item.caption),
+				category: currentCategoryCyr.rows[0].caption
 			}
 			delete recipeData.id;
 			delete recipeData.user_id;
 			delete recipeData.category_id;
-			console.log(recipeData);
 			res.json(recipeData);
 		} catch (err) {
 			res.status(400).json(err)

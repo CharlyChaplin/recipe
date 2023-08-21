@@ -119,11 +119,3 @@ export const BlogEditButtonWrapper = styled.div`
 	justify-content: space-between;
 	gap: ${rem(20)};
 `;
-
-export const BlogEditNotEdit = styled(({ data, isCaption, ...props }) => (
-	<div {...props}>{data}</div>
-))`
-	font-family: "RobotoRegular", sans-serif;
-	font-size: ${({isCaption}) => isCaption ? rem(32) : rem(16)};
-	color: ${vars.text};
-`;

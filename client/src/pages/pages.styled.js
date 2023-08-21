@@ -291,6 +291,30 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 	
 `;
 
+export const EditNotEdit = styled(({ data, isCaption, ...props }) => (
+	<div {...props}>{data}</div>
+))`
+	font-family: "RobotoRegular", sans-serif;
+	font-size: ${({isCaption}) => isCaption ? rem(32) : rem(16)};
+	color: ${vars.text};
+`;
+
+export const AddPhotoBlock = styled(({ children, ...props }) => (
+	<div {...props}>
+		{children}
+	</div>
+))`
+	border: ${rem(1)} solid ${vars.lightGreen};
+	border-radius: ${rem(10)};
+	box-shadow: ${rem(2)} ${rem(4)} ${rem(2)} ${rem(0)} ${rgba(vars.blackColor, .30)};
+	overflow: hidden;
+	margin-bottom: ${rem(7)};
+	max-width: ${rem(250)};
+	max-height: ${rem(136)};
+	width: ${rem(250)};
+	height: ${rem(136)};
+`;
+
 export const ButtonBtn = styled(({ handleaction, ...props }) => (
 	<div {...props}>
 		<Button type='back' equalPadding action={handleaction}>Назад</Button>
@@ -304,4 +328,13 @@ export const ButtonBtn = styled(({ handleaction, ...props }) => (
 
 export const ContentPaddingTop = styled.div`
 	margin-top: ${rem(10)};
+`;
+
+export const RecipeBlockContentWrapper = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	border-radius: ${rem(5)};
+	background-color: ${vars.whiteColor};
+	border: ${rem(1)} solid ${vars.lightGreen};
+	padding: ${rem(20)};
 `;

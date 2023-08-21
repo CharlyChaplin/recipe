@@ -31,6 +31,8 @@ export const InputElement = styled(({
 	value,
 	center,
 	autoFocus,
+	rectangle,
+	fz,
 	type,
 	placeholder,
 	onChange = () => { },
@@ -52,10 +54,10 @@ export const InputElement = styled(({
 })`
 	display: block;
 	width: 100%;
-	border-radius: ${radius};
+	border-radius: ${({ rectangle }) => rectangle ? 0 : radius};
 	letter-spacing: ${rem(1)};
 	padding: ${rem(7)} ${rem(10)};
-	font-size: ${p => p.type === 'password' ? rem(17) : rem(16)};
+	font-size: ${({type, fz}) => type === 'password' ? rem(17) : fz ? rem(fz) : rem(16)};
 	font-family: "RobotoRegular", sans-serif;
 	border: 1px solid ${vars.lightGreen};
 	&::placeholder{
@@ -84,6 +86,8 @@ export const TextareaElement = styled(({
 	name,
 	value,
 	autoFocus,
+	rectangle,
+	fz,
 	type,
 	placeholder,
 	onChange = () => { },
@@ -104,11 +108,11 @@ export const TextareaElement = styled(({
 	/>
 ))`
 	width: 100%;
-	border-radius: ${radius};
+	border-radius: ${({ rectangle }) => rectangle ? 0 : radius};
 	letter-spacing: ${rem(1)};
 	padding: ${rem(7)} ${rem(10)};
 	font-family: "RobotoRegular", sans-serif;
-	font-size: ${rem(16)};
+	font-size: ${({fz}) => fz ? rem(fz) : rem(16)};
 	resize: vertical;
 	outline: 1px solid ${vars.lightGreen};
 	&::placeholder{

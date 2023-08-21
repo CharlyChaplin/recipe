@@ -1,13 +1,14 @@
 import { adaptiveValue, rem } from "init/mixins";
 import vars from "init/vars";
-import { ContentWrapper } from "pages/pages.styled";
+import { AddPhotoBlock, ContentWrapper } from "pages/pages.styled";
 import { rgba } from "polished";
 import { styled } from "styled-components";
 
 
 
 export const ContentWrapperChangedForRecipeEdit = styled(ContentWrapper)`
-	width: fit-content;
+	max-width: ${rem(1200)};
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -35,7 +36,6 @@ export const RecipeWrapper = styled(({ children, ...props }) => (
 	justify-content: space-between;
 	align-items: flex-start;
 	gap:${rem(60)};
-	border: 1px solid #f00;
 	width: 100%;
 	position: relative;
 	&:after {
@@ -53,13 +53,20 @@ export const RecipeWrapper = styled(({ children, ...props }) => (
 export const RecipeLeft = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	
+	flex: 0 1 50%;
+	display: flex;
+	flex-direction: column;
+	gap: ${rem(40)};
+	border: 1px solid #f00;
 `;
 
 export const RecipeRight = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	
+	flex: 0 1 50%;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #f00;
 `;
 
 export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
@@ -72,11 +79,36 @@ export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
 	gap: ${rem(35)};
 `;
 
+export const AddPhotoBlockForRecipe = styled(AddPhotoBlock)`
+	flex: 0 1 50%;
+`;
+
 export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
+	flex: 0 1 50%;
 	display: flex;
 	flex-direction: column;
 	gap: ${rem(17)};
 `;
 
+export const RecipeIngredientsWrapper = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	
+`;
+
+export const RecipeMiniCaption = styled(({ text, ...props }) => (
+	<div {...props}>{text}</div>
+))`
+	font-family: "RalewayBold", sans-serif;
+	font-weight: bold;
+	font-size: ${rem(20)};
+	letter-spacing: 110%;
+	text-transform: uppercase;
+	color: ${vars.text};
+`;
+
+export const RecipeCategoryWrapper = styled.div`
+	display: flex;
+`;

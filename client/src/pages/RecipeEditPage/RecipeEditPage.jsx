@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ContentPaddingTop, InnerWrapper, MainWrapper } from 'pages/pages.styled';
+import { AddPhotoBlock, ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper, RecipeBlockContentWrapper } from 'pages/pages.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/category/soups/bg.jpg';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
-import { ContentWrapperChangedForRecipeEdit, RecipeEditTop, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeRight, RecipeWrapper } from './styled';
+import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeEditTop, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from './styled';
 import Spinner from 'components/Spinner/Spinner';
 import Input from 'components/Input/Input';
 import { userGetUsersNickname } from 'redux/slices/userSlice';
@@ -14,6 +14,9 @@ import DropdownList from 'components/DropdownList/DropdownList';
 import { useNavigate } from 'react-router-dom';
 import { BlogAddPhoto } from 'pages/BlogAddPage/styled';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
+import IngredientItem from 'components/IngredientItem/IngredientItem';
+import { nanoid } from 'nanoid';
+import { categoryGetCategories } from 'redux/slices/categorySlice';
 
 
 let dataSource;
@@ -31,23 +34,28 @@ const RecipeEditPage = () => {
 		oldRecipeCaption: ''
 	});
 
+
 	const { userData, users, usersName } = useSelector(state => state.userReducer);
 	const { recipeData, loading, error } = useSelector(state => state.recipeReducer);
+	const { categoryData } = useSelector(state => state.categoryReducer);
 	const [data, setData] = useState();	// для обновления компонента
 	const dispatch = useDispatch();
-	const [selected, setSelected] = useState('');
-	const [inputText, setInputText] = useState(selected);
+	const [userSelected, setUserSelected] = useState('');
+	const [userInputText, setUserInputText] = useState(userSelected);
+	const [categorySelected, setCategorySelected] = useState('');
+	const [categoryInputText, setCategoryInputText] = useState(categorySelected);
 	const navigate = useNavigate();
-
 
 	useEffect(() => {
 		getRecipe();
+		dispatch(categoryGetCategories());
 		if (userData?.user?.role === 1) dispatch(userGetUsersNickname());
-		
+
 		dataSource = Object.keys(recipeData).length ? recipeData : JSON.parse(localStorage.getItem('recipeEdit') || null);
-		setInputText(recipeData.name);
+		setUserInputText(recipeData.name);
+		setCategoryInputText(recipeData.category);
 		setFields({ ...fields, oldRecipeCaption: dataSource?.caption });
-		
+
 		// if (Object.values(recipeData).length) console.log(recipeData);
 		return () => localStorage.removeItem('recipeEdit');
 	}, [recipeData]);
@@ -68,15 +76,21 @@ const RecipeEditPage = () => {
 		});
 	}, [fields]);
 
-	function handleSelected(val) {
-		setSelected(val);
+	function handleUserSelected(val) {
+		setUserSelected(val);
 		setFields({ ...fields, owner: val });
+	}
+
+	function handleCategorySelected(val) {
+		setCategorySelected(val);
+		setFields({ ...fields, category: val });
 	}
 
 	function getSelectedFile(pictureFile) {
 		setFields({ ...fields, picture: pictureFile });
 	}
-	
+
+
 
 
 	return (
@@ -91,12 +105,12 @@ const RecipeEditPage = () => {
 							{
 								userData?.user?.role === 1
 									? <Input name='dateadd' value={fields.dateadd} handleChange={changeInput} autoFocus center placeholder={dataSource?.dateadd} labelPos='row' labelText='Дата добавления:' />
-									: <BlogEditNotEdit data={dataSource?.dateadd} />
+									: <EditNotEdit data={dataSource?.dateadd} />
 							}
 							{
 								userData?.user?.role === 1
-									? <DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleSelected} inputText={inputText} setInputText={setInputText} labelPos='row' labelText='Владелец:' />
-									: <BlogEditNotEdit data={dataSource?.name} />
+									? <DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleUserSelected} inputText={userInputText} setInputText={setUserInputText} labelPos='row' labelText='Владелец:' />
+									: <EditNotEdit data={dataSource?.name} />
 							}
 						</RecipeEditTop>
 
@@ -105,13 +119,40 @@ const RecipeEditPage = () => {
 							<RecipeLeft>
 								<RecipeLeftTopWrapper>
 
-									<BlogAddPhoto><ImageInsert currentFile={recipeData.photoorig} selectedFile={getSelectedFile} /></BlogAddPhoto>
+									<AddPhotoBlockForRecipe><ImageInsert currentFile={recipeData.photoorig} selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
 									<RecipeLeftTopTextWrapper>
 										<Input name='caption' value={fields.caption} handleChange={changeInput} autoFocus center placeholder={dataSource?.caption} />
-										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} center placeholder={dataSource?.shortdescription} />
+										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} center placeholder={dataSource?.shortdescription} fz={12} />
 									</RecipeLeftTopTextWrapper>
 
 								</RecipeLeftTopWrapper>
+
+								<RecipeIngredientsWrapper>
+									<RecipeMiniCaption text="Ингредиенты:" />
+									<RecipeBlockContentWrapper>
+										{
+											dataSource?.ingredients?.map((ingredient, index) => {
+												return (
+													<IngredientItem
+														key={nanoid()}
+														data={ingredient}
+														mode='change'
+														name={index}
+													/>
+												)
+											})
+										}
+									</RecipeBlockContentWrapper>
+								</RecipeIngredientsWrapper>
+
+								<RecipeIngredientsWrapper>
+									<RecipeMiniCaption text="Категория:" />
+									{
+										userData?.user?.role === 1
+											? <DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={categoryInputText} setInputText={setCategoryInputText} />
+											: <EditNotEdit data={dataSource?.name} />
+									}
+								</RecipeIngredientsWrapper>
 							</RecipeLeft>
 
 							<RecipeRight>Right</RecipeRight>

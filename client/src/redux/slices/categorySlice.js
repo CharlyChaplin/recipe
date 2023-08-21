@@ -114,7 +114,6 @@ export const categorySlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(categoryGetCategories.pending, (state, action) => {
 			state.loading = true;
-			state.categoryData = [];
 			state.errors = "";
 		});
 		build.addCase(categoryGetCategories.fulfilled, (state, action) => {

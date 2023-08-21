@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { ContentPaddingTop, InnerWrapper, MainWrapper } from 'pages/pages.styled';
+import { AddPhotoBlock, ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper } from 'pages/pages.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/blogedit/bg.jpg';
 import { useEffect } from 'react';
 import Spinner from 'components/Spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
-import { BlogEditButtonWrapper, BlogEditCaption, BlogEditNotEdit, BlogEditPhoto, BlogEditTextWrapper, BlogEditTop, ContentWrapperChangedForBlogEdit, Divisor } from './styled';
+import { BlogEditButtonWrapper, BlogEditCaption, BlogEditTextWrapper, BlogEditTop, ContentWrapperChangedForBlogEdit, Divisor } from './styled';
 import Button from 'components/Button/Button';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
@@ -78,7 +78,7 @@ const BlogEditPage = () => {
 		const fd = new FormData();
 		const filledData = Object.entries(fields).filter(item => item[1].length > 0);
 		const { dateadd, owner, caption, description, oldBlogCaption } = Object.fromEntries(filledData);
-		
+
 		if (dateadd?.length > 0) fd.append('dateadd', fields.dateadd);
 		if (owner?.length > 0) fd.append('owner', fields.owner);
 		fd.append('file', fields.picture);
@@ -122,25 +122,25 @@ const BlogEditPage = () => {
 										{
 											userData?.user?.role === 1
 												? <Input name='dateadd' value={fields.dateadd} handleChange={changeInput} autoFocus center placeholder={dataSource?.dateadd} />
-												: <BlogEditNotEdit data={dataSource?.dateadd} />
+												: <EditNotEdit data={dataSource?.dateadd} />
 										}
 										<Divisor />
 										{
 											userData?.user?.role === 1
 												? <DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleSelected} inputText={inputText} setInputText={setInputText} />
-												: <BlogEditNotEdit data={dataSource?.name} />
+												: <EditNotEdit data={dataSource?.name} />
 										}
 									</BlogEditTop>
 
-									<BlogAddPhoto>
+									<AddPhotoBlock>
 										<ImageInsert currentFile={blogData.photoorig} selectedFile={getSelectedFile} />
-									</BlogAddPhoto>
+									</AddPhotoBlock>
 
 									<BlogEditCaption>
 										{
 											userData?.user?.role === 1
 												? <Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder={dataSource?.caption} />
-												: <BlogEditNotEdit data={dataSource?.caption} isCaption />
+												: <EditNotEdit data={dataSource?.caption} isCaption />
 										}
 									</BlogEditCaption>
 									<BlogEditTextWrapper>

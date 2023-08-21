@@ -12,6 +12,8 @@ const Input = ({
 	center = false,
 	selectAll = false,
 	autoFocus = false,
+	rectangle = false,
+	fz = null,
 	handleChange = () => { },
 	handleKeyPress = () => { }
 }) => {
@@ -24,9 +26,11 @@ const Input = ({
 					((type === "text" || "password") && (type !== "textarea"))
 						? <InputElement
 							name={name}
-							value={value}
+							value={value || undefined}
 							center={center}
 							autoFocus={autoFocus}
+							rectangle={rectangle}
+							fz={fz}
 							type={type}
 							placeholder={placeholder}
 							onChange={handleChange}
@@ -42,6 +46,8 @@ const Input = ({
 						name={name}
 						value={value}
 						autoFocus={autoFocus}
+						rectangle={rectangle}
+						fz={fz}
 						onChange={handleChange}
 						autoComplete="off"
 						rows={6}
