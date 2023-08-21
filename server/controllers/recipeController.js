@@ -3,6 +3,7 @@ import ApiError from '../exeptions/apiError.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import { config } from 'dotenv';
 import translitPrepare from '../services/translitPrepare.js';
+import fs from 'fs';
 
 
 class RecipeController {
@@ -41,9 +42,13 @@ class RecipeController {
 			const deletedRecipe = await db.query(`
 				DELETE FROM recipe
 				WHERE caption='${recipeCaption}'
-				RETURNING caption;
+				RETURNING *;
 			`);
 			if (!deletedRecipe.rowCount) throw ApiError.BadRequest("Error while deleting the recipe");
+
+			const captionLat = translitPrepare(recipeCaption).toLowerCase().replace(" ", '_');
+			// удаляем папку рецепта в static
+			fs.rmSync(`static/recipe/${captionLat}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
 
 			res.json(deletedRecipe.rows[0].caption);
 		} catch (err) {
@@ -56,43 +61,123 @@ class RecipeController {
 		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-		// после всех проверок достаём блоги для изменения в БД
-		const { oldBlog, newBlog } = req.body;
-		db.query(`
-			UPDATE blog SET "caption"='${newPhrase}'
-			WHERE "caption"='${oldPhrase}' RETURNING *;
-		`)
-			.then(resp => res.json(resp.rows[0]))
-			.catch(err => res.status(400).json(err));
+		// после всех проверок достаём рецепт из запроса для изменения в БД
+		let { dateadd, owner, caption, description, oldRecipeCaption } = req.body;
+		let file = null;
+		if (req.files) file = Object.values(req.files)[0];
+
+		console.log(dateadd, owner, caption, description, oldBlogCaption, file);
+
+		// берём данные из текущего состояния рецепта
+		// const recipeNow = await db.query(`
+		// 	SELECT * FROM recipe
+		// 	WHERE caption='${oldRecipeCaption}';
+		// `);
+
+		// // если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
+		// if (!dateadd) {
+		// 	dateadd = datePrepare(recipeNow.rows[0].dateadd);
+		// };
+
+		// if (!caption) {
+		// 	caption = recipeNow.rows[0].caption;
+		// };
+		// if (!description) {
+		// 	description = recipeNow.rows[0].description;
+		// };
+		// if (!owner) {
+		// 	const currentOwner = await db.query(`
+		// 		SELECT B.user_id FROM blog A, persondata B
+		// 		WHERE A.caption='${oldBlogCaption}' AND A.user_id=B.user_id;
+		// 	`);
+		// 	owner = currentOwner.rows[0].user_id;
+		// } else {
+		// 	const getOwnerId = await db.query(`
+		// 		SELECT user_id FROM persondata
+		// 		WHERE name='${owner}';
+		// 	`);
+		// 	owner = getOwnerId.rows[0].user_id;
+		// }
+
+		// // определяем пути для изображений
+		// let photoorig = blogNow.rows[0].photoorig;
+		// let photopreview = blogNow.rows[0].photopreview;
+
+		// // изменяем название папки блога в папке blogs в случае изменения названия блога
+		// if (caption != undefined && (caption !== oldBlogCaption)) {
+		// 	// описываем путь для старой папки блога
+		// 	const oldPath = `static/blogs/${translitPrepare(oldBlogCaption).toLowerCase().replace(" ", '_')}`;
+		// 	// описываем путь для новой папки блога
+		// 	const newPath = `static/blogs/${translitPrepare(caption).toLowerCase().replace(" ", '_')}`;
+		// 	// переименовываем папку для блога
+		// 	fs.renameSync(oldPath, newPath, err => console.log(err));
+		// 	photoorig = `${newPath.replace('static', '')}/photo.jpg`;
+		// 	photopreview = `${newPath.replace('static', '')}/photo.jpg`;
+		// }
+
+		// // если картинка была заменёна
+		// if (file) {
+		// 	// перемещаем файл в папку
+		// 	file.mv(`static/${photoorig}`, err => {
+		// 		if (err) {
+		// 			return res.status(500).send({ err: err, msg: "Error occurred" });
+		// 		}
+		// 	});
+		// }
+
+		try {
+			// const updatedBlog = await db.query(`
+			// 	UPDATE blog
+			// 	SET dateadd='${dateadd}',
+			// 		 user_id=${owner},
+			// 		 photoorig='${photoorig}',
+			// 		 photopreview='${photopreview}',
+			// 		 caption='${caption}',
+			// 		 description='${description}'
+
+			// 	WHERE caption='${oldBlogCaption}'
+			// 	RETURNING *;
+			// `);
+			// if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");
+			// res.json(updatedBlog.rows);
+			res.json();
+		} catch (err) {
+			res.status(400).json(err);
+		}
+
 	}
 
 	async getOneRecipe(req, res) {
-		
+
 		// достаём данные рецепта
 		const { recipeCaption } = req.body;
-		
-		
+
 		try {
 			const isRecipe = await db.query(`
 				SELECT * FROM recipe
-				WHERE caption_lat='${recipeCaption}';
+				WHERE caption='${recipeCaption}';
 			`);
 			if (!isRecipe.rowCount) throw ApiError.BadRequest("Error while getting the recipe");
-
 			// достаём владельца рецепта
 			const owner = await db.query(`
 				SELECT name FROM persondata
 				WHERE user_id=${isRecipe.rows[0].user_id};
 			`);
-			const userData = Object.assign(
+			let recipeData = Object.assign(
 				{},
 				owner.rows[0],
-				isRecipe.rows[0]
+				isRecipe.rows[0],
 			);
-			delete userData.id;
-			delete userData.user_id;
-			delete userData.category_id;
-			res.json(userData);
+			recipeData = {
+				...recipeData,
+				photopreview: config().parsed.LOCAL_ADDRESS + isRecipe.rows[0].photopreview,
+				photoorig: config().parsed.LOCAL_ADDRESS + isRecipe.rows[0].photoorig
+			}
+			delete recipeData.id;
+			delete recipeData.user_id;
+			delete recipeData.category_id;
+			console.log(recipeData);
+			res.json(recipeData);
 		} catch (err) {
 			res.status(400).json(err)
 		}

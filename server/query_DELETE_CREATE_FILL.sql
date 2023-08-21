@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS public.recipe
     id serial NOT NULL,
     user_id integer NOT NULL,
     category_id integer NOT NULL,
+    dateadd character varying NOT NULL,
     caption character varying(255) NOT NULL,
     caption_lat character varying NOT NULL,
     photoorig text,
@@ -65,7 +66,7 @@ CREATE TABLE IF NOT EXISTS public.recipe
     shortdescription text,
     cookingtext text NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT "Recipe_UNIQUE_Error" UNIQUE (caption_lat)
+    CONSTRAINT "Recipe_UNIQUE_Error" UNIQUE (caption)
 );
 
 CREATE TABLE IF NOT EXISTS public.ingredient
@@ -239,7 +240,7 @@ INSERT INTO public.users (id, email, password, role, isactivated, activationlink
 ----------------
 INSERT INTO public.token (id, user_id, refreshtoken) VALUES (2, 2, '');
 INSERT INTO public.token (id, user_id, refreshtoken) VALUES (3, 3, '');
-INSERT INTO public.token (id, user_id, refreshtoken) VALUES (1, 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGxleHVuLnJ1Iiwicm9sZSI6MSwiaXNhY3RpdmF0ZWQiOnRydWUsImlhdCI6MTY5MjE5MTk3NCwiZXhwIjoxNjk0NzgzOTc0fQ.U6-XIL_uhxIz8cp2Cjxicf7TIlbme28o3EAxzbC9_-I');
+INSERT INTO public.token (id, user_id, refreshtoken) VALUES (1, 1, '');
 ----------------
 INSERT INTO public.persondata (id, user_id, name, avatar) VALUES (2, 2, 'LENA', 'users/checkout@lexun.ru/833.jpg');
 INSERT INTO public.persondata (id, user_id, name, avatar) VALUES (3, 3, 'QQQ', 'users/qqq@lexun.ru/109726.jpg');
@@ -262,10 +263,10 @@ INSERT INTO public.category (id, user_id, caption, photopreview, caption_lat) VA
 INSERT INTO public.category (id, user_id, caption, photopreview, caption_lat) VALUES (2, 1, 'Супы', '/category/supy/photo.jpg', 'supy');
 INSERT INTO public.category (id, user_id, caption, photopreview, caption_lat) VALUES (3, 1, 'Салаты', '/category/salaty/photo.jpg', 'salaty');
 ----------------
-INSERT INTO public.recipe (id, user_id, category_id, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext) VALUES (1, 1, 1, 'Морс из клюквы', 'mors_iz_klyukvy', '/recipe/mors_klyukvennyy/photo.jpg', '/recipe/mors_klyukvennyy/photo.jpg', 'Очень легко и просто сварить полезный клюквенный морс по этому рецепту всего из трёх ингредиентов. Пьем и наслаждаемся!', 'Клюкву перебрать и промыть. Сделать отвар. Для этого перебранную и промытую клюкву залить водой. Затем поставить на огонь, довести до кипения, прокипятить 10 минут на небольшом огне. Для сбора отвара поставить дуршлаг на другую кастрюлю. Ягоды вместе с отваром откинуть на дуршлаг. Ягоды размять, процедить и отжать в отвар. В отвар добавить сахар, довести до кипения и охладить.
+INSERT INTO public.recipe (id, user_id, category_id, dateadd, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext) VALUES (1, 1, 1, '17.02.2022', 'Морс из клюквы', 'mors_iz_klyukvy', '/recipe/mors_klyukvennyy/photo.jpg', '/recipe/mors_klyukvennyy/photo.jpg', 'Очень легко и просто сварить полезный клюквенный морс по этому рецепту всего из трёх ингредиентов. Пьем и наслаждаемся!', 'Клюкву перебрать и промыть. Сделать отвар. Для этого перебранную и промытую клюкву залить водой. Затем поставить на огонь, довести до кипения, прокипятить 10 минут на небольшом огне. Для сбора отвара поставить дуршлаг на другую кастрюлю. Ягоды вместе с отваром откинуть на дуршлаг. Ягоды размять, процедить и отжать в отвар. В отвар добавить сахар, довести до кипения и охладить.
 Морс клюквенный готов. Можно подавать клюквенный морс к столу.');
-INSERT INTO public.recipe (id, user_id, category_id, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext) VALUES (2, 1, 2, 'Борщ', 'borsch', '/recipe/borsch/photo.jpg', '/recipe/borsch/photo.jpg', 'Борщ — горячий заправочный суп на основе свёклы, которая придаёт ему характерный красный цвет.', 'Налейте в кастрюлю холодную воду, выложите мясо и поставьте на средний огонь. Бульон будет вкуснее, если использовать именно мясо на кости. Следите за бульоном, перед закипанием снимите пену. Когда жидкость закипит, накройте кастрюлю крышкой и варите на медленном огне час-полтора. Вымойте и почистите свёклу, морковь и лук. Свёклу натрите на крупной тёрке, а морковь — на средней. Лук нарежьте небольшими кубиками. Налейте масло в сковороду, включите средний огонь. Обжаривайте лук и морковь, помешивая, около 5 минут. Затем выложите свёклу. Добавьте к ней лимонную кислоту, уксус или сок лимона. Благодаря этому борщ будет по-настоящему красным и приобретёт приятную кислинку. Готовьте зажарку ещё 5 минут. После этого добавьте томатную пасту, перемешайте и оставьте на огне ещё на 5–7 минут. Когда бульон сварится, выньте из него мясо. Пока оно остывает, засыпьте в кастрюлю нашинкованную капусту. Через 5–10 минут добавьте нарезанный соломкой или кубиками картофель. Порядок закладки овощей можно менять. Если капуста молодая, её лучше добавить уже после картошки. Ну или одновременно, если ваш сорт картофеля разваривается быстро.');
-INSERT INTO public.recipe (id, user_id, category_id, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext) VALUES (3, 1, 3, 'Цезарь', 'cezar', '/recipe/cezar/photo.jpg', '/recipe/cezar/photo.jpg', 'Этот салат можно готовить по многим рецептам. Я предлагаю салат цезарь с курицей, доступный всем.', 'Отварить куриную грудку с добавлением соли.
+INSERT INTO public.recipe (id, user_id, category_id, dateadd, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext) VALUES (2, 1, 2, '23.05.2023', 'Борщ', 'borsch', '/recipe/borsch/photo.jpg', '/recipe/borsch/photo.jpg', 'Борщ — горячий заправочный суп на основе свёклы, которая придаёт ему характерный красный цвет.', 'Налейте в кастрюлю холодную воду, выложите мясо и поставьте на средний огонь. Бульон будет вкуснее, если использовать именно мясо на кости. Следите за бульоном, перед закипанием снимите пену. Когда жидкость закипит, накройте кастрюлю крышкой и варите на медленном огне час-полтора. Вымойте и почистите свёклу, морковь и лук. Свёклу натрите на крупной тёрке, а морковь — на средней. Лук нарежьте небольшими кубиками. Налейте масло в сковороду, включите средний огонь. Обжаривайте лук и морковь, помешивая, около 5 минут. Затем выложите свёклу. Добавьте к ней лимонную кислоту, уксус или сок лимона. Благодаря этому борщ будет по-настоящему красным и приобретёт приятную кислинку. Готовьте зажарку ещё 5 минут. После этого добавьте томатную пасту, перемешайте и оставьте на огне ещё на 5–7 минут. Когда бульон сварится, выньте из него мясо. Пока оно остывает, засыпьте в кастрюлю нашинкованную капусту. Через 5–10 минут добавьте нарезанный соломкой или кубиками картофель. Порядок закладки овощей можно менять. Если капуста молодая, её лучше добавить уже после картошки. Ну или одновременно, если ваш сорт картофеля разваривается быстро.');
+INSERT INTO public.recipe (id, user_id, category_id, dateadd, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext) VALUES (3, 1, 3,  '03.12.2022', 'Цезарь', 'cezar', '/recipe/cezar/photo.jpg', '/recipe/cezar/photo.jpg', 'Этот салат можно готовить по многим рецептам. Я предлагаю салат цезарь с курицей, доступный всем.', 'Отварить куриную грудку с добавлением соли.
 
 Яйца порезать полукольцами, листья салата помыть и просушить. Помидорчики тоже вымыть. Сыр натереть на терке. Сухарики взять кубиками со вкусом сыра.
 

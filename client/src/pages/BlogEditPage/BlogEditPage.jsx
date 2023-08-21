@@ -135,7 +135,6 @@ const BlogEditPage = () => {
 									<BlogAddPhoto>
 										<ImageInsert currentFile={blogData.photoorig} selectedFile={getSelectedFile} />
 									</BlogAddPhoto>
-									{/* <BlogEditPhoto image={dataSource?.photopreview} imageAltText={dataSource?.caption} /> */}
 
 									<BlogEditCaption>
 										{

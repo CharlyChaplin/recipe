@@ -10,7 +10,7 @@ import { ReactComponent as EditICO } from 'assets/img/icons/edit.svg';
 import { ReactComponent as DeleteICO } from 'assets/img/icons/trash.svg';
 import { ReactComponent as GearICO } from 'assets/img/icons/gear.svg';
 import SectionHeader from 'components/SectionHeader';
-import RecipeDelete from './components/RecipeDelete';
+import RecipeDelete from './components/RecipeDeleteChange';
 import PhraseAddChangeDelete from './components/PhraseAddDeleteChange';
 import Modal from 'components/Modal';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,7 @@ import CategoryAddDeleteChange from './components/CategoryAddDeleteChange/Catego
 import { blogGetBlogs } from 'redux/slices/blogSlice';
 import BlogDeleteChange from './components/blogDelete/BlogDeleteChange';
 import { recipeGetRecipies } from 'redux/slices/recipeSlice';
-import RecipeDeleteChange from './components/RecipeDelete/RecipeDeleteChange';
+import RecipeDeleteChange from './components/RecipeDeleteChange/RecipeDeleteChange';
 
 
 
@@ -56,7 +56,7 @@ const ProfilePage = () => {
 	useEffect(() => {
 		getAuth();
 
-		if (userData?.user?.nickname) setFields({ nickname: userData?.user?.nickname });
+		if (userData?.user?.nickname) setFields({ nickname: userData.user.nickname });
 
 	}, []);
 
@@ -253,7 +253,7 @@ const ProfilePage = () => {
 								<ProfileActionItem>
 									<ProfileActionItemOperation>Рецепт:</ProfileActionItemOperation>
 									<ProfileActionTasks>
-										<Button equalPadding disabled>{<AddICO />}</Button>
+										<Button equalPadding action={() => navigate(paths.recipeadd)}>{<AddICO />}</Button>
 										<Button equalPadding action={e => showModal(e, 'recipeDeleteChange')}>{<GearICO />}</Button>
 									</ProfileActionTasks>
 								</ProfileActionItem>

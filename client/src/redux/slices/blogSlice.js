@@ -40,7 +40,7 @@ export const blogEditBlog = createAsyncThunk(
 			return rejectWithValue(err.message);
 		}
 	}
-)
+);
 
 export const blogDeleteBlog = createAsyncThunk(
 	'blog/delete',

@@ -23,6 +23,22 @@ export const recipeAddRecipe = createAsyncThunk(
 	}
 );
 
+export const recipeEditBlog = createAsyncThunk(
+	'recipe/edit',
+	async (data, { rejectWithValue }) => {
+		try {
+			const resp = await axios.post('/recipe/edit', data, {
+				headers: {
+					"Content-Type": 'multipart/formdata'
+				}
+			});
+			return resp.data;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+);
+
 export const recipeDeleteRecipe = createAsyncThunk(
 	'recipe/delete',
 	async (data, { rejectWithValue }) => {
@@ -107,6 +123,22 @@ export const recipeSlice = createSlice({
 			state.errors = "";
 		});
 		build.addCase(recipeAddRecipe.rejected, (state, action) => {
+			state.loading = false;
+			state.recipeData = [];
+			state.errors = action.payload;
+		});
+		//========================================================================================================================================================
+		build.addCase(recipeEditBlog.pending, (state, action) => {
+			state.loading = true;
+			state.recipeData = [];
+			state.errors = "";
+		});
+		build.addCase(recipeEditBlog.fulfilled, (state, action) => {
+			state.loading = false;
+			state.recipeData = action.payload;
+			state.errors = "";
+		});
+		build.addCase(recipeEditBlog.rejected, (state, action) => {
 			state.loading = false;
 			state.recipeData = [];
 			state.errors = action.payload;

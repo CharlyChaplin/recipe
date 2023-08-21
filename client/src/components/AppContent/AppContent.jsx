@@ -12,6 +12,7 @@ const HomePage = lazy(() => import('pages/HomePage'));
 const RecipePage = lazy(() => import('pages/RecipePage'));
 const RecipeDetailPage = lazy(() => import('pages/RecipeDetailPage'));
 const RecipeEditPage = lazy(() => import('pages/RecipeEditPage'));
+const RecipeAddPage = lazy(() => import('pages/RecipeAddPage'));
 const BlogPage = lazy(() => import('pages/BlogPage'));
 const BlogEditPage = lazy(() => import('pages/BlogEditPage'));
 const BlogDetailPage = lazy(() => import('pages/BlogDetailPage'));
@@ -35,6 +36,7 @@ const AppContent = () => {
 					<Route path={paths.recipe} element={<RecipePage />} />
 					<Route path={paths.recipeedit} element={<RecipeEditPage />} />
 					<Route path={paths.recipedetail} element={<RecipeDetailPage />} />
+					<Route path={paths.recipeadd} element={<RecipeAddPage />} />
 					<Route path={paths.blog} element={<BlogPage />} />
 					<Route path={paths.blogedit} element={<BlogEditPage />} />
 					<Route path={paths.blogdetail} element={<BlogDetailPage />} />
