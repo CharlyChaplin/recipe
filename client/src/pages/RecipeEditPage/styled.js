@@ -57,7 +57,6 @@ export const RecipeLeft = styled(({ children, ...props }) => (
 	display: flex;
 	flex-direction: column;
 	gap: ${rem(40)};
-	border: 1px solid #f00;
 `;
 
 export const RecipeRight = styled(({ children, ...props }) => (
@@ -107,8 +106,4 @@ export const RecipeMiniCaption = styled(({ text, ...props }) => (
 	letter-spacing: 110%;
 	text-transform: uppercase;
 	color: ${vars.text};
-`;
-
-export const RecipeCategoryWrapper = styled.div`
-	display: flex;
 `;

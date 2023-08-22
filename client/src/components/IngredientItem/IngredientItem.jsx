@@ -1,10 +1,17 @@
 import Input from 'components/Input/Input';
 import React from 'react';
 import { IngredientItemWrapper } from './styled';
+import { useState } from 'react';
 
 
 const IngredientItem = ({ mode, data, name }) => {
+	const [oldValue, setOldValue] = useState('');
+	const [newValue, setNewValue] = useState('');
 
+	const handleOldChange = e => setOldValue(e.target.value);
+	const handleNewChange = e => setNewValue(e.target.value);
+
+	
 	switch (mode) {
 		case 'change':
 			return (
@@ -15,6 +22,8 @@ const IngredientItem = ({ mode, data, name }) => {
 							placeholder={data}
 							rectangle
 							fz={12}
+							value={oldValue}
+							handleChange={handleOldChange}
 						/>
 
 						<span>Заменить на</span>
@@ -24,6 +33,8 @@ const IngredientItem = ({ mode, data, name }) => {
 							name={`new:${name}`}
 							rectangle
 							fz={12}
+							value={newValue}
+							handleChange={handleNewChange}
 						/>
 					</IngredientItemWrapper>
 				</>

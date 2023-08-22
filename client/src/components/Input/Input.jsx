@@ -26,7 +26,7 @@ const Input = ({
 					((type === "text" || "password") && (type !== "textarea"))
 						? <InputElement
 							name={name}
-							value={value || undefined}
+							value={value}
 							center={center}
 							autoFocus={autoFocus}
 							rectangle={rectangle}

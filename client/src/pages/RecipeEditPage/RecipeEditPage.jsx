@@ -92,7 +92,6 @@ const RecipeEditPage = () => {
 
 
 
-
 	return (
 		<>
 			<MainWrapper image={bg}>
@@ -147,15 +146,20 @@ const RecipeEditPage = () => {
 
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Категория:" />
-									{
-										userData?.user?.role === 1
-											? <DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={categoryInputText} setInputText={setCategoryInputText} />
-											: <EditNotEdit data={dataSource?.name} />
-									}
+									<RecipeBlockContentWrapper>
+										{
+											userData?.user?.role === 1
+												? <DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={categoryInputText} setInputText={setCategoryInputText} minWidth={300} />
+												: <EditNotEdit data={dataSource?.name} />
+										}
+									</RecipeBlockContentWrapper>
+
 								</RecipeIngredientsWrapper>
 							</RecipeLeft>
 
-							<RecipeRight>Right</RecipeRight>
+							<RecipeRight>
+
+							</RecipeRight>
 
 						</RecipeWrapper>
 

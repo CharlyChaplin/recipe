@@ -75,18 +75,24 @@ export const DropdownWrapper = styled.div`
 	}
 `;
 
-export const DropdownDropbox = styled.div`
+export const DropdownDropbox = styled(({ minWidth, children, ...props }) => {
+
+	return (
+		<div {...props}>{children}</div>
+	)
+})`
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	gap: ${rem(20)};
 	input {
 		display: block;
-		width: ${rem(400)};
+		width: fit-content;
+		min-width: ${({ minWidth }) => rem(minWidth) || 'unset'};
 		height: 100%;
 		padding: ${rem(5)} ${rem(10)};
 		font-family: "RobotoRegular", sans-serif;
-		${adaptiveValue("font-size", 18, 18)};
+		${adaptiveValue("font-size", 16, 16)};
 		cursor: pointer;
 		position: relative;
 		color: ${vars.text};
@@ -105,7 +111,7 @@ export const DropdownDropbox = styled.div`
 export const DropdownListt = styled.ul`
 	position: absolute;
 	left: 0;
-	top: ${rem(35)};
+	top: ${rem(32)};
 	width: 100%;
 	max-height: ${rem(157)};
 	overflow: auto;
