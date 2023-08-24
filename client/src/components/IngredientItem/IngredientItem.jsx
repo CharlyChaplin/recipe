@@ -2,6 +2,8 @@ import Input from 'components/Input/Input';
 import React from 'react';
 import { IngredientItemWrapper } from './styled';
 import { useState } from 'react';
+import Button from 'components/Button/Button';
+import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
 
 
 const IngredientItem = ({ mode, data, name }) => {
@@ -11,7 +13,7 @@ const IngredientItem = ({ mode, data, name }) => {
 	const handleOldChange = e => setOldValue(e.target.value);
 	const handleNewChange = e => setNewValue(e.target.value);
 
-	
+
 	switch (mode) {
 		case 'change':
 			return (
@@ -29,7 +31,7 @@ const IngredientItem = ({ mode, data, name }) => {
 						<span>Заменить на</span>
 
 						<Input
-							placeholder='новый ингредиент...'
+							placeholder='ингредиент...'
 							name={`new:${name}`}
 							rectangle
 							fz={12}
@@ -43,7 +45,17 @@ const IngredientItem = ({ mode, data, name }) => {
 		case 'add':
 			return (
 				<>
-
+					<IngredientItemWrapper>
+						<Input
+							placeholder={data}
+							rectangle
+							fz={12}
+							noBorder
+							value={newValue}
+							handleChange={handleNewChange}
+						/>
+						<Button type="plain" equalPadding><AddICO /></Button>
+					</IngredientItemWrapper>
 				</>
 			);
 

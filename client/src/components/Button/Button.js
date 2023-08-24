@@ -10,7 +10,7 @@ import { ReactComponent as BackICO } from 'assets/img/icons/back.svg';
 const Button = styled(({
 	children,
 	mode = '',				// 'dangerIco'
-	type = 'common',		// common | back | dark
+	type = 'common',		// common | back | dark | plain
 	disabled,
 	equalPadding,
 	action = () => { },
@@ -38,9 +38,11 @@ const Button = styled(({
 			? rgba(vars.darkGreen, .25)
 			: p.type === 'dark'
 				? `linear-gradient(180deg, ${rgba(vars.buttonTopBottomDarkColor, 0.85)} 0%, ${rgba(vars.dark, 0.85)} 50%, ${rgba(vars.buttonTopBottomDarkColor, 0.85)} 100%)`
-				: `linear-gradient(180deg, ${vars.buttonTopColor} 0%, ${vars.buttonBottomColor} 100%)`
-	} ;
-	border: 1px solid ${vars.darkGreen};
+				: p.type === 'plain'
+					? vars.text
+					: `linear-gradient(180deg, ${vars.buttonTopColor} 0%, ${vars.buttonBottomColor} 100%)`
+	};
+	border: ${p => p.type === 'plain' ? rem(0) : rem(1)} solid ${vars.darkGreen};
 	border-radius: ${p => p.type === 'back' ? rem(12) : rem(5)};
 	overflow: hidden;
 	text-align: center;
@@ -62,7 +64,10 @@ const Button = styled(({
 	svg {
 		width: ${rem(20)};
 		height: ${rem(20)};
-		fill: ${p => p.type === 'back' ? vars.lightGreen : vars.text};
+		fill: ${p => p.type === 'back' || p.type === 'plain'
+		? vars.lightGreen
+		: vars.text
+	};
 		transition: all 0.25s ${vars.cubic} 0s;
 	}
 	
@@ -74,24 +79,26 @@ const Button = styled(({
 				? `linear-gradient(180deg, ${darken(.05, rgba(vars.buttonTopBottomDarkColor, 0.85))} 0%, ${darken(.05, rgba(vars.dark, 0.85))} 50%, ${darken(.05, rgba(vars.buttonTopBottomDarkColor, 0.85))} 100%)`
 				: type === 'back'
 					? `linear-gradient(180deg, ${darken(.1, vars.buttonTopColor)} 0%, ${darken(.1, vars.buttonBottomColor)} 100%)`
-					: `linear-gradient(180deg, ${darken(.1, vars.buttonTopColor)} 0%, ${darken(.1, vars.buttonBottomColor)} 100%)`};
+					: type === 'plain'
+						? ''
+						: `linear-gradient(180deg, ${darken(.1, vars.buttonTopColor)} 0%, ${darken(.1, vars.buttonBottomColor)} 100%)`};
 		
 		svg {
 			scale: ${({ type, disabled }) => (
-				disabled
-					? 1
-					: type === 'back'
-						? 1
-						: 1.25
-			)};
+		disabled
+			? 1
+			: type === 'back'
+				? 1
+				: 1.25
+	)};
 			fill: ${({ equalPadding, mode, disabled }) => (
-				disabled
-					? vars.text
-					: equalPadding && mode === 'dangerIco'
-						? lighten(.35, vars.redColor)
-						: mode === 'back'
-							? 'none'
-							: vars.accent)};
+		disabled
+			? vars.text
+			: equalPadding && mode === 'dangerIco'
+				? lighten(.35, vars.redColor)
+				: mode === 'back'
+					? 'none'
+					: vars.accent)};
 		}
 	}
 

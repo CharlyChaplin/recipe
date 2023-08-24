@@ -31,8 +31,11 @@ export const NewImagePicture = styled(({ image, ...props }) => (
 	</div>
 ))`
 	width: 100%;
+	height: 100%;
+	
 	img {
 		width: 100%;
+		height: 100%;
 	}
 	
 	span {
@@ -40,13 +43,16 @@ export const NewImagePicture = styled(({ image, ...props }) => (
 	}
 `;
 
-export const NewImagePlaceholder = styled(({ ...props }) => (
-	<div {...props}>Выберите или перетащите файл...</div>
+export const NewImagePlaceholder = styled(({ placeholder, ...props }) => (
+	<div {...props}>
+		{placeholder || "Выберите или перетащите файл..."}
+	</div>
 ))`
 	pointer-events: none;
 	text-align: center;
 	color: ${vars.placeholderColor};
 	line-height: 150%;
+	padding: ${rem(10)};
 `;
 
 export const NewImageOverlay = styled.div`

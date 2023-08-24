@@ -308,7 +308,7 @@ export const AddPhotoBlock = styled(({ children, ...props }) => (
 	border-radius: ${rem(10)};
 	box-shadow: ${rem(2)} ${rem(4)} ${rem(2)} ${rem(0)} ${rgba(vars.blackColor, .30)};
 	overflow: hidden;
-	margin-bottom: ${rem(7)};
+	/* margin-bottom: ${rem(7)}; */
 	max-width: ${rem(250)};
 	max-height: ${rem(136)};
 	width: ${rem(250)};

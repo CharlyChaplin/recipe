@@ -3,7 +3,7 @@ import { NewImageOverlay, NewImagePicture, NewImagePlaceholder, NewImageWrapper 
 import { useEffect } from 'react';
 
 
-const ImageInsert = ({ currentFile, selectedFile }) => {
+const ImageInsert = ({ currentFile, selectedFile, placeholder }) => {
 	const [draggable, setDraggable] = useState(false);
 
 	const [file, setFile] = useState(null);
@@ -55,7 +55,7 @@ const ImageInsert = ({ currentFile, selectedFile }) => {
 
 				<input type="file" ref={fileInput} hidden accept='image/*' onChange={e => handleFile(e.target.files[0])} />
 
-				{(!previewUrl && !currentFile) && <NewImagePlaceholder />}
+				{(!previewUrl && !currentFile) && <NewImagePlaceholder placeholder={placeholder} />}
 
 				{draggable && <NewImageOverlay />}
 
