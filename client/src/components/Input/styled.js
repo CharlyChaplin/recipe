@@ -15,6 +15,7 @@ export const InputWrapper = styled.div`
 		: "flex-start"
 	};
 	width: 100%;
+	height: 100%;
 `;
 
 export const InputLabel = styled.div`
@@ -85,6 +86,7 @@ export const InputElement = styled(({
 export const TextareaElement = styled(({
 	name,
 	value,
+	rowsNumber,
 	autoFocus,
 	rectangle,
 	fz,
@@ -102,12 +104,13 @@ export const TextareaElement = styled(({
 		autoFocus={autoFocus}
 		type={type}
 		placeholder={placeholder}
-		rows={4}
+		rows={rowsNumber}
 		onChange={onChange}
 		onKeyDown={onKeyDown}
 	/>
 ))`
 	width: 100%;
+	height: 100%;
 	border-radius: ${({ rectangle }) => rectangle ? 0 : radius};
 	letter-spacing: ${rem(1)};
 	padding: ${rem(7)} ${rem(10)};

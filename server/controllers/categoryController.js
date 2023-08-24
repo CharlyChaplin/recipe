@@ -73,10 +73,10 @@ class CategoryController {
 	}
 
 	async getAllCategories(req, res) {
-		const { isAccessValid } = await primaryCheckUser(req.cookies);
-		if (!isAccessValid.email) throw ApiError.UnathorizedError();
-
 		try {
+			const { isAccessValid } = await primaryCheckUser(req.cookies);
+			if (!isAccessValid.email) throw ApiError.UnathorizedError();
+
 			// после всех проверок достаём категории
 			const categories = await db.query(`SELECT * FROM category;`);
 
@@ -91,7 +91,7 @@ class CategoryController {
 			});
 			res.json(categoryData);
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(err.status).json(err);
 		}
 	}
 }

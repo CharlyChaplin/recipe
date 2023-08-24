@@ -154,6 +154,7 @@ const categoryAddChangeDelete = () => {
 				<DropdownList
 					elements={categories ? categories : []}
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
+					minWidth={300}
 					inputText={inputText}
 					setInputText={setInputText}
 					selectedValue={handleSelected}

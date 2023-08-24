@@ -194,7 +194,7 @@ class RecipeController {
 			delete recipeData.category_id;
 			res.json(recipeData);
 		} catch (err) {
-			res.status(400).json(err)
+			res.status(err.status).json(err)
 		}
 	}
 

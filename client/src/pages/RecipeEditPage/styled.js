@@ -16,7 +16,7 @@ export const ContentWrapperChangedForRecipeEdit = styled(ContentWrapper)`
 	color: ${vars.text};
 	font-family: "RobotoRegular", sans-serif;
 	font-size: ${rem(17)};
-	gap: ${rem(18)};
+	gap: ${rem(50)};
 `;
 
 export const RecipeEditTop = styled(({ children, ...props }) => (
@@ -65,7 +65,8 @@ export const RecipeRight = styled(({ children, ...props }) => (
 	flex: 0 1 50%;
 	display: flex;
 	flex-direction: column;
-	border: 1px solid #f00;
+	height: 100%;
+	gap: ${rem(30)};
 `;
 
 export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
@@ -91,12 +92,6 @@ export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	gap: ${rem(17)};
 `;
 
-export const RecipeIngredientsWrapper = styled(({ children, ...props }) => (
-	<div {...props}>{children}</div>
-))`
-	
-`;
-
 export const RecipeMiniCaption = styled(({ text, ...props }) => (
 	<div {...props}>{text}</div>
 ))`
@@ -106,4 +101,46 @@ export const RecipeMiniCaption = styled(({ text, ...props }) => (
 	letter-spacing: 110%;
 	text-transform: uppercase;
 	color: ${vars.text};
+`;
+
+export const RecipeIngredientsWrapper = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	gap: ${rem(15)};
+	${RecipeMiniCaption} {
+		text-indent: ${rem(20)};
+	}
+	
+`;
+
+export const RecipeCookingTextWrapper = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: ${rem(15)};
+`;
+
+export const RecipeCookingText = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	display: flex;
+	width: 100%;
+	height: 100%;
+`;
+
+export const RecipeEditButtonWrapper = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: ${rem(30)};
 `;

@@ -27,7 +27,7 @@ import { phraseGetPhrases } from 'redux/slices/phraseSlice';
 import { categoryGetCategories } from 'redux/slices/categorySlice';
 import CategoryAddDeleteChange from './components/CategoryAddDeleteChange/CategoryAddDeleteChange';
 import { blogGetBlogs } from 'redux/slices/blogSlice';
-import BlogDeleteChange from './components/blogDelete/BlogDeleteChange';
+import BlogDeleteChange from './components/blogDeleteChange/BlogDeleteChange';
 import { recipeGetRecipies } from 'redux/slices/recipeSlice';
 import RecipeDeleteChange from './components/RecipeDeleteChange/RecipeDeleteChange';
 

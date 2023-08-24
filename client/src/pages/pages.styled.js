@@ -337,4 +337,5 @@ export const RecipeBlockContentWrapper = styled(({ children, ...props }) => (
 	background-color: ${vars.whiteColor};
 	border: ${rem(1)} solid ${vars.lightGreen};
 	padding: ${rem(20)};
+	width: 100%;
 `;

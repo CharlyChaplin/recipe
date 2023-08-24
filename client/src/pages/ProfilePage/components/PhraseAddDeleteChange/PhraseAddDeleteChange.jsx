@@ -145,6 +145,7 @@ const phraseAddChangeDelete = () => {
 				<DropdownList
 					elements={phraseData ? phraseData : []}
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
+					minWidth={300}
 					inputText={inputText}
 					setInputText={setInputText}
 					selectedValue={handleSelected}

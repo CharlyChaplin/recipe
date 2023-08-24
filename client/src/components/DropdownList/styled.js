@@ -40,6 +40,7 @@ export const DropdownControl = styled(({ children, ...props }) => {
 	flex-direction: ${({ $position }) => $position && $position === 'column' ? 'column' : 'row'};
 	align-items: ${({ $position }) => $position && $position === 'column' ? 'flex-start' : 'center'};
 	gap: ${rem(15)};
+	width: 100%;
 `;
 
 export const DropdownLabel = styled.span`
@@ -52,6 +53,7 @@ export const DropdownLabel = styled.span`
 
 export const DropdownWrapper = styled.div`
 	width: fit-content;
+	width: calc(100% - 31px);
 	border: 1px solid ${vars.lightGreen};
 	z-index: 1;
 	position: relative;
@@ -85,9 +87,11 @@ export const DropdownDropbox = styled(({ minWidth, children, ...props }) => {
 	flex-direction: row;
 	justify-content: flex-start;
 	gap: ${rem(20)};
+	width: 100%;
 	input {
 		display: block;
 		width: fit-content;
+		width: 100%;
 		min-width: ${({ minWidth }) => rem(minWidth) || 'unset'};
 		height: 100%;
 		padding: ${rem(5)} ${rem(10)};
@@ -146,8 +150,6 @@ export const DropdownInputWrapper = styled.div`
 	flex-direction: row;
 	gap: ${rem(37)};
 `;
-
-
 
 export const DropdownIcon = styled.div`
 	position: absolute;

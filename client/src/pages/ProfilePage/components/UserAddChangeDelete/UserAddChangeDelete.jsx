@@ -123,6 +123,7 @@ const UserAddChangeDelete = () => {
 					elements={users}
 					labelText="e-mail пользователя:"
 					placeholder='Выберите...'
+					minWidth={300}
 					labelPos="column"
 					inputText={selectedVal}
 					selectedValue={handleSelect}
@@ -153,6 +154,7 @@ const UserAddChangeDelete = () => {
 						elements={selectedVal ? roles.map(role => role.rolecyr) : []}
 						labelText="Права доступа:"
 						placeholder={getRoleInRus()}
+						minWidth={350}
 						labelPos="row"
 						inputText={userRole}
 						selectedValue={handleSelectRole}

@@ -13,7 +13,6 @@ const AuthButton = () => {
 	const dispatch = useDispatch();
 	const [isShowMenu, setIsShowMenu] = useState(false);
 	const [image, setImage] = useState('');
-
 	useEffect(() => {
 		if (userData.user?.avatar) {
 			setImage(`http://localhost:7000/${userData.user?.avatar}`);

@@ -8,9 +8,9 @@ const Input = ({
 	type = "text",
 	name = "",
 	value = "",
+	rowsNumber = 4,
 	placeholder = "",
 	center = false,
-	selectAll = false,
 	autoFocus = false,
 	rectangle = false,
 	fz = null,
@@ -45,12 +45,13 @@ const Input = ({
 						placeholder={placeholder}
 						name={name}
 						value={value}
+						rowsNumber={rowsNumber}
 						autoFocus={autoFocus}
 						rectangle={rectangle}
 						fz={fz}
 						onChange={handleChange}
 						autoComplete="off"
-						rows={6}
+						// rows={6}
 					/>
 				}
 			</InputWrapper>
