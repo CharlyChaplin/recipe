@@ -49,8 +49,9 @@ const IngredientItem = ({ mode, data, name }) => {
 						<Input
 							placeholder={data}
 							rectangle
-							fz={12}
+							fz={16}
 							noBorder
+							bgAdminLayer
 							value={newValue}
 							handleChange={handleNewChange}
 						/>

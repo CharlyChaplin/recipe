@@ -34,6 +34,7 @@ export const InputElement = styled(({
 	autoFocus,
 	rectangle,
 	noBorder,
+	bgAdminLayer,
 	fz,
 	type,
 	placeholder,
@@ -55,6 +56,7 @@ export const InputElement = styled(({
 	)
 })`
 	display: block;
+	background: ${({bgAdminLayer}) => bgAdminLayer ? vars.adminLayer : ''};
 	width: 100%;
 	border-radius: ${({ rectangle }) => rectangle ? 0 : radius};
 	letter-spacing: ${rem(1)};

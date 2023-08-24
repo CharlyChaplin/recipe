@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import bg from 'assets/img/category/soups/bg.jpg';
-import { ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper } from 'pages/pages.styled';
+import { ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper, RecipeBlockContentWrapper } from 'pages/pages.styled';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
 import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeEditTop, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from 'pages/RecipeEditPage/styled';
@@ -85,17 +85,20 @@ const RecipeAddPage = () => {
 
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Ингредиенты:" />
-									<IngredientItem
-										data="ингредиент..."
-										mode='add'
-									/>
+									<RecipeBlockContentWrapper>
+										<IngredientItem
+											data="ингредиент..."
+											mode='add'
+										/>
+									</RecipeBlockContentWrapper>
+
 								</RecipeIngredientsWrapper>
-								
-							
-								
-								
+
+
+
+
 							</RecipeLeft>
-							
+
 
 							<RecipeRight>Right</RecipeRight>
 

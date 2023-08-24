@@ -10,6 +10,7 @@ const Input = ({
 	value = "",
 	rowsNumber = 4,
 	noBorder,
+	bgAdminLayer,
 	placeholder = "",
 	center = false,
 	autoFocus = false,
@@ -32,6 +33,7 @@ const Input = ({
 							autoFocus={autoFocus}
 							rectangle={rectangle}
 							noBorder={noBorder}
+							bgAdminLayer={bgAdminLayer}
 							fz={fz}
 							type={type}
 							placeholder={placeholder}
