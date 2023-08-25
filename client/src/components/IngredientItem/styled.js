@@ -11,6 +11,6 @@ export const IngredientItemWrapper = styled.div`
 	font-size: ${rem(12)};
 	
 	&:not(:last-child) {
-		margin-bottom: ${rem(10)};
+		/* margin-bottom: ${rem(10)}; */
 	}
 `;

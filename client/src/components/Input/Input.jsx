@@ -38,7 +38,7 @@ const Input = ({
 							type={type}
 							placeholder={placeholder}
 							onChange={handleChange}
-							onKeyPress={handleKeyPress}
+							onKeyPress={(e) => handleKeyPress(e, name)}
 						/>
 						: null
 				}

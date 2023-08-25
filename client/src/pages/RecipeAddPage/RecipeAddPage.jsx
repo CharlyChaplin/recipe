@@ -6,7 +6,7 @@ import vars from 'init/vars';
 import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeCookingText, RecipeCookingTextWrapper, RecipeEditButtonWrapper, RecipeEditTop, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from 'pages/RecipeEditPage/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { datePrepare } from 'utils/datePrepare';
-import { RecipeAddTop } from './styled';
+import { RecipeAddTop, RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from './styled';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import Input from 'components/Input/Input';
 import { useCallback } from 'react';
@@ -17,6 +17,7 @@ import Button from 'components/Button/Button';
 import { paths } from 'routes/helper';
 import { useNavigate } from 'react-router-dom';
 import { nanoid } from 'nanoid';
+import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
 
 
 
@@ -42,7 +43,7 @@ const RecipeAddPage = () => {
 	const [ingredients, setIngredients] = useState([{
 		data: "ингредиент...",
 		mode: "add",
-		cloneAction: addIngredient
+		value: ''
 	}]);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -61,6 +62,36 @@ const RecipeAddPage = () => {
 		});
 	}, [fields]);
 
+
+	function addIngredient() {
+		if (ingredients.length && !ingredients[ingredients.length - 1]?.value.length) return;
+		const newField = {
+			data: "ингредиент...",
+			mode: "add",
+			value: ''
+		}
+		setIngredients([...ingredients, newField]);
+	}
+	function deleteIngredient(index) {
+		const initArr = [...ingredients];
+		const data = initArr.filter((_, i) => i !== index);
+		setIngredients(data);
+	}
+	const changeIngredients = useCallback((index, e) => {
+		const data = [...ingredients];
+		data[index].value = e.target.value;
+		setIngredients(data);
+	}, [ingredients]);
+	// function changeIngredients(index, e) {
+	// 	const data = [...ingredients];
+	// 	data[index].value = e.target.value;
+	// 	setIngredients(data);
+	// }
+	function changeKeyPressIngredients(e) {
+		if (e.key === "Enter") addIngredient();
+	}
+
+
 	function handleCategorySelected(val) {
 		setCategorySelected(val);
 		setFields({ ...fields, category: val });
@@ -70,13 +101,10 @@ const RecipeAddPage = () => {
 		setFields({ ...fields, picture: pictureFile });
 	}
 
-	function addIngredient() {
-		console.log("Hello Add Ingredient");
-		setIngredients(prev => [...prev, { data: "ингредиент...", mode: "add", cloneAction: addIngredient }]);
-	}
 
-	
+	// console.log(ingredients);
 
+	const [value, setValue] = useState('');
 
 	return (
 		<>
@@ -103,7 +131,7 @@ const RecipeAddPage = () => {
 
 									<AddPhotoBlockForRecipe><ImageInsert currentFile={recipeData.photoorig} selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
 									<RecipeLeftTopTextWrapper>
-										<Input name='caption' value={fields.caption} handleChange={changeInput} autoFocus center placeholder="Название блюда..." />
+										<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блюда..." />
 										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} placeholder="Краткое описание..." fz={12} />
 									</RecipeLeftTopTextWrapper>
 
@@ -111,20 +139,29 @@ const RecipeAddPage = () => {
 
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Ингредиенты:" />
-									<RecipeBlockContentWrapper>
-										{
-											ingredients.map(ingredient => {
-												return (
-													<IngredientItem
-														key={nanoid()}
-														data={ingredient.data}
-														mode={ingredient.mode}
-														cloneAction={ingredient.cloneAction}
-													/>
-												)
-											})
-										}
-									</RecipeBlockContentWrapper>
+									<RecipeBlockContentWrapperForIngredients>
+										<Button action={addIngredient}>Добавить</Button>
+										<RecipeIngredientsItemsWrapper>
+											{
+												ingredients.map((ingredient, index) => {
+													return (
+														<IngredientItem
+															key={nanoid()}
+															name={index}
+															data={ingredient.data}
+															mode={ingredient.mode}
+															value={ingredient.value}
+															handleChange={changeIngredients}
+															getKey={changeKeyPressIngredients}
+															cloneAction={addIngredient}
+															deleteAction={deleteIngredient}
+														/>
+													)
+												})
+											}
+											{/* <Input value={value} handleChange={e => setValue(e.target.value)} /> */}
+										</RecipeIngredientsItemsWrapper>
+									</RecipeBlockContentWrapperForIngredients>
 
 								</RecipeIngredientsWrapper>
 

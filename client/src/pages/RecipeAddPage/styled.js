@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { rem } from "init/mixins";
 import { RecipeEditTop } from "pages/RecipeEditPage/styled";
 import vars from "init/vars";
-import { EditNotEdit } from "pages/pages.styled";
+import { EditNotEdit, RecipeBlockContentWrapper } from "pages/pages.styled";
 import { lighten } from "polished";
 
 
@@ -23,4 +23,22 @@ export const RecipeAddTop = styled(RecipeEditTop)`
 			color: ${lighten(.4, vars.text)};
 		}
 	}
+`;
+
+export const RecipeBlockContentWrapperForIngredients = styled(RecipeBlockContentWrapper)`
+	display: flex;
+	flex-direction: column;
+	gap: ${rem(15)};
+	
+	button {
+		align-self: flex-end;
+	}
+`;
+
+export const RecipeIngredientsItemsWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: ${rem(7)};
+	max-height: ${rem(296)};
+	overflow: auto;
 `;

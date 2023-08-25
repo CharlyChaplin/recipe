@@ -16,7 +16,7 @@ export const ContentWrapperChangedForRecipeEdit = styled(ContentWrapper)`
 	color: ${vars.text};
 	font-family: "RobotoRegular", sans-serif;
 	font-size: ${rem(17)};
-	gap: ${rem(50)};
+	gap: ${rem(40)};
 `;
 
 export const RecipeEditTop = styled(({ children, ...props }) => (
