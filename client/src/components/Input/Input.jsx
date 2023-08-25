@@ -53,6 +53,7 @@ const Input = ({
 						autoFocus={autoFocus}
 						rectangle={rectangle}
 						noBorder={noBorder}
+						bgAdminLayer={bgAdminLayer}
 						fz={fz}
 						onChange={handleChange}
 						autoComplete="off"

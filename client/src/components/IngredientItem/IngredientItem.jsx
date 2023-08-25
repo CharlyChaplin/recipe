@@ -6,12 +6,28 @@ import Button from 'components/Button/Button';
 import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
 
 
-const IngredientItem = ({ mode, data, name }) => {
+// mode = 'change' || 'add' || 'view'
+const IngredientItem = ({ mode, data, name, cloneAction }) => {
 	const [oldValue, setOldValue] = useState('');
 	const [newValue, setNewValue] = useState('');
 
 	const handleOldChange = e => setOldValue(e.target.value);
 	const handleNewChange = e => setNewValue(e.target.value);
+
+
+	function handleClick() {
+		if (mode === 'add') {
+			cloneAction();
+		}
+	}
+
+	function handleKeyPress(e) {
+		if (e.key === 'Enter') {
+			if (mode === 'add') {
+				cloneAction();
+			}
+		}
+	}
 
 
 	switch (mode) {
@@ -54,8 +70,9 @@ const IngredientItem = ({ mode, data, name }) => {
 							bgAdminLayer
 							value={newValue}
 							handleChange={handleNewChange}
+							handleKeyPress={handleKeyPress}
 						/>
-						<Button type="plain" equalPadding><AddICO /></Button>
+						<Button type="plain" equalPadding action={handleClick}><AddICO /></Button>
 					</IngredientItemWrapper>
 				</>
 			);

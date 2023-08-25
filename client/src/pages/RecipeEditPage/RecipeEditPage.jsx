@@ -167,7 +167,7 @@ const RecipeEditPage = () => {
 						</RecipeWrapper>
 
 						<RecipeEditButtonWrapper>
-							<Button>Добавить</Button>
+							<Button>Изменить</Button>
 							<Button onClick={() => navigate(paths.categories)}>Отмена</Button>
 						</RecipeEditButtonWrapper>
 

@@ -30,6 +30,7 @@ const vars = {
 	whiteColor: '#FFFFFF',
 	blackColor: '#000000',
 	adminLayer: '#D9D9D9',
+	placeholderColorForAdminLayer: '#888888',
 	placeholderColor: '#A8A8A8',
 	buttonTopColor: '#A3AA9C',
 	buttonBottomColor: '#647059',

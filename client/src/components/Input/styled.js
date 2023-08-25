@@ -56,16 +56,16 @@ export const InputElement = styled(({
 	)
 })`
 	display: block;
-	background: ${({bgAdminLayer}) => bgAdminLayer ? vars.adminLayer : ''};
+	background: ${({ bgAdminLayer }) => bgAdminLayer ? vars.adminLayer : ''};
 	width: 100%;
 	border-radius: ${({ rectangle }) => rectangle ? 0 : radius};
 	letter-spacing: ${rem(1)};
 	padding: ${rem(7)} ${rem(10)};
-	font-size: ${({type, fz}) => type === 'password' ? rem(17) : fz ? rem(fz) : rem(16)};
+	font-size: ${({ type, fz }) => type === 'password' ? rem(17) : fz ? rem(fz) : rem(16)};
 	font-family: "RobotoRegular", sans-serif;
-	border: ${({noBorder}) => noBorder ? rem(0) : rem(1)} solid ${vars.lightGreen};
+	border: ${({ noBorder }) => noBorder ? rem(0) : rem(1)} solid ${vars.lightGreen};
 	&::placeholder{
-		color: ${vars.placeholderColor};
+		color: ${({ bgAdminLayer }) => bgAdminLayer ? vars.placeholderColorForAdminLayer : vars.placeholderColor};
 		font-family: "RobotoRegular", sans-serif;
 	}
 	&:active, &:focus {
@@ -119,9 +119,9 @@ export const TextareaElement = styled(({
 	letter-spacing: ${rem(1)};
 	padding: ${rem(7)} ${rem(10)};
 	font-family: "RobotoRegular", sans-serif;
-	font-size: ${({fz}) => fz ? rem(fz) : rem(16)};
-	resize: vertical;
-	outline: ${({noBorder}) => noBorder ? rem(0) : rem(1)} solid ${vars.lightGreen};
+	font-size: ${({ fz }) => fz ? rem(fz) : rem(16)};
+	resize: none;
+	outline: ${({ noBorder }) => noBorder ? rem(0) : rem(1)} solid ${vars.lightGreen};
 	&::placeholder{
 		color: ${vars.placeholderColor};
 		font-family: "RobotoRegular", sans-serif;

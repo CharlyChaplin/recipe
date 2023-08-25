@@ -80,13 +80,13 @@ export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
 `;
 
 export const AddPhotoBlockForRecipe = styled(AddPhotoBlock)`
-	flex: 0 1 50%;
+	/* flex: 0 1 50%; */
 `;
 
 export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	flex: 0 1 50%;
+	flex: 0 0 50%;
 	display: flex;
 	flex-direction: column;
 	gap: ${rem(17)};
