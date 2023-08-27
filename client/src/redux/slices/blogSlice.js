@@ -130,6 +130,7 @@ export const blogSlice = createSlice({
 			state.loading = false;
 			state.blogData = [];
 			state.errors = action.payload;
+			state.completed = false;
 		});
 		//========================================================================================================================================================
 		build.addCase(blogEditBlog.pending, (state, action) => {

@@ -10,7 +10,7 @@ export const IngredientItemWrapper = styled.div`
 	gap: ${rem(5)};
 	font-size: ${rem(12)};
 	
-	&:not(:last-child) {
-		/* margin-bottom: ${rem(10)}; */
+	span {
+		white-space: nowrap;
 	}
 `;

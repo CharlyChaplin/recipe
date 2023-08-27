@@ -2,6 +2,7 @@ import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import { config } from 'dotenv';
+import ResetSeq from '../services/resetSequence.js';
 import translitPrepare from '../services/translitPrepare.js';
 import fs from 'fs';
 
@@ -11,25 +12,71 @@ class RecipeController {
 		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-		let user_id = 0;
-		// получаем id юзера, по email из токена
-		const getUser = await db.query(`
-			SELECT * FROM users
-			WHERE email = '${isAccessValid.email}';
-		`);
-		if (!getUser.rowCount) throw ApiError.UnathorizedError();
-		user_id = getUser.rows[0].id;
 
-		// после всех проверок достаём фразу для занесения её в БД
-		const { phraseText } = req.body;
-		db.query(`SELECT MAX(id) FROM phrase;`)
-			.then(resp => db.query(`ALTER SEQUENCE phrase_id_seq RESTART WITH ${resp.rows[0].max + 1};`));
-		db.query(`INSERT INTO phrase(user_id, caption) VALUES (
-			'${user_id}','${phraseText}') RETURNING *;`)
-			.then(resp => res.json(resp.rows[0]))
-			.catch(err => {
-				res.status(400).json(err)
+		// после всех проверок достаём рецепт и файл картинки для занесения их в БД
+		const { dateadd, owner, caption, shortDescription, ingredients, category, cookingText } = req.body;
+		const [picture] = Object.values(req.files);
+
+		const captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+
+		// описываем путь, по которому расположится папка рецепта
+		const mainPath = `static/recipe/${captionLat}`;
+		// создаём папку для рецепта
+		fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
+		// описываем путь, по которому расположится файл
+		const filePath = `${mainPath}/photo.jpg`;
+		// перемещаем файл в папку
+		picture.mv(`${filePath}`, err => {
+			if (err) {
+				return res.status(500).send({ err: err, msg: "Error occurred" });
+			}
+		});
+
+		// получаем id категории
+		const getCategoryId = await db.query(`SELECT id FROM category WHERE caption='${category}'`);
+		const categoryId = getCategoryId.rows[0].id;
+
+		// получаем id юзера по e-mail из токена
+		const getUserId = await db.query(`SELECT id FROM users WHERE email='${isAccessValid.email}';`)
+		const userId = getUserId.rows[0].id;
+
+		// убираем из пути слово 'static'
+		const photoorig = filePath.replace('static', '');
+		const photopreview = filePath.replace('static', '');
+
+		try {
+			// сбрасываем счётчик последовательности в таблице recipe
+			ResetSeq.resetSequence('recipe');
+			// добавляем запись в таблицу recipe
+			const newRecipe = await db.query(`
+				INSERT INTO recipe(user_id, category_id, dateadd, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext)
+				VALUES (${userId}, ${categoryId}, '${dateadd}', '${caption}', '${captionLat}', '${photoorig}', '${photopreview}', '${shortDescription}', '${cookingText}')
+				RETURNING *;
+			`);
+			// добавляем записи в таблицу ingredient
+			// рождаем строки для множественного добавления
+			const ings = JSON.parse(ingredients).map(ing => {
+				return (
+					`(${userId}, ${newRecipe.rows[0].id}, '${ing.value}')`
+				)
 			});
+			// сбрасываем последовательность
+			ResetSeq.resetSequence('ingredient');
+			// добавляем запись
+			const newIngredients = await db.query(`
+				INSERT INTO ingredient(user_id, recipe_id, caption)
+				VALUES ${ings}
+				RETURNING *;
+			`);
+			const recipeData = {
+				recipe: newRecipe.rows[0],
+				ingredients: newIngredients.rows
+			}
+			res.json(recipeData);
+		} catch (err) {
+			console.log(err);
+			res.status(400).json(err);
+		}
 	}
 
 	async deleteRecipe(req, res) {
@@ -39,6 +86,15 @@ class RecipeController {
 		try {
 			// после всех проверок достаём рецепт для удаления его из БД
 			const { recipeCaption } = req.body;
+			// получаем id рецепта
+			const recipeId = await db.query(`SELECT id FROM recipe WHERE caption='${recipeCaption}'`);
+			// удаляем ингредиенты для рецепта
+			const deleteIngredients = await db.query(`
+				DELETE FROM ingredient
+				WHERE recipe_id=${recipeId.rows[0].id}
+			`);
+			if (!deleteIngredients.rowCount) throw ApiError.BadRequest("Error while deleting ingredients");
+			// удаляем непосредственно рецепт
 			const deletedRecipe = await db.query(`
 				DELETE FROM recipe
 				WHERE caption='${recipeCaption}'
@@ -52,6 +108,7 @@ class RecipeController {
 
 			res.json(deletedRecipe.rows[0].caption);
 		} catch (err) {
+			console.log(err);
 			res.status(400).json(err);
 		}
 
@@ -155,8 +212,9 @@ class RecipeController {
 		try {
 			const isRecipe = await db.query(`
 				SELECT * FROM recipe
-				WHERE caption='${recipeCaption}';
+				WHERE caption_lat='${translitPrepare(recipeCaption)}';
 			`);
+			console.log(isRecipe.rows);
 			if (!isRecipe.rowCount) throw ApiError.BadRequest("Error while getting the recipe");
 			// достаём владельца рецепта
 			const owner = await db.query(`
@@ -168,7 +226,7 @@ class RecipeController {
 				owner.rows[0],
 				isRecipe.rows[0],
 			);
-			
+
 			// получаем текущую категорию в виде кириллицы
 			const currentCategoryCyr = await db.query(`
 				SELECT caption FROM category
@@ -194,7 +252,8 @@ class RecipeController {
 			delete recipeData.category_id;
 			res.json(recipeData);
 		} catch (err) {
-			res.status(err.status).json(err)
+			console.log(err);
+			res.status(err.status).json(err.message);
 		}
 	}
 
@@ -284,7 +343,6 @@ class RecipeController {
 			res.status(400).json(err);
 		}
 	}
-
 }
 
 export default new RecipeController;

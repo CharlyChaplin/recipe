@@ -1,19 +1,25 @@
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import Spinner from 'components/Spinner/Spinner';
 import vars from 'init/vars';
-import { ContentPaddingTop, ContentWrapper, InnerWrapper } from 'pages/pages.styled';
+import { ButtonBtn, ContentPaddingTop, ContentWrapper, InnerWrapper } from 'pages/pages.styled';
 import React from 'react';
 import PreviewItem from '../PreviewItem/PreviewItem';
 import { nanoid } from 'nanoid';
 import NoData from 'components/NoData/NoData';
+import { useNavigate } from 'react-router-dom';
+import { paths } from 'routes/helper';
 
 
-const InnerItems = ({ headerCaption, items, loadStatus }) => {
-	// console.log("items=", items);
+const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
+	const navigate = useNavigate();
+	console.log("items=", items);
 
 	return (
 		<>
 			<InnerWrapper>
+				{
+					backBtn && <ButtonBtn handleaction={() => navigate(paths.categories)} />
+				}
 				<ContentPaddingTop />
 				<SectionHeader color={vars.whiteColor}>{headerCaption}</SectionHeader>
 

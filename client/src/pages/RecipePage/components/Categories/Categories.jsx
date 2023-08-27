@@ -12,12 +12,14 @@ import { useCallback } from 'react';
 import { recipeGetByCategory, recipeGetPreviewRecipies } from 'redux/slices/recipeSlice';
 import InnerItems from '../InnerItems/InnerItems';
 import { useLocation, useParams } from 'react-router-dom';
+import { categoryGetCategoryName } from 'redux/slices/categorySlice';
 
 
 let outData;
 
 const Categories = () => {
 	const { recipePreview, recipeInCategory, loading } = useSelector(state => state.recipeReducer);
+	const { categoryData } = useSelector(state => state.categoryReducer);
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const { name } = useParams();
@@ -32,12 +34,15 @@ const Categories = () => {
 	}, [location]);
 
 
-		const getPreview = useCallback(() => {
-			dispatch(recipeGetPreviewRecipies());
-		}, [recipePreview, dispatch]);
+	const getPreview = useCallback(() => {
+		dispatch(recipeGetPreviewRecipies());
+	}, [recipePreview, dispatch]);
 
-	const getCategoryItems = useCallback(() => {
-		if (name) dispatch(recipeGetByCategory({ categoryName: name }));
+	const getCategoryItems = useCallback(async () => {
+		if (name) {
+			dispatch(categoryGetCategoryName({ lat_name: name }));
+			dispatch(recipeGetByCategory({ categoryName: name }));
+		}
 	}, [location, dispatch]);
 
 
@@ -52,12 +57,13 @@ const Categories = () => {
 			url: `category/${category.categoryname}`
 		}));
 	}
+	
 
 
 	return (
 		<>
 
-			<InnerItems headerCaption="Рецепты по категориям" items={outData} loadStatus={loading} />
+			<InnerItems backBtn={!!name} headerCaption={name ? categoryData.caption : 'Рецепты по категориям'} items={outData} loadStatus={loading} />
 
 		</>
 	);

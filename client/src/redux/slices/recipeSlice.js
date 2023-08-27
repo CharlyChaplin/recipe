@@ -15,7 +15,11 @@ export const recipeAddRecipe = createAsyncThunk(
 	'recipe/add',
 	async (data, { rejectWithValue }) => {
 		try {
-			const resp = await axios.post('/recipe/add', data);
+			const resp = await axios.post('/recipe/add', data, {
+				headers: {
+					"Content-Type": 'multipart/formdata'
+				}
+			});
 			return resp.data;
 		} catch (err) {
 			return rejectWithValue(err.message);
@@ -23,7 +27,7 @@ export const recipeAddRecipe = createAsyncThunk(
 	}
 );
 
-export const recipeEditBlog = createAsyncThunk(
+export const recipeEditRecipe = createAsyncThunk(
 	'recipe/edit',
 	async (data, { rejectWithValue }) => {
 		try {
@@ -114,31 +118,32 @@ export const recipeSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(recipeAddRecipe.pending, (state, action) => {
 			state.loading = true;
-			state.recipeData = [];
 			state.errors = "";
 		});
 		build.addCase(recipeAddRecipe.fulfilled, (state, action) => {
 			state.loading = false;
 			state.recipeData = action.payload;
+			state.completed = true;
 			state.errors = "";
 		});
 		build.addCase(recipeAddRecipe.rejected, (state, action) => {
 			state.loading = false;
 			state.recipeData = [];
+			state.completed = false;
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
-		build.addCase(recipeEditBlog.pending, (state, action) => {
+		build.addCase(recipeEditRecipe.pending, (state, action) => {
 			state.loading = true;
 			state.recipeData = [];
 			state.errors = "";
 		});
-		build.addCase(recipeEditBlog.fulfilled, (state, action) => {
+		build.addCase(recipeEditRecipe.fulfilled, (state, action) => {
 			state.loading = false;
 			state.recipeData = action.payload;
 			state.errors = "";
 		});
-		build.addCase(recipeEditBlog.rejected, (state, action) => {
+		build.addCase(recipeEditRecipe.rejected, (state, action) => {
 			state.loading = false;
 			state.recipeData = [];
 			state.errors = action.payload;

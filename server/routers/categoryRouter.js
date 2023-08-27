@@ -9,6 +9,7 @@ categoryRouter.post('/add', roleCheck(1), CategoryController.addCategory);
 categoryRouter.post('/delete', roleCheck(1), CategoryController.deleteCategory);
 categoryRouter.post('/edit', roleCheck(1), CategoryController.editCategory);
 categoryRouter.get('/categories', CategoryController.getAllCategories);
+categoryRouter.post('/getcategoryname', CategoryController.getCategoryName);
 
 
 export default categoryRouter;

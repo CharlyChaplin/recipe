@@ -55,6 +55,18 @@ export const categoryGetCategories = createAsyncThunk(
 	}
 );
 
+export const categoryGetCategoryName = createAsyncThunk(
+	'category/getCategoryName',
+	async (data, { rejectWithValue }) => {
+		try {
+			const resp = await axios.post('/category/getcategoryname', data);
+			return resp.data;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+);
+
 
 
 
@@ -122,6 +134,21 @@ export const categorySlice = createSlice({
 			state.errors = "";
 		});
 		build.addCase(categoryGetCategories.rejected, (state, action) => {
+			state.loading = false;
+			state.categoryData = [];
+			state.errors = action.payload;
+		});
+		//========================================================================================================================================================
+		build.addCase(categoryGetCategoryName.pending, (state, action) => {
+			state.loading = true;
+			state.errors = "";
+		});
+		build.addCase(categoryGetCategoryName.fulfilled, (state, action) => {
+			state.loading = false;
+			state.categoryData = action.payload;
+			state.errors = "";
+		});
+		build.addCase(categoryGetCategoryName.rejected, (state, action) => {
 			state.loading = false;
 			state.categoryData = [];
 			state.errors = action.payload;

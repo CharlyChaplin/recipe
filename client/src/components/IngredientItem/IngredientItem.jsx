@@ -1,34 +1,30 @@
 import Input from 'components/Input/Input';
-import React, { createRef } from 'react';
+import React from 'react';
 import { IngredientItemWrapper } from './styled';
 import { useState } from 'react';
 import Button from 'components/Button/Button';
-import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
 import { ReactComponent as MinusICO } from 'assets/img/icons/minus.svg';
+import { useWhyDidYouUpdate } from 'ahooks';
 
 
 // mode = 'change' || 'add' || 'view'
 const IngredientItem = ({ mode, data, name, cloneAction, deleteAction, value, handleChange, getKey }) => {
 	const [oldValue, setOldValue] = useState('');
 	const [newValue, setNewValue] = useState('');
-	const btn = createRef();
+	
+	// useWhyDidYouUpdate('IngredientItem', { mode, data, name, cloneAction, deleteAction, value, handleChange, getKey });
 
 	const handleOldChange = e => setOldValue(e.target.value);
 	const handleNewChange = e => setNewValue(e.target.value);
 
 
-	function handleAddClick() {
-		if (mode === 'add') {
-			cloneAction();
-		}
-	}
+	
 	function handleMinusClick(val) {
 		if (mode === 'add') {
 			deleteAction(val);
 		}
 	}
 
-	function handleKeyPress(e) { }
 
 
 
@@ -69,13 +65,13 @@ const IngredientItem = ({ mode, data, name, cloneAction, deleteAction, value, ha
 							placeholder={data}
 							rectangle
 							fz={16}
+							autoFocus
 							noBorder
 							bgAdminLayer
 							value={value}
 							handleChange={e => handleChange(name, e)}
 							handleKeyPress={getKey}
 						/>
-						<Button hidden name={name} type="plain" equalPadding action={handleAddClick} ref={btn} ><AddICO /></Button>
 						<Button type="plain" equalPadding action={() => handleMinusClick(name)}><MinusICO /></Button>
 					</IngredientItemWrapper>
 				</>

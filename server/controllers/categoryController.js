@@ -94,6 +94,25 @@ class CategoryController {
 			res.status(err.status).json(err);
 		}
 	}
+
+	async getCategoryName(req, res) {
+		// получение имён (на латинице и кирилице)
+		try {
+			const { lat_name } = req.body;
+
+			const categoryName = await db.query(`SELECT caption, caption_lat FROM category WHERE caption_lat='${lat_name}';`);
+			if (!categoryName.rowCount) throw ApiError.BadRequest("Error while getting categoryName");
+
+			const categoryData = {
+				caption: categoryName.rows[0].caption,
+				captionLat: categoryName.rows[0].caption_lat
+			}
+			res.json(categoryData);
+		} catch (err) {
+			console.log(err);
+			res.status(err.status).json(err);
+		}
+	}
 }
 
 export default new CategoryController;

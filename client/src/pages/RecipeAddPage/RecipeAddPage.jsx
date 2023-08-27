@@ -3,7 +3,7 @@ import bg from 'assets/img/category/soups/bg.jpg';
 import { ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper, RecipeBlockContentWrapper } from 'pages/pages.styled';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
-import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeCookingText, RecipeCookingTextWrapper, RecipeEditButtonWrapper, RecipeEditTop, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from 'pages/RecipeEditPage/styled';
+import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeCookingText, RecipeCookingTextWrapper, RecipeEditButtonWrapper, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from 'pages/RecipeEditPage/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { datePrepare } from 'utils/datePrepare';
 import { RecipeAddTop, RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from './styled';
@@ -16,8 +16,9 @@ import DropdownList from 'components/DropdownList/DropdownList';
 import Button from 'components/Button/Button';
 import { paths } from 'routes/helper';
 import { useNavigate } from 'react-router-dom';
-import { nanoid } from 'nanoid';
 import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
+import { clearRecipeData, recipeAddRecipe } from 'redux/slices/recipeSlice';
+import { showInfo } from 'redux/slices/infoSlice';
 
 
 
@@ -27,19 +28,16 @@ const RecipeAddPage = () => {
 		dateadd: '',
 		owner: '',
 		picture: '',
-		caption: '',
-		shortDescription: '',
+		caption: 'CRASH',
+		shortDescription: 'short Description',
 		ingredients: [],
 		category: '',
-		cookingText: '',
-		oldRecipeCaption: ''
+		cookingText: 'How to cooking...'
 	});
 	const { userData, errors } = useSelector(state => state.userReducer);
-	const { recipeData } = useSelector(state => state.recipeReducer);
+	const { recipeData, loading, completed } = useSelector(state => state.recipeReducer);
 	const { categoryData } = useSelector(state => state.categoryReducer);
 
-	const [categorySelected, setCategorySelected] = useState('');
-	const [categoryInputText, setCategoryInputText] = useState(categorySelected);
 	const [ingredients, setIngredients] = useState([{
 		data: "ингредиент...",
 		mode: "add",
@@ -48,6 +46,12 @@ const RecipeAddPage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		if (completed) {
+			dispatch(clearRecipeData());
+			navigate(`/recipe/${recipeData.recipe.caption_lat}`);
+		};
+	}, [completed]);
 
 	useEffect(() => {
 		setFields({ ...fields, dateadd: datePrepare(Date.now()), owner: userData?.user?.nickname });
@@ -77,23 +81,18 @@ const RecipeAddPage = () => {
 		const data = initArr.filter((_, i) => i !== index);
 		setIngredients(data);
 	}
-	const changeIngredients = useCallback((index, e) => {
+	function changeIngredients(index, e) {
 		const data = [...ingredients];
 		data[index].value = e.target.value;
 		setIngredients(data);
-	}, [ingredients]);
-	// function changeIngredients(index, e) {
-	// 	const data = [...ingredients];
-	// 	data[index].value = e.target.value;
-	// 	setIngredients(data);
-	// }
+		setFields({ ...fields, ingredients: ingredients })
+	}
 	function changeKeyPressIngredients(e) {
 		if (e.key === "Enter") addIngredient();
 	}
 
 
 	function handleCategorySelected(val) {
-		setCategorySelected(val);
 		setFields({ ...fields, category: val });
 	}
 
@@ -101,10 +100,33 @@ const RecipeAddPage = () => {
 		setFields({ ...fields, picture: pictureFile });
 	}
 
+	function handleAddRecipe() {
+		const fd = new FormData();
+		for (let [key, value] of Object.entries(fields)) {
+			if (key === 'ingredients') {
+				fd.append(key, JSON.stringify(value));
+			} else {
+				fd.append(key, value);
+			}
+		}
+		
+		try {
+			dispatch(recipeAddRecipe(fd));
+			setTimeout(() => {
+				if (errors.length > 0 && !loading) {
+					dispatch(showInfo({ text: errors, cancel: true }));
+				} else {
+					dispatch(showInfo({ text: "Рецепт успешно добавлен", ok: true }));
+				}
+			}, 300);
+		} catch (error) {
+			console.log("Error: ", error);
+		}
+		
+	}
 
-	// console.log(ingredients);
 
-	const [value, setValue] = useState('');
+
 
 	return (
 		<>
@@ -129,7 +151,7 @@ const RecipeAddPage = () => {
 							<RecipeLeft>
 								<RecipeLeftTopWrapper>
 
-									<AddPhotoBlockForRecipe><ImageInsert currentFile={recipeData.photoorig} selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
+									<AddPhotoBlockForRecipe><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
 									<RecipeLeftTopTextWrapper>
 										<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блюда..." />
 										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} placeholder="Краткое описание..." fz={12} />
@@ -140,13 +162,13 @@ const RecipeAddPage = () => {
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Ингредиенты:" />
 									<RecipeBlockContentWrapperForIngredients>
-										<Button action={addIngredient}>Добавить</Button>
+										<Button equalPadding action={addIngredient} ><AddICO /></Button>
 										<RecipeIngredientsItemsWrapper>
 											{
 												ingredients.map((ingredient, index) => {
 													return (
 														<IngredientItem
-															key={nanoid()}
+															key={index}
 															name={index}
 															data={ingredient.data}
 															mode={ingredient.mode}
@@ -159,7 +181,6 @@ const RecipeAddPage = () => {
 													)
 												})
 											}
-											{/* <Input value={value} handleChange={e => setValue(e.target.value)} /> */}
 										</RecipeIngredientsItemsWrapper>
 									</RecipeBlockContentWrapperForIngredients>
 
@@ -168,7 +189,7 @@ const RecipeAddPage = () => {
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Категория:" />
 									<RecipeBlockContentWrapper>
-										<DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={categoryInputText} setInputText={setCategoryInputText} />
+										<DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
 									</RecipeBlockContentWrapper>
 								</RecipeIngredientsWrapper>
 
@@ -190,7 +211,7 @@ const RecipeAddPage = () => {
 						</RecipeWrapper>
 
 						<RecipeEditButtonWrapper>
-							<Button>Добавить</Button>
+							<Button action={handleAddRecipe}>Добавить</Button>
 							<Button onClick={() => navigate(paths.categories)}>Отмена</Button>
 						</RecipeEditButtonWrapper>
 

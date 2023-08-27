@@ -41,4 +41,5 @@ export const RecipeIngredientsItemsWrapper = styled.div`
 	gap: ${rem(7)};
 	max-height: ${rem(296)};
 	overflow: auto;
+	padding-right: ${rem(10)};
 `;

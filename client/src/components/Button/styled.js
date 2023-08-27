@@ -6,7 +6,7 @@ import { ReactComponent as BackICO } from 'assets/img/icons/back.svg';
 
 
 export const ButtonElement = styled(({ child, hidden, name, mode, type, disabled, equalPadding, action, isRef, ...props }) => {
-	// console.log(hidden);
+	// console.log(action);
 	return (
 		<button
 			name={name}
