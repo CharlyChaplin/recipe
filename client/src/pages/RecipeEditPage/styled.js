@@ -1,5 +1,6 @@
 import { adaptiveValue, rem } from "init/mixins";
 import vars from "init/vars";
+import { RecipeBlockContentWrapper } from "pages/pages.styled";
 import { AddPhotoBlock, ContentWrapper } from "pages/pages.styled";
 import { rgba } from "polished";
 import { styled } from "styled-components";

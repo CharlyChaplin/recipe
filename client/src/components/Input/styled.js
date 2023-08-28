@@ -34,6 +34,7 @@ export const InputElement = styled(({
 	autoFocus,
 	rectangle,
 	noBorder,
+	disabled,
 	bgAdminLayer,
 	fz,
 	type,
@@ -49,6 +50,7 @@ export const InputElement = styled(({
 			value={value}
 			autoFocus={autoFocus}
 			type={type}
+			disabled={disabled}
 			placeholder={placeholder}
 			onChange={onChange}
 			onKeyDown={onKeyDown}
@@ -63,7 +65,7 @@ export const InputElement = styled(({
 	padding: ${rem(7)} ${rem(10)};
 	font-size: ${({ type, fz }) => type === 'password' ? rem(17) : fz ? rem(fz) : rem(16)};
 	font-family: "RobotoRegular", sans-serif;
-	border: ${({ noBorder }) => noBorder ? rem(0) : rem(1)} solid ${vars.lightGreen};
+	border: ${({ noBorder }) => noBorder ? rem(0) : rem(1)} solid ${({disabled}) => disabled ? vars.disabledColor : vars.lightGreen};
 	&::placeholder{
 		color: ${({ bgAdminLayer }) => bgAdminLayer ? vars.placeholderColorForAdminLayer : vars.placeholderColor};
 		font-family: "RobotoRegular", sans-serif;
@@ -93,6 +95,7 @@ export const TextareaElement = styled(({
 	autoFocus,
 	rectangle,
 	noBorder,
+	disabled,
 	fz,
 	type,
 	placeholder,
@@ -121,7 +124,7 @@ export const TextareaElement = styled(({
 	font-family: "RobotoRegular", sans-serif;
 	font-size: ${({ fz }) => fz ? rem(fz) : rem(16)};
 	resize: none;
-	outline: ${({ noBorder }) => noBorder ? rem(0) : rem(1)} solid ${vars.lightGreen};
+	outline: ${({ noBorder }) => noBorder ? rem(0) : rem(1)} solid ${({disabled}) => disabled ? vars.disabledColor : vars.lightGreen};
 	&::placeholder{
 		color: ${vars.placeholderColor};
 		font-family: "RobotoRegular", sans-serif;

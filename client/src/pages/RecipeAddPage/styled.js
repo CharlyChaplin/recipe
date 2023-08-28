@@ -38,7 +38,7 @@ export const RecipeBlockContentWrapperForIngredients = styled(RecipeBlockContent
 export const RecipeIngredientsItemsWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: ${rem(7)};
+	gap: ${rem(5)};
 	max-height: ${rem(296)};
 	overflow: auto;
 	padding-right: ${rem(10)};

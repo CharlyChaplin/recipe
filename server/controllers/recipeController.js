@@ -119,11 +119,11 @@ class RecipeController {
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
 		// после всех проверок достаём рецепт из запроса для изменения в БД
-		let { dateadd, owner, caption, description, oldRecipeCaption } = req.body;
+		let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
 		let file = null;
 		if (req.files) file = Object.values(req.files)[0];
 
-		console.log(dateadd, owner, caption, description, oldBlogCaption, file);
+		console.log(dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption, file);
 
 		// берём данные из текущего состояния рецепта
 		// const recipeNow = await db.query(`
@@ -212,9 +212,8 @@ class RecipeController {
 		try {
 			const isRecipe = await db.query(`
 				SELECT * FROM recipe
-				WHERE caption_lat='${translitPrepare(recipeCaption)}';
+				WHERE caption_lat='${translitPrepare(recipeCaption).toLowerCase().replace(" ", '_')}';
 			`);
-			console.log(isRecipe.rows);
 			if (!isRecipe.rowCount) throw ApiError.BadRequest("Error while getting the recipe");
 			// достаём владельца рецепта
 			const owner = await db.query(`

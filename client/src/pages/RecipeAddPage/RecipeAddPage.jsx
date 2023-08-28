@@ -122,7 +122,6 @@ const RecipeAddPage = () => {
 		} catch (error) {
 			console.log("Error: ", error);
 		}
-		
 	}
 
 
@@ -175,8 +174,7 @@ const RecipeAddPage = () => {
 															value={ingredient.value}
 															handleChange={changeIngredients}
 															getKey={changeKeyPressIngredients}
-															cloneAction={addIngredient}
-															deleteAction={deleteIngredient}
+															deleteAction={() => deleteIngredient(index)}
 														/>
 													)
 												})
@@ -192,7 +190,6 @@ const RecipeAddPage = () => {
 										<DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
 									</RecipeBlockContentWrapper>
 								</RecipeIngredientsWrapper>
-
 
 							</RecipeLeft>
 

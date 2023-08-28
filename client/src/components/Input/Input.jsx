@@ -12,6 +12,7 @@ const Input = ({
 	noBorder,
 	bgAdminLayer,
 	placeholder = "",
+	disabled,
 	center = false,
 	autoFocus = false,
 	rectangle = false,
@@ -30,6 +31,7 @@ const Input = ({
 							name={name}
 							value={value}
 							center={center}
+							disabled={disabled}
 							autoFocus={autoFocus}
 							rectangle={rectangle}
 							noBorder={noBorder}
@@ -49,6 +51,7 @@ const Input = ({
 						placeholder={placeholder}
 						name={name}
 						value={value}
+						disabled={disabled}
 						rowsNumber={rowsNumber}
 						autoFocus={autoFocus}
 						rectangle={rectangle}

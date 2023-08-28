@@ -12,7 +12,6 @@ import { paths } from 'routes/helper';
 
 const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
 	const navigate = useNavigate();
-	console.log("items=", items);
 
 	return (
 		<>

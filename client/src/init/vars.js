@@ -43,6 +43,7 @@ const vars = {
 	errorPageRadialEnd: '#8B987F',
 	errorPageErrorCode: '#706259',
 	overlay: '#242424',
+	disabledColor: '#CCCCCC',
 	
 	
 	// переменные для проекта

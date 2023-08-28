@@ -8,22 +8,10 @@ import { useWhyDidYouUpdate } from 'ahooks';
 
 
 // mode = 'change' || 'add' || 'view'
-const IngredientItem = ({ mode, data, name, cloneAction, deleteAction, value, handleChange, getKey }) => {
-	const [oldValue, setOldValue] = useState('');
-	const [newValue, setNewValue] = useState('');
-	
+const IngredientItem = ({ mode, data, data1, name, deleteAction, value, value1, handleChange, handleChange1, getKey }) => {
+
 	// useWhyDidYouUpdate('IngredientItem', { mode, data, name, cloneAction, deleteAction, value, handleChange, getKey });
 
-	const handleOldChange = e => setOldValue(e.target.value);
-	const handleNewChange = e => setNewValue(e.target.value);
-
-
-	
-	function handleMinusClick(val) {
-		if (mode === 'add') {
-			deleteAction(val);
-		}
-	}
 
 
 
@@ -33,25 +21,34 @@ const IngredientItem = ({ mode, data, name, cloneAction, deleteAction, value, ha
 			return (
 				<>
 					<IngredientItemWrapper>
-						<Input
-							name={`old:${name}`}
-							placeholder={data}
-							rectangle
-							fz={12}
-							value={oldValue}
-							handleChange={handleOldChange}
-						/>
+						<div>
+							{
+								data !== false &&
+								<>
+									<Input
+										name={name}
+										placeholder={data === false ? '' : data}
+										rectangle
+										fz={12}
+										value={value}
+										disabled={data === false}
+										handleChange={e => handleChange(name, e)}
+									/>
 
-						<span>Заменить на</span>
+									<span>Заменить на</span>
+								</>
+							}
 
-						<Input
-							placeholder='ингредиент...'
-							name={`new:${name}`}
-							rectangle
-							fz={12}
-							value={newValue}
-							handleChange={handleNewChange}
-						/>
+							<Input
+								placeholder={data === false ? 'новый ингредиент...' :data1}
+								name={name}
+								rectangle
+								fz={12}
+								value={value1}
+								handleChange={e => handleChange1(name, e)}
+							/>
+						</div>
+						<Button type="plain" equalPadding action={deleteAction}><MinusICO /></Button>
 					</IngredientItemWrapper>
 				</>
 			);
@@ -72,7 +69,7 @@ const IngredientItem = ({ mode, data, name, cloneAction, deleteAction, value, ha
 							handleChange={e => handleChange(name, e)}
 							handleKeyPress={getKey}
 						/>
-						<Button type="plain" equalPadding action={() => handleMinusClick(name)}><MinusICO /></Button>
+						<Button type="plain" equalPadding action={deleteAction}><MinusICO /></Button>
 					</IngredientItemWrapper>
 				</>
 			);

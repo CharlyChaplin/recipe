@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
 import { DataContext, modalContextStore } from './context';
 import { useDispatch, useSelector } from 'react-redux';
-import { userGetRoles, userGetUser, userGetUsers, userUpdate } from 'redux/slices/userSlice';
+import { userGetRoles, userGetUser, userGetUsers, userGetUsersNickname, userUpdate } from 'redux/slices/userSlice';
 import axios from 'axiosSetup';
 import { showInfo } from 'redux/slices/infoSlice';
 import Spinner from 'components/Spinner/Spinner';
@@ -74,9 +74,12 @@ const ProfilePage = () => {
 	function showModal(e, mode) {
 		e.preventDefault();
 		switch (mode) {
-			
+
 			case 'recipeDeleteChange':
 				dispatch(recipeGetRecipies());
+				dispatch(categoryGetCategories());
+				if (userData?.user?.role === 1) dispatch(userGetUsersNickname());
+				// удаляем старые параметры для модального окна
 				Object.keys(modalParams).forEach(key => delete modalParams[key]);
 				Object.assign(modalParams, {
 					title: <SectionHeader>Удалить/изменить рецепт</SectionHeader>,
