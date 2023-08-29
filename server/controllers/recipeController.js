@@ -4,6 +4,7 @@ import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import { config } from 'dotenv';
 import ResetSeq from '../services/resetSequence.js';
 import translitPrepare from '../services/translitPrepare.js';
+import { datePrepare } from '../services/datePrepare.js';
 import fs from 'fs';
 
 
@@ -118,88 +119,148 @@ class RecipeController {
 		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-		// после всех проверок достаём рецепт из запроса для изменения в БД
-		let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
-		let file = null;
-		if (req.files) file = Object.values(req.files)[0];
-
-		console.log(dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption, file);
-
-		// берём данные из текущего состояния рецепта
-		// const recipeNow = await db.query(`
-		// 	SELECT * FROM recipe
-		// 	WHERE caption='${oldRecipeCaption}';
-		// `);
-
-		// // если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
-		// if (!dateadd) {
-		// 	dateadd = datePrepare(recipeNow.rows[0].dateadd);
-		// };
-
-		// if (!caption) {
-		// 	caption = recipeNow.rows[0].caption;
-		// };
-		// if (!description) {
-		// 	description = recipeNow.rows[0].description;
-		// };
-		// if (!owner) {
-		// 	const currentOwner = await db.query(`
-		// 		SELECT B.user_id FROM blog A, persondata B
-		// 		WHERE A.caption='${oldBlogCaption}' AND A.user_id=B.user_id;
-		// 	`);
-		// 	owner = currentOwner.rows[0].user_id;
-		// } else {
-		// 	const getOwnerId = await db.query(`
-		// 		SELECT user_id FROM persondata
-		// 		WHERE name='${owner}';
-		// 	`);
-		// 	owner = getOwnerId.rows[0].user_id;
-		// }
-
-		// // определяем пути для изображений
-		// let photoorig = blogNow.rows[0].photoorig;
-		// let photopreview = blogNow.rows[0].photopreview;
-
-		// // изменяем название папки блога в папке blogs в случае изменения названия блога
-		// if (caption != undefined && (caption !== oldBlogCaption)) {
-		// 	// описываем путь для старой папки блога
-		// 	const oldPath = `static/blogs/${translitPrepare(oldBlogCaption).toLowerCase().replace(" ", '_')}`;
-		// 	// описываем путь для новой папки блога
-		// 	const newPath = `static/blogs/${translitPrepare(caption).toLowerCase().replace(" ", '_')}`;
-		// 	// переименовываем папку для блога
-		// 	fs.renameSync(oldPath, newPath, err => console.log(err));
-		// 	photoorig = `${newPath.replace('static', '')}/photo.jpg`;
-		// 	photopreview = `${newPath.replace('static', '')}/photo.jpg`;
-		// }
-
-		// // если картинка была заменёна
-		// if (file) {
-		// 	// перемещаем файл в папку
-		// 	file.mv(`static/${photoorig}`, err => {
-		// 		if (err) {
-		// 			return res.status(500).send({ err: err, msg: "Error occurred" });
-		// 		}
-		// 	});
-		// }
-
 		try {
-			// const updatedBlog = await db.query(`
-			// 	UPDATE blog
-			// 	SET dateadd='${dateadd}',
-			// 		 user_id=${owner},
-			// 		 photoorig='${photoorig}',
-			// 		 photopreview='${photopreview}',
-			// 		 caption='${caption}',
-			// 		 description='${description}'
+			// после всех проверок достаём рецепт из запроса для изменения в БД
+			let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
+			let file = null;
+			if (req.files) file = Object.values(req.files)[0];
+			if (!oldRecipeCaption) throw ApiError.BadRequest("Absent old caption");
 
-			// 	WHERE caption='${oldBlogCaption}'
-			// 	RETURNING *;
-			// `);
-			// if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");
-			// res.json(updatedBlog.rows);
-			res.json();
+			// console.log(dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption, file);
+			let categoryId;
+			let captionLat;
+
+			// берём данные из текущего состояния рецепта
+			const recipeNow = await db.query(`
+				SELECT * FROM recipe
+				WHERE caption='${oldRecipeCaption}';
+			`);
+			// console.log(recipeNow.rows[0].dateadd);
+
+			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
+			if (!dateadd) {
+				dateadd = recipeNow.rows[0].dateadd;
+			};
+
+			if (!caption) {
+				caption = recipeNow.rows[0].caption;
+				captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+				console.log(captionLat);
+			} else {
+				captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+			};
+
+			if (!shortDescription) {
+				shortDescription = recipeNow.rows[0].shortdescription;
+			};
+
+			// если не пришла, то берём текущее значение из БД в виде id
+			if (!category) {
+				categoryId = recipeNow.rows[0].category_id;
+			} else {
+				// берём данные категории, исходя из тектового названия пришедшей категории
+				const categoryNow = await db.query(`
+					SELECT id FROM category
+					WHERE caption='${category}';
+				`);
+				categoryId = categoryNow.rows[0].id;
+			}
+
+			if (!cookingText) {
+				cookingText = recipeNow.rows[0].cookingtext;
+			}
+
+			if (!owner) {
+				const currentOwner = await db.query(`
+					SELECT B.user_id
+					FROM recipe A, persondata B
+					WHERE A.caption='${oldRecipeCaption}' AND A.user_id=B.user_id;
+				`);
+				owner = currentOwner.rows[0].user_id;
+			} else {
+				const getOwnerId = await db.query(`
+					SELECT user_id FROM persondata
+					WHERE name='${owner}';
+				`);
+				owner = getOwnerId.rows[0].user_id;
+			}
+
+			// определяем пути для изображений
+			let photoorig = recipeNow.rows[0].photoorig;
+			let photopreview = recipeNow.rows[0].photopreview;
+
+			// изменяем название папки рецепта в папке recipe в случае изменения названия рецепта
+			if (caption != undefined && (caption !== oldRecipeCaption)) {
+				// описываем путь для старой папки рецепта
+				const oldPath = `static/recipe/${translitPrepare(oldRecipeCaption).toLowerCase().replace(" ", '_')}`;
+				// описываем путь для новой папки рецепта
+				const newPath = `static/recipe/${translitPrepare(caption).toLowerCase().replace(" ", '_')}`;
+				// переименовываем папку для блога
+				fs.renameSync(oldPath, newPath, err => console.log(err));
+				photoorig = `${newPath.replace('static', '')}/photo.jpg`;
+				photopreview = `${newPath.replace('static', '')}/photo.jpg`;
+			}
+
+			// если картинка была заменёна
+			if (file) {
+				// перемещаем файл в папку
+				file.mv(`static/${photoorig}`, err => {
+					if (err) {
+						return res.status(500).send({ err: err, msg: "Error occurred" });
+					}
+				});
+			}
+
+			// console.log(owner, categoryId, dateadd, caption, photoorig, photopreview, shortDescription, cookingText);
+
+			// обновляем запись рецепта
+			const updatedRecipe = await db.query(`
+				UPDATE recipe
+				SET user_id=${owner},
+					 category_id=${categoryId},
+					 dateadd='${dateadd}',
+					 caption='${caption}',
+					 caption_lat='${captionLat}',
+					 photoorig='${photoorig}',
+					 photopreview='${photopreview}',
+					 shortdescription='${shortDescription}',
+					 cookingtext='${cookingText}'
+
+				WHERE caption='${oldRecipeCaption}'
+				RETURNING *;
+			`);
+			if (!updatedRecipe.rowCount) throw ApiError.BadRequest("Can't to UPDATE recipe while EDIT recipe");
+
+			// обновляем запись ингредиентов (для начала удалив все текущие, касательно данного рецепта)
+			const deleteOldIngredientsForCurrentRecipe = await db.query(`
+				DELETE FROM ingredient
+				WHERE recipe_id=${recipeNow.rows[0].id}
+			`);
+			// создаём ингредиенты для текущего рецепта
+			// рождаем строки для множественного добавления
+			const ings = JSON.parse(ingredients).map(ing => {
+				return (
+					`(${owner}, ${recipeNow.rows[0].id}, '${ing}')`
+				)
+			});
+			// устанавливаем последовательность на MAX значение текущего id + 1
+			ResetSeq.resetSequence('ingredient');
+			// добавляем запись
+			const newIngredients = await db.query(`
+				INSERT INTO ingredient(user_id, recipe_id, caption)
+				VALUES ${ings}
+				RETURNING *;
+			`);
+			if (!newIngredients.rowCount) throw ApiError.BadRequest("Can't to UPDATE ingredients while EDIT recipe");
+
+			const recipeData = {
+				caption: updatedRecipe.rows[0].caption_lat
+			}
+
+			res.json(recipeData);
 		} catch (err) {
-			res.status(400).json(err);
+			console.log(err);
+			res.status(400).json(err.message);
 		}
 
 	}
