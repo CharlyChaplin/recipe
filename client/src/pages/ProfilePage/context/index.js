@@ -5,13 +5,14 @@ export const modalContextStore = {
 	selectedCategoryForDelete: '',
 	selectedBlogForDelete: '',
 	selectedRecipeForDelete: '',
-	
+
 	newPhraseToAdd: '',
 	newCategoryToAdd: '',
-	
+	newCategoryPhotoToAdd: '',
+
 	phraseForDelete: '',
 	categoryForDelete: '',
-	
+
 	userEditEmailForChange: '',
 	userEditNewNickname: '',
 	userEditNewRole: '',
@@ -24,15 +25,18 @@ export const modalContextStore = {
 	addNewPhrase(val) {
 		this.newPhraseToAdd = val;
 	},
-	
+
 	addNewCategory(val) {
 		this.newCategoryToAdd = val;
+	},
+	addNewCategoryPhoto(val) {
+		this.newCategoryPhotoToAdd = val;
 	},
 
 	selectPhraseForDelete(val) {
 		this.phraseForDelete = val;
 	},
-	
+
 	selectCategoryForDelete(val) {
 		this.categoryForDelete = val;
 	},

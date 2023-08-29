@@ -15,6 +15,9 @@ import { showInfo } from 'redux/slices/infoSlice.js';
 import { useCallback } from 'react';
 import axios from 'axiosSetup';
 import { categoryGetCategories } from 'redux/slices/categorySlice.js';
+import { AddCategoryPhoto, AddWrapperCategory, AddWrapperCategoryLeft, AddWrapperCategorySidePart } from './styled.js';
+import { AddPhotoBlock } from 'pages/pages.styled.js';
+import ImageInsert from 'components/ImageInsert/ImageInsert.jsx';
 
 
 const categoryAddChangeDelete = () => {
@@ -30,6 +33,7 @@ const categoryAddChangeDelete = () => {
 	const [selected, setSelected] = useState('');
 	const [inputText, setInputText] = useState(selected);
 	const [categories, setCategories] = useState([]);
+	const [picture, setPicture] = useState("");
 
 	let categoryName = '';
 
@@ -38,7 +42,6 @@ const categoryAddChangeDelete = () => {
 			setCategories(categoryData.map(el => el.caption));
 		}
 	}, [categoryData]);
-
 
 	// получаем новую фразу в состояние
 	function handleAddCategory(e) { setNewCategory(e.target.value); }
@@ -63,8 +66,12 @@ const categoryAddChangeDelete = () => {
 	const handleAdd = useCallback(async () => {
 		if (!newCategory.length) return;
 		modalStore.addNewCategory(newCategory);
+		modalStore.addNewCategoryPhoto(picture);
+		const fd = new FormData();
+		fd.append('categoryText', newCategory);
+		fd.append('bg', picture);
 		try {
-			const resp = await axios.post('/category/add', { categoryText: newCategory });
+			const resp = await axios.post('/category/add', fd, { headers: { "Content-Type": 'multipart/formdata' } });
 			if (resp.status && resp.status === 200) {
 				dispatch(showInfo({ text: `Категория "${resp.data.caption}" была добавлена.`, ok: true }));
 				setNewCategory('');	// очищаем поле ввода новой категории
@@ -73,7 +80,7 @@ const categoryAddChangeDelete = () => {
 		} catch (error) {
 			dispatch(showInfo({ text: `Ошибка при добавлении (${error.response.data.detail})`, cancel: true }));
 		}
-	}, [dispatch, newCategory]);
+	}, [dispatch, newCategory, picture]);
 
 	// получаем изменённую категорию в состояние
 	function handleChangeCategory(e) {
@@ -132,22 +139,35 @@ const categoryAddChangeDelete = () => {
 	}
 
 
+	function getSelectedFile(pictureFile) {
+		setPicture(pictureFile);
+	}
+
+	
+	
+
 
 	return (
 		<>
 			<ModalContentWrapper>
-				<AddWrapper>
-					<Input
-						labelPos='column'
-						labelText='Добавить категорию:'
-						value={newCategory}
-						placeholder='Новая категория...'
-						autoFocus
-						handleChange={handleAddCategory}
-						handleKeyPress={e => handleKeyPress(e, 'add')}
-					/>
-					<Button equalPadding action={handleAdd} disabled={!newCategory?.length > 0}>{<AddICO />}</Button>
-				</AddWrapper>
+				<AddWrapperCategory>
+					<AddWrapperCategorySidePart>
+						<Input
+							labelPos='column'
+							labelText='Добавить категорию:'
+							value={newCategory}
+							placeholder='Новая категория...'
+							autoFocus
+							handleChange={handleAddCategory}
+							handleKeyPress={e => handleKeyPress(e, 'add')}
+						/>
+						<Button equalPadding action={handleAdd} disabled={!newCategory?.length > 0}>{<AddICO />}Добавить</Button>
+					</AddWrapperCategorySidePart>
+					<AddCategoryPhoto>
+						<span>Фон для категории:</span>
+						<AddPhotoBlock><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlock>
+					</AddCategoryPhoto>
+				</AddWrapperCategory>
 
 				<HorizontalLine />
 
@@ -168,7 +188,7 @@ const categoryAddChangeDelete = () => {
 
 				{
 					isEdit &&
-					<AddWrapper $verticalcenter>
+					<AddWrapper verticalcenter>
 						<Input
 							value={changedCategory}
 							handleChange={handleChangeCategory}

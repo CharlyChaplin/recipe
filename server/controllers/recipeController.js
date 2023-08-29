@@ -16,7 +16,8 @@ class RecipeController {
 
 		// после всех проверок достаём рецепт и файл картинки для занесения их в БД
 		const { dateadd, owner, caption, shortDescription, ingredients, category, cookingText } = req.body;
-		const [picture] = Object.values(req.files);
+		let picture;
+		if (req.files) picture = Object.values(req.files);
 
 		const captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
 

@@ -159,7 +159,7 @@ const phraseAddChangeDelete = () => {
 
 				{
 					isEdit &&
-					<AddWrapper $verticalcenter>
+					<AddWrapper verticalcenter>
 						<Input
 							value={changedPhrase}
 							handleChange={handleChangePhrase}

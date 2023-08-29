@@ -2,6 +2,8 @@ import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import translitPrepare from '../services/translitPrepare.js';
+import ResetSeq from '../services/resetSequence.js';
+import fs from 'fs';
 
 
 class CategoryController {
@@ -19,16 +21,50 @@ class CategoryController {
 		try {
 			// после всех проверок достаём категорию для занесения её в БД
 			const { categoryText } = req.body;
-			db.query(`SELECT MAX(id) FROM category;`)
-				.then(resp => db.query(`ALTER SEQUENCE category_id_seq RESTART WITH ${resp.rows[0].max + 1};`));
+			let picture;
+			if (req.files) picture = Object.values(req.files)[0];
+
+			// транслитерация названия
+			const captionLat = translitPrepare(categoryText).toLowerCase().replace(" ", '_');
+
+			let previewPath = null;
+			let bgPath = null;
+			
+			if (picture) {
+				// описываем путь, по которому расположится папка категории
+				const mainPath = `static/category/${captionLat}`;
+				// создаём папку для категории
+				fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
+				// описываем путь, по которому расположится файл
+				previewPath = `${mainPath}/photo.jpg`;
+				bgPath = `${mainPath}/bg.jpg`;
+				// перемещаем файл в папку
+				picture.mv(`${previewPath}`, err => {
+					if (err) {
+						return res.status(500).send({ err: err, msg: "Error occurred" });
+					}
+				});
+				picture.mv(`${bgPath}`, err => {
+					if (err) {
+						return res.status(500).send({ err: err, msg: "Error occurred" });
+					}
+				});
+			}
+
+			// убираем из пути слово 'static'
+			const photopreview = previewPath && previewPath.replace('static', '');
+			const bg = bgPath && bgPath.replace('static', '');
+
+			ResetSeq.resetSequence('category');
 			const newCategory = await db.query(`
-				INSERT INTO category(user_id, caption)
-				VALUES ('${user_id}','${categoryText}')
+				INSERT INTO category(user_id, caption, photopreview, bg, caption_lat)
+				VALUES ('${user_id}','${categoryText}', '${photopreview}', '${bg}', '${captionLat}')
 				RETURNING *;
 			`);
 			if (!newCategory.rowCount) throw ApiError.BadRequest("Can't to add new category");
 			res.json(newCategory.rows[0]);
 		} catch (err) {
+			console.log(err);
 			res.status(400).json(err)
 		}
 
@@ -47,6 +83,11 @@ class CategoryController {
 				RETURNING caption;
 			`);
 			if (!deletedCategory.rowCount) throw ApiError.BadRequest("Can't to delete category");
+			
+			const captionLat = translitPrepare(categoryCaption).toLowerCase().replace(" ", '_');
+			// удаляем папку категории в static
+			fs.rmSync(`static/category/${captionLat}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
+			
 			res.json(deletedCategory.rows[0].caption);
 		} catch (err) {
 			res.status(400).json(err)
