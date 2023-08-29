@@ -17,27 +17,14 @@ import Button from 'components/Button/Button';
 import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
 import { paths } from 'routes/helper';
 import { RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from 'pages/RecipeAddPage/styled';
-import { recipeEditRecipe } from 'redux/slices/recipeSlice';
+import { clearRecipeData, recipeEditRecipe } from 'redux/slices/recipeSlice';
 import { showInfo } from 'redux/slices/infoSlice';
 
 
 
 const RecipeEditPage = () => {
-	const [fields, setFields] = useState({
-		dateadd: '',
-		owner: '',
-		picture: '',
-		caption: '',
-		shortDescription: '',
-		ingredients: [],
-		category: '',
-		cookingText: '',
-		oldRecipeCaption: ''
-	});
-
-
 	const { userData, users, usersName } = useSelector(state => state.userReducer);
-	const { recipeData, loading, errors } = useSelector(state => state.recipeReducer);
+	const { recipeData, loading, errors, completed } = useSelector(state => state.recipeReducer);
 	const { categoryData } = useSelector(state => state.categoryReducer);
 	const dispatch = useDispatch();
 	const [userSelected, setUserSelected] = useState('');
@@ -47,6 +34,17 @@ const RecipeEditPage = () => {
 	const [ingredients, setIngredients] = useState([]);
 	const navigate = useNavigate();
 
+	const [fields, setFields] = useState({
+		dateadd: '',
+		owner: '',
+		picture: '',
+		caption: '',
+		shortDescription: '',
+		ingredients: [],
+		category: '',
+		cookingText: '',
+		oldRecipeCaption: recipeData?.caption
+	});
 
 
 
@@ -62,6 +60,13 @@ const RecipeEditPage = () => {
 	useEffect(() => {
 		setFields({ ...fields, ingredients: ingredients });
 	}, [ingredients]);
+	
+	useEffect(() => {
+		if (completed) {
+			dispatch(clearRecipeData());
+			navigate(`/recipe/${recipeData.caption}`);
+		};
+	}, [completed]);
 
 
 	function getRecipe() {
@@ -76,7 +81,8 @@ const RecipeEditPage = () => {
 						data: curr,
 						data1: 'ингредиент...',
 						value: '',
-						value1: ''
+						value1: '',
+						locked: true
 					}
 				]
 			}, []);
@@ -86,9 +92,7 @@ const RecipeEditPage = () => {
 			// заполняем стейт текущими ингредиентами, копирую из временного
 			setFields({
 				...fields,
-				ingredients: arr,
-				// запоминаем старое значение заголовка для отправки на сервер
-				oldRecipeCaption: recipeData.caption
+				ingredients: arr
 			});
 		}
 	};
@@ -153,7 +157,11 @@ const RecipeEditPage = () => {
 		const fd = new FormData();
 		for (let [key, value] of Object.entries(fields)) {
 			if (key === 'ingredients') {
-				fd.append(key, JSON.stringify(value));
+				const prepareIngredients = ingredients.map(item => {
+					// если value1 пуст, значит это старые данные и извлекаем только поле 'data', иначе value1
+					return (item.value1 || item.data);
+				});
+				fd.append(key, JSON.stringify(prepareIngredients));
 			} else {
 				fd.append(key, value);
 			}
@@ -174,7 +182,7 @@ const RecipeEditPage = () => {
 	}
 
 
-	console.log(fields, ingredients);
+	console.log(fields);
 
 
 
@@ -219,7 +227,7 @@ const RecipeEditPage = () => {
 										<Button equalPadding action={addIngredient} ><AddICO /></Button>
 										<RecipeIngredientsItemsWrapper>
 											{
-												fields?.ingredients?.map((ingredient, index) => {
+												fields?.ingredients?.map((_, index) => {
 													return (
 														<IngredientItem
 															key={index}
@@ -229,6 +237,7 @@ const RecipeEditPage = () => {
 															mode={fields?.ingredients[index]?.mode}
 															value={fields?.ingredients[index]?.value}
 															value1={fields?.ingredients[index]?.value1}
+															locked={fields?.ingredients[index]?.locked}
 															handleChange={changeIngredients}
 															handleChange1={changeIngredients1}
 															deleteAction={() => deleteIngredient(index)}

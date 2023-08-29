@@ -140,11 +140,13 @@ export const recipeSlice = createSlice({
 		build.addCase(recipeEditRecipe.fulfilled, (state, action) => {
 			state.loading = false;
 			state.recipeData = action.payload;
+			state.completed = true;
 			state.errors = "";
 		});
 		build.addCase(recipeEditRecipe.rejected, (state, action) => {
 			state.loading = false;
 			state.recipeData = [];
+			state.completed = false;
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
