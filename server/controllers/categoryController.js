@@ -100,7 +100,11 @@ class CategoryController {
 		try {
 			const { lat_name } = req.body;
 
-			const categoryName = await db.query(`SELECT caption, caption_lat FROM category WHERE caption_lat='${lat_name}';`);
+			const categoryName = await db.query(`
+				SELECT caption, caption_lat
+				FROM category
+				WHERE caption_lat='${lat_name}';
+			`);
 			if (!categoryName.rowCount) throw ApiError.BadRequest("Error while getting categoryName");
 
 			const categoryData = {

@@ -1,21 +1,29 @@
-import { Link } from "react-router-dom";
 import { styled } from "styled-components";
+import { rem } from "init/mixins";
+import { Link } from "react-router-dom";
+import vars from "init/vars";
 
 
-export const PreviewItemWrapper = styled(({ url, children, ...props }) => (
-	<Link to={url} {...props}>
-		{children}
-	</Link>
-))`
-	border: 1px solid #f00;
-`;
 
 export const PreviewItemPhoto = styled(({ image, imageAlt, ...props }) => (
 	<div {...props}>
 		<img src={image} alt={imageAlt} />
 	</div>
 ))`
+	flex: 1 0 auto;
+	overflow: hidden;
+	border-radius: ${rem(10)};
+	border: ${rem(1)} solid ${vars.lightGreen};
+	transition: all 0.25s ease 0s;
+	max-height: ${rem(150)};
+	max-width: ${rem(200)};
 	
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: all 0.25s ease 0s;
+	}
 `;
 
 export const PreviewItemDescription = styled(({ text, ...props }) => (
@@ -23,5 +31,34 @@ export const PreviewItemDescription = styled(({ text, ...props }) => (
 		<span>{text}</span>
 	</div>
 ))`
+	font-family: "RalewaySemiBold", sans-serif;
+	font-size: ${rem(20)};
+	line-height: calc(20 / ${vars.fz});
+	letter-spacing: ${rem(2)};
+	color: ${vars.text};
+	text-align: center;
+	transition: all 0.25s ease 0s;
+`;
+
+export const PreviewItemWrapper = styled(({ url, children, ...props }) => (
+	<Link to={url} {...props}>
+		{children}
+	</Link>
+))`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: ${rem(15)};
 	
+	&:hover {
+		${PreviewItemPhoto} {
+			border: ${rem(1)} solid ${vars.accent};
+			img {
+				scale: 1.025;
+			}
+		}
+		${PreviewItemDescription} {
+			color: ${vars.darkGreen};
+		}
+	}
 `;

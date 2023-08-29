@@ -93,6 +93,7 @@ const InitStyle = createGlobalStyle`
 	${fonts}
 	
 	#root {
+		font-size: ${Vars.fz}px;
 		min-height: 100%;
 		height: 100%;
 		width: 100%;

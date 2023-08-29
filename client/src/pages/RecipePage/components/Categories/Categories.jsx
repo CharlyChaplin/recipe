@@ -1,18 +1,17 @@
 import React from 'react';
-import SectionHeader from 'components/SectionHeader/SectionHeader';
-import vars from 'init/vars';
-import { ContentPaddingTop, ContentWrapper, InnerWrapper } from 'pages/pages.styled';
-import Spinner from 'components/Spinner/Spinner';
-import NoData from 'components/NoData/NoData';
 import { useDispatch, useSelector } from 'react-redux';
-import PreviewItem from '../PreviewItem/PreviewItem';
-import { nanoid } from 'nanoid';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { recipeGetByCategory, recipeGetPreviewRecipies } from 'redux/slices/recipeSlice';
 import InnerItems from '../InnerItems/InnerItems';
 import { useLocation, useParams } from 'react-router-dom';
-import { categoryGetCategoryName } from 'redux/slices/categorySlice';
+import { categoryGetCategoryName, clearCategoryData } from 'redux/slices/categorySlice';
+import { MainWrapper } from 'pages/pages.styled';
+import napitkiBg from 'assets/img/category/drinks/bg.jpg';
+import saladsBg from 'assets/img/category/salads/bg.jpg';
+import soupsBg from 'assets/img/category/soups/bg.jpg';
+import bg from 'assets/img/blog/bg.jpg';
+
 
 
 let outData;
@@ -27,10 +26,14 @@ const Categories = () => {
 
 	useEffect(() => {
 		if (name) {
+			// запрашиваем элементы в конкретной категории
 			getCategoryItems();
 		} else {
+			// запрашиваем существующие категории в виде превью
 			getPreview();
 		}
+
+		return () => dispatch(clearCategoryData());
 	}, [location]);
 
 
@@ -57,14 +60,27 @@ const Categories = () => {
 			url: `category/${category.categoryname}`
 		}));
 	}
-	
+
+	// console.log(name);
 
 
 	return (
 		<>
+			<MainWrapper image={
+				name
+					? name === 'napitki'
+						? napitkiBg
+						: name === 'salaty'
+							? saladsBg
+							: name === 'supy'
+								? soupsBg
+								: null
+					: bg
+			}>
 
-			<InnerItems backBtn={!!name} headerCaption={name ? categoryData.caption : 'Рецепты по категориям'} items={outData} loadStatus={loading} />
+				<InnerItems backBtn={!!name} headerCaption={name ? categoryData.caption : 'Рецепты по категориям'} items={outData} loadStatus={loading} />
 
+			</MainWrapper>
 		</>
 	);
 }

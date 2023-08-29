@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
 import { clearRecipeData, recipeAddRecipe } from 'redux/slices/recipeSlice';
 import { showInfo } from 'redux/slices/infoSlice';
+import Spinner from 'components/Spinner/Spinner';
 
 
 
@@ -36,7 +37,7 @@ const RecipeAddPage = () => {
 	});
 	const { userData, errors } = useSelector(state => state.userReducer);
 	const { recipeData, loading, completed } = useSelector(state => state.recipeReducer);
-	const { categoryData } = useSelector(state => state.categoryReducer);
+	const { categoryData, categoryLoading } = useSelector(state => state.categoryReducer);
 
 	const [ingredients, setIngredients] = useState([{
 		data: "ингредиент...",
@@ -109,7 +110,7 @@ const RecipeAddPage = () => {
 				fd.append(key, value);
 			}
 		}
-		
+
 		try {
 			dispatch(recipeAddRecipe(fd));
 			setTimeout(() => {
@@ -187,7 +188,12 @@ const RecipeAddPage = () => {
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Категория:" />
 									<RecipeBlockContentWrapper>
-										<DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
+										{
+											categoryLoading
+												? <Spinner height={26} />
+												: <DropdownList elements={(categoryData?.map(el => el.caption))} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
+										}
+
 									</RecipeBlockContentWrapper>
 								</RecipeIngredientsWrapper>
 

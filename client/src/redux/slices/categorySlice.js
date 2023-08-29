@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axiosSetup';
 
 const initialState = {
-	loading: false,
+	categoryLoading: false,
 	categoryData: [],
 	errors: "",
 }
@@ -73,83 +73,88 @@ export const categoryGetCategoryName = createAsyncThunk(
 export const categorySlice = createSlice({
 	name: 'categorySlice',
 	initialState,
-	reducers: {},
+	reducers: {
+		clearCategoryData: (state, action) => {
+			state.categoryData = [];
+			state.completed = false;
+		}
+	},
 	extraReducers: (build) => {
 		//========================================================================================================================================================
 		build.addCase(categoryAddCategory.pending, (state, action) => {
-			state.loading = true;
+			state.categoryLoading = true;
 			state.categoryData = [];
 			state.errors = "";
 		});
 		build.addCase(categoryAddCategory.fulfilled, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = action.payload;
 			state.errors = "";
 		});
 		build.addCase(categoryAddCategory.rejected, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = [];
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
 		build.addCase(categoryDeleteCategory.pending, (state, action) => {
-			state.loading = true;
+			state.categoryLoading = true;
 			state.categoryData = [];
 			state.errors = "";
 		});
 		build.addCase(categoryDeleteCategory.fulfilled, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = action.payload;
 			state.errors = "";
 		});
 		build.addCase(categoryDeleteCategory.rejected, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = [];
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
 		build.addCase(categoryEditCategory.pending, (state, action) => {
-			state.loading = true;
+			state.categoryLoading = true;
 			state.categoryData = [];
 			state.errors = "";
 		});
 		build.addCase(categoryEditCategory.fulfilled, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = action.payload;
 			state.errors = "";
 		});
 		build.addCase(categoryEditCategory.rejected, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = [];
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
 		build.addCase(categoryGetCategories.pending, (state, action) => {
-			state.loading = true;
+			state.categoryLoading = true;
 			state.errors = "";
 		});
 		build.addCase(categoryGetCategories.fulfilled, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = action.payload;
 			state.errors = "";
 		});
 		build.addCase(categoryGetCategories.rejected, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = [];
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
 		build.addCase(categoryGetCategoryName.pending, (state, action) => {
-			state.loading = true;
+			state.categoryLoading = true;
 			state.errors = "";
 		});
 		build.addCase(categoryGetCategoryName.fulfilled, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = action.payload;
 			state.errors = "";
 		});
 		build.addCase(categoryGetCategoryName.rejected, (state, action) => {
-			state.loading = false;
+			state.categoryLoading = false;
 			state.categoryData = [];
 			state.errors = action.payload;
 		});
@@ -157,6 +162,6 @@ export const categorySlice = createSlice({
 });
 
 
-export const { } = categorySlice.actions;
+export const { clearCategoryData } = categorySlice.actions;
 
 export default categorySlice.reducer;

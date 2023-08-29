@@ -145,7 +145,7 @@ class RecipeController {
 			if (!caption) {
 				caption = recipeNow.rows[0].caption;
 				captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
-				console.log(captionLat);
+				// console.log(captionLat);
 			} else {
 				captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
 			};
@@ -275,7 +275,7 @@ class RecipeController {
 				SELECT * FROM recipe
 				WHERE caption_lat='${translitPrepare(recipeCaption).toLowerCase().replace(" ", '_')}';
 			`);
-			if (!isRecipe.rowCount) throw ApiError.BadRequest("Error while getting the recipe");
+			if (!isRecipe.rowCount) throw ApiError.NotFoundURL("Not found data");
 			// достаём владельца рецепта
 			const owner = await db.query(`
 				SELECT name FROM persondata
@@ -400,6 +400,7 @@ class RecipeController {
 
 			res.json(recipiesData);
 		} catch (err) {
+			console.log(err);
 			res.status(400).json(err);
 		}
 	}

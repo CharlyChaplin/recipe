@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS public.category
     user_id integer NOT NULL,
     caption character varying(255) NOT NULL,
     photopreview character varying,
+    bg character varying,
     caption_lat character varying,
     PRIMARY KEY (id),
     CONSTRAINT "Category_UNIQUE_Error" UNIQUE (caption_lat)
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS public.recipe
     shortdescription text,
     cookingtext text NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT "Recipe_UNIQUE_Error" UNIQUE (caption)
+    CONSTRAINT "Recipe_UNIQUE_Error" UNIQUE (caption_lat)
 );
 
 CREATE TABLE IF NOT EXISTS public.ingredient

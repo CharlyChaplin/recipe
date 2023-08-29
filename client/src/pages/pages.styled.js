@@ -22,7 +22,6 @@ export const MainWrapper = styled(({ children, image, ...props }) => (
 	z-index: 0;
 	background: url(${({ image }) => image ? image : null}) 0 0 no-repeat;
 	background-size: cover;
-	background-repeat: no-repeat;
 	color: ${vars.whiteColor};
 	position: relative;
 	
@@ -71,6 +70,7 @@ export const ContentWrapper = styled(({ children, spiner, ...props }) => (
 	font-family: "RalewayRegular", sans-serif;
 	max-width: ${rem(1050)};
 	color: ${vars.text};
+	z-index: 1;
 `;
 
 export const PreviewCategoryRecipeItem = styled(({ children, url, image, imageAlt, title, ...props }) => (

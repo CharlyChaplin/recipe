@@ -8,6 +8,7 @@ import { nanoid } from 'nanoid';
 import NoData from 'components/NoData/NoData';
 import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
+import { ContentWrapperForCategories } from './styled';
 
 
 const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
@@ -24,11 +25,11 @@ const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
 
 				{
 					loadStatus
-						? <ContentWrapper spiner><Spinner height={100} /></ContentWrapper>
+						? <ContentWrapperForCategories spiner><Spinner height={100} /></ContentWrapperForCategories>
 						: <>
 							{
 								items?.length > 0
-									? <ContentWrapper>
+									? <ContentWrapperForCategories>
 										{
 											items.map(item => {
 												return (
@@ -43,7 +44,7 @@ const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
 												)
 											})
 										}
-									</ContentWrapper>
+									</ContentWrapperForCategories>
 									: <ContentWrapper spiner><NoData /></ContentWrapper>
 							}
 						</>

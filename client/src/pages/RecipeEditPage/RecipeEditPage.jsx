@@ -182,7 +182,7 @@ const RecipeEditPage = () => {
 	}
 
 
-	console.log(fields);
+	// console.log(fields);
 
 
 

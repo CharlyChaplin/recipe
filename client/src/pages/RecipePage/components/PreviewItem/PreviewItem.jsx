@@ -4,7 +4,6 @@ import { PreviewItemDescription, PreviewItemPhoto, PreviewItemWrapper } from './
 
 
 const PreviewItem = ({ url, image, imageAlt, description }) => {
-	// console.log(url, image, imageAlt, description);
 
 	return (
 		<>
@@ -14,15 +13,6 @@ const PreviewItem = ({ url, image, imageAlt, description }) => {
 				<PreviewItemDescription text={description} />
 
 			</PreviewItemWrapper>
-
-			{/* <Link to={url} className="category__item itemcategory">
-				<div className="itemcategory__photo">
-					<img src={image} alt={imageAlt} />
-				</div>
-				<div className="itemcategory__description">
-					<span>{title}</span>
-				</div>
-			</Link> */}
 		</>
 	);
 }

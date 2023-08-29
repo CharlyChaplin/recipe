@@ -99,9 +99,10 @@ export const RecipeMiniCaption = styled(({ text, ...props }) => (
 	font-family: "RalewayBold", sans-serif;
 	font-weight: bold;
 	font-size: ${rem(20)};
-	letter-spacing: 110%;
+	letter-spacing: ${rem(1)};
 	text-transform: uppercase;
 	color: ${vars.text};
+	margin-left: ${rem(20)};
 `;
 
 export const RecipeIngredientsWrapper = styled(({ children, ...props }) => (
@@ -111,11 +112,7 @@ export const RecipeIngredientsWrapper = styled(({ children, ...props }) => (
 	flex-direction: column;
 	align-items: flex-start;
 	width: 100%;
-	gap: ${rem(15)};
-	${RecipeMiniCaption} {
-		text-indent: ${rem(20)};
-	}
-	
+	gap: ${rem(23)};
 `;
 
 export const RecipeCookingTextWrapper = styled(({ children, ...props }) => (

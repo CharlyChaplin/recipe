@@ -32,6 +32,8 @@ const ImageInsert = ({ currentFile, selectedFile, placeholder }) => {
 		e.stopPropagation();
 		setDraggable(false);
 
+		if (!selectedFile) return;
+
 		if (e.dataTransfer.files.length > 1) {
 			alert("Выберите только ОДИН файл");
 			return;
@@ -47,17 +49,41 @@ const ImageInsert = ({ currentFile, selectedFile, placeholder }) => {
 	}
 
 
+
+
 	return (
 		<>
-			<NewImageWrapper onClick={() => fileInput.current.click()} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDragLeave} onDragOver={handleDragEnter} onDrop={handleDrop}>
+			<NewImageWrapper
+				onClick={selectedFile ? () => fileInput.current.click() : () => { }}
+				onDragEnter={handleDragEnter}
+				onDragOver={handleDragEnter}
+				onDragLeave={handleDragLeave}
+				onDragEnd={handleDragLeave}
+				onDrop={handleDrop}
+			>
 
-				{(previewUrl || currentFile) && <NewImagePicture image={previewUrl || currentFile} />}
+				{
+					(previewUrl || currentFile) &&
+					<NewImagePicture image={previewUrl || currentFile} />
+				}
 
-				<input type="file" ref={fileInput} hidden accept='image/*' onChange={e => handleFile(e.target.files[0])} />
+				<input
+					type="file"
+					ref={fileInput}
+					hidden
+					accept='image/*'
+					onChange={e => handleFile(e.target.files[0])}
+				/>
 
-				{(!previewUrl && !currentFile) && <NewImagePlaceholder placeholder={placeholder} />}
+				{
+					(!previewUrl && !currentFile) &&
+					<NewImagePlaceholder placeholder={placeholder} />
+				}
 
-				{draggable && <NewImageOverlay />}
+				{
+					draggable && selectedFile &&
+					<NewImageOverlay />
+				}
 
 			</NewImageWrapper>
 		</>
