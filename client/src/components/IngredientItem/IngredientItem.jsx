@@ -8,7 +8,7 @@ import { useWhyDidYouUpdate } from 'ahooks';
 
 
 // mode = 'change' || 'add' || 'view'
-const IngredientItem = ({ mode, data, data1, name, deleteAction, value, value1, handleChange, handleChange1, getKey }) => {
+const IngredientItem = ({ mode, locked, data, data1, name, deleteAction, value, value1, handleChange, handleChange1, getKey }) => {
 
 	// useWhyDidYouUpdate('IngredientItem', { mode, data, name, cloneAction, deleteAction, value, handleChange, getKey });
 
@@ -31,7 +31,7 @@ const IngredientItem = ({ mode, data, data1, name, deleteAction, value, value1, 
 										rectangle
 										fz={12}
 										value={value}
-										disabled={data === false}
+										disabled={data === false || locked === true}
 										handleChange={e => handleChange(name, e)}
 									/>
 
