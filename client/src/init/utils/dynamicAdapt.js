@@ -1,5 +1,9 @@
 // Dynamic Adapt v.1
-// HTML data-da="где(уникальное имя класса),когда(breakpoint),позиция(digi)"
+
+// HTML data-da="куда переместить(уникальное имя класса, куда переместить),
+// при условии(breakpoint),
+// позиция в элементе, куда будет перемещено(digi)"
+
 // например data-da=".item, 992, 2"
 // Andrikanych Yevhen 2020
 // https://www.youtube.com/c/freelancerlifestyle

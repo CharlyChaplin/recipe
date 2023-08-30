@@ -24,11 +24,9 @@ const AppContent = () => {
 	const location = useLocation();
 
 	const isAuthPage = [paths.signin, paths.signup, paths.profile].includes(location.pathname);
-	const errPage = ![paths.home, paths.recipe, paths.recipeedit, paths.blog, paths.blogedit, paths.about].includes(location.pathname);
 
 	return (
 		<>
-			{/* {(!isAuthPage && !errPage) && <Header />} */}
 			{(!isAuthPage) && <Header />}
 			<Page>
 				<Routes>
@@ -47,7 +45,6 @@ const AppContent = () => {
 					<Route path='*' element={<ErrorPage errCode={404} errDescription="Ресурс не найден" backBtn />} />
 				</Routes>
 			</Page>
-			{/* {(!isAuthPage && !errPage) && <Footer />} */}
 			{(!isAuthPage) && <Footer />}
 
 		</>

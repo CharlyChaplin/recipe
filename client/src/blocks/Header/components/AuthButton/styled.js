@@ -8,14 +8,6 @@ import { paths } from "routes/helper";
 import Spinner from "components/Spinner";
 
 
-export const AuthText = styled(({ children, ...props }) => (
-	<div {...props}>{children}</div>
-))`
-	font-family: "RobotoLight", sans-serif;
-	${adaptiveValue("font-size", 13, 13)};
-	letter-spacing: ${rem(1)};
-	color: ${vars.whiteColor};
-`;
 
 export const AuthElementWrapper = styled(({ children, isAuth, showMenu, ...props }) => (
 	<>
@@ -43,13 +35,6 @@ export const AuthElementWrapper = styled(({ children, isAuth, showMenu, ...props
 	&:hover {
 		border: 1px solid ${rgba(vars.accent, .75)};
 		cursor: pointer;
-		/* ${AuthText} {
-			color: ${({ isAuth }) => !isAuth ? vars.logoLight : vars.whiteColor};
-		} */
-	}
-	${Spinner} {
-		
-		/* border: 1px solid #f00; */
 	}
 `;
 
@@ -88,9 +73,15 @@ export const AuthImage = styled(({ isAuth, image = null, ...props }) => {
 	}
 `;
 
+export const AuthText = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	font-family: "RobotoLight", sans-serif;
+	${adaptiveValue("font-size", 13, 13)};
+	letter-spacing: ${rem(1)};
+	color: ${vars.whiteColor};
+`;
 
-
-// export const DropDownMenuWrapper = styled.ul`
 export const DropDownMenuWrapper = styled(({ children, isShow = false, ...props }) => (
 	<ul {...props}>{children}</ul>
 ))`
@@ -121,13 +112,22 @@ export const DropDownMenuListItem = styled(({ children, path, text, ...props }) 
 		}
 	</li>
 ))`
-	padding: ${rem(10)};
 	transition: all 0.25s ease 0s;
 	text-align: center;
 	text-transform: lowercase;
 	letter-spacing: ${rem(2)};
+	> * {
+		padding: ${rem(10)};
+	}
 	a {
+		display: flex;
 		color: ${vars.whiteColor};
+	}
+	span {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
 	}
 	&:hover {
 		background-color: ${vars.darkGreen};

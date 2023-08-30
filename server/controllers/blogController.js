@@ -19,7 +19,7 @@ class BlogController {
 		const [file] = Object.values(req.files);
 
 
-		const captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+		const captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
 
 		// описываем путь, по которому расположится папка блога
 		const mainPath = `static/blogs/${captionLat}`;
@@ -71,7 +71,7 @@ class BlogController {
 			`);
 			if (!deletedBlog.rowCount) throw ApiError.BadRequest("Error while deleting the blog");
 
-			const captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+			const captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
 			// удаляем папку блога в static
 			fs.rmSync(`static/blogs/${captionLat}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
 
@@ -132,9 +132,9 @@ class BlogController {
 		// изменяем название папки блога в папке blogs в случае изменения названия блога
 		if (caption != undefined && (caption !== oldBlogCaption)) {
 			// описываем путь для старой папки блога
-			const oldPath = `static/blogs/${translitPrepare(oldBlogCaption).toLowerCase().replace(" ", '_')}`;
+			const oldPath = `static/blogs/${translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_')}`;
 			// описываем путь для новой папки блога
-			const newPath = `static/blogs/${translitPrepare(caption).toLowerCase().replace(" ", '_')}`;
+			const newPath = `static/blogs/${translitPrepare(caption).toLowerCase().replaceAll(" ", '_')}`;
 			// переименовываем папку для блога
 			fs.renameSync(oldPath, newPath, err => console.log(err));
 			photoorig = `${newPath.replace('static', '')}/photo.jpg`;

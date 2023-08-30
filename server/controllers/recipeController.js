@@ -19,7 +19,7 @@ class RecipeController {
 		let picture;
 		if (req.files) picture = Object.values(req.files);
 
-		const captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+		const captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
 
 		// описываем путь, по которому расположится папка рецепта
 		const mainPath = `static/recipe/${captionLat}`;
@@ -104,7 +104,7 @@ class RecipeController {
 			`);
 			if (!deletedRecipe.rowCount) throw ApiError.BadRequest("Error while deleting the recipe");
 
-			const captionLat = translitPrepare(recipeCaption).toLowerCase().replace(" ", '_');
+			const captionLat = translitPrepare(recipeCaption).toLowerCase().replaceAll(" ", '_');
 			// удаляем папку рецепта в static
 			fs.rmSync(`static/recipe/${captionLat}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
 
@@ -145,10 +145,10 @@ class RecipeController {
 
 			if (!caption) {
 				caption = recipeNow.rows[0].caption;
-				captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+				captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
 				// console.log(captionLat);
 			} else {
-				captionLat = translitPrepare(caption).toLowerCase().replace(" ", '_');
+				captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
 			};
 
 			if (!shortDescription) {
@@ -193,9 +193,9 @@ class RecipeController {
 			// изменяем название папки рецепта в папке recipe в случае изменения названия рецепта
 			if (caption != undefined && (caption !== oldRecipeCaption)) {
 				// описываем путь для старой папки рецепта
-				const oldPath = `static/recipe/${translitPrepare(oldRecipeCaption).toLowerCase().replace(" ", '_')}`;
+				const oldPath = `static/recipe/${translitPrepare(oldRecipeCaption).toLowerCase().replaceAll(" ", '_')}`;
 				// описываем путь для новой папки рецепта
-				const newPath = `static/recipe/${translitPrepare(caption).toLowerCase().replace(" ", '_')}`;
+				const newPath = `static/recipe/${translitPrepare(caption).toLowerCase().replaceAll(" ", '_')}`;
 				// переименовываем папку для рецепта
 				fs.renameSync(oldPath, newPath, err => console.log(err));
 				photoorig = `${newPath.replace('static', '')}/photo.jpg`;
@@ -274,7 +274,7 @@ class RecipeController {
 		try {
 			const isRecipe = await db.query(`
 				SELECT * FROM recipe
-				WHERE caption_lat='${translitPrepare(recipeCaption).toLowerCase().replace(" ", '_')}';
+				WHERE caption_lat='${translitPrepare(recipeCaption).toLowerCase().replaceAll(" ", '_')}';
 			`);
 			if (!isRecipe.rowCount) throw ApiError.NotFoundURL("Not found data");
 			// достаём владельца рецепта
@@ -370,7 +370,7 @@ class RecipeController {
 				const photopreview = config().parsed.LOCAL_ADDRESS + recipe.photopreview;
 
 				recipe = {
-					categoryname: translitPrepare(recipe.caption).toLowerCase().replace(" ", '_'),
+					categoryname: translitPrepare(recipe.caption).toLowerCase().replaceAll(" ", '_'),
 					caption: recipe.caption,
 					photopreview: photopreview
 				}

@@ -25,7 +25,7 @@ class CategoryController {
 			if (req.files) picture = Object.values(req.files)[0];
 
 			// транслитерация названия
-			const captionLat = translitPrepare(categoryText).toLowerCase().replace(" ", '_');
+			const captionLat = translitPrepare(categoryText).toLowerCase().replaceAll(" ", '_');
 
 			let previewPath = null;
 			let bgPath = null;
@@ -84,7 +84,7 @@ class CategoryController {
 			`);
 			if (!deletedCategory.rowCount) throw ApiError.BadRequest("Can't to delete category");
 
-			const captionLat = translitPrepare(categoryCaption).toLowerCase().replace(" ", '_');
+			const captionLat = translitPrepare(categoryCaption).toLowerCase().replaceAll(" ", '_');
 			// удаляем папку категории в static
 			fs.rmSync(`static/category/${captionLat}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
 
@@ -101,7 +101,7 @@ class CategoryController {
 		try {
 			// после всех проверок достаём категории для изменения в БД
 			const { oldCategory, newCategory } = req.body;
-			const categoryLat = translitPrepare(newCategory).toLowerCase().replace(" ", '_')
+			const categoryLat = translitPrepare(newCategory).toLowerCase().replaceAll(" ", '_')
 			let file;
 			if (req.files) file = Object.values(req.files)[0];
 			
@@ -111,9 +111,9 @@ class CategoryController {
 
 			// изменяем название папки категории в папке category в случае изменения названия категории
 			// описываем путь для старой папки категории
-			const oldPath = `static/category/${translitPrepare(oldCategory).toLowerCase().replace(" ", '_')}`;
+			const oldPath = `static/category/${translitPrepare(oldCategory).toLowerCase().replaceAll(" ", '_')}`;
 			// описываем путь для новой папки категории
-			const newPath = `static/category/${translitPrepare(newCategory).toLowerCase().replace(" ", '_')}`;
+			const newPath = `static/category/${translitPrepare(newCategory).toLowerCase().replaceAll(" ", '_')}`;
 			// переименовываем папку для категории
 			fs.renameSync(oldPath, newPath, err => console.log(err));
 			// создаём пути к файлам для БД
@@ -160,7 +160,7 @@ class CategoryController {
 				return (
 					{
 						caption: category.caption,
-						categoryname: translitPrepare(category.caption).toLowerCase().replace(" ", '_'),
+						categoryname: translitPrepare(category.caption).toLowerCase().replaceAll(" ", '_'),
 						photopreview: category.photopreview
 					}
 				)

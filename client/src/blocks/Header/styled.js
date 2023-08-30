@@ -40,5 +40,5 @@ export const HeaderMenu = styled.div`
 
 export const HeaderAuth = styled.div`
 	z-index: 1;
-	align-self: stretch;
+	/* align-self: stretch; */
 `;

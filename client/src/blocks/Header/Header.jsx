@@ -15,7 +15,7 @@ const Header = () => {
 					<HeaderTop>
 						<HeaderLogo><Logo /></HeaderLogo>
 						<HeaderMenu><Menu /></HeaderMenu>
-						<HeaderAuth data-da={`.${MenuBody.styledComponentId}, 925`}>
+						<HeaderAuth data-da={`${MenuBody}, 925`}>
 							<AuthButton />
 						</HeaderAuth>
 					</HeaderTop>

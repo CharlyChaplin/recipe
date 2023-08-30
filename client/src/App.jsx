@@ -23,15 +23,8 @@ const ProfilePage = lazy(() => import('pages/ProfilePage'));
 const App = () => {
 	const dispatch = useDispatch();
 
-	function getAuth() {
-		const accessCookie = Cookies.get('accesstoken');
-		if (accessCookie) {
-			dispatch(userGetUser({ accesstoken: accessCookie }));
-		}
-	}
-
 	useEffect(() => {
-		getAuth();
+		dispatch(userGetUser());
 
 		da.init();
 	}, []);

@@ -3,7 +3,6 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import fs from 'fs';
-import path from 'path';
 import db from './db.js';
 import router from './routers/index.js';
 import errorMiddleware from './middlewares/error-middleware.js';
