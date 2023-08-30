@@ -196,7 +196,7 @@ class RecipeController {
 				const oldPath = `static/recipe/${translitPrepare(oldRecipeCaption).toLowerCase().replace(" ", '_')}`;
 				// описываем путь для новой папки рецепта
 				const newPath = `static/recipe/${translitPrepare(caption).toLowerCase().replace(" ", '_')}`;
-				// переименовываем папку для блога
+				// переименовываем папку для рецепта
 				fs.renameSync(oldPath, newPath, err => console.log(err));
 				photoorig = `${newPath.replace('static', '')}/photo.jpg`;
 				photopreview = `${newPath.replace('static', '')}/photo.jpg`;

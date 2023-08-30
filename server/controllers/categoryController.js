@@ -29,7 +29,7 @@ class CategoryController {
 
 			let previewPath = null;
 			let bgPath = null;
-			
+
 			if (picture) {
 				// описываем путь, по которому расположится папка категории
 				const mainPath = `static/category/${captionLat}`;
@@ -83,11 +83,11 @@ class CategoryController {
 				RETURNING caption;
 			`);
 			if (!deletedCategory.rowCount) throw ApiError.BadRequest("Can't to delete category");
-			
+
 			const captionLat = translitPrepare(categoryCaption).toLowerCase().replace(" ", '_');
 			// удаляем папку категории в static
 			fs.rmSync(`static/category/${captionLat}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
-			
+
 			res.json(deletedCategory.rows[0].caption);
 		} catch (err) {
 			res.status(400).json(err)
@@ -101,12 +101,47 @@ class CategoryController {
 		try {
 			// после всех проверок достаём категории для изменения в БД
 			const { oldCategory, newCategory } = req.body;
+			const categoryLat = translitPrepare(newCategory).toLowerCase().replace(" ", '_')
+			let file;
+			if (req.files) file = Object.values(req.files)[0];
+			
+			// определяем пути для изображений
+			let bgImage;
+			let photoPreview;
+
+			// изменяем название папки категории в папке category в случае изменения названия категории
+			// описываем путь для старой папки категории
+			const oldPath = `static/category/${translitPrepare(oldCategory).toLowerCase().replace(" ", '_')}`;
+			// описываем путь для новой папки категории
+			const newPath = `static/category/${translitPrepare(newCategory).toLowerCase().replace(" ", '_')}`;
+			// переименовываем папку для категории
+			fs.renameSync(oldPath, newPath, err => console.log(err));
+			// создаём пути к файлам для БД
+			bgImage = `${newPath.replace('static', '')}/bg.jpg`;
+			photoPreview = `${newPath.replace('static', '')}/photo.jpg`;
+
+			// если картинка была заменёна
+			if (file) {
+				// перемещаем файл в папку
+				file.mv(`static/${bgImage}`, err => {
+					if (err) {
+						return res.status(500).send({ err: err, msg: "Error occurred" });
+					}
+				});
+			}
+			
 			const updatedCategory = await db.query(`
-				UPDATE category SET "caption"='${newCategory}'
+				UPDATE category
+				SET
+				caption='${newCategory}',
+				photopreview='${photoPreview}',
+				bg='${bgImage}',
+				caption_lat='${categoryLat}'
+				
 				WHERE "caption"='${oldCategory}'
 				RETURNING caption;
 			`);
-			console.log(updatedCategory.rows);
+
 			res.json(updatedCategory.rows[0]);
 		} catch (err) {
 			res.status(400).json(err);

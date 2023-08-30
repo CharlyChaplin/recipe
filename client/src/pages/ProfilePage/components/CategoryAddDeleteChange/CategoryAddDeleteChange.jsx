@@ -116,7 +116,12 @@ const categoryAddChangeDelete = () => {
 	const handleCorrectCategory = useCallback(async () => {
 		try {
 			const dataCategory = { oldCategory: selected, newCategory: changedCategory };
-			const resp = await axios.post('/category/edit', dataCategory);
+			const fd = new FormData();
+			fd.append('oldCategory', selected);
+			fd.append('newCategory', changedCategory);
+			fd.append('file', picture);
+			
+			const resp = await axios.post('/category/edit', fd, {headers: {"Content-Type": "application/formdata"}});
 			if (resp.status && resp.status === 200) {
 				dispatch(showInfo({ text: `Категория "${selected}" была успешно изменена.`, ok: true }));
 				setIsEdit(false);
@@ -129,7 +134,7 @@ const categoryAddChangeDelete = () => {
 			dispatch(showInfo({ text: `Ошибка при изменении (${error.response.data.detail})`, cancel: true }));
 		}
 
-	}, [dispatch, changedCategory]);
+	}, [dispatch, changedCategory, picture]);
 
 	// устанавливаем зависимость показа поля для изменения фразы
 	// в зависимости от наличия выбранного элемента в ComboBox
