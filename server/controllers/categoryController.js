@@ -4,6 +4,7 @@ import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import translitPrepare from '../services/translitPrepare.js';
 import ResetSeq from '../services/resetSequence.js';
 import fs from 'fs';
+import { config } from 'dotenv';
 
 
 class CategoryController {
@@ -104,7 +105,7 @@ class CategoryController {
 			const categoryLat = translitPrepare(newCategory).toLowerCase().replaceAll(" ", '_')
 			let file;
 			if (req.files) file = Object.values(req.files)[0];
-			
+
 			// определяем пути для изображений
 			let bgImage;
 			let photoPreview;
@@ -129,7 +130,7 @@ class CategoryController {
 					}
 				});
 			}
-			
+
 			const updatedCategory = await db.query(`
 				UPDATE category
 				SET
@@ -172,12 +173,12 @@ class CategoryController {
 	}
 
 	async getCategoryName(req, res) {
-		// получение имён (на латинице и кирилице)
+		// получение имён (на латинице и кирилице) и фонового изображения
 		try {
 			const { lat_name } = req.body;
 
 			const categoryName = await db.query(`
-				SELECT caption, caption_lat
+				SELECT caption, caption_lat, bg
 				FROM category
 				WHERE caption_lat='${lat_name}';
 			`);
@@ -185,7 +186,8 @@ class CategoryController {
 
 			const categoryData = {
 				caption: categoryName.rows[0].caption,
-				captionLat: categoryName.rows[0].caption_lat
+				captionLat: categoryName.rows[0].caption_lat,
+				bg: config().parsed.LOCAL_ADDRESS + categoryName.rows[0].bg
 			}
 			res.json(categoryData);
 		} catch (err) {

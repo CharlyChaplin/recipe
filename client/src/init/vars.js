@@ -44,6 +44,7 @@ const vars = {
 	errorPageErrorCode: '#706259',
 	overlay: '#242424',
 	disabledColor: '#CCCCCC',
+	quoteColor: '#DDDDDD',
 	
 	
 	// переменные для проекта

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axiosSetup';
 
 const initialState = {
-	loading: false,
+	phraseLoading: false,
 	phraseData: [],
 	errors: "",
 }
@@ -43,6 +43,18 @@ export const phraseDeletePhrase = createAsyncThunk(
 	}
 );
 
+export const getRandomPhrase = createAsyncThunk(
+	'phrase/getRandom',
+	async (_, { rejectWithValue }) => {
+		try {
+			const resp = await axios('/phrase/phrasernd');
+			return resp.data[0].caption;
+		} catch (err) {
+			return rejectWithValue(err.message);
+		}
+	}
+);
+
 
 export const phraseSlice = createSlice({
 	name: 'phraseSlice',
@@ -52,7 +64,6 @@ export const phraseSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(phraseAddPhrase.pending, (state, action) => {
 			state.loading = true;
-			state.phraseData = [];
 			state.errors = "";
 		});
 		build.addCase(phraseAddPhrase.fulfilled, (state, action) => {
@@ -68,7 +79,6 @@ export const phraseSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(phraseGetPhrases.pending, (state, action) => {
 			state.loading = true;
-			state.phraseData = [];
 			state.errors = "";
 		});
 		build.addCase(phraseGetPhrases.fulfilled, (state, action) => {
@@ -98,6 +108,20 @@ export const phraseSlice = createSlice({
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
+		build.addCase(getRandomPhrase.pending, (state, action) => {
+			state.loading = true;
+			state.errors = "";
+		});
+		build.addCase(getRandomPhrase.fulfilled, (state, action) => {
+			state.loading = false;
+			state.phraseData = action.payload;
+			state.errors = "";
+		});
+		build.addCase(getRandomPhrase.rejected, (state, action) => {
+			state.loading = false;
+			state.phraseData = [];
+			state.errors = action.payload;
+		});
 
 	}
 });

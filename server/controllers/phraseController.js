@@ -91,7 +91,12 @@ class PhraseController {
 	}
 
 	getRandomPhrase(req, res) {
-		db.query('SELECT * FROM phrase WHERE id > 0 AND id <= (SELECT MAX(id) FROM phrase) ORDER BY random() LIMIT 1;')
+		db.query(`
+			SELECT * FROM phrase
+			WHERE id > 0 AND
+			id <= (SELECT MAX(id) FROM phrase)
+			ORDER BY random() LIMIT 1;
+		`)
 			.then(resp => res.json(resp.rows))
 			.catch(err => res.json(err));
 	}

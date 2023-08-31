@@ -60,7 +60,7 @@ const RecipeEditPage = () => {
 	useEffect(() => {
 		setFields({ ...fields, ingredients: ingredients });
 	}, [ingredients]);
-	
+
 	useEffect(() => {
 		if (completed) {
 			dispatch(clearRecipeData());
@@ -198,13 +198,13 @@ const RecipeEditPage = () => {
 						<RecipeEditTop>
 							{
 								userData?.user?.role === 1
-									? <Input name='dateadd' value={fields.dateadd} handleChange={changeInput} center placeholder={recipeData?.dateadd} labelPos='row' labelText='Дата добавления:' />
-									: <EditNotEdit data={recipeData?.dateadd} />
+									? <div><span>Дата добавления:</span><Input name='dateadd' value={fields.dateadd} handleChange={changeInput} center placeholder={recipeData?.dateadd} /></div>
+									: <div><span>Добавлен: </span><EditNotEdit data={recipeData?.dateadd} /></div>
 							}
 							{
 								userData?.user?.role === 1
 									? <DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleUserSelected} inputText={userInputText} setInputText={setUserInputText} labelPos='row' labelText='Владелец:' minWidth={300} />
-									: <EditNotEdit data={recipeData?.name} />
+									: <div><span>пользователем: </span><EditNotEdit data={recipeData?.name} /></div>
 							}
 						</RecipeEditTop>
 
@@ -215,7 +215,7 @@ const RecipeEditPage = () => {
 
 									<AddPhotoBlockForRecipe><ImageInsert currentFile={recipeData.photoorig} selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
 									<RecipeLeftTopTextWrapper>
-										<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder={recipeData?.caption} />
+										<EditNotEdit data={recipeData?.caption} isCaption upperCase letterSpacing />
 										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} autoFocus placeholder={recipeData?.shortdescription} fz={12} />
 									</RecipeLeftTopTextWrapper>
 
@@ -256,7 +256,7 @@ const RecipeEditPage = () => {
 										{
 											userData?.user?.role === 1
 												? <DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={categoryInputText} setInputText={setCategoryInputText} />
-												: <EditNotEdit data={recipeData?.name} />
+												: <EditNotEdit data={recipeData?.category} />
 										}
 									</RecipeBlockContentWrapper>
 

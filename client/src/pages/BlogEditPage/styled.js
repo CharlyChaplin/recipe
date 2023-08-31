@@ -34,12 +34,25 @@ export const BlogEditTop = styled(({ children, ...props }) => (
 	border-radius: ${rem(7)};
 	border-top: ${rem(1)} solid ${rgba(vars.text, .25)};
 	border-bottom: ${rem(1)} solid ${rgba(vars.text, .25)};
+	
+	div {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: nowrap;
+		gap: ${rem(5)};
+		
+		span {
+			color: ${rgba(vars.darkGreen, .75)};
+			white-space: nowrap; 
+		}
+	}
 `;
 
 export const Divisor = styled(({ ...props }) => (
 	<span {...props}></span>
 ))`
-	margin: 0 ${rem(10)};
+	margin: 0 ${rem(20)};
 	height: ${rem(16)};
 	width: ${rem(1)};
 	background-color: ${vars.text};

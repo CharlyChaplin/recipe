@@ -1,16 +1,18 @@
 import { styled } from "styled-components";
-import { adaptiveValue, em, rem, textclip } from "init/mixins";
+import { adaptiveValue, em, rem } from "init/mixins";
 import vars from "init/vars";
 import { rgba } from "polished";
 import { Link } from "react-router-dom";
 import Button from "components/Button/Button";
 
 
-export const MainWrapper = styled(({ children, image, ...props }) => (
-	<div {...props}>
-		{children}
-	</div>
-))`
+export const MainWrapper = styled(({ children, image, ...props }) => {
+	return (
+		<div {...props}>
+			{children}
+		</div>
+	)
+})`
 	display: grid;
 	justify-items: center;
 	width: 100%;
@@ -291,12 +293,15 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 	
 `;
 
-export const EditNotEdit = styled(({ data, isCaption, ...props }) => (
+export const EditNotEdit = styled(({ data, isCaption, upperCase, letterSpacing, ...props }) => (
 	<div {...props}>{data}</div>
 ))`
 	font-family: "RobotoRegular", sans-serif;
-	font-size: ${({isCaption}) => isCaption ? rem(32) : rem(16)};
+	font-size: ${({ isCaption }) => isCaption ? rem(32) : rem(16)};
 	color: ${vars.text};
+	text-align: center;
+	text-transform: ${({upperCase}) => upperCase ? 'uppercase' : 'none'};
+	letter-spacing: ${({letterSpacing}) => letterSpacing ? rem(2) : 0};
 `;
 
 export const AddPhotoBlock = styled(({ children, ...props }) => (

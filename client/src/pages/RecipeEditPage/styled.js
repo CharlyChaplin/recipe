@@ -27,6 +27,19 @@ export const RecipeEditTop = styled(({ children, ...props }) => (
 	flex-direction: row;
 	align-items: center;
 	gap: ${rem(40)};
+	
+	div {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: nowrap;
+		gap: ${rem(10)};
+		
+		span {
+			color: ${rgba(vars.darkGreen, .75)};
+			white-space: nowrap; 
+		}
+	}
 `;
 
 export const RecipeWrapper = styled(({ children, ...props }) => (

@@ -121,14 +121,14 @@ const BlogEditPage = () => {
 									<BlogEditTop>
 										{
 											userData?.user?.role === 1
-												? <Input name='dateadd' value={fields.dateadd} handleChange={changeInput} autoFocus center placeholder={dataSource?.dateadd} />
-												: <EditNotEdit data={dataSource?.dateadd} />
+												? <div><span>Дата добавления:</span><Input name='dateadd' value={fields.dateadd} handleChange={changeInput} autoFocus center placeholder={dataSource?.dateadd} /></div>
+												: <div><span>Добавлен:</span><EditNotEdit data={dataSource?.dateadd} /></div>
 										}
 										<Divisor />
 										{
 											userData?.user?.role === 1
-												? <DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleSelected} inputText={inputText} setInputText={setInputText} />
-												: <EditNotEdit data={dataSource?.name} />
+												? <div><span>владелец:</span><DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleSelected} inputText={inputText} setInputText={setInputText} minWidth={200} /></div>
+												: <div><span>пользователем:</span><EditNotEdit data={dataSource?.name} /></div>
 										}
 									</BlogEditTop>
 
@@ -143,9 +143,11 @@ const BlogEditPage = () => {
 												: <EditNotEdit data={dataSource?.caption} isCaption />
 										}
 									</BlogEditCaption>
+
 									<BlogEditTextWrapper>
 										<Input type='textarea' name='description' value={fields.description} handleChange={changeInput} center placeholder={dataSource?.description} />
 									</BlogEditTextWrapper>
+
 									<BlogEditButtonWrapper>
 										<Button action={handleApplyBlog}>Изменить</Button>
 										<Button action={() => navigate(-1)}>Отмена</Button>

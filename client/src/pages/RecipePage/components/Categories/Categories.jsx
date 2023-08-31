@@ -7,10 +7,7 @@ import InnerItems from '../InnerItems/InnerItems';
 import { useLocation, useParams } from 'react-router-dom';
 import { categoryGetCategoryName, clearCategoryData } from 'redux/slices/categorySlice';
 import { MainWrapper } from 'pages/pages.styled';
-import napitkiBg from 'assets/img/category/drinks/bg.jpg';
-import saladsBg from 'assets/img/category/salads/bg.jpg';
-import soupsBg from 'assets/img/category/soups/bg.jpg';
-import bg from 'assets/img/blog/bg.jpg';
+import bg from 'assets/img/categories/bg.jpg';
 
 
 
@@ -61,22 +58,12 @@ const Categories = () => {
 		}));
 	}
 
-	// console.log(name);
+
 
 
 	return (
 		<>
-			<MainWrapper image={
-				name
-					? name === 'napitki'
-						? napitkiBg
-						: name === 'salaty'
-							? saladsBg
-							: name === 'supy'
-								? soupsBg
-								: null
-					: bg
-			}>
+			<MainWrapper image={name ? categoryData?.bg : bg}>
 
 				<InnerItems backBtn={!!name} headerCaption={name ? categoryData.caption : 'Рецепты по категориям'} items={outData} loadStatus={loading} />
 

@@ -1,25 +1,41 @@
 import React from 'react';
-import { ContentPaddingTop, ContentWrapper, InnerWrapper, MainWrapper } from 'pages/pages.styled';
-import ImageInsert from 'components/ImageInsert/ImageInsert';
+import { ContentPaddingTop, InnerWrapper, MainWrapper } from 'pages/pages.styled';
+import SectionHeader from 'components/SectionHeader';
+import vars from 'init/vars';
+import bg from 'assets/img/main/bg.jpg';
+import { InnerWrapperForMain, QuotationWrapper, SearchBar } from './styled';
+import { useState } from 'react';
+import SearchPanel from './components/SearchPanel/SearchPanel';
+import Quotation from './components/Quotation/Quotation';
 
+const titlePage = "Заголовок";
+// const titlePage = "Рецепты для удовольствия!";
 
 
 const HomePage = () => {
+	const [showQuotation, setShowQuotation] = useState(true);
 
-	// function getSelectedFile(val) { }
+	const showQuotationFunc = val => setShowQuotation(val);
+
 
 
 	return (
 		<>
-			<MainWrapper>
-				{/* <InnerWrapper>
-					<ContentPaddingTop />
-					<ContentWrapper>
+			<MainWrapper image={bg}>
+				<InnerWrapperForMain>
+					
+					{/* <ContentPaddingTop /> */}
+					<SectionHeader color={vars.whiteColor}>{titlePage}</SectionHeader>
 
-						<ImageInsert selectedFile={getSelectedFile} />
+					<SearchBar>
+						{/* <SearchPanel showQuotationFunc={showQuotationFunc} /> */}
+					</SearchBar>
 
-					</ContentWrapper>
-				</InnerWrapper> */}
+					{
+						showQuotation && <QuotationWrapper><Quotation /></QuotationWrapper>
+					}
+
+				</InnerWrapperForMain>
 			</MainWrapper>
 		</>
 	);
