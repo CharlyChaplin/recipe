@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Example, PlaceholderText } from './styled';
 
 
 

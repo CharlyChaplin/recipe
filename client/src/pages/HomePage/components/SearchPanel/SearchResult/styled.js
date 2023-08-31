@@ -6,8 +6,12 @@ import { rgba } from "polished";
 
 
 
-export const SearchResult = styled.div`
+export const SearchResultComponent = styled.div`
 	background-color: ${vars.searchBackgroundColor};
+	hr {
+		height: ${rem(1)};
+		background-color: ${rgba(vars.whiteColor, .25)};
+	}
 `;
 
 export const SearchResultWrapper = styled.div`
@@ -49,12 +53,12 @@ export const SearchResultFindItemList = styled.ul`
 	gap: ${rem(10)};
 `;
 
-export const SearchResultItem = styled(({ image, text, ...props }) => (
+export const SearchResultItem = styled(({ image, description, link, ...props }) => (
 	<li {...props}>
-		<section>
+		<a href={link}>
 			<div><img src={image} alt="pic" /></div>
-			<div>{text}</div>
-		</section>
+			<div>{description}</div>
+		</a>
 	</li>
 ))`
 	background-color: ${vars.whiteColor};
@@ -72,17 +76,21 @@ export const SearchResultItem = styled(({ image, text, ...props }) => (
 		border-radius: ${rem(5)};
 	}
 	
-	section {
+	a {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		gap: ${rem(15)};
+		color: ${vars.text};
 		
 		div {
 			&:nth-child(1) {
 				width: ${rem(40)};
 				height: ${rem(40)};
 				position: relative;
+				border: ${rem(1)} solid ${vars.lightGreen};
+				border-radius: ${rem(5)};
+				overflow: hidden;
 				
 				img {
 					position: absolute;

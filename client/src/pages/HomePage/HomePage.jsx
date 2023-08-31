@@ -8,8 +8,8 @@ import { useState } from 'react';
 import SearchPanel from './components/SearchPanel/SearchPanel';
 import Quotation from './components/Quotation/Quotation';
 
-const titlePage = "Заголовок";
-// const titlePage = "Рецепты для удовольствия!";
+// const titlePage = "Заголовок";
+const titlePage = "Рецепты для удовольствия!";
 
 
 const HomePage = () => {
@@ -24,11 +24,11 @@ const HomePage = () => {
 			<MainWrapper image={bg}>
 				<InnerWrapperForMain>
 					
-					{/* <ContentPaddingTop /> */}
+					<ContentPaddingTop />
 					<SectionHeader color={vars.whiteColor}>{titlePage}</SectionHeader>
 
 					<SearchBar>
-						{/* <SearchPanel showQuotationFunc={showQuotationFunc} /> */}
+						<SearchPanel showQuotationFunc={showQuotationFunc} />
 					</SearchBar>
 
 					{

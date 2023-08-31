@@ -24,7 +24,7 @@ export const PlaceholderText = styled(({ text, children, ...props }) => (
 	
 `;
 
-export const Example = styled(({ text }) => (
+export const Example = styled(({ text, ...props }) => (
 	<span {...props}>{text}</span>
 ))`
 	pointer-events: auto;

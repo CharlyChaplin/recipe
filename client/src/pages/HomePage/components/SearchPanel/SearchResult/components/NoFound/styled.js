@@ -9,7 +9,8 @@ export const SearchNotFound = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	gap: ${rem(20)};
+	gap: ${rem(15)};
+	margin-left: ${rem(10)};
 	padding: rem(7) rem(10);
 	color: ${vars.text};
 `;

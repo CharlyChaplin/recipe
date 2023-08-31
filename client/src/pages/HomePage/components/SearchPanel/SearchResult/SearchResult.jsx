@@ -1,12 +1,15 @@
 import React from 'react';
 import NoFound from './components/NoFound/NoFound';
-import { SearchResultBlock, SearchResultCategoryCaption, SearchResultFindItemList, SearchResultItem, SearchResultWrapper } from './styled';
+import { SearchResultBlock, SearchResultCategoryCaption, SearchResultComponent, SearchResultFindItemList, SearchResultItem, SearchResultWrapper } from './styled';
+import { nanoid } from 'nanoid';
 
 
 const SearchResult = ({ categoryFounded, blogFounded }) => {
+	console.log(categoryFounded, blogFounded);
+	
 	return (
 		<>
-			<SearchResult>
+			<SearchResultComponent>
 				<SearchResultWrapper>
 
 					<SearchResultBlock>
@@ -15,11 +18,13 @@ const SearchResult = ({ categoryFounded, blogFounded }) => {
 						<SearchResultFindItemList>
 							{
 								categoryFounded?.length
-									? categoryFounded.map(({ image, description }) => {
+									? categoryFounded.map(({ image, description, link }) => {
 										return (
 											<SearchResultItem
+												key={nanoid()}
 												image={image}
 												description={description}
+												link={link}
 											/>
 										)
 									})
@@ -36,11 +41,13 @@ const SearchResult = ({ categoryFounded, blogFounded }) => {
 						<SearchResultFindItemList>
 							{
 								blogFounded?.length
-									? blogFounded.map(({ image, description }) => {
+									? blogFounded.map(({ image, description, link }) => {
 										return (
 											<SearchResultItem
+												key={nanoid()}
 												image={image}
 												description={description}
+												link={link}
 											/>
 										)
 									})
@@ -50,8 +57,7 @@ const SearchResult = ({ categoryFounded, blogFounded }) => {
 					</SearchResultBlock>
 
 				</SearchResultWrapper>
-			</SearchResult>
-
+			</SearchResultComponent>
 		</>
 	);
 }

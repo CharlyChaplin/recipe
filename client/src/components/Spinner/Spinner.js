@@ -14,7 +14,7 @@ const spiner = keyframes`
 //========================================================================================================================================================
 
 
-const Spinner = styled(({ height, sizeIncrease, ...props }) => (
+const Spinner = styled(({ height, color, sizeIncrease, ...props }) => (
 	<div {...props}></div>
 ))`
 	display: flex;
@@ -30,7 +30,7 @@ const Spinner = styled(({ height, sizeIncrease, ...props }) => (
 		height: 100%;
 		border-radius: 50%;
 		border: 2px solid ${vars.whiteColor};
-		border-color: ${vars.accent} transparent ${vars.accent} transparent;
+		border-color: ${({color}) => color || vars.accent} transparent ${({color}) => color || vars.accent} transparent;
 		animation: ${spiner} 1s linear infinite;
 	}
 `;

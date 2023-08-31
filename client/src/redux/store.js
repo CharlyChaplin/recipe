@@ -5,6 +5,7 @@ import phraseSlice from "./slices/phraseSlice";
 import categorySlice from "./slices/categorySlice";
 import blogSlice from "./slices/blogSlice";
 import recipeSlice from "./slices/recipeSlice";
+import searchSlice from "./slices/searchSlice";
 
 
 
@@ -16,6 +17,7 @@ const store = configureStore({
 		categoryReducer: categorySlice,
 		blogReducer: blogSlice,
 		recipeReducer: recipeSlice,
+		searchReducer: searchSlice
 	}
 });
 

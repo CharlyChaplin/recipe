@@ -44,8 +44,7 @@ export const QuoteWrapper = styled.div`
 export const QuotePhrase = styled(({ text, ...props }) => (
 	<div {...props}>{text}</div>
 ))`
-	/* font-family: "MonotypeCorsiva", sans-serif; */
-	font-weight: 400;
+	font-weight: 700;
 	${adaptiveValue("font-size", 20, 16)};
 	${adaptiveValue("line-height", 25, 20)};
 	${adaptiveValue("letter-spacing", 2, 1)};

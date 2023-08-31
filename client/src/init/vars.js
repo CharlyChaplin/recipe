@@ -45,6 +45,7 @@ const vars = {
 	overlay: '#242424',
 	disabledColor: '#CCCCCC',
 	quoteColor: '#DDDDDD',
+	searchMainFormBackcolor: '#AFAFAF',
 	
 	
 	// переменные для проекта
@@ -53,6 +54,7 @@ const vars = {
 	informerAdditionalTimeAfterHide: 150,	// дополнительное время для скрытия элементов внутри информера, когда он уже закатился за экран
 	cubic: 'cubic-bezier(0.5, -1, 0.5, 2)',	// анимация
 	fz: 16,	// базовая высота шрифта
+	borderRadiusSearchInput: 20,	// округлость поиска на главной странице
 };
 
 
