@@ -106,7 +106,7 @@ const SearchPanel = ({ showQuotationFunc }) => {
 					</SearchMainFormPlaceholderBox>
 
 					{
-						(showSearch || Object.values(searchResult).length > 0) &&
+						(showSearch || Object.values(searchResult).length >= 0) &&
 						<SearchResult categoryFounded={searchResult.category} blogFounded={searchResult.blog} />
 					}
 
