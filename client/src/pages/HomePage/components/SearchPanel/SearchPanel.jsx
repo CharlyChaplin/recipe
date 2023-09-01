@@ -28,7 +28,12 @@ const SearchPanel = ({ showQuotationFunc }) => {
 
 	useEffect(() => {
 		query = new URLSearchParams(location.search);
-		if (query.get('q')?.length) setSearchValue(query.get('q'));
+		// если есть запрос из строки адреса, то запускаем заполняем строку поиска
+		// и показываем панель результата
+		if (query.get('q')?.length) {
+			setSearchValue(query.get('q'));
+			setShowSearch(true);
+		};
 		if (location.search) {
 			dispatch(searchQuery(searchValue || location.search.replace('?q=', '')));
 		}
@@ -64,7 +69,7 @@ const SearchPanel = ({ showQuotationFunc }) => {
 	}
 
 
-
+	console.log(showSearch, Object.values(searchResult).length > 0);
 
 
 
@@ -106,7 +111,7 @@ const SearchPanel = ({ showQuotationFunc }) => {
 					</SearchMainFormPlaceholderBox>
 
 					{
-						(showSearch || Object.values(searchResult).length >= 0) &&
+						(showSearch || Object.values(searchResult).length > 0) &&
 						<SearchResult categoryFounded={searchResult.category} blogFounded={searchResult.blog} />
 					}
 
