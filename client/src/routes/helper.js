@@ -13,7 +13,7 @@ export const pathsPublic = {
 	recipeadd: '/recipeadd',
 	blog: '/blog',
 	blogedit: '/blog/blogedit',
-	blogdetail: '/blog/:id',
+	blogdetail: '/blog/:name',
 	blogadd: '/blog/add',
 	about: '/about',
 	profile: '/user/profile',

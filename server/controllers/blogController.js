@@ -181,10 +181,10 @@ class BlogController {
 			const { blogCaption } = req.body;
 			const isBlog = await db.query(`
 				SELECT * FROM blog
-				WHERE caption='${blogCaption}';
+				WHERE caption_lat='${blogCaption}';
 			`);
 			if (!isBlog.rowCount) throw ApiError.BadRequest("Error while getting the blog");
-
+			
 			// достаём владельца блога
 			const owner = await db.query(`
 				SELECT name FROM persondata
@@ -244,7 +244,7 @@ class BlogController {
 	async getPreviewBlogs(req, res) {
 		try {
 			const blogs = await db.query(`
-				SELECT A.id, name, dateadd, photopreview, caption, description
+				SELECT A.id, B.name, A.dateadd, A.photopreview, A.caption, A.caption_lat, A.description
 				FROM blog A, persondata B
 				WHERE A.user_id = B.user_id
 				ORDER BY A.id;
@@ -267,32 +267,6 @@ class BlogController {
 			res.status(400).json(err);
 		}
 	}
-
-	async getBlogById(req, res) {
-		const { id } = req.params;
-		try {
-			const blog = await db.query(`
-				SELECT A.id, A.user_id, name, dateadd, photopreview, caption, description
-				FROM blog A, persondata B
-				WHERE A.id = ${id} AND A.user_id = B.user_id;
-			`);
-			if (!blog.rowCount) throw ApiError.BadRequest(null);
-
-
-			const blogData = {
-				id: blog.rows[0].id,
-				name: blog.rows[0].name,
-				dateadd: datePrepare(blog.rows[0].dateadd),
-				photopreview: config().parsed.LOCAL_ADDRESS + blog.rows[0].photopreview,
-				caption: blog.rows[0].caption,
-				description: blog.rows[0].description
-			}
-			res.json(blogData);
-		} catch (err) {
-			res.status(400).json(null);
-		}
-	}
-
 }
 
 export default new BlogController;

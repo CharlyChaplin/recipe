@@ -63,7 +63,6 @@ export const SearchResultItem = styled(({ image, description, link, ...props }) 
 ))`
 	background-color: ${vars.whiteColor};
 	cursor: pointer;
-	padding: ${rem(7)};
 	transition: all 0.25s ease 0s;
 	color: ${vars.text};
 	border-radius: ${rem(5)};
@@ -78,6 +77,8 @@ export const SearchResultItem = styled(({ image, description, link, ...props }) 
 	
 	a {
 		display: flex;
+		width: 100%;
+		padding: ${rem(7)};
 		flex-direction: row;
 		align-items: center;
 		gap: ${rem(15)};

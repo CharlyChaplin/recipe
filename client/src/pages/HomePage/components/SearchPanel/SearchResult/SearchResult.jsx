@@ -5,7 +5,6 @@ import { nanoid } from 'nanoid';
 
 
 const SearchResult = ({ categoryFounded, blogFounded }) => {
-	console.log(categoryFounded, blogFounded);
 	
 	return (
 		<>

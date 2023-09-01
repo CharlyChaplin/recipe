@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Button from "components/Button/Button";
 
 
-export const MainWrapper = styled(({ children, image, ...props }) => {
+export const MainWrapper = styled(({ children, image, noOverlay, ...props }) => {
 	return (
 		<div {...props}>
 			{children}
@@ -28,7 +28,7 @@ export const MainWrapper = styled(({ children, image, ...props }) => {
 	position: relative;
 	
 	&::after {
-		display: block;
+		display: ${({ noOverlay }) => noOverlay ? 'none' : 'block'};
 		align-content: center;
 		content: '';
 		position: absolute;
@@ -300,8 +300,8 @@ export const EditNotEdit = styled(({ data, isCaption, upperCase, letterSpacing, 
 	font-size: ${({ isCaption }) => isCaption ? rem(32) : rem(16)};
 	color: ${vars.text};
 	text-align: center;
-	text-transform: ${({upperCase}) => upperCase ? 'uppercase' : 'none'};
-	letter-spacing: ${({letterSpacing}) => letterSpacing ? rem(2) : 0};
+	text-transform: ${({ upperCase }) => upperCase ? 'uppercase' : 'none'};
+	letter-spacing: ${({ letterSpacing }) => letterSpacing ? rem(2) : 0};
 `;
 
 export const AddPhotoBlock = styled(({ children, ...props }) => (

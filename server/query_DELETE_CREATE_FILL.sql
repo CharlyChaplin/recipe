@@ -47,11 +47,12 @@ CREATE TABLE IF NOT EXISTS public.blog
     user_id integer NOT NULL,
     dateadd date NOT NULL,
     caption character varying(255) NOT NULL,
+    caption_lat character varying NOT NULL,
     photoorig text,
     photopreview text,
     description text NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT "Blog_UNIQUE_Error" UNIQUE (caption)
+    CONSTRAINT "Blog_UNIQUE_Error" UNIQUE (caption_lat)
 );
 
 CREATE TABLE IF NOT EXISTS public.recipe

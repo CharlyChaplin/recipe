@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/blog/bg.jpg';
 import { useNavigate, useParams } from 'react-router-dom';
-import { blogGetBlogById, clearBlogData } from 'redux/slices/blogSlice';
+import { blogGetBlog, clearBlogData } from 'redux/slices/blogSlice';
 import { BlogDetailCaption, BlogDetailPhoto, BlogDetailTop, BlogTextWrapper, ContentWrapperChangedForBlogDetail, MainWrapperChangedForBlogDetail } from './styled';
 import { paths } from 'routes/helper';
 import { ButtonBtn, InnerWrapper } from 'pages/pages.styled';
@@ -12,8 +12,7 @@ import NoData from 'components/NoData/NoData';
 
 const BlogDetailPage = () => {
 	const { blogData, loading } = useSelector(state => state.blogReducer);
-	const [receivedData, setReceivedData] = useState();
-	const { id } = useParams();
+	const { name } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -25,7 +24,7 @@ const BlogDetailPage = () => {
 	}, []);
 
 	const getData = useCallback(() => {
-		dispatch(blogGetBlogById(id));
+		dispatch(blogGetBlog({blogCaption: name}));
 	}, [dispatch, blogData]);
 
 
@@ -34,7 +33,7 @@ const BlogDetailPage = () => {
 			<MainWrapperChangedForBlogDetail image={bg}>
 
 				<InnerWrapper>
-					<ButtonBtn handleaction={() => navigate(paths.blog)} />
+					<ButtonBtn handleaction={() => navigate(-1)} />
 					<ContentWrapperChangedForBlogDetail>
 						{
 							loading

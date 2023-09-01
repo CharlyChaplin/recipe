@@ -45,7 +45,7 @@ const BlogPage = () => {
 												blogsPreview.map(preview => (
 													<PreviewBlogItem
 														key={nanoid()}
-														url={`/blog/${preview.id}`}
+														url={`/blog/${preview.caption_lat}`}
 														owner={preview.name}
 														dateadd={preview.dateadd}
 														image={preview.photopreview}

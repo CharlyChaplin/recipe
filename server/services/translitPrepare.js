@@ -28,4 +28,4 @@ function translitPrepare(word){
 
 export default translitPrepare;
 
-// console.log(translitPrepare("Морс из клюквы").toLowerCase().replaceAll(' ', '_'));
+// console.log(translitPrepare("Борщ").toLowerCase().replaceAll(' ', '_'));

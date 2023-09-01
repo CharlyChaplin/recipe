@@ -3,53 +3,56 @@ import SearchDescription from '../SearchDescription';
 import ExapmlePlaceholder from './components/ExamplePlaceholder';
 import SearchResult from './SearchResult';
 
-import pic from 'assets/img/soup-borcsh.jpg';
 import { SearchMainForm, SearchMainFormButton, SearchMainFormClear, SearchMainFormInput, SearchMainFormInputWrapper, SearchMainFormPlaceholderBox } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from 'components/Spinner/Spinner';
 import vars from 'init/vars';
+import { clearSearchResult, searchQuery } from 'redux/slices/searchSlice';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 
+let query;
 
 const SearchPanel = ({ showQuotationFunc }) => {
-	const { searchStatus } = useSelector(state => state.searchReducer);
+	const { searching, searchResult } = useSelector(state => state.searchReducer);
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const params = useParams();
+	const navigate = useNavigate();
+
 
 	const [searchValue, setSearchValue] = useState('');
 	const [showSearch, setShowSearch] = useState(false);
 	const inputRef = useRef();
-	const sobj = {
-		category: [
-			{ image: pic, description: "Борщ", link: 'http://localhost:3000/recipe/borsch' },
-			{ image: pic, description: "Борщ с фасолью", link: 'http://localhost:3000/recipe/borsch' }
-		],
-		blog: [
-			{ image: pic, description: "Национальное блюдо - борщ", link: 'http://localhost:3000/recipe/borsch' }
-		]
-	};
+
 
 	useEffect(() => {
-		showQuotationFunc(!showSearch);
-	}, [showSearch]);
+		query = new URLSearchParams(location.search);
+		if (query.get('q')?.length) setSearchValue(query.get('q'));
+		if (location.search) {
+			dispatch(searchQuery(searchValue || location.search.replace('?q=', '')));
+		}
 
+		showQuotationFunc(!showSearch);
+	}, [showSearch, params, navigate]);
 
 	// отображаем результаты поиска в зависимости от наличия текста в input
 	function searchAction() {
+		navigate(location.pathname + `?q=${searchValue}`);
 		setShowSearch(searchValue.length !== 0);
 	}
 
-	function searchActionKeyDown(e) {
-		e.key == "Enter" && searchAction();
-	}
+	const searchActionKeyDown = e => e.key == "Enter" && searchAction();
 
 	function clearSearch(e) {
 		setSearchValue("");
 		setShowSearch(false);
+		dispatch(clearSearchResult());
+		navigate('/');
 	}
 
 	function handleSearchInput(e) {
-		setSearchValue(e.target.value);					// устанавливаем значение в input
-		!e.target.value.length && searchAction();		// при нулевом размере input запускаем обработчик
+		setSearchValue(e.target.value);	// устанавливаем значение в input
 	}
 
 	function changeSpan(text) {
@@ -59,6 +62,11 @@ const SearchPanel = ({ showQuotationFunc }) => {
 	function dblClick() {
 		inputRef.current.select();
 	}
+
+
+
+
+
 
 	return (
 		<>
@@ -77,7 +85,7 @@ const SearchPanel = ({ showQuotationFunc }) => {
 							onChange={handleSearchInput}
 							onKeyDown={searchActionKeyDown}
 						/>
-						<ExapmlePlaceholder text='Солянка' changeSpan={changeSpan} />
+						<ExapmlePlaceholder text='Борщ' changeSpan={changeSpan} />
 
 						<SearchMainFormClear onClick={clearSearch}>
 							<svg width="17" height="17" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +95,7 @@ const SearchPanel = ({ showQuotationFunc }) => {
 
 						<SearchMainFormButton onClick={searchAction} showSearch={showSearch}>
 							{
-								searchStatus
+								searching
 									? <Spinner color={vars.text} height={24} />
 									: <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
 										<path d="M0.195286 29.9193L9.49106 20.6236C7.6626 18.375 6.66509 15.5649 6.66662 12.6667C6.66662 5.68233 12.3489 0 19.3333 0C26.3177 0 32 5.68233 32 12.6667C32 19.6511 26.3177 25.3334 19.3333 25.3334C16.4351 25.3349 13.625 24.3374 11.3764 22.509L2.08067 31.8048C1.95562 31.9298 1.78604 32 1.60923 32C1.43241 32 1.26284 31.9298 1.13779 31.8048L0.195225 30.8621C0.0702126 30.7371 -1.15165e-05 30.5675 1.41662e-09 30.3907C1.15193e-05 30.2139 0.0702576 30.0443 0.195286 29.9193ZM19.3333 22.6667C24.8476 22.6667 29.3333 18.181 29.3333 12.6667C29.3333 7.15239 24.8476 2.66669 19.3333 2.66669C13.8189 2.66669 9.33325 7.15239 9.33325 12.6667C9.33325 18.181 13.8187 22.6667 19.3333 22.6667Z" />
@@ -98,7 +106,8 @@ const SearchPanel = ({ showQuotationFunc }) => {
 					</SearchMainFormPlaceholderBox>
 
 					{
-						showSearch && <SearchResult categoryFounded={sobj.category} blogFounded={sobj.blog} />
+						(showSearch || Object.values(searchResult).length > 0) &&
+						<SearchResult categoryFounded={searchResult.category} blogFounded={searchResult.blog} />
 					}
 
 				</SearchMainFormInputWrapper>
