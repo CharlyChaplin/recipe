@@ -1,14 +1,14 @@
+import React from 'react';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import Spinner from 'components/Spinner/Spinner';
 import vars from 'init/vars';
-import { ButtonBtn, ContentPaddingTop, ContentWrapper, InnerWrapper } from 'pages/pages.styled';
-import React from 'react';
+import { ButtonBtn, ContentWrapper } from 'pages/pages.styled';
+import { ContentWrapperForCategories, InnerWrapperForCategories } from './styled';
 import PreviewItem from '../PreviewItem/PreviewItem';
 import { nanoid } from 'nanoid';
 import NoData from 'components/NoData/NoData';
 import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
-import { ContentWrapperForCategories } from './styled';
 
 
 const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
@@ -16,12 +16,11 @@ const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
 
 	return (
 		<>
-			<InnerWrapper>
+			<InnerWrapperForCategories>
 				{
 					backBtn && <ButtonBtn handleaction={() => navigate(paths.categories)} />
 				}
-				<ContentPaddingTop />
-				<SectionHeader color={vars.whiteColor}>{headerCaption}</SectionHeader>
+				<SectionHeader backBtnExists={backBtn} color={vars.whiteColor}>{headerCaption}</SectionHeader>
 
 				{
 					loadStatus
@@ -51,7 +50,7 @@ const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
 
 
 				}
-			</InnerWrapper>
+			</InnerWrapperForCategories>
 		</>
 	);
 }

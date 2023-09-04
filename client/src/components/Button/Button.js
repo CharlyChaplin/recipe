@@ -31,7 +31,6 @@ const Button = styled(({
 	)
 })`
 	user-select: none;
-	// pointer-events: ${p => p.disabled ? 'none' : 'auto'};
 	cursor: ${p => p.disabled ? 'not-allowed' : 'pointer'};
 	width: fit-content;
 	background: ${p => p.disabled
@@ -49,11 +48,15 @@ const Button = styled(({
 	overflow: hidden;
 	text-align: center;
 	font-family: ${p => p.type === 'back' ? 'RalewayRegular' : 'RobotoRegular'}, sans-serif;
-	${adaptiveValue("font-size", 16, 16)};
+	${adaptiveValue("font-size", 16, 14)};
 	line-height: 1;
 	letter-spacing: ${rem(2)};
 	color: ${p => p.type === 'back' ? vars.whiteColor : vars.whiteColor};
-	padding: ${p => p.equalPadding ? rem(8) : `${rem(8)} ${rem(20)}`};
+	${adaptiveValue("padding-top", 8, 8)};
+	${adaptiveValue("padding-bottom", 8, 8)};
+	${adaptiveValue("padding-right", 20, 20)};
+	${adaptiveValue("padding-left", 20, 20)};
+	${p => p.equalPadding ? adaptiveValue("padding", 8, 5) : null};
 	text-shadow: ${p => p.type !== 'back' ? `${rem(2)} ${rem(2)} ${rem(4)} ${rgba(vars.blackColor, 0.25)}` : {}} ;
 	transition: background 0.25s ease 0s;
 	display: flex;

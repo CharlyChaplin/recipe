@@ -1,5 +1,3 @@
-import { BurgerButton } from "./styled";
-
 // Вспомогательные модули блокировки прокрутки и прыжка ====================================================================================================================================================================================================================================================================================
 let bodyLockStatus = true;
 
@@ -22,6 +20,10 @@ function bodyUnlock(delay = 500) {
 			}
 			body.style.paddingRight = '0px';
 			document.documentElement.classList.remove("lock");
+			// удаляем атрибут 'class', если он пуст
+			if (!document.documentElement.classList.length) {
+				document.documentElement.removeAttribute('class');
+			}
 		}, delay);
 		bodyLockStatus = false;
 		setTimeout(function () {
@@ -50,16 +52,22 @@ function bodyLock(delay = 500) {
 
 // Модуль работы по меню (бургер) =======================================================================================================================================================================================================================
 
+function menuAction(e) {
+	if (bodyLockStatus && e.target.closest('.icon-menu')) {
+		bodyLockToggle();
+		document.documentElement.classList.toggle("menu-open");
+	}
+}
+
+export function menuClose() {
+	bodyLockToggle();
+	document.documentElement.classList.toggle("menu-open");
+}
 
 
 export function menuInit() {
-	
 	if (document.querySelector(".icon-menu")) {
-		document.addEventListener("click", function (e) {
-			if (bodyLockStatus && e.target.closest('.icon-menu')) {
-				bodyLockToggle();
-				document.documentElement.classList.toggle("menu-open");
-			}
-		});
+		document.addEventListener("click", menuAction);
 	};
 };
+

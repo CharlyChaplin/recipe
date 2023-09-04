@@ -4,13 +4,17 @@ import vars from 'init/vars.js';
 import { adaptiveValue, rem } from 'init/mixins.js';
 
 
-const SectionHeader = styled(({ children, color = vars.text, ...props }) => {
+const SectionHeader = styled(({ children, backBtnExists, color = vars.text, ...props }) => {
 	return (
 		<div {...props}>
 			{children}
 		</div>
 	)
 })`
+	${({ backBtnExists }) => backBtnExists
+		? adaptiveValue('padding-top', 0, 50)
+		: null
+	}
 	font-family: "Giger", sans-serif;
 	${adaptiveValue('font-size', 45, 30)};
 	${adaptiveValue('line-height', 45, 35)};

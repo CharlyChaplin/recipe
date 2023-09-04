@@ -26,7 +26,7 @@ const App = () => {
 	useEffect(() => {
 		dispatch(userGetUser());
 
-		da.init();
+		// da.init();
 	}, []);
 
 

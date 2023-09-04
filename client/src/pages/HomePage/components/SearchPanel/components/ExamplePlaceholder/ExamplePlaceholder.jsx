@@ -13,11 +13,15 @@ const ExapmlePlaceholder = ({ text = "Супы", changeSpan }) => {
 
 	useEffect(() => {
 		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
+		
+		// устанавливаем видимость/невидимость подсказки при загрузке компонента
+		setIsNarrowScreen(mediaWatcher.matches);
 
 		return () => {
 			mediaWatcher.removeEventListener('change', updateIsNarrowScreen)
 		}
-	}, [])
+	}, []);
+
 
 
 

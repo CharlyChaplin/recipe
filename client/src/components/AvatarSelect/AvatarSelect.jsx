@@ -22,7 +22,7 @@ const AvatarSelect = ({
 
 	useEffect(() => {
 		if (image?.length) {
-			getFile({ name: "avatar", path: `http://localhost:7000/${image}` });
+			getFile({ name: "avatar", path: `${image}` });
 		} else {
 			getFile({ name: '', path: '' })
 		}

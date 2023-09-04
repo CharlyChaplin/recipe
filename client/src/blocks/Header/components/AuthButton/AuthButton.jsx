@@ -15,7 +15,7 @@ const AuthButton = () => {
 	const [image, setImage] = useState('');
 	useEffect(() => {
 		if (userData.user?.avatar) {
-			setImage(`http://localhost:7000/${userData.user?.avatar}`);
+			setImage(`${userData.user?.avatar}`);
 		}
 	}, [userData, image]);
 

@@ -1,10 +1,15 @@
 import { styled } from "styled-components";
-import { AddPhotoBlock, ContentWrapper } from "pages/pages.styled";
-import { adaptiveValue, rem } from "init/mixins";
+import { AddPhotoBlock, ContentWrapper, InnerWrapper } from "pages/pages.styled";
+import { adaptiveValue, em, rem } from "init/mixins";
 import vars from "init/vars";
 import { rgba } from "polished";
 import { RecipeCookingTextWrapper, RecipeLeft, RecipeMiniCaption } from "pages/RecipeEditPage/styled";
 
+
+export const InnerWrapperChangedForRecipeDetail = styled(InnerWrapper)`
+	${adaptiveValue("padding-left", 30, 10)};
+	${adaptiveValue("padding-right", 30, 10)};
+`;
 
 export const ContentWrapperChangedForRecipeDetail = styled(ContentWrapper)`
 	max-width: ${rem(1200)};
@@ -36,23 +41,32 @@ export const RecipeDetailTop = styled.div`
 export const RecipeShowPhotoBlock = styled(AddPhotoBlock)`
 	min-width: ${rem(160)};
 	max-width: ${rem(213)};
+	
+	@media (max-width: ${em(860)}){
+		 max-width: unset;
+	}
+	
+	@media (max-width: ${em(479.98)}) {
+		height: fit-content;
+	}
 `;
 
 export const RecipeShowCaption = styled(({ text, ...props }) => (
 	<div {...props}>{text}</div>
 ))`
 	font-family: "RalewaySemiBold", sans-serif;
-	font-size: ${rem(24)};
+	${adaptiveValue("font-size", 24, 16)};
 	color: ${vars.text};
 	text-transform: uppercase;
 	text-shadow: ${rem(1)} ${rem(2)} ${rem(4)} ${rgba(vars.blackColor, 0.25)};
 	text-align: center;
-	letter-spacing: ${rem(3)};
+	${adaptiveValue("letter-spacing", 3, 1)};
 	line-height: calc(${(vars.fz + 5) / vars.fz});
 `;
 
 export const RecipeShowShortDescription = styled.div`
 	font-family: "RalewayRegular", sans-serif;
+	${adaptiveValue("font-size", vars.fz, 13)};
 	color: ${vars.text};
 	line-height: calc(${(vars.fz + 2) / vars.fz});
 	letter-spacing: ${rem(1)};

@@ -4,11 +4,10 @@ import { BurgerButton, IconMenuWrapper } from './styled';
 
 
 const Burger = () => {
-	menuInit();
 
 	return (
 		<>
-			<BurgerButton onClick={() => menuInit()} className="icon-menu">
+			<BurgerButton onClick={menuInit} className="icon-menu">
 				<IconMenuWrapper />
 			</BurgerButton>
 		</>

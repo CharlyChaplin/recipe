@@ -327,8 +327,7 @@ export const ButtonBtn = styled(({ handleaction, ...props }) => (
 ))`
 	position: fixed;
 	align-self: flex-start;
-	/* margin-top: ${rem(30)}; */
-	margin-left: ${rem(50)};
+	${adaptiveValue("margin-left", 50, 10)};
 `;
 
 export const ContentPaddingTop = styled.div`

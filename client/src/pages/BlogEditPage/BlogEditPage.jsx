@@ -47,7 +47,9 @@ const BlogEditPage = () => {
 		setInputText(blogData.name);
 		setFields({ ...fields, oldBlogCaption: dataSource?.caption });
 
-		if (blogData[0]?.id) navigate(`/blog/${blogData[0].id}`);
+		// проверяем, если после запроса 'edit' данные получены,
+		// то переходим на страницу изменённого блога
+		if (blogData[0]?.id) navigate(`/blog/${blogData[0].caption_lat}`);
 
 		return () => localStorage.removeItem('blogEdit');
 	}, [blogData]);

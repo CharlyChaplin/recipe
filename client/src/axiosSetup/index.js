@@ -1,8 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const remoteServer = 'http://localhost:7000';
+
 const ax = axios.create({
-	baseURL: 'http://localhost:7000',
+	baseURL: remoteServer,
 	headers: { 'Content-Type': 'application/json' },
 	withCredentials: true
 });
@@ -21,11 +23,7 @@ ax.interceptors.response.use(response => {
 		if (error.response.status === 401 && error.config && !error.config._isRetry) {
 			error.config._isRetry = true;
 			try {
-				await axios.get('http://localhost:7000/user/refresh', { withCredentials: true });
-
-				// const accessCookie = Cookies.get('accesstoken');
-				// if (accessCookie) await axios.get('http://localhost:7000/user/getuser', { withCredentials: true });
-
+				await axios.get(`${remoteServer}/user/refresh`, { withCredentials: true });
 				return ax.request(originalRequest);
 			} catch (err) {
 				console.log(err.message);

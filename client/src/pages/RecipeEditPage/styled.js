@@ -1,4 +1,4 @@
-import { adaptiveValue, rem } from "init/mixins";
+import { adaptiveValue, em, rem } from "init/mixins";
 import vars from "init/vars";
 import { RecipeBlockContentWrapper } from "pages/pages.styled";
 import { AddPhotoBlock, ContentWrapper } from "pages/pages.styled";
@@ -49,7 +49,7 @@ export const RecipeWrapper = styled(({ children, ...props }) => (
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-start;
-	gap:${rem(60)};
+	${adaptiveValue("gap", 60, 50, 0, 1390, 860)};
 	width: 100%;
 	position: relative;
 	&:after {
@@ -62,6 +62,14 @@ export const RecipeWrapper = styled(({ children, ...props }) => (
 		background-color: ${vars.adminLayer};
 		box-shadow: ${rem(0)} ${rem(4)} ${rem(4)} ${rem(0)} ${rgba(vars.darkGreen, 0.25)} inset;
 	}
+	
+	@media (max-width: ${em(860)}) {
+		flex-direction: column;
+		&:after {
+			display: none;
+		}
+	}
+		
 `;
 
 export const RecipeLeft = styled(({ children, ...props }) => (
@@ -70,7 +78,7 @@ export const RecipeLeft = styled(({ children, ...props }) => (
 	flex: 0 1 50%;
 	display: flex;
 	flex-direction: column;
-	gap: ${rem(40)};
+	${adaptiveValue("gap", 40, 15, 0, 1390, 860)};
 `;
 
 export const RecipeRight = styled(({ children, ...props }) => (
@@ -80,7 +88,7 @@ export const RecipeRight = styled(({ children, ...props }) => (
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	gap: ${rem(30)};
+	${adaptiveValue("gap", 30, 15, 0, 1390, 860)};
 `;
 
 export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
@@ -90,7 +98,16 @@ export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	gap: ${rem(35)};
+	${adaptiveValue("gap", 35, 15, 0, 1390, 860)};
+	
+	@media (max-width: ${em(860)}) {
+		${adaptiveValue("gap", 35, 15, 0, 860, 320)};
+		justify-content: center;
+		${adaptiveValue("gap", 15, 5, 0, 860, 320)};
+	}
+	@media (max-width: ${em(479.98)}) {
+		flex-direction: column;
+	}
 `;
 
 export const AddPhotoBlockForRecipe = styled(AddPhotoBlock)`
@@ -103,7 +120,7 @@ export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	flex: 0 0 50%;
 	display: flex;
 	flex-direction: column;
-	gap: ${rem(17)};
+	${adaptiveValue("gap", 17, 7, 3, 1390, 860)};
 `;
 
 export const RecipeMiniCaption = styled(({ text, ...props }) => (

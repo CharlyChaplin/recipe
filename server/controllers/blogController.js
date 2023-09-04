@@ -178,7 +178,8 @@ class BlogController {
 
 		// после всех проверок достаём данные блога
 		try {
-			const { blogCaption } = req.body;
+			let { blogCaption } = req.body;
+			blogCaption = translitPrepare(blogCaption).toLowerCase().replaceAll(" ", "_");
 			const isBlog = await db.query(`
 				SELECT * FROM blog
 				WHERE caption_lat='${blogCaption}';
@@ -202,6 +203,7 @@ class BlogController {
 			delete userData.id;
 			res.json(userData);
 		} catch (err) {
+			console.log(err);
 			res.status(400).json({ message: err });
 		}
 	}
@@ -226,7 +228,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(400).json({message: err}));
+				.catch(err => res.status(400).json({ message: err }));
 		} else if (roleDescription === 'user') {
 			db.query(`
 				SELECT * FROM blog
@@ -236,7 +238,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(400).json({message: err}));
+				.catch(err => res.status(400).json({ message: err }));
 		}
 
 	}
@@ -264,7 +266,7 @@ class BlogController {
 
 			res.json(blogsData);
 		} catch (err) {
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 	}
 }

@@ -7,7 +7,7 @@ import bg from 'assets/img/category/soups/bg.jpg';
 import listMarker from 'assets/img/recipe/list-item.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { recipeGetRecipe } from 'redux/slices/recipeSlice';
-import { ContentWrapperChangedForRecipeDetail, RecipeCookingTextCaption, RecipeDetailTop, RecipeShowCaption, RecipeShowCookingText, RecipeShowCookingTextWrapper, RecipeShowIngredientsWrapper, RecipeShowLeft, RecipeShowMiniCaption, RecipeShowPhotoBlock, RecipeShowShortDescription } from './styled';
+import { ContentWrapperChangedForRecipeDetail, InnerWrapperChangedForRecipeDetail, RecipeCookingTextCaption, RecipeDetailTop, RecipeShowCaption, RecipeShowCookingText, RecipeShowCookingTextWrapper, RecipeShowIngredientsWrapper, RecipeShowLeft, RecipeShowMiniCaption, RecipeShowPhotoBlock, RecipeShowShortDescription } from './styled';
 import { RecipeIngredientsWrapper, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeRight, RecipeWrapper } from 'pages/RecipeEditPage/styled';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import IngredientItem from './components/IngredientItem';
@@ -35,7 +35,7 @@ const RecipeDetailPage = () => {
 	return (
 		<>
 			<MainWrapper image={bg}>
-				<InnerWrapper>
+				<InnerWrapperChangedForRecipeDetail>
 					<ButtonBtn handleaction={() => navigate(-1)} />
 					{
 						loading
@@ -87,17 +87,6 @@ const RecipeDetailPage = () => {
 												</RecipeShowIngredientsWrapper>
 											</RecipeIngredientsWrapper>
 
-											{/* <RecipeIngredientsWrapper>
-												<RecipeMiniCaption text="Категория:" />
-												<RecipeBlockContentWrapper>
-													{
-														userData?.user?.role === 1
-															? <DropdownList elements={categoryData.map(el => el.caption)} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={categoryInputText} setInputText={setCategoryInputText} />
-															: <EditNotEdit data={recipeData?.name} />
-													}
-												</RecipeBlockContentWrapper>
-
-											</RecipeIngredientsWrapper> */}
 										</RecipeShowLeft>
 
 										<RecipeRight>
@@ -111,7 +100,7 @@ const RecipeDetailPage = () => {
 
 								</ContentWrapperChangedForRecipeDetail>
 					}
-				</InnerWrapper>
+				</InnerWrapperChangedForRecipeDetail>
 			</MainWrapper>
 
 		</>

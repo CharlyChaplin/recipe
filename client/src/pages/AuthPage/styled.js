@@ -80,8 +80,8 @@ export const AuthPageFormHaveAccount = styled(({ children, action, ...props }) =
 		<span>{action === 'signin' ? "Нет аккаунта?" : "Уже зарегистрированы?"}</span>
 		{
 			action === 'signin'
-				? <Link to="http://localhost:3000/user/signup">Создать</Link>
-				: <Link to="http://localhost:3000/user/signin">Войти</Link>
+				? <Link to="/user/signup">Создать</Link>
+				: <Link to="/user/signin">Войти</Link>
 		}
 	</div>
 ))`

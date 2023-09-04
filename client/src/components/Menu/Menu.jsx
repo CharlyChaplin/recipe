@@ -3,6 +3,7 @@ import { MenuBody, MenuItem, MenuList } from './styled';
 
 import Burger from './components/Burger';
 import menuItem from './menuItems';
+import { menuClose } from './components/Burger/menuBurger';
 
 
 const Menu = () => {
@@ -11,7 +12,7 @@ const Menu = () => {
 			<Burger />
 			<MenuBody>
 				<MenuList>
-					<MenuItem items={menuItem} />
+					<MenuItem onClick={menuClose} items={menuItem} />
 				</MenuList>
 			</MenuBody>
 		</>

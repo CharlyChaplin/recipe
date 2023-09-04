@@ -348,7 +348,7 @@ class UserController {
 					rolecyr: strRole.rows[0].roledescription,
 					isactivated: getUser.rows[0].isactivated,
 					nickname: getUserData.rows[0]?.name || null,
-					avatar: getUserData.rows[0]?.avatar || null
+					avatar: config().parsed.LOCAL_ADDRESS + '/' + getUserData.rows[0]?.avatar || null
 				}
 			};
 			res.json(userData);
@@ -491,7 +491,7 @@ class UserController {
 				role: strRole.rows[0].role,
 				isactivated: getUser.rows[0].isactivated,
 				nickname: getAdditionalUser.rows[0].name,
-				avatar: getAdditionalUser.rows[0].avatar
+				avatar: config().parsed.LOCAL_ADDRESS + '/' + getAdditionalUser.rows[0].avatar
 			};
 			res.json(userData);
 		} catch (err) {
