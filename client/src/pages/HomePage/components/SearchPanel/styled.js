@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { adaptiveValue, rem } from "init/mixins";
 import vars from "init/vars";
 import { PlaceholderText } from "./components/ExamplePlaceholder/styled";
-import { rgba } from "polished";
+import { lighten, rgba } from "polished";
 
 
 
@@ -18,7 +18,7 @@ export const SearchMainFormInputWrapper = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
 	width: 100%;
-	border-radius: ${rem(20)};
+	${adaptiveValue('border-radius', 20, 10)};
 	border: ${rem(2)} solid ${vars.darkGreen};
 	overflow: hidden;
 `;
@@ -28,18 +28,18 @@ export const SearchMainFormPlaceholderBox = styled(({ children, showSearch, ...p
 ))`
 	position: relative;
 	font-family: "RalewayRegular", sans-serif;
-	${adaptiveValue("font-size", 18, 18)};
+	${adaptiveValue("font-size", 18, 12)};
 	display: block;
 	box-shadow: ${rem(1)} ${rem(2)} ${rem(10)} ${rem(0)} ${rgba(vars.blackColor, .75)};
 	
 	input {
 		line-height: calc(33 / 24);
 		width: 100%;
-		${adaptiveValue("font-size", 20, 20)};
-		${adaptiveValue("padding-top", 8, 8)};
-		${adaptiveValue("padding-bottom", 8, 8)};
-		${adaptiveValue("padding-left", 25, 25)};
-		${adaptiveValue("padding-right", 105, 105)};
+		${adaptiveValue("font-size", 20, 14)};
+		${adaptiveValue("padding-top", 8, 5)};
+		${adaptiveValue("padding-bottom", 8, 5)};
+		${adaptiveValue("padding-left", 25, 8)};
+		${adaptiveValue("padding-right", 105, 70)};
 		pointer-events: none;
 		display: flex;
 		flex-direction: row;
@@ -56,17 +56,17 @@ export const SearchMainFormPlaceholderBox = styled(({ children, showSearch, ...p
 export const SearchMainFormClear = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	width: ${rem(28)};
-	height: ${rem(28)};
+	${adaptiveValue('width', 28, 15)};
+	${adaptiveValue('height', 28, 15)};
 	position: absolute;
-	right: ${rem(70)};
-	top: 0;
+	${adaptiveValue('right', 70, 40)};
+	top: 50%;
+	transform: translate(0%, -50%);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
-	height: 100%;
 	
 	&:hover {
 		svg {
@@ -75,8 +75,9 @@ export const SearchMainFormClear = styled(({ children, ...props }) => (
 	}
 		
 	svg {
+		width: 100%;
+		height: 100%;
 		transition: all 0.25s ease 0s;
-		scale: 1.5;
 		fill: ${rgba(vars.lightGreen, .5)};
 	}
 `;
@@ -85,7 +86,7 @@ export const SearchMainFormButton = styled(({ children, showSearch, ...props }) 
 	<div {...props}>{children}</div>
 ))`
 	background-color: ${vars.searchMainFormBackcolor};
-	${adaptiveValue("width", 60, 60)};
+	${adaptiveValue("width", 60, 35)};
 	height: 100%;
 	position: absolute;
 	right: 0;
@@ -97,12 +98,14 @@ export const SearchMainFormButton = styled(({ children, showSearch, ...props }) 
 	border-top-right-radius: ${({ showSearch }) => showSearch ? 0 : 'unset'};
 	border-bottom-right-radius: ${({ showSearch }) => showSearch ? 0 : 'unset'};
 	svg {
-		width: ${rem(22)};
-		height: ${rem(22)};
+		${adaptiveValue("width", 22, 16)};
+		${adaptiveValue("height", 22, 16)};
 		fill: ${vars.text};
+		transition: all 0.25s ease 0s;
 	}
-	&:hover
+	&:hover {
 		svg {
-			fill: ${vars.dark};
+			fill: ${lighten(.15, vars.dark)};
 		}
+	}
 `;

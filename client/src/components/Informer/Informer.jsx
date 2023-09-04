@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideInfo, isConfirmOk } from 'redux/slices/infoSlice';
-import { ButtonsWrapper, Info, InfoIcon, InfoText, InfoWrapper } from './styled';
+import { ButtonsWrapper, Info, InfoContent, InfoIcon, InfoText, InfoWrapper } from './styled';
 import vars from 'init/vars';
 import Button from 'components/Button/Button';
 import { useRef } from 'react';
@@ -32,7 +32,7 @@ const Informer = () => {
 	useEffect(() => {
 		if (show) {
 			setView(true);
-			if (!isConfirm?.ok || !isConfirm?.cancel) unloadMe();
+			if (!isConfirm?.ok && !isConfirm?.cancel) unloadMe();
 		}
 
 		return () => {
@@ -78,19 +78,20 @@ const Informer = () => {
 						(warning || ok || cancel) &&
 						<InfoIcon warning={warning} ok={ok} cancel={cancel} />
 					}
-					<InfoText>{text}</InfoText>
 
-					{
-						(isConfirm && (isConfirm?.ok || isConfirm.cancel))
-							? <ButtonsWrapper ref={buttons}>
-								<Button onClick={handleOk}>{isConfirm.ok}</Button>
-								<Button onClick={handleCancel}>{isConfirm.cancel}</Button>
-							</ButtonsWrapper>
+					<InfoContent>
+						<InfoText>{text}</InfoText>
 
-							: null
-					}
+						{
+							(isConfirm && (isConfirm?.ok || isConfirm?.cancel))
+								? <ButtonsWrapper ref={buttons}>
+									{isConfirm.ok && <Button onClick={handleOk}>{isConfirm.ok}</Button>}
+									{isConfirm.cancel && <Button onClick={handleCancel}>{isConfirm.cancel}</Button>}
+								</ButtonsWrapper>
 
-
+								: null
+						}
+					</InfoContent>
 				</InfoWrapper>
 			</Info>
 		</>

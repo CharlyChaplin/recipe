@@ -5,7 +5,6 @@ import { ReactComponent as AuthICO } from 'assets/img/icons/login.svg';
 import vars from "init/vars";
 import { Link } from "react-router-dom";
 import { paths } from "routes/helper";
-import Spinner from "components/Spinner";
 
 
 
@@ -30,7 +29,10 @@ export const AuthElementWrapper = styled(({ children, isAuth, showMenu, ...props
 	height: 100%;
 	border: 1px solid ${vars.darkGreen};
 	border-radius: ${rem(10)};
-	padding: ${rem(3)} ${rem(13)};
+	${adaptiveValue("padding-left", 13, 6)};
+	${adaptiveValue("padding-right", 13, 6)};
+	${adaptiveValue("padding-top", 3, 1)};
+	${adaptiveValue("padding-bottom", 3, 1)};
 	transition: all 0.25s ease 0s;
 	&:hover {
 		border: 1px solid ${rgba(vars.accent, .75)};
@@ -51,8 +53,8 @@ export const AuthImage = styled(({ isAuth, image = null, ...props }) => {
 		</div>
 	)
 })`
-	width: ${rem(30)};
-	height: ${rem(30)};
+	${adaptiveValue("width", 30, 25)};
+	${adaptiveValue("height", 30, 25)};
 	display: flex;
 	flex-direction: row;
 	border-radius: ${({ isAuth }) => isAuth ? 50 : 0}%;
@@ -61,7 +63,7 @@ export const AuthImage = styled(({ isAuth, image = null, ...props }) => {
 	box-shadow: ${({ isAuth }) => isAuth ? `${rem(0)} ${rem(0)} ${rem(3)} ${rem(0)} ${rgba(vars.whiteColor, 0.5)}` : 'none'};
 	justify-content: center;
 	align-items: center;
-	margin-bottom: ${rem(5)};
+	${adaptiveValue("margin-bottom", 5, 3)};
 	svg {
 		width: 100%;
 		height: 100%;
@@ -77,7 +79,7 @@ export const AuthText = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
 	font-family: "RobotoLight", sans-serif;
-	${adaptiveValue("font-size", 13, 13)};
+	${adaptiveValue("font-size", 13, 10)};
 	letter-spacing: ${rem(1)};
 	color: ${vars.whiteColor};
 `;

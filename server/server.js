@@ -17,7 +17,7 @@ const app = express();
 
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: ["http://localhost:3000", "http://192.168.1.4:3000"] }));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({defCharset: 'utf8', defParamCharset: 'utf8'}));

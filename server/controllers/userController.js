@@ -297,7 +297,13 @@ class UserController {
 	async getUsers(req, res, next) {
 		const users = await db.query(`SELECT email FROM users;`);
 
-		res.json(users.rows.map(el => { return (el.email) }));
+		let userData;
+		if (users.rowCount) {
+			userData = users.rows.map(el => { return (el.email) });
+		} else {
+			userData = [];
+		}
+		res.json(userData);
 	}
 
 	async getUsersNickname(req, res, next) {

@@ -10,7 +10,7 @@ export const PlaceholderText = styled(({ text, children, ...props }) => (
 		{children}
 	</div>
 ))`
-	${adaptiveValue("left", 25, 15)};
+	${adaptiveValue("left", 25, 8)};
 	display: none;
 	width: 100%;
 	position: absolute;

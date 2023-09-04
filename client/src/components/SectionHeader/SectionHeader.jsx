@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
 import vars from 'init/vars.js';
-import { rem } from 'init/mixins.js';
+import { adaptiveValue, rem } from 'init/mixins.js';
 
 
 const SectionHeader = styled(({ children, color = vars.text, ...props }) => {
@@ -12,8 +12,8 @@ const SectionHeader = styled(({ children, color = vars.text, ...props }) => {
 	)
 })`
 	font-family: "Giger", sans-serif;
-	font-size: ${rem(45)};
-	line-height: ${rem(45)};
+	${adaptiveValue('font-size', 45, 30)};
+	${adaptiveValue('line-height', 45, 35)};
 	letter-spacing: ${rem(2)};
 	width: fit-content;
 	margin: 0;

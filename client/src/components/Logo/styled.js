@@ -17,8 +17,8 @@ export const LogoWrapper = styled(({ children, ...props }) => (
 export const LogoIcon = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	${adaptiveValue("width", 30, 30)};
-	${adaptiveValue("height", 30, 30)};
+	${adaptiveValue("width", 30, 20)};
+	${adaptiveValue("height", 30, 20)};
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -37,17 +37,17 @@ export const LogoDescriptionWrapper = styled.div`
 export const LogoDescriptionTop = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	${adaptiveValue("font-size", 14, 14)};
+	${adaptiveValue("font-size", 14, 10)};
 	line-height: calc(21 / 18);
 	color: ${vars.whiteColor};
-	${adaptiveValue("letter-spacing", 2, 2)};
+	${adaptiveValue("letter-spacing", 2, 1)};
 	margin-bottom: 0;
 `;
 
 export const LogoDescriptionBottom = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	${adaptiveValue("font-size", 12, 12)};
+	${adaptiveValue("font-size", 12, 8)};
 	color: ${rgba(255, 255, 255, .5)};
-	${adaptiveValue("letter-spacing", 1, 1)};
+	${adaptiveValue("letter-spacing", 1, 0)};
 `;

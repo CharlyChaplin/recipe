@@ -24,7 +24,7 @@ const HomePage = () => {
 			<MainWrapper image={bg}>
 				<InnerWrapperForMain>
 					
-					<ContentPaddingTop />
+					{/* <ContentPaddingTop /> */}
 					<SectionHeader color={vars.whiteColor}>{titlePage}</SectionHeader>
 
 					<SearchBar>

@@ -30,7 +30,7 @@ class PhraseController {
 			'${user_id}','${phraseText}') RETURNING *;`)
 			.then(resp => res.json(resp.rows[0]))
 			.catch(err => {
-				res.status(400).json(err)
+				res.status(400).json({message: err})
 			});
 	}
 
@@ -54,7 +54,7 @@ class PhraseController {
 		const { phrase } = req.body;
 		db.query(`DELETE FROM phrase WHERE caption='${phrase}' RETURNING caption;`)
 			.then(resp => res.json([resp.rows[0].caption]))
-			.catch(err => res.json(err));
+			.catch(err => res.json({message: err}));
 	}
 
 	async changePhrase(req, res) {
@@ -80,14 +80,14 @@ class PhraseController {
 			WHERE "caption"='${oldPhrase}' RETURNING *;
 		`)
 			.then(resp => res.json(resp.rows[0]))
-			.catch(err => res.status(400).json(err));
+			.catch(err => res.status(400).json({message: err}));
 	}
 
 	getPhraseById(req, res) {
 		const { id } = req.params;
 		db.query(`SELECT * FROM phrase WHERE id=${id};`)
 			.then(resp => res.json(resp.rows))
-			.catch(err => res.json(err));
+			.catch(err => res.json({message: err}));
 	}
 
 	getRandomPhrase(req, res) {
@@ -98,7 +98,7 @@ class PhraseController {
 			ORDER BY random() LIMIT 1;
 		`)
 			.then(resp => res.json(resp.rows))
-			.catch(err => res.json(err));
+			.catch(err => res.json({message: err}));
 	}
 
 	async getAllPhrases(req, res) {
@@ -111,7 +111,7 @@ class PhraseController {
 			const out = isPhrases.rows.map(item => item.caption);
 			res.json(out);
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(400).json({message: err});
 		}
 	}
 }

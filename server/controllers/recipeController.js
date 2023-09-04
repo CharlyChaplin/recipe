@@ -77,7 +77,7 @@ class RecipeController {
 			res.json(recipeData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json(err);
+			res.status(400).json({message: err});
 		}
 	}
 
@@ -111,7 +111,7 @@ class RecipeController {
 			res.json(deletedRecipe.rows[0].caption);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json(err);
+			res.status(400).json({message: err});
 		}
 
 	}
@@ -339,7 +339,7 @@ class RecipeController {
 						const out = resp.rows.map(item => item.caption);
 						res.json(out);
 					})
-					.catch(err => res.status(400).json(err));
+					.catch(err => res.status(400).json({message: err}));
 			} else if (roleDescription === 'user') {
 				db.query(`
 					SELECT * FROM recipe
@@ -349,10 +349,10 @@ class RecipeController {
 						const out = resp.rows.map(item => item.caption);
 						res.json(out);
 					})
-					.catch(err => res.status(400).json(err));
+					.catch(err => res.status(400).json({message: err}));
 			}
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(400).json({message: err});
 		}
 
 	}
@@ -379,7 +379,7 @@ class RecipeController {
 
 			res.json(recipiesData);
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(400).json({message: err});
 		}
 	}
 
@@ -402,7 +402,7 @@ class RecipeController {
 			res.json(recipiesData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json(err);
+			res.status(400).json({message: err});
 		}
 	}
 }

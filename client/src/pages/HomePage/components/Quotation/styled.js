@@ -6,9 +6,13 @@ import { rgba } from "polished";
 
 
 export const Quote = styled.div`
+	pointer-events: none;
+	user-select: none;
 	position: relative;
 	font-family: "NewStandardOld", sans-serif;
-	${adaptiveValue("max-width", 376, 300)};
+	${adaptiveValue("max-width", 376, 225)};
+	${adaptiveValue("margin-right", 0, 12)};
+	
 	
 	&::before, &::after {
 		content: '\\201C';
@@ -36,18 +40,22 @@ export const QuoteWrapper = styled.div`
 	${adaptiveValue("padding-left", 20, 10)};
 	${adaptiveValue("padding-right", 20, 10)};
 	background-color: ${rgba(vars.adminLayer, .9)};
-	${adaptiveValue("border-radius", 21, 21)};
+	${adaptiveValue("border-radius", 21, 11)};
 	overflow: hidden;
 	box-shadow: ${rem(0)} ${rem(0)} ${rem(2)} ${rem(2)} ${vars.darkGreen};
+	pointer-events: none;
+	user-select: none;
 `;
 
 export const QuotePhrase = styled(({ text, ...props }) => (
 	<div {...props}>{text}</div>
 ))`
 	font-weight: 700;
-	${adaptiveValue("font-size", 20, 16)};
-	${adaptiveValue("line-height", 25, 20)};
+	${adaptiveValue("font-size", 20, 14)};
+	${adaptiveValue("line-height", 25, 16)};
 	${adaptiveValue("letter-spacing", 2, 1)};
 	color: ${vars.text};
 	text-align: center;
+	pointer-events: none;
+	user-select: none;
 `;

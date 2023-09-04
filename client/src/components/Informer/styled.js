@@ -32,13 +32,18 @@ export const InfoWrapper = styled(({ children, warning, ok, cancel, isConfirm, .
 ))`
 	width: 100%;
 	color: ${vars.whiteColor};
-	display: grid;
+	display: ${({ warning, ok, cancel, isConfirm }) =>
+		(warning || ok || cancel) && (isConfirm.ok || isConfirm.cancel)
+			? 'flex'
+			: 'grid'
+	};
+	
 	grid-template-columns: ${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? '1fr' : 'auto auto'};
-	grid-template-rows: ${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'auto auto' : '1fr'};
+	grid-template-rows: ${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'auto' : '1fr'};
 	${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'grid-auto-flow: column' : null};
 	justify-content: start;
 	justify-items: ${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'center' : 'start'};
-	gap: ${({ warning, ok, cancel, isConfirm }) => (warning || ok || cancel || (isConfirm.ok || isConfirm.cancel)) ? rem(10) : 0};
+	gap: ${({ warning, ok, cancel, isConfirm }) => (warning || ok || cancel || (isConfirm.ok || isConfirm.cancel)) ? rem(20) : 0};
 `;
 
 export const InfoIcon = styled(({ warning, ok, cancel, ...props }) => (
@@ -57,8 +62,8 @@ margin-top: ${rem(-1)};
 width: ${rem(25)};
 height: ${rem(25)};
 	svg {
-	width: 80%;
-	height: 80%;
+	width: 95%;
+	height: 95%;
 	fill: ${({ warning, ok, cancel }) => (
 		warning
 			? 'orange'
@@ -70,6 +75,16 @@ height: ${rem(25)};
 	)
 	}
 }
+`;
+
+export const InfoContent = styled(({ children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
+	display: flex;
+	flex-direction: column;
+	gap: ${rem(15)};
+	align-items: center;
+	justify-content: center;
 `;
 
 export const InfoText = styled(({ children, ...props }) => (
@@ -87,7 +102,7 @@ text-align: center;
 export const ButtonsWrapper = styled.div`
 display: flex;
 flex-direction: row;
-justify-content: space - between;
+justify-content: space-between;
 align-items: center;
 gap: ${rem(15)};
 `;

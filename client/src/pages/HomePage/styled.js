@@ -1,11 +1,12 @@
 import { styled } from "styled-components";
-import { rem } from "init/mixins";
+import { adaptiveValue, rem } from "init/mixins";
 import { InnerWrapper } from "pages/pages.styled";
 
 
 export const InnerWrapperForMain = styled(InnerWrapper)`
-	padding-left: ${rem(105)};
-	padding-right: ${rem(105)};
+	${adaptiveValue("padding-top", 105, 25)};
+	${adaptiveValue("padding-left", 105, 10)};
+	${adaptiveValue("padding-right", 105, 10)};
 `;
 
 export const SearchBar = styled(({ children, ...props }) => (

@@ -47,12 +47,12 @@ const Categories = () => {
 
 
 	if (name) {
-		outData = recipeInCategory.map(categoryItem => ({
+		outData = recipeInCategory?.map(categoryItem => ({
 			...categoryItem,
 			url: `/recipe/${categoryItem.caption_lat}`
 		}));
 	} else {
-		outData = recipePreview.map(category => ({
+		outData = recipePreview?.map(category => ({
 			...category,
 			url: `category/${category.categoryname}`
 		}));

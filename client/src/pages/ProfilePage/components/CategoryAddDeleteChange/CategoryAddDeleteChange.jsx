@@ -24,7 +24,7 @@ const categoryAddChangeDelete = () => {
 	let modalStore = useContext(DataContext);
 
 	const { userData } = useSelector(state => state.userReducer);
-	const { categoryData } = useSelector(state => state.categoryReducer);
+	const { categoryData, errors } = useSelector(state => state.categoryReducer);
 	const dispatch = useDispatch();
 
 	const [newCategory, setNewCategory] = useState('');
@@ -35,7 +35,7 @@ const categoryAddChangeDelete = () => {
 	const [categories, setCategories] = useState([]);
 	const [picture, setPicture] = useState("");
 
-	let categoryName = '';
+	let categoryName = '', currentCategoryImage;
 
 	useEffect(() => {
 		if (categoryData.length > 0) {
@@ -91,7 +91,11 @@ const categoryAddChangeDelete = () => {
 	function handleSelected(val) {
 		setSelected(val);
 		modalStore.selectCategoryForDelete(val);
-		if (isEdit) setChangedCategory(val);
+
+		if (isEdit) {
+			// показываем поле ввода для редактирования
+			setChangedCategory(val);
+		}
 	}
 
 	// обработка действия при удалении категории
@@ -106,7 +110,7 @@ const categoryAddChangeDelete = () => {
 				setSelected('');		// блокируем кнопки удаления/изменения
 				dispatch(categoryGetCategories());	// получаем заного оставшиеся категории
 			} catch (error) {
-				dispatch(showInfo({ text: `Ошибка при удалении (${error.response.data.detail})`, cancel: true }));
+				dispatch(showInfo({ text: `Ошибка при удалении (${error.response.data.message})`, isConfirm: { ok: "Ok" }, cancel: true }));
 			}
 
 		}
@@ -120,8 +124,8 @@ const categoryAddChangeDelete = () => {
 			fd.append('oldCategory', selected);
 			fd.append('newCategory', changedCategory);
 			fd.append('file', picture);
-			
-			const resp = await axios.post('/category/edit', fd, {headers: {"Content-Type": "application/formdata"}});
+
+			const resp = await axios.post('/category/edit', fd, { headers: { "Content-Type": "application/formdata" } });
 			if (resp.status && resp.status === 200) {
 				dispatch(showInfo({ text: `Категория "${selected}" была успешно изменена.`, ok: true }));
 				setIsEdit(false);
@@ -148,8 +152,11 @@ const categoryAddChangeDelete = () => {
 		setPicture(pictureFile);
 	}
 
-	
-	
+	const findedImage = categoryData.find(i => i.caption == selected);
+	if (findedImage) {
+		currentCategoryImage = 'http://localhost:7000/' + findedImage.photopreview.split('')?.slice(1)?.join('');
+	}
+
 
 
 	return (
@@ -170,7 +177,8 @@ const categoryAddChangeDelete = () => {
 					</AddWrapperCategorySidePart>
 					<AddCategoryPhoto>
 						<span>Фон для категории:</span>
-						<AddPhotoBlock><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlock>
+						{/* <AddPhotoBlock><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlock> */}
+						<AddPhotoBlock><ImageInsert currentFile={currentCategoryImage} selectedFile={getSelectedFile} /></AddPhotoBlock>
 					</AddCategoryPhoto>
 				</AddWrapperCategory>
 

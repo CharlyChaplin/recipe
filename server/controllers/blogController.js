@@ -53,7 +53,7 @@ class BlogController {
 			res.json(newBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json(err);
+			res.status(400).json({ message: err });
 		}
 	}
 
@@ -77,7 +77,7 @@ class BlogController {
 
 			res.json(deletedBlog.rows[0].caption);
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(400).json({ message: err });
 		}
 
 	}
@@ -167,7 +167,7 @@ class BlogController {
 			if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");
 			res.json(updatedBlog.rows);
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(400).json({ message: err });
 		}
 
 	}
@@ -184,7 +184,7 @@ class BlogController {
 				WHERE caption_lat='${blogCaption}';
 			`);
 			if (!isBlog.rowCount) throw ApiError.BadRequest("Error while getting the blog");
-			
+
 			// достаём владельца блога
 			const owner = await db.query(`
 				SELECT name FROM persondata
@@ -202,7 +202,7 @@ class BlogController {
 			delete userData.id;
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(400).json({ message: err });
 		}
 	}
 
@@ -226,7 +226,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(400).json(err));
+				.catch(err => res.status(400).json({message: err}));
 		} else if (roleDescription === 'user') {
 			db.query(`
 				SELECT * FROM blog
@@ -236,7 +236,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(400).json(err));
+				.catch(err => res.status(400).json({message: err}));
 		}
 
 	}
@@ -264,7 +264,7 @@ class BlogController {
 
 			res.json(blogsData);
 		} catch (err) {
-			res.status(400).json(err);
+			res.status(400).json({message: err});
 		}
 	}
 }
