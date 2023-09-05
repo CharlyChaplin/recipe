@@ -27,7 +27,8 @@ export const DropdownBody = styled(({ buttonDeleteIcon, buttonEditIcon, children
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	gap: ${({ buttonDeleteIcon, buttonEditIcon }) => (buttonDeleteIcon || buttonEditIcon) ? rem(67) : rem(30)};
+	// gap: ${({ buttonDeleteIcon, buttonEditIcon }) => (buttonDeleteIcon || buttonEditIcon) ? rem(67) : rem(30)};
+	gap: ${({ buttonDeleteIcon, buttonEditIcon }) => (buttonDeleteIcon || buttonEditIcon) ? rem(67) : rem(0)};
 	width: 100%;
 `;
 

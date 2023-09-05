@@ -1,10 +1,10 @@
 import axios from "axios";
+import vars from "init/vars";
 import Cookies from "js-cookie";
 
-const remoteServer = 'http://localhost:7000';
 
 const ax = axios.create({
-	baseURL: remoteServer,
+	baseURL: vars.remoteHost,
 	headers: { 'Content-Type': 'application/json' },
 	withCredentials: true
 });
@@ -23,7 +23,7 @@ ax.interceptors.response.use(response => {
 		if (error.response.status === 401 && error.config && !error.config._isRetry) {
 			error.config._isRetry = true;
 			try {
-				await axios.get(`${remoteServer}/user/refresh`, { withCredentials: true });
+				await axios.get(`${vars.remoteHost}/user/refresh`, { withCredentials: true });
 				return ax.request(originalRequest);
 			} catch (err) {
 				console.log(err.message);

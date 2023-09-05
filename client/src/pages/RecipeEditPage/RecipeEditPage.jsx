@@ -19,6 +19,7 @@ import { paths } from 'routes/helper';
 import { RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from 'pages/RecipeAddPage/styled';
 import { clearRecipeData, recipeEditRecipe } from 'redux/slices/recipeSlice';
 import { showInfo } from 'redux/slices/infoSlice';
+import { InnerWrapperChangedForRecipeDetail } from 'pages/RecipeDetailPage/styled';
 
 
 
@@ -191,7 +192,7 @@ const RecipeEditPage = () => {
 		<>
 			<MainWrapper image={bg}>
 
-				<InnerWrapper>
+				<InnerWrapperChangedForRecipeDetail>
 					<SectionHeader color={vars.whiteColor}><ContentPaddingTop />Изменяем рецепт</SectionHeader>
 					<ContentWrapperChangedForRecipeEdit>
 
@@ -203,7 +204,7 @@ const RecipeEditPage = () => {
 							}
 							{
 								userData?.user?.role === 1
-									? <DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleUserSelected} inputText={userInputText} setInputText={setUserInputText} labelPos='row' labelText='Владелец:' minWidth={300} />
+									? <div><span>пользователем: </span><DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleUserSelected} inputText={userInputText} setInputText={setUserInputText} /></div>
 									: <div><span>пользователем: </span><EditNotEdit data={recipeData?.name} /></div>
 							}
 						</RecipeEditTop>
@@ -224,7 +225,9 @@ const RecipeEditPage = () => {
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Ингредиенты:" />
 									<RecipeBlockContentWrapperForIngredients>
+										
 										<Button equalPadding action={addIngredient} ><AddICO /></Button>
+										<hr />
 										<RecipeIngredientsItemsWrapper>
 											{
 												fields?.ingredients?.map((_, index) => {
@@ -280,7 +283,7 @@ const RecipeEditPage = () => {
 						</RecipeEditButtonWrapper>
 
 					</ContentWrapperChangedForRecipeEdit>
-				</InnerWrapper>
+				</InnerWrapperChangedForRecipeDetail>
 
 			</MainWrapper>
 		</>

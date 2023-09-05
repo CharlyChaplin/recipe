@@ -1,9 +1,9 @@
 import { styled } from "styled-components";
-import { rem } from "init/mixins";
+import { adaptiveValue, rem } from "init/mixins";
 import { RecipeEditTop } from "pages/RecipeEditPage/styled";
 import vars from "init/vars";
 import { EditNotEdit, RecipeBlockContentWrapper } from "pages/pages.styled";
-import { lighten } from "polished";
+import { lighten, rgba } from "polished";
 
 
 export const RecipeAddTop = styled(RecipeEditTop)`
@@ -28,10 +28,17 @@ export const RecipeAddTop = styled(RecipeEditTop)`
 export const RecipeBlockContentWrapperForIngredients = styled(RecipeBlockContentWrapper)`
 	display: flex;
 	flex-direction: column;
-	gap: ${rem(15)};
+	${adaptiveValue('gap', 15, 7)};
 	
 	button {
-		align-self: flex-end;
+		align-self: flex-start;
+		box-shadow: ${rem(2)} ${rem(2)} ${rem(5)} ${rem(0)} ${rgba(vars.blackColor, .3)};
+	}
+	
+	hr {
+		width: 90%;
+		height: ${rem(1)};
+		background-color: ${rgba(vars.adminLayer, .5)};
 	}
 `;
 
@@ -41,5 +48,5 @@ export const RecipeIngredientsItemsWrapper = styled.div`
 	gap: ${rem(5)};
 	max-height: ${rem(296)};
 	overflow: auto;
-	padding-right: ${rem(10)};
+	${adaptiveValue("padding-right", 10, 5)};
 `;

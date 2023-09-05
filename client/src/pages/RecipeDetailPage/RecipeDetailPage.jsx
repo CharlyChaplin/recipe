@@ -46,8 +46,14 @@ const RecipeDetailPage = () => {
 								<ContentWrapperChangedForRecipeDetail>
 
 									<RecipeDetailTop>
-										<span>Добавлен:</span>
-										<div><em><strong>{`${recipeData?.dateadd}`}</strong></em>,&nbsp;&nbsp;&nbsp;&nbsp;пользователем <em><strong>{`${recipeData?.name}`}</strong></em></div>
+										<div>
+											<span>Добавлен:</span>
+											<em><strong>{`${recipeData?.dateadd}`}</strong></em>
+										</div>
+										<div>
+											<span>пользователем:</span>
+											<em><strong>{`${recipeData?.name}`}</strong></em>
+										</div>
 									</RecipeDetailTop>
 
 									<RecipeWrapper>

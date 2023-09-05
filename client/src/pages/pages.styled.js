@@ -313,11 +313,9 @@ export const AddPhotoBlock = styled(({ children, ...props }) => (
 	border-radius: ${rem(10)};
 	box-shadow: ${rem(2)} ${rem(4)} ${rem(2)} ${rem(0)} ${rgba(vars.blackColor, .30)};
 	overflow: hidden;
-	/* margin-bottom: ${rem(7)}; */
-	max-width: ${rem(250)};
-	max-height: ${rem(136)};
+	max-width: ${rem(300)};
+	max-height: ${rem(250)};
 	width: ${rem(250)};
-	height: ${rem(136)};
 `;
 
 export const ButtonBtn = styled(({ handleaction, ...props }) => (
@@ -340,6 +338,9 @@ export const RecipeBlockContentWrapper = styled(({ children, ...props }) => (
 	border-radius: ${rem(5)};
 	background-color: ${vars.whiteColor};
 	border: ${rem(1)} solid ${vars.lightGreen};
-	padding: ${rem(20)};
+	${adaptiveValue("padding-top", 20, 10)};
+	${adaptiveValue("padding-bottom", 20, 10)};
+	${adaptiveValue("padding-left", 20, 5)};
+	${adaptiveValue("padding-right", 20, 5)};
 	width: 100%;
-`;
+`;5

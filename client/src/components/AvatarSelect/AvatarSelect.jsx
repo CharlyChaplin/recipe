@@ -3,6 +3,7 @@ import { AvatarBlock, AvatarBlockImage, AvatarBlockPlaceholder, AvatarBlockWrapp
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import vars from 'init/vars.js';
 
 
 const AvatarSelect = ({
@@ -17,7 +18,7 @@ const AvatarSelect = ({
 }) => {
 	const [draggable, setDraggable] = useState(false);
 	const [data, getFile] = useState({ name: "", path: "" });
-	const { userData, userById, loading } = useSelector(state => state.userReducer);
+	const { userData, userById } = useSelector(state => state.userReducer);
 
 
 	useEffect(() => {
@@ -56,11 +57,11 @@ const AvatarSelect = ({
 		files.forEach((el, i) => formData.append(`file[${i}]`, el));
 		formData.append('userPath', source === 'userById' ? userById.email : userData.user.email);
 
-		axios.post('http://localhost:7000/file/upload', formData)
+		axios.post(`${vars.remoteHost}/file/upload`, formData)
 			.then(res => {
 				getFile({
 					name: res.data[0].name,
-					path: `http://localhost:7000/users/${source == 'userById' ? userById.email : userData.user.email}${res.data[0].path}`
+					path: `${vars.remoteHost}/users/${source == 'userById' ? userById.email : userData.user.email}${res.data[0].path}`
 				})
 			})
 			.catch(err => console.log(err));

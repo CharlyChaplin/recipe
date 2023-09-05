@@ -18,6 +18,7 @@ import { categoryGetCategories } from 'redux/slices/categorySlice.js';
 import { AddCategoryPhoto, AddWrapperCategory, AddWrapperCategoryLeft, AddWrapperCategorySidePart } from './styled.js';
 import { AddPhotoBlock } from 'pages/pages.styled.js';
 import ImageInsert from 'components/ImageInsert/ImageInsert.jsx';
+import vars from 'init/vars.js';
 
 
 const categoryAddChangeDelete = () => {
@@ -154,7 +155,7 @@ const categoryAddChangeDelete = () => {
 
 	const findedImage = categoryData.find(i => i.caption == selected);
 	if (findedImage) {
-		currentCategoryImage = 'http://localhost:7000/' + findedImage.photopreview.split('')?.slice(1)?.join('');
+		currentCategoryImage = vars.remoteHost + findedImage.photopreview.split('')?.slice(1)?.join('');
 	}
 
 
