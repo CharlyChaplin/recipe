@@ -41,8 +41,11 @@ const ProfilePage = () => {
 	let modalParams = useRef({});
 
 	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('max-width: 519.99px').matches);
+	const [isNarrowPassScreen, setIsNarrowPassScreen] = useState(matchMedia('max-width: 519.99px').matches);
 	const mediaWatcher = window.matchMedia("(max-width: 440px)");
-	const updateIsNarrowScreen = (e) => setIsNarrowScreen(e.matches);
+	const mediaWatcherForPasswords = window.matchMedia("(max-width: 519.99px)");
+	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
+	const updateIsNarrowPassScreen = e => setIsNarrowPassScreen(e.matches);
 
 	const [fields, setFields] = useState({
 		nickname: '',
@@ -60,6 +63,7 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
+		mediaWatcherForPasswords.addEventListener('change', updateIsNarrowPassScreen)
 		// определяем изменение ширины вьюпорта для нужных действий
 		setIsNarrowScreen(mediaWatcher.matches);
 
@@ -258,7 +262,9 @@ const ProfilePage = () => {
 										handleChange={changeInput}
 										handleKeyPress={handleKey}
 									/>
-									<ProfilePasswordLabel>&nbsp;</ProfilePasswordLabel>
+									{/* {
+									!isNarrowPassScreen && <ProfilePasswordLabel>&nbsp;</ProfilePasswordLabel>
+								} */}
 									<Input
 										name='retypeNewPassword'
 										type='password'
@@ -268,8 +274,6 @@ const ProfilePage = () => {
 										handleKeyPress={handleKey}
 									/>
 								</div>
-
-
 							</ProfilePassword>
 
 							<ProfileActions>

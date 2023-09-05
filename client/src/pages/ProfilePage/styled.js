@@ -145,39 +145,11 @@ export const ProfileNickname = styled(ProfileLineWrapper)`
 `;
 
 export const ProfilePassword = styled.div`
-	display: grid;
-	grid-template-columns: auto 1fr;
-	${adaptiveValue('gap', 10, 20)};
-	width: 100%;
-	align-items: center;
-	border: ${rem(1)} solid ${vars.lightGreen};
-	${adaptiveValue('border-radius', 10, 5)};
-	${adaptiveValue('padding-top', 25, 10)};
-	${adaptiveValue('padding-bottom', 25, 10)};
-	${adaptiveValue('padding-left', 23, 8)};
-	${adaptiveValue('padding-right', 23, 8)};
 	
-	div {
-		display: flex;
-		flex-direction: column;
-		gap: ${rem(5)};
-		
-		div:nth-child(1) {
-			${adaptiveValue('margin-left', 10, 5)};
-		}
-	}
-	
-	@media (max-width: ${em(519.99)}){
-		grid-template-columns: 1fr;
-	}
 `;
 
 export const ProfilePasswordLabel = styled.div`
-	${adaptiveValue("font-size", 16, 12)};
-	color: ${vars.text};
-	letter-spacing: ${rem(1)};
-	white-space: nowrap;
-	font-family: "RobotoRegular", sans-serif;
+	
 `;
 
 export const ProfileActions = styled(ProfileLineWrapper)`
