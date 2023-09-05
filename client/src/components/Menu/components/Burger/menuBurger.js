@@ -60,8 +60,10 @@ function menuAction(e) {
 }
 
 export function menuClose() {
-	bodyLockToggle();
-	document.documentElement.classList.toggle("menu-open");
+	if (document.documentElement.classList.contains('menu-open')) {
+		bodyLockToggle();
+		document.documentElement.classList.toggle("menu-open");
+	}
 }
 
 

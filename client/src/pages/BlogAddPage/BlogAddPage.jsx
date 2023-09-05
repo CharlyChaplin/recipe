@@ -7,7 +7,7 @@ import { BlogEditButtonWrapper, BlogEditCaption, BlogEditTextWrapper, BlogEditTo
 import Input from 'components/Input/Input';
 import { useState } from 'react';
 import { useCallback } from 'react';
-import { BlogAddPhoto } from './styled';
+import { AddPhotoBlockChangedForAddBlog, BlogAddPhoto, BlogEditTopChangedForAddBlog, ContentWrapperChangedForAddBlog } from './styled';
 import Button from 'components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import { blogAddBlog, clearBlogData } from 'redux/slices/blogSlice';
@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { datePrepare } from 'utils/datePrepare';
 import { showInfo } from 'redux/slices/infoSlice';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
+import { InnerWrapperChangedForRecipeDetail } from 'pages/RecipeDetailPage/styled';
 
 
 const BlogAddPage = () => {
@@ -91,20 +92,20 @@ const BlogAddPage = () => {
 		<>
 			<MainWrapper image={bg}>
 
-				<InnerWrapper>
+				<InnerWrapperChangedForRecipeDetail>
 					<SectionHeader color={vars.whiteColor}><ContentPaddingTop />Добавляем блог</SectionHeader>
-					<ContentWrapperChangedForBlogEdit>
+					<ContentWrapperChangedForAddBlog>
 
 
-						<BlogEditTop>
+						<BlogEditTopChangedForAddBlog>
 							<Input name='dateadd' value={fields.dateadd} handleChange={changeInput} autoFocus center placeholder="Дата создания..." />
 							<Divisor />
 							<EditNotEdit data={userData?.user?.nickname} />
-						</BlogEditTop>
+						</BlogEditTopChangedForAddBlog>
 
-						<AddPhotoBlock>
+						<AddPhotoBlockChangedForAddBlog>
 							<ImageInsert selectedFile={getSelectedFile} />
-						</AddPhotoBlock>
+						</AddPhotoBlockChangedForAddBlog>
 
 						<BlogEditCaption>
 							<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блога..." />
@@ -118,9 +119,9 @@ const BlogAddPage = () => {
 							<Button action={() => navigate(-1)}>Отмена</Button>
 						</BlogEditButtonWrapper>
 
-					</ContentWrapperChangedForBlogEdit>
+					</ContentWrapperChangedForAddBlog>
 
-				</InnerWrapper>
+				</InnerWrapperChangedForRecipeDetail>
 
 			</MainWrapper>
 		</>

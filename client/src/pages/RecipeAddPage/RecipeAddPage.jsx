@@ -6,7 +6,7 @@ import vars from 'init/vars';
 import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeCookingText, RecipeCookingTextWrapper, RecipeEditButtonWrapper, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from 'pages/RecipeEditPage/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { datePrepare } from 'utils/datePrepare';
-import { RecipeAddTop, RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from './styled';
+import { AddPhotoBlockForRecipeAdd, RecipeAddTop, RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from './styled';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import Input from 'components/Input/Input';
 import { useCallback } from 'react';
@@ -151,10 +151,10 @@ const RecipeAddPage = () => {
 							<RecipeLeft>
 								<RecipeLeftTopWrapper>
 
-									<AddPhotoBlockForRecipe><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
+									<AddPhotoBlockForRecipeAdd><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipeAdd>
 									<RecipeLeftTopTextWrapper>
-										<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блюда..." />
-										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} placeholder="Краткое описание..." fz={12} />
+										<Input name='caption' handleChange={changeInput} center placeholder="Название блюда..." />
+										<Input type='textarea' name='shortDescription' handleChange={changeInput} placeholder="Краткое описание..." fz={12} />
 									</RecipeLeftTopTextWrapper>
 
 								</RecipeLeftTopWrapper>
@@ -163,6 +163,7 @@ const RecipeAddPage = () => {
 									<RecipeMiniCaption text="Ингредиенты:" />
 									<RecipeBlockContentWrapperForIngredients>
 										<Button equalPadding action={addIngredient} ><AddICO /></Button>
+										<hr />
 										<RecipeIngredientsItemsWrapper>
 											{
 												ingredients.map((ingredient, index) => {
@@ -205,7 +206,7 @@ const RecipeAddPage = () => {
 								<RecipeCookingTextWrapper>
 									<RecipeMiniCaption text="Способ приготовления:" />
 									<RecipeCookingText>
-										<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." value={fields.cookingText} handleChange={changeInput} />
+										<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." handleChange={changeInput} />
 									</RecipeCookingText>
 								</RecipeCookingTextWrapper>
 

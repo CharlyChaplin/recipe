@@ -40,6 +40,7 @@ export const AvatarLabel = styled(({ labelVerticalPos, labelText, fontSize, ...p
 	font-family: "RobotoRegular", sans-serif;
 	font-size: ${p => rem(p.fontSize)};
 	letter-spacing: ${rem(1)};
+	line-height: 1.3;
 	color: ${vars.text};
 	text-align: center;
 	order: ${({ labelVerticalPos }) => labelVerticalPos === 'top' ? 0 : 1};
@@ -98,4 +99,3 @@ export const AvatarBlockImage = styled(({ children, imgOrSvg, ...props }) => {
 		fill: red;
 	}
 `;
-

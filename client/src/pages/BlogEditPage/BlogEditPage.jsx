@@ -129,7 +129,7 @@ const BlogEditPage = () => {
 										<Divisor />
 										{
 											userData?.user?.role === 1
-												? <div><span>владелец:</span><DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleSelected} inputText={inputText} setInputText={setInputText} minWidth={200} /></div>
+												? <div><span>владелец:</span><DropdownList elements={usersName} placeholder='Выберите пользователя...' selectedValue={handleSelected} inputText={inputText} setInputText={setInputText} /></div>
 												: <div><span>пользователем:</span><EditNotEdit data={dataSource?.name} /></div>
 										}
 									</BlogEditTop>

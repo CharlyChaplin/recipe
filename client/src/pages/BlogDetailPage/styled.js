@@ -6,32 +6,19 @@ import vars from "init/vars";
 
 
 export const MainWrapperChangedForBlogDetail = styled(MainWrapper)`
-	padding: ${rem(0)} ${rem(0)} ${rem(0)} ${rem(0)};
 	overflow: hidden;
+	
 `;
 
-// export const BlogWrapper = styled(({ children, ...props }) => (
-// 	<div {...props}>
-// 		{children}
-// 	</div>
-// ))`
-// 	width: 100%;
-// 	height: 100%;
-// 	display: flex;
-// 	flex-direction: column;
-// 	align-items: center;
-// 	gap: ${rem(66)};
-// 	position: relative;
-// 	overflow: auto;
-// 	padding-bottom: ${rem(50)};
-// `;
-
 export const ContentWrapperChangedForBlogDetail = styled(ContentWrapper)`
-	width: ${rem(850)};
+	max-width: ${rem(850)};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	${adaptiveValue("padding", 35, 35)};
+	${adaptiveValue("padding", 35, 7)};
+	${adaptiveValue("padding-top", 35, 15)};
+	${adaptiveValue("margin-left", 20, 5)};
+	${adaptiveValue("margin-right", 20, 5)};
 	color: ${vars.text};
 	font-family: "RobotoRegular", sans-serif;
 	font-size: ${rem(17)};

@@ -1,18 +1,19 @@
 import { styled } from "styled-components";
-import { adaptiveValue, rem } from "init/mixins";
-import { RecipeEditTop } from "pages/RecipeEditPage/styled";
+import { adaptiveValue, em, rem } from "init/mixins";
+import { AddPhotoBlockForRecipe, RecipeEditTop } from "pages/RecipeEditPage/styled";
 import vars from "init/vars";
 import { EditNotEdit, RecipeBlockContentWrapper } from "pages/pages.styled";
 import { lighten, rgba } from "polished";
 
 
 export const RecipeAddTop = styled(RecipeEditTop)`
-	align-self: flex-end;
-	/* gap: ${rem(50)}; */
 	color: ${lighten(.2, vars.text)};
+	${adaptiveValue('column-gap', 60, 20, 1, 1390, 768)};
+	${adaptiveValue('row-gap', 15, 5, 1, 768.99, 320)};
 	${EditNotEdit} {
 		color: ${lighten(.2, vars.text)};
 	}
+	
 	div {
 		display: flex;
 		flex-direction: row;
@@ -23,6 +24,18 @@ export const RecipeAddTop = styled(RecipeEditTop)`
 			color: ${lighten(.4, vars.text)};
 		}
 	}
+	
+	@media (max-width: ${em(768)}) {
+		flex-direction: row;
+	}
+		
+	@media (max-width: ${em(480)}) {
+		flex-direction: column;
+	}
+`;
+
+export const AddPhotoBlockForRecipeAdd = styled(AddPhotoBlockForRecipe)`
+	${adaptiveValue('height', 150, 100)};
 `;
 
 export const RecipeBlockContentWrapperForIngredients = styled(RecipeBlockContentWrapper)`

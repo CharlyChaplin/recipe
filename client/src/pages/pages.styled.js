@@ -17,10 +17,8 @@ export const MainWrapper = styled(({ children, image, noOverlay, ...props }) => 
 	justify-items: center;
 	width: 100%;
 	height: 100%;
-	/* overflow: auto; */
 	overflow: hidden;
-	/* padding: ${rem(55)}; */
-	border-radius: ${rem(30)};
+	${adaptiveValue('border-radius', 30, 15)};
 	z-index: 0;
 	background: url(${({ image }) => image ? image : null}) 0 0 no-repeat;
 	background-size: cover;
@@ -45,10 +43,13 @@ export const InnerWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: ${rem(50)};
+	${adaptiveValue('gap', 50, 20)};
 	overflow: auto;
 	width: 100%;
-	padding: ${rem(30)} 0 ${rem(40)} 0;
+	${adaptiveValue('padding-top', 30, 20)};
+	${adaptiveValue('padding-bottom', 40, 20)};
+	padding-left: 0;
+	padding-right: 0;
 `;
 
 export const ContentWrapper = styled(({ children, spiner, ...props }) => (
@@ -191,7 +192,7 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 		font-size: ${rem(16)};
 		color: ${rgba(vars.text, .5)};
 		line-height: calc(18.75 / 16);
-		${adaptiveValue("margin-left", 15, 10, 1, 1390, 479.99)};
+		${adaptiveValue("margin-left", 15, 10, 1, 1390, 951)};
 		${adaptiveValue("margin-bottom", 10, 5)};
 		transition: all 0.25s ease 0s;
 		span {
@@ -199,6 +200,9 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 			height: ${rem(16)};
 			width: ${rem(1)};
 			background-color: ${vars.text};
+		}
+		@media (max-width: ${em(950)}){
+			justify-content: center;
 		}
 	}
 	article {
@@ -288,9 +292,7 @@ export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, i
 				}
 			}
 		}
-	}
-	
-	
+	}	
 `;
 
 export const EditNotEdit = styled(({ data, isCaption, upperCase, letterSpacing, ...props }) => (
@@ -343,4 +345,4 @@ export const RecipeBlockContentWrapper = styled(({ children, ...props }) => (
 	${adaptiveValue("padding-left", 20, 5)};
 	${adaptiveValue("padding-right", 20, 5)};
 	width: 100%;
-`;5
+`;

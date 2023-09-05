@@ -22,8 +22,8 @@ const Input = ({
 }) => {
 	return (
 		<>
-			<InputWrapper $labelPos={labelPos} $type={type}>
-				{!!labelText && labelText.length > 0 && <InputLabel $labelPos={labelPos}>{labelText}</InputLabel>}
+			<InputWrapper labelPos={labelPos} type={type}>
+				{!!labelText && labelText.length > 0 && <InputLabel labelPos={labelPos}>{labelText}</InputLabel>}
 
 				{
 					((type === "text" || "password") && (type !== "textarea"))
@@ -60,7 +60,6 @@ const Input = ({
 						fz={fz}
 						onChange={handleChange}
 						autoComplete="off"
-						// rows={6}
 					/>
 				}
 			</InputWrapper>

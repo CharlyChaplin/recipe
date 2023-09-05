@@ -8,6 +8,7 @@ import { blogGetPreviewBlogs, clearBlogData } from 'redux/slices/blogSlice';
 import { nanoid } from 'nanoid';
 import Spinner from 'components/Spinner/Spinner';
 import NoData from 'components/NoData/NoData';
+import { ContentWrapperForBlog } from './styled';
 
 
 const BlogPage = () => {
@@ -31,7 +32,6 @@ const BlogPage = () => {
 			<MainWrapper image={bg}>
 
 				<InnerWrapper>
-					<ContentPaddingTop />
 					<SectionHeader color={vars.whiteColor}>Блог</SectionHeader>
 
 					{
@@ -40,7 +40,7 @@ const BlogPage = () => {
 							: <>
 								{
 									blogsPreview.length > 0
-										? <ContentWrapper>
+										? <ContentWrapperForBlog>
 											{
 												blogsPreview.map(preview => (
 													<PreviewBlogItem
@@ -55,7 +55,7 @@ const BlogPage = () => {
 													/>
 												))
 											}
-										</ContentWrapper>
+										</ContentWrapperForBlog>
 										: <ContentWrapper spiner><NoData /></ContentWrapper>
 								}
 							</>

@@ -1,16 +1,20 @@
 import { styled } from "styled-components";
-import { adaptiveValue, rem } from "init/mixins";
+import { adaptiveValue, em, rem } from "init/mixins";
 import { ContentWrapper } from "pages/pages.styled";
 import vars from "init/vars";
 import { rgba } from "polished";
 
 
 export const ContentWrapperChangedForBlogEdit = styled(ContentWrapper)`
-	width: fit-content;
+	max-width: ${rem(1200)};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	${adaptiveValue("padding", 35, 35)};
+	${adaptiveValue("padding", 35, 5)};
+	${adaptiveValue("padding-top", 35, 10)};
+	${adaptiveValue("padding-bottom", 35, 10)};
+	${adaptiveValue("margin-left", 20, 5)};
+	${adaptiveValue("margin-right", 20, 5)};
 	color: ${vars.text};
 	font-family: "RobotoRegular", sans-serif;
 	font-size: ${rem(17)};
@@ -26,11 +30,15 @@ export const BlogEditTop = styled(({ children, ...props }) => (
 	flex-direction: row;
 	align-items: center;
 	font-family: "Roboto", sans-serif;
-	font-size: ${rem(16)};
+	${adaptiveValue('font-size', vars.fz, 14)};
+	${adaptiveValue('gap', 0, 10)};
 	color: ${rgba(vars.text, .5)};
 	line-height: calc(18.75 / 16);
 	transition: all 0.25s ease 0s;
-	padding: ${rem(6)} ${rem(18)};
+	${adaptiveValue('padding-top', 6, 5)};
+	${adaptiveValue('padding-bottom', 6, 5)};
+	${adaptiveValue('padding-left', 18, 9)};
+	${adaptiveValue('padding-right', 18, 9)};
 	border-radius: ${rem(7)};
 	border-top: ${rem(1)} solid ${rgba(vars.text, .25)};
 	border-bottom: ${rem(1)} solid ${rgba(vars.text, .25)};
@@ -47,6 +55,14 @@ export const BlogEditTop = styled(({ children, ...props }) => (
 			white-space: nowrap; 
 		}
 	}
+	
+	@media (max-width: ${em(700)}){
+		flex-direction: column;
+		
+		div {
+			/* flex-direction: column; */
+		}
+	}
 `;
 
 export const Divisor = styled(({ ...props }) => (
@@ -56,6 +72,10 @@ export const Divisor = styled(({ ...props }) => (
 	height: ${rem(16)};
 	width: ${rem(1)};
 	background-color: ${vars.text};
+	
+	@media (max-width: ${em(700)}){
+		display: none;
+	}
 `;
 
 export const BlogEditPhoto = styled(({ image, imageAltText, ...props }) => (
@@ -94,15 +114,14 @@ export const BlogEditTextWrapper = styled(({ children, ...props }) => (
 		<article>{children}</article>
 	</div>
 ))`
-	/* display: flex; */
-	/* align-items: center; */
-	/* justify-content: center; */
 	background-color: ${rgba(vars.whiteColor, .25)};
 	border: ${rem(2)} solid ${rgba(vars.lightGreen, .5)};
 	border-radius: ${rem(5)};
-	padding: ${rem(16)};
+	${adaptiveValue('padding-top', 16, 5)};
+	${adaptiveValue('padding-bottom', 16, 5)};
+	${adaptiveValue('padding-left', 16, 5)};
+	${adaptiveValue('padding-right', 16, 5)};
 	max-width: ${rem(646)};
-	min-width: ${rem(600)};
 	width: 100%;
 	min-height: ${rem(400)};
 	text-align: justify;
@@ -121,6 +140,7 @@ export const BlogEditTextWrapper = styled(({ children, ...props }) => (
 		
 		textarea {
 			height: 100%;
+			width: 100%
 		}
 	}
 `;

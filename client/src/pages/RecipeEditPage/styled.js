@@ -137,6 +137,7 @@ export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	
 	@media (max-width: ${em(860)}) {
 		max-width: ${rem(300)};
+		flex: unset;
 	}
 `;
 

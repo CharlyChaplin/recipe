@@ -1,21 +1,24 @@
-// import { rem } from "init/mixins";
-// import vars from "init/vars";
-// import { rgba } from "polished";
-// import { styled } from "styled-components";
+import { styled } from "styled-components";
+import { adaptiveValue, rem } from "init/mixins";
+import { BlogEditTop, ContentWrapperChangedForBlogEdit } from "pages/BlogEditPage/styled";
+import { AddPhotoBlock } from "pages/pages.styled";
 
 
-// export const BlogAddPhoto = styled(({ children, ...props }) => (
-// 	<div {...props}>
-// 		{children}
-// 	</div>
-// ))`
-// 	border: ${rem(1)} solid ${vars.lightGreen};
-// 	border-radius: ${rem(10)};
-// 	box-shadow: ${rem(2)} ${rem(4)} ${rem(2)} ${rem(0)} ${rgba(vars.blackColor, .30)};
-// 	overflow: hidden;
-// 	margin-bottom: ${rem(7)};
-// 	max-width: ${rem(250)};
-// 	max-height: ${rem(136)};
-// 	width: ${rem(250)};
-// 	height: ${rem(136)};
-// `;
+export const ContentWrapperChangedForAddBlog = styled(ContentWrapperChangedForBlogEdit)`
+	max-width: ${rem(700)};
+	width: 100%;
+	${adaptiveValue("padding", 35, 20)};
+	${adaptiveValue("padding-left", 35, 5)};
+	${adaptiveValue("padding-right", 35, 5)};
+	margin: 0;
+`;
+
+export const BlogEditTopChangedForAddBlog = styled(BlogEditTop)`
+	input {
+		text-align: center;
+	}
+`;
+
+export const AddPhotoBlockChangedForAddBlog = styled(AddPhotoBlock)`
+	${adaptiveValue('height', 175, 150)};
+`;

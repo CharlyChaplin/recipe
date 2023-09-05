@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { adaptiveValue, rem } from "init/mixins";
+import { adaptiveValue, em, rem } from "init/mixins";
 import vars from "init/vars";
 import { lighten, rgba } from "polished";
 
@@ -12,9 +12,12 @@ const ProfileLineWrapper = styled(({ children, ...props }) => {
 	}
 })`
 	width: 100%;
-	border: 1px solid ${vars.lightGreen};
-	border-radius: ${rem(10)};
-	padding: ${rem(25)} ${rem(23)};
+	border: ${rem(1)} solid ${vars.lightGreen};
+	${adaptiveValue('border-radius', 10, 5)};
+	${adaptiveValue('padding-top', 25, 10)};
+	${adaptiveValue('padding-bottom', 25, 10)};
+	${adaptiveValue('padding-left', 23, 8)};
+	${adaptiveValue('padding-right', 23, 8)};
 `;
 
 export const ProfileMainWrapper = styled(({ children, activated, ...props }) => (
@@ -47,28 +50,35 @@ export const ProfileMainWrapper = styled(({ children, activated, ...props }) => 
 `;
 
 export const ProfileWrapper = styled.div`
-	width: ${rem(926)};
+	max-width: ${rem(950)};
+	width: 100%;
 	height: fit-content;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: ${rem(55)};
-	padding: ${rem(55)};
+	${adaptiveValue('gap', 55, 25)};
+	${adaptiveValue('padding-top', 55, 25)};
+	${adaptiveValue('padding-bottom', 55, 25)};
+	${adaptiveValue('padding-left', 55, 5)};
+	${adaptiveValue('padding-right', 55, 5)};
 `;
 
 export const ProfileCaption = styled(({ children, message, username, ...props }) => (
 	<div {...props}>
-		{message}&nbsp;
+		{message}
 		<span>{username}</span>
 		{children}
 	</div>
 ))`
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	align-items: center;
+	justify-content: center;
 	font-family: "Giger", sans-serif;
-	${adaptiveValue("font-size", 45, 45)};
-	letter-spacing: ${rem(1)};
+	${adaptiveValue("gap", 26, 10)};
+	${adaptiveValue("font-size", 45, 26)};
+	text-align: center;
 	color: ${vars.whiteColor};
 	span {
 		color: ${vars.accent};
@@ -88,7 +98,10 @@ export const ProfileFormWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: ${rem(25)};
+	${adaptiveValue('padding-top', 25, 15)};
+	${adaptiveValue('padding-bottom', 25, 15)};
+	${adaptiveValue('padding-left', 25, 10)};
+	${adaptiveValue('padding-right', 25, 10)};
 	font-family: "RobotoRegular", sans-serif;
 	width: 100%;
 	position: relative;
@@ -100,8 +113,8 @@ export const ProfileCurrentUser = styled.div`
 	color: ${vars.redColor};
 	text-transform: uppercase;
 	font-family: "RobotoLight", sans-serif;
-	${adaptiveValue("font-size", 16, 16)};
-	letter-spacing: ${rem(2)};
+	${adaptiveValue("font-size", 16, 14)};
+	${adaptiveValue("letter-spacing", 2, 1)};
 `;
 
 export const ProfileForm = styled(({ children, ...props }) => (
@@ -110,11 +123,11 @@ export const ProfileForm = styled(({ children, ...props }) => (
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: ${rem(20)};
+	${adaptiveValue("gap", 30, 20)};
 	width: 100%;
 	max-width: ${rem(534)};
 	color: ${vars.text};
-	margin-top: ${rem(30)};
+	${adaptiveValue("margin-top", 30, 40)};
 `;
 
 export const ProfileAvatar = styled(({ children, ...props }) => (
@@ -124,26 +137,43 @@ export const ProfileAvatar = styled(({ children, ...props }) => (
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	${adaptiveValue("margin-bottom", 20, 10)};
 `;
 
-export const ProfileNickname = styled(ProfileLineWrapper)``;
+export const ProfileNickname = styled(ProfileLineWrapper)`
+	
+`;
 
 export const ProfilePassword = styled.div`
 	display: grid;
 	grid-template-columns: auto 1fr;
-	/* grid-auto-rows: auto; */
-	gap: ${rem(10)};
+	${adaptiveValue('gap', 10, 20)};
 	width: 100%;
 	align-items: center;
-	border: 1px solid ${vars.lightGreen};
-	border-radius: ${rem(10)};
-	padding: ${rem(25)} ${rem(23)};
+	border: ${rem(1)} solid ${vars.lightGreen};
+	${adaptiveValue('border-radius', 10, 5)};
+	${adaptiveValue('padding-top', 25, 10)};
+	${adaptiveValue('padding-bottom', 25, 10)};
+	${adaptiveValue('padding-left', 23, 8)};
+	${adaptiveValue('padding-right', 23, 8)};
+	
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: ${rem(5)};
+		
+		div:nth-child(1) {
+			${adaptiveValue('margin-left', 10, 5)};
+		}
+	}
+	
+	@media (max-width: ${em(519.99)}){
+		grid-template-columns: 1fr;
+	}
 `;
 
-
-
 export const ProfilePasswordLabel = styled.div`
-	${adaptiveValue("font-size", 16, 16)};
+	${adaptiveValue("font-size", 16, 12)};
 	color: ${vars.text};
 	letter-spacing: ${rem(1)};
 	white-space: nowrap;
@@ -153,9 +183,8 @@ export const ProfilePasswordLabel = styled.div`
 export const ProfileActions = styled(ProfileLineWrapper)`
 	display: flex;
 	flex-direction: column;
-	gap: ${rem(30)};
+	${adaptiveValue('gap', 30, 10)};
 `;
-
 
 export const ProfileActionItem = styled(ProfileLineWrapper)`
 	user-select: none;
@@ -163,15 +192,18 @@ export const ProfileActionItem = styled(ProfileLineWrapper)`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding: ${rem(16)} ${rem(21)};
-	border: 1px solid ${lighten(0.15, vars.lightGreen)};
+	${adaptiveValue('padding-top', 16, 8)};
+	${adaptiveValue('padding-bottom', 16, 8)};
+	${adaptiveValue('padding-left', 21, 11)};
+	${adaptiveValue('padding-right', 21, 11)};
+	border: ${rem(1)} solid ${lighten(.15, vars.lightGreen)};
 	&:hover {
-		background: linear-gradient(180deg, ${rgba(100, 112, 89, 0.20)} 0%, ${rgba(139, 152, 127, 0.20)} 51.04%, ${rgba(100, 112, 89, 0.20)} 98.44%);
+		background: linear-gradient(180deg, ${rgba(vars.darkGreen, .20)} 0%, ${rgba(vars.lightGreen, .20)} 51.04%, ${rgba(vars.darkGreen, .20)} 98.44%);
 	}
 `;
 
 export const ProfileActionItemOperation = styled(ProfilePasswordLabel)`
-	${adaptiveValue("font-size", 20, 20)};
+	${adaptiveValue("font-size", 20, 18)};
 `;
 
 export const ProfileActionTasks = styled(({ children, ...props }) => (
@@ -182,10 +214,10 @@ export const ProfileActionTasks = styled(({ children, ...props }) => (
 	gap: ${rem(15)};
 `;
 
-
 export const ProfileButtons = styled.div`
-	margin-top: ${rem(15)};
+	${adaptiveValue('margin-top', 15, 0)}
 	display: flex;
 	flex-direction: row;
-	gap: ${rem(32)};
+	justify-content: center;
+	${adaptiveValue('gap', 32, 16)};
 `;

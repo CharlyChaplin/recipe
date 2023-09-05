@@ -39,6 +39,11 @@ const ProfilePage = () => {
 	const dispatch = useDispatch();
 	const [modalVisible, setModalVisible] = useState(false);
 	let modalParams = useRef({});
+
+	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('max-width: 519.99px').matches);
+	const mediaWatcher = window.matchMedia("(max-width: 440px)");
+	const updateIsNarrowScreen = (e) => setIsNarrowScreen(e.matches);
+
 	const [fields, setFields] = useState({
 		nickname: '',
 		oldPassword: '',
@@ -54,10 +59,18 @@ const ProfilePage = () => {
 	}
 
 	useEffect(() => {
+		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
+		// определяем изменение ширины вьюпорта для нужных действий
+		setIsNarrowScreen(mediaWatcher.matches);
+
 		getAuth();
 
 		if (userData?.user?.nickname) setFields({ nickname: userData.user.nickname });
 
+		return () => {
+			// выгружаем после выхода из компонента
+			mediaWatcher.removeEventListener('change', updateIsNarrowScreen)
+		}
 	}, []);
 
 
@@ -218,37 +231,45 @@ const ProfilePage = () => {
 									placeholder='Как вас называть?'
 									handleChange={changeInput}
 									handleKeyPress={handleKey}
+									// меняем расположение в зависимости от ширины viewport
+									labelPos={!isNarrowScreen ? 'row' : 'column'}
 								/>
 							</ProfileNickname>
 
 							<ProfilePassword>
-								<ProfilePasswordLabel>Старый пароль:</ProfilePasswordLabel>
-								<Input
-									name='oldPassword'
-									type='password'
-									placeholder='Введите старый пароль...'
-									value={fields.oldPassword}
-									handleChange={changeInput}
-									handleKeyPress={handleKey}
-								/>
-								<ProfilePasswordLabel>Новый пароль:</ProfilePasswordLabel>
-								<Input
-									name='newPassword'
-									type='password'
-									placeholder='Введите новый пароль...'
-									value={fields.newPassword}
-									handleChange={changeInput}
-									handleKeyPress={handleKey}
-								/>
-								<ProfilePasswordLabel>&nbsp;</ProfilePasswordLabel>
-								<Input
-									name='retypeNewPassword'
-									type='password'
-									placeholder='Повторите ввод нового пароля...'
-									value={fields.retypeNewPassword}
-									handleChange={changeInput}
-									handleKeyPress={handleKey}
-								/>
+								<div>
+									<ProfilePasswordLabel>Старый пароль:</ProfilePasswordLabel>
+									<Input
+										name='oldPassword'
+										type='password'
+										placeholder='Введите старый пароль...'
+										value={fields.oldPassword}
+										handleChange={changeInput}
+										handleKeyPress={handleKey}
+									/>
+								</div>
+								<div>
+									<ProfilePasswordLabel>Новый пароль:</ProfilePasswordLabel>
+									<Input
+										name='newPassword'
+										type='password'
+										placeholder='Введите новый пароль...'
+										value={fields.newPassword}
+										handleChange={changeInput}
+										handleKeyPress={handleKey}
+									/>
+									<ProfilePasswordLabel>&nbsp;</ProfilePasswordLabel>
+									<Input
+										name='retypeNewPassword'
+										type='password'
+										placeholder='Повторите ввод нового пароля...'
+										value={fields.retypeNewPassword}
+										handleChange={changeInput}
+										handleKeyPress={handleKey}
+									/>
+								</div>
+
+
 							</ProfilePassword>
 
 							<ProfileActions>
@@ -295,7 +316,6 @@ const ProfilePage = () => {
 										</>
 										: null
 								}
-
 
 							</ProfileActions>
 

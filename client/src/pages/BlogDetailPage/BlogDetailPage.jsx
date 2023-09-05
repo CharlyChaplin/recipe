@@ -1,10 +1,9 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/blog/bg.jpg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { blogGetBlog, clearBlogData } from 'redux/slices/blogSlice';
 import { BlogDetailCaption, BlogDetailPhoto, BlogDetailTop, BlogTextWrapper, ContentWrapperChangedForBlogDetail, MainWrapperChangedForBlogDetail } from './styled';
-import { paths } from 'routes/helper';
 import { ButtonBtn, InnerWrapper } from 'pages/pages.styled';
 import Spinner from 'components/Spinner/Spinner';
 import NoData from 'components/NoData/NoData';
