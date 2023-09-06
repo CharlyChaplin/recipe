@@ -317,7 +317,7 @@ export const AddPhotoBlock = styled(({ children, ...props }) => (
 	overflow: hidden;
 	max-width: ${rem(300)};
 	max-height: ${rem(250)};
-	width: ${rem(250)};
+	width: 100%;
 `;
 
 export const ButtonBtn = styled(({ handleaction, ...props }) => (

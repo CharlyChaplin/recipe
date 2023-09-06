@@ -13,17 +13,26 @@ import { showInfo } from 'redux/slices/infoSlice';
 import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
 import { recipeGetRecipe, recipeGetRecipies } from 'redux/slices/recipeSlice';
+import { useEffect } from 'react';
 
 
 const RecipeDeleteChange = () => {
 	let modalStore = useContext(DataContext);
 	const [selected, setSelected] = useState('');
 	const [inputText, setInputText] = useState(selected);
+	
+	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
+	const mediaWatcher = window.matchMedia("(max-width: 800px)");
+	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
 
 	const { userData } = useSelector(state => state.userReducer);
 	const { recipeData, recipies } = useSelector(state => state.recipeReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	
+	useEffect(() => {
+		mediaWatcher.addEventListener('change', updateIsNarrowScreen)
+	}, []);
 
 
 	function handleSelected(val) {
@@ -66,7 +75,7 @@ const RecipeDeleteChange = () => {
 					elements={recipies ? recipies : []}
 					labelText="Название рецепта:"
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
-					labelPos="row"
+					labelPos={isNarrowScreen ? 'column' : 'row'}
 					minWidth={300}
 					inputText={inputText}
 					setInputText={setInputText}
@@ -77,6 +86,7 @@ const RecipeDeleteChange = () => {
 					buttonDeleteIcon={<DeleteICO />}
 					buttonDeleteAction={handleDeleteAction}
 					buttonDeleteDisabled={!selected.length > 0}
+					buttonActionPosition={isNarrowScreen ? 'column' : 'row'}
 				/>
 			</ModalContentWrapper>
 		</>

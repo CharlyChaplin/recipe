@@ -43,10 +43,6 @@ const Modal = ({ params: {
 	// при нажатии кнопки "OK" или "Применить"
 	async function okButtonHandle() {
 		switch (actionType) {
-			// case 'recipeAddChangeDelete':
-			// 	onClose();
-			// 	break;		
-			//========================================================================================================================================================
 			case "userAddChangeDelete":
 				const { userEditEmailForChange: email, userEditNewNickname: nickname, userEditNewRole: role } = modalStore;
 				if (email) {

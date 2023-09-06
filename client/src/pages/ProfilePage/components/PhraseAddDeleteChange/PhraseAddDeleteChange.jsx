@@ -30,7 +30,13 @@ const phraseAddChangeDelete = () => {
 	const [selected, setSelected] = useState('');
 	const [inputText, setInputText] = useState(selected);
 
-
+	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
+	const mediaWatcher = window.matchMedia("(max-width: 800px)");
+	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
+	
+	useEffect(() => {
+		mediaWatcher.addEventListener('change', updateIsNarrowScreen)
+	}, []);
 
 
 	// получаем новую фразу в состояние
@@ -155,6 +161,7 @@ const phraseAddChangeDelete = () => {
 					buttonEditIcon={<EditICO />}
 					buttonEditAction={handleEditAction}
 					buttonEditDisabled={!selected.length > 0}
+					buttonActionPosition={isNarrowScreen ? 'column' : 'row'}
 				/>
 
 				{

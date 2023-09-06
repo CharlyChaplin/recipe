@@ -141,17 +141,20 @@ export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	}
 `;
 
-export const RecipeMiniCaption = styled(({ text, ...props }) => (
+export const RecipeMiniCaption = styled(({ text, noMargin, ...props }) => (
 	<div {...props}>{text}</div>
 ))`
 	font-family: "RalewayBold", sans-serif;
 	font-weight: bold;
-	font-size: ${rem(20)};
-	letter-spacing: ${rem(1)};
+	${adaptiveValue('font-size', 20, 18)};
+	${adaptiveValue('letter-spacing', 1, 0)};
 	text-transform: uppercase;
 	line-height: 1.2;
 	color: ${vars.text};
-	margin-left: ${rem(20)};
+	
+	${({ noMargin }) => noMargin
+		? 'margin-left: 0;'
+		: `${adaptiveValue('margin-left', 5, 10)};`};
 `;
 
 export const RecipeIngredientsWrapper = styled(({ children, ...props }) => (

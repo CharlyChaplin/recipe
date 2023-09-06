@@ -56,7 +56,7 @@ export const ProfileWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	${adaptiveValue('gap', 55, 25)};
+	${adaptiveValue('gap', 55, 35)};
 	${adaptiveValue('padding-top', 55, 25)};
 	${adaptiveValue('padding-bottom', 55, 25)};
 	${adaptiveValue('padding-left', 55, 5)};
@@ -86,15 +86,15 @@ export const ProfileCaption = styled(({ children, message, username, ...props })
 `;
 
 export const ProfileActivateStatus = styled.div`
-	font-size: ${rem(16)};
+	${adaptiveValue('font-size', 16, 14)};
 	color: ${lighten(.3, vars.redColor)};
 	
 `;
 
 export const ProfileFormWrapper = styled.div`
 	background: ${vars.adminLayer};
-	border: 1px solid ${vars.text};
-	border-radius: ${rem(20)};
+	border: ${rem(1)} solid ${vars.text};
+	${adaptiveValue('border-radius', 20, 10)};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -128,6 +128,12 @@ export const ProfileForm = styled(({ children, ...props }) => (
 	max-width: ${rem(534)};
 	color: ${vars.text};
 	${adaptiveValue("margin-top", 30, 40)};
+	
+	>div {
+		&:last-child {
+			${adaptiveValue("margin-top", 10, 20)};
+		}
+	}
 `;
 
 export const ProfileAvatar = styled(({ children, ...props }) => (
@@ -140,16 +146,37 @@ export const ProfileAvatar = styled(({ children, ...props }) => (
 	${adaptiveValue("margin-bottom", 20, 10)};
 `;
 
-export const ProfileNickname = styled(ProfileLineWrapper)`
+export const ProfileNickname = styled(ProfileLineWrapper)``;
+
+export const ProfilePassword = styled(ProfileLineWrapper)`
+	display: grid;
+	grid-template-columns: auto 1fr;
+	${adaptiveValue('gap', 10, 5)};
+	width: 100%;
+	align-items: center;
+	border: ${rem(1)} solid ${vars.lightGreen};
+	${adaptiveValue('border-radius', 10, 5)};
+	${adaptiveValue('padding-top', 25, 10)};
+	${adaptiveValue('padding-bottom', 25, 10)};
+	${adaptiveValue('padding-left', 23, 8)};
+	${adaptiveValue('padding-right', 23, 8)};
 	
+	span {
+		&:nth-child(3) {
+			height: 100%;
+			${adaptiveValue('padding-top', 10, 7)};
+			/* border: 1px solid #f00; */
+			grid-row: 2 / 5;
+		}
+	}
 `;
 
-export const ProfilePassword = styled.div`
-	
-`;
-
-export const ProfilePasswordLabel = styled.div`
-	
+export const ProfilePasswordLabel = styled.span`
+	${adaptiveValue("font-size", 16, 12)};
+	color: ${vars.text};
+	${adaptiveValue('letter-spacing', 1, 0)};
+	white-space: nowrap;
+	font-family: "RobotoRegular", sans-serif;
 `;
 
 export const ProfileActions = styled(ProfileLineWrapper)`

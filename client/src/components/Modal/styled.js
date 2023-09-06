@@ -46,16 +46,20 @@ export const ModalDialog = styled(({ children, ...props }) => (
 ))`
 	background: ${vars.adminLayer};
 	position: relative;
-	margin: 0 ${rem(20)};
+	margin: 0 ${rem(5)};
 	display: flex;
-	gap: ${rem(60)};
+	${adaptiveValue('gap', 60, 30)};
 	flex-direction: column;
 	align-items: center;
-	overflow: hidden;
+	overflow: auto;
+	height: 100%;
 	box-shadow: 0 ${rem(4)} ${rem(8)} 0 ${rgba(0, 0, 0, 0.2)}, 0 ${rem(6)} ${rem(20)} 0 ${rgba(0, 0, 0, 0.19)};
 	animation: ${slideIn} 0.3s ease-in-out;
-	border-radius: ${rem(20)};
-	padding: ${rem(50)} ${rem(70)};
+	${adaptiveValue('border-radius', 20, 10)};
+	${adaptiveValue('padding-top', 50, 20)};
+	${adaptiveValue('padding-bottom', 50, 20)};
+	${adaptiveValue('padding-left', 70, 10)};
+	${adaptiveValue('padding-right', 70, 10)};
 `;
 
 export const ModalHeader = styled.div`
@@ -65,9 +69,12 @@ export const ModalHeader = styled.div`
 export const ModalBody = styled.div`
 	border: 1px solid ${vars.lightGreen};
 	border-radius: 10px;
-	padding: ${rem(15)} ${rem(20)};
+	
+	${adaptiveValue('padding-top', 15, 7)};
+	${adaptiveValue('padding-bottom', 15, 7)};
+	${adaptiveValue('padding-left', 20, 10)};
+	${adaptiveValue('padding-right', 20, 10)};
 	width: 100%;
-	/* ${adaptiveValue("margin-bottom", 60, 60)}; */
 `;
 
 export const ModalContent = styled.div`
@@ -79,16 +86,3 @@ export const ModalButtons = styled.div`
 	flex-direction: row;
 	gap: ${rem(32)};
 `;
-
-
-// @keyframes appear
-// 	from
-// 		opacity: 0
-// 	to
-// 		opacity: 1
-
-// @keyframes slide-in
-// 	from
-// 		transform: translateY(rem(-100))
-// 	to
-// 		transform: translateY(0)

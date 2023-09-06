@@ -38,7 +38,7 @@ export const AvatarLabel = styled(({ labelVerticalPos, labelText, fontSize, ...p
 	<span {...props}>{labelText}</span>
 ))`
 	font-family: "RobotoRegular", sans-serif;
-	font-size: ${p => rem(p.fontSize)};
+	font-size: ${({fontSize}) => `${adaptiveValue('font-size', fontSize, 12)}`};
 	letter-spacing: ${rem(1)};
 	line-height: 1.3;
 	color: ${vars.text};

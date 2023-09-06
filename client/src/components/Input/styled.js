@@ -25,7 +25,7 @@ export const InputLabel = styled(({ labelPos, children, ...props }) => (
 ))`
 	${adaptiveValue("font-size", 16, 12)};
 	color: ${vars.text};
-	letter-spacing: ${rem(1)};
+	${adaptiveValue('letter-spacing', 1, 0)};
 	margin: 0;
 	
 	${({ labelPos }) => labelPos && labelPos === 'row'
@@ -90,6 +90,9 @@ export const InputElement = styled(({
 	&::placeholder{
 		color: ${({ bgAdminLayer }) => bgAdminLayer ? vars.placeholderColorForAdminLayer : vars.placeholderColor};
 		font-family: "RobotoRegular", sans-serif;
+		font-size: ${({ type }) => type === 'password'
+		? `${adaptiveValue('font-size', 17, 11)}`
+		: `${adaptiveValue('font-size', 16, 11)}`}
 	}
 	&:active, &:focus {
 		outline: none;

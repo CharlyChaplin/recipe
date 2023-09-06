@@ -268,7 +268,7 @@ const RecipeEditPage = () => {
 
 							<RecipeRight>
 								<RecipeCookingTextWrapper>
-									<RecipeMiniCaption text="Способ приготовления:" />
+									<RecipeMiniCaption noMargin text="Способ приготовления:" />
 									<RecipeCookingText>
 										<Input rowsNumber={0} type='textarea' name='cookingText' placeholder={recipeData.cookingtext} value={fields.cookingText} handleChange={changeInput} />
 									</RecipeCookingText>

@@ -41,11 +41,8 @@ const ProfilePage = () => {
 	let modalParams = useRef({});
 
 	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('max-width: 519.99px').matches);
-	const [isNarrowPassScreen, setIsNarrowPassScreen] = useState(matchMedia('max-width: 519.99px').matches);
 	const mediaWatcher = window.matchMedia("(max-width: 440px)");
-	const mediaWatcherForPasswords = window.matchMedia("(max-width: 519.99px)");
 	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
-	const updateIsNarrowPassScreen = e => setIsNarrowPassScreen(e.matches);
 
 	const [fields, setFields] = useState({
 		nickname: '',
@@ -63,7 +60,7 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
-		mediaWatcherForPasswords.addEventListener('change', updateIsNarrowPassScreen)
+
 		// определяем изменение ширины вьюпорта для нужных действий
 		setIsNarrowScreen(mediaWatcher.matches);
 
@@ -241,39 +238,32 @@ const ProfilePage = () => {
 							</ProfileNickname>
 
 							<ProfilePassword>
-								<div>
 									<ProfilePasswordLabel>Старый пароль:</ProfilePasswordLabel>
 									<Input
 										name='oldPassword'
 										type='password'
-										placeholder='Введите старый пароль...'
+										placeholder='Старый пароль...'
 										value={fields.oldPassword}
 										handleChange={changeInput}
 										handleKeyPress={handleKey}
 									/>
-								</div>
-								<div>
 									<ProfilePasswordLabel>Новый пароль:</ProfilePasswordLabel>
 									<Input
 										name='newPassword'
 										type='password'
-										placeholder='Введите новый пароль...'
+										placeholder='Новый пароль...'
 										value={fields.newPassword}
 										handleChange={changeInput}
 										handleKeyPress={handleKey}
 									/>
-									{/* {
-									!isNarrowPassScreen && <ProfilePasswordLabel>&nbsp;</ProfilePasswordLabel>
-								} */}
 									<Input
 										name='retypeNewPassword'
 										type='password'
-										placeholder='Повторите ввод нового пароля...'
+										placeholder='Ещё раз новый пароль...'
 										value={fields.retypeNewPassword}
 										handleChange={changeInput}
 										handleKeyPress={handleKey}
 									/>
-								</div>
 							</ProfilePassword>
 
 							<ProfileActions>

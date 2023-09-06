@@ -72,7 +72,7 @@ const AvatarSelect = ({
 	return (
 		<>
 			<AvatarBlock $labelPos={labelPos}>
-				{!!labelText && labelText.length > 0 ? <AvatarLabel labelVerticalPos={labelVerticalPos} labelText={labelText} fontSize={16} /> : null}
+				{!!labelText && labelText.length > 0 ? <AvatarLabel labelVerticalPos={labelVerticalPos} labelText={labelText} fontSize={vars.fz} /> : null}
 				<AvatarBlockWrapper size={size} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDragLeave} onDragOver={handleDragEnter} onDrop={handleDrop}>
 					{
 						<>

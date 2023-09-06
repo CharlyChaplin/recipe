@@ -36,9 +36,15 @@ const categoryAddChangeDelete = () => {
 	const [categories, setCategories] = useState([]);
 	const [picture, setPicture] = useState("");
 
+	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
+	const mediaWatcher = window.matchMedia("(max-width: 800px)");
+	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
+
 	let categoryName = '', currentCategoryImage;
 
 	useEffect(() => {
+		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
+
 		if (categoryData.length > 0) {
 			setCategories(categoryData.map(el => el.caption));
 		}
@@ -113,7 +119,6 @@ const categoryAddChangeDelete = () => {
 			} catch (error) {
 				dispatch(showInfo({ text: `Ошибка при удалении (${error.response.data.message})`, isConfirm: { ok: "Ok" }, cancel: true }));
 			}
-
 		}
 	}, [dispatch]);
 
@@ -155,7 +160,7 @@ const categoryAddChangeDelete = () => {
 
 	const findedImage = categoryData.find(i => i.caption == selected);
 	if (findedImage) {
-		currentCategoryImage = vars.remoteHost + findedImage.photopreview.split('')?.slice(1)?.join('');
+		currentCategoryImage = vars.remoteHost + '/' + findedImage.photopreview.split('')?.slice(1)?.join('');
 	}
 
 
@@ -178,7 +183,6 @@ const categoryAddChangeDelete = () => {
 					</AddWrapperCategorySidePart>
 					<AddCategoryPhoto>
 						<span>Фон для категории:</span>
-						{/* <AddPhotoBlock><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlock> */}
 						<AddPhotoBlock><ImageInsert currentFile={currentCategoryImage} selectedFile={getSelectedFile} /></AddPhotoBlock>
 					</AddCategoryPhoto>
 				</AddWrapperCategory>
@@ -198,6 +202,7 @@ const categoryAddChangeDelete = () => {
 					buttonEditIcon={<EditICO />}
 					buttonEditAction={handleEditAction}
 					buttonEditDisabled={!selected.length > 0}
+					buttonActionPosition={isNarrowScreen ? 'column' : 'row'}
 				/>
 
 				{

@@ -1,11 +1,14 @@
 import { styled } from "styled-components";
-import { rem } from "init/mixins";
+import { adaptiveValue, em, rem } from "init/mixins";
 import vars from "init/vars";
 import { AddWrapper } from "../styled";
 
 
 export const AddWrapperCategory = styled(AddWrapper)`
-	gap: ${rem(50)};
+	${adaptiveValue('gap', 50, 25)};
+	@media (max-width: ${em(800)}){
+		flex-direction: column;
+	}
 `;
 
 export const AddWrapperCategorySidePart = styled.div`
@@ -23,11 +26,15 @@ export const AddCategoryPhoto = styled(({ children, ...props }) => (
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: ${rem(10)};
+	${adaptiveValue('gap', 10, 5)};
 	
 	span {
 		font-family: "RobotoRegular", sans-serif;
 		letter-spacing: ${rem(1)};
 		color: ${vars.text};
+	}
+	
+	@media (max-width: ${em(800)}){
+		align-self: center;
 	}
 `;

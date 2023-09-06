@@ -21,11 +21,18 @@ const BlogDeleteChange = () => {
 	const [selected, setSelected] = useState('');
 	const [inputText, setInputText] = useState(selected);
 
+	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
+	const mediaWatcher = window.matchMedia("(max-width: 800px)");
+	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
+
 	const { userData } = useSelector(state => state.userReducer);
 	const { blogData, blogs } = useSelector(state => state.blogReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
+	}, []);
 
 	function handleSelected(val) {
 		setSelected(val);
@@ -60,6 +67,8 @@ const BlogDeleteChange = () => {
 
 
 
+
+
 	return (
 		<>
 			<ModalContentWrapper>
@@ -67,8 +76,7 @@ const BlogDeleteChange = () => {
 					elements={blogs ? blogs : []}
 					labelText="Название блога:"
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
-					labelPos="row"
-					minWidth={300}
+					labelPos={isNarrowScreen ? 'column' : 'row'}
 					inputText={inputText}
 					setInputText={setInputText}
 					selectedValue={handleSelected}
@@ -78,6 +86,7 @@ const BlogDeleteChange = () => {
 					buttonDeleteIcon={<DeleteICO />}
 					buttonDeleteAction={handleDeleteAction}
 					buttonDeleteDisabled={!selected.length > 0}
+					buttonActionPosition={isNarrowScreen ? 'column' : 'row'}
 				/>
 			</ModalContentWrapper>
 		</>

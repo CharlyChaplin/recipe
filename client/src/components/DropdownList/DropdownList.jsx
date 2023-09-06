@@ -6,7 +6,7 @@ import { Dropdown, DropdownBody, DropdownButtons, DropdownControl, DropdownDropb
 import Button from 'components/Button/Button.js';
 import vars from 'init/vars.js';
 import { UseOnClickOutside } from 'helpers/hooks';
-import { useState } from 'react';
+import {ReactComponent as ArrowICO} from './icon/arrow.svg';
 
 
 const DropdownList = ({
@@ -24,6 +24,7 @@ const DropdownList = ({
 	buttonEditIcon = '',
 	buttonEditAction = () => { },
 	buttonEditDisabled,
+	buttonActionPosition = 'row'
 }) => {
 	const dropdown = useRef(null);
 	const input = useRef(null);
@@ -62,18 +63,17 @@ const DropdownList = ({
 	return (
 		<>
 			<Dropdown ref={collapseButton}>
-				<DropdownBody buttonDeleteIcon={buttonDeleteIcon} buttonEditIcon={buttonEditIcon}>
-					<DropdownControl $position={labelPos}>
-						{!!labelText && labelText.length > 0 && <DropdownLabel $position={labelPos}>{labelText}</DropdownLabel>}
+				<DropdownBody buttonDeleteIcon={buttonDeleteIcon} buttonEditIcon={buttonEditIcon} buttonActionPosition={buttonActionPosition}>
+
+					<DropdownControl position={labelPos}>
+						{!!labelText && labelText.length > 0 && <DropdownLabel position={labelPos}>{labelText}</DropdownLabel>}
 
 						<DropdownWrapper ref={dropdown} onClick={handleCollapse}>
 							<DropdownInputWrapper>
 								<DropdownDropbox minWidth={minWidth}>
 									<input ref={input} value={inputText} onChange={setInputText} type="text" placeholder={placeholder} readOnly />
 									<DropdownIcon>
-										<svg width="11" height="9" viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M4.67397 1.21062C5.07097 0.628781 5.92903 0.628781 6.32603 1.21062L10.0623 6.68638C10.5152 7.35016 10.0398 8.25 9.23624 8.25H1.76376C0.960186 8.25 0.484816 7.35016 0.93773 6.68638L4.67397 1.21062Z" fill={vars.lightGreen} />
-										</svg>
+										<ArrowICO />
 									</DropdownIcon>
 								</DropdownDropbox>
 							</DropdownInputWrapper>
@@ -92,7 +92,8 @@ const DropdownList = ({
 							</DropdownListt>
 						</DropdownWrapper>
 					</DropdownControl>
-					<DropdownButtons>
+
+					<DropdownButtons buttonActionPosition={buttonActionPosition}>
 						{
 							!!buttonDeleteIcon && <Button equalPadding mode="dangerIco" disabled={buttonDeleteDisabled} onClick={buttonDeleteAction}>{buttonDeleteIcon}</Button>
 						}
@@ -100,6 +101,7 @@ const DropdownList = ({
 							!!buttonEditIcon && <Button equalPadding disabled={buttonEditDisabled} onClick={buttonEditAction}>{buttonEditIcon}</Button>
 						}
 					</DropdownButtons>
+
 				</DropdownBody>
 			</Dropdown>
 		</>

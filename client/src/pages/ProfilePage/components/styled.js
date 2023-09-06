@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { rem } from "init/mixins.js";
+import { adaptiveValue, rem } from "init/mixins.js";
 import vars from "init/vars.js";
 
 
@@ -9,7 +9,7 @@ export const AddWrapper = styled(({ verticalcenter, ...props }) => (
 	display: flex;
 	flex-direction: row;
 	align-items: ${({ verticalcenter }) => verticalcenter ? 'center' : 'flex-end'};
-	gap: ${rem(10)};
+	${adaptiveValue('gap', 10, 5)};
 `;
 
 export const HorizontalLine = styled.hr`
@@ -21,5 +21,5 @@ export const HorizontalLine = styled.hr`
 export const ModalContentWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: ${rem(15)};
+	${adaptiveValue('gap', 15, 7)};
 `;

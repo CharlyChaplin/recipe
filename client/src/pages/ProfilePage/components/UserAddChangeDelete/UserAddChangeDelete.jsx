@@ -27,9 +27,15 @@ const UserAddChangeDelete = () => {
 	const { users, userData, userById, roles } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	
+	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
+	const mediaWatcher = window.matchMedia("(max-width: 800px)");
+	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
 
 
 	useEffect(() => {
+		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
+		
 		setSelectedVal('');
 		// очищаем локальное хранилище
 		modalStore.changeUserEditNewNickname('');
@@ -130,6 +136,7 @@ const UserAddChangeDelete = () => {
 					buttonDeleteIcon={<DeleteICO />}
 					buttonDeleteAction={handleUserDelete}
 					buttonDeleteDisabled={!selectedVal.length}
+					buttonActionPosition={isNarrowScreen ? 'column' : 'row'}
 				/>
 
 				<HorizontalLine />
@@ -154,10 +161,10 @@ const UserAddChangeDelete = () => {
 						elements={selectedVal ? roles.map(role => role.rolecyr) : []}
 						labelText="Права доступа:"
 						placeholder={getRoleInRus()}
-						minWidth={350}
-						labelPos="row"
+						labelPos={isNarrowScreen ? 'column' : 'row'}
 						inputText={userRole}
 						selectedValue={handleSelectRole}
+						buttonActionPosition={isNarrowScreen ? 'column' : 'row'}
 					/>
 				</Block>
 

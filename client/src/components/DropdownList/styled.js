@@ -17,7 +17,7 @@ export const Dropdown = styled.div`
 	.collapse_show {}
 `;
 
-export const DropdownBody = styled(({ buttonDeleteIcon, buttonEditIcon, children, ...props }) => {
+export const DropdownBody = styled(({ buttonDeleteIcon, buttonEditIcon, buttonActionPosition, children, ...props }) => {
 	return (
 		<div {...props}>
 			{children}
@@ -25,29 +25,37 @@ export const DropdownBody = styled(({ buttonDeleteIcon, buttonEditIcon, children
 	)
 })`
 	display: flex;
-	flex-direction: row;
+	flex-direction: ${({ buttonActionPosition }) => buttonActionPosition || 'row'};
 	justify-content: space-between;
-	// gap: ${({ buttonDeleteIcon, buttonEditIcon }) => (buttonDeleteIcon || buttonEditIcon) ? rem(67) : rem(30)};
-	gap: ${({ buttonDeleteIcon, buttonEditIcon }) => (buttonDeleteIcon || buttonEditIcon) ? rem(67) : rem(0)};
+	${({ buttonDeleteIcon, buttonEditIcon }) => (buttonDeleteIcon || buttonEditIcon)
+		? `${adaptiveValue('gap', 77, 10)}`
+		: `${adaptiveValue('gap', 0, 0)}`
+	};
+	${({ buttonActionPosition }) => buttonActionPosition === 'row'
+		? `${adaptiveValue('gap', 77, 10)}`
+		: `${adaptiveValue('gap', 15, 10)}`
+	};
 	width: 100%;
 `;
 
-export const DropdownControl = styled(({ children, ...props }) => {
+export const DropdownControl = styled(({ children, position, ...props }) => {
 	return (<div {...props}>
 		{children}
 	</div>)
 })`
 	display: flex;
-	flex-direction: ${({ $position }) => $position && $position === 'column' ? 'column' : 'row'};
-	align-items: ${({ $position }) => $position && $position === 'column' ? 'flex-start' : 'center'};
-	gap: ${rem(15)};
+	flex-direction: ${({ position }) => position && position === 'column' ? 'column' : 'row'};
+	align-items: ${({ position }) => position && position === 'column' ? 'flex-start' : 'center'};
+	${adaptiveValue('gap', 15, 5)};
 	width: 100%;
 `;
 
-export const DropdownLabel = styled.span`
-	margin-left: ${({ $position }) => $position && $position === 'row' ? 0 : rem(5)};
+export const DropdownLabel = styled(({ position, children, ...props }) => (
+	<span {...props}>{children}</span>
+))`
+	margin-left: ${({ position }) => position && position === 'row' ? 0 : rem(5)};
 	font-family: "RobotoRegular", sans-serif;
-	${adaptiveValue("font-size", 16, 16)};
+	${adaptiveValue("font-size", 16, 12)};
 	color: ${vars.text};
 	white-space: nowrap;
 `;
@@ -55,7 +63,7 @@ export const DropdownLabel = styled.span`
 export const DropdownWrapper = styled.div`
 	width: fit-content;
 	width: calc(100% - 31px);
-	border: 1px solid ${vars.lightGreen};
+	border: ${rem(1)} solid ${vars.lightGreen};
 	z-index: 1;
 	position: relative;
 	border-top-left-radius: ${radius};
@@ -97,7 +105,7 @@ export const DropdownDropbox = styled(({ minWidth, children, ...props }) => {
 		height: 100%;
 		padding: ${rem(5)} ${rem(10)};
 		font-family: "RobotoRegular", sans-serif;
-		${adaptiveValue("font-size", 16, 16)};
+		${adaptiveValue("font-size", 16, 14)};
 		cursor: pointer;
 		position: relative;
 		color: ${vars.text};
@@ -106,6 +114,7 @@ export const DropdownDropbox = styled(({ minWidth, children, ...props }) => {
 		
 		&::placeholder {
 			color: ${vars.placeholderColor};
+			${adaptiveValue("font-size", 16, 14)};
 		}
 		&:focus {
 			outline: none;
@@ -138,7 +147,7 @@ export const DropdownListitem = styled(({ children, noItems, ...props }) => (
 	padding: ${rem(8)};
 	color: ${({ noItems }) => noItems ? vars.placeholderColor : vars.text};
 	font-family: "RobotoRegular", sans-serif;
-	font-size: ${rem(16)};
+	${adaptiveValue('font-size', 16, 14)};
 	margin-bottom: ${rem(0)};
 	
 	&:hover {
@@ -150,6 +159,7 @@ export const DropdownInputWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: ${rem(37)};
+	overflow: hidden;
 `;
 
 export const DropdownIcon = styled.div`
@@ -187,13 +197,15 @@ export const DropdownIcon = styled.div`
 	}
 `;
 
-export const DropdownButtons = styled.div`
+export const DropdownButtons = styled(({ buttonActionPosition, children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	gap: ${rem(11)};
 	margin-bottom: ${rem(1)};
-	align-self: flex-end;
+	align-self: ${({ buttonActionPosition }) => buttonActionPosition === 'row' ? 'flex-end' : 'flex-start'};
 `;
 
 
