@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import vars from 'init/vars.js';
+import { ReactComponent as AnonimICO } from './img/login.svg';
+import { useRef } from 'react';
 
 
 const AvatarSelect = ({
@@ -19,6 +21,10 @@ const AvatarSelect = ({
 	const [draggable, setDraggable] = useState(false);
 	const [data, getFile] = useState({ name: "", path: "" });
 	const { userData, userById } = useSelector(state => state.userReducer);
+
+	const [file, setFile] = useState(null);
+	const [previewUrl, setPreviewUrl] = useState("");
+	const fileInput = useRef(null);
 
 
 	useEffect(() => {
@@ -47,14 +53,26 @@ const AvatarSelect = ({
 		e.stopPropagation();
 		setDraggable(false);
 
-		const files = Array.from(e.dataTransfer.files);
-		if (singleFileOnly && files.length > 1) {
-			alert("Only single file allow.");
+		if (singleFileOnly && e.dataTransfer.files.length > 1) {
+			alert("Выберите только ОДИН файл.");
 			return;
 		}
+
+		handleSendFile(e.dataTransfer.files[0]);
+	}
+
+	function handleFile(file) {
+		setFile(file);
+		setPreviewUrl(URL.createObjectURL(file));
+		URL.revokeObjectURL(file);
+
+		handleSendFile(file)
+	}
+
+	function handleSendFile(file) {
 		let formData = new FormData();
 
-		files.forEach((el, i) => formData.append(`file[${i}]`, el));
+		formData.append(`file[0]`, el);
 		formData.append('userPath', source === 'userById' ? userById.email : userData.user.email);
 
 		axios.post(`${vars.remoteHost}/file/upload`, formData)
@@ -68,27 +86,25 @@ const AvatarSelect = ({
 	}
 
 
-
 	return (
 		<>
-			<AvatarBlock $labelPos={labelPos}>
+			<AvatarBlock labelPos={labelPos}>
 				{!!labelText && labelText.length > 0 ? <AvatarLabel labelVerticalPos={labelVerticalPos} labelText={labelText} fontSize={vars.fz} /> : null}
-				<AvatarBlockWrapper size={size} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDragLeave} onDragOver={handleDragEnter} onDrop={handleDrop}>
+				<AvatarBlockWrapper onClick={() => fileInput.current.click()} size={size} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDragLeave} onDragOver={handleDragEnter} onDrop={handleDrop}>
+					<input
+						type="file"
+						ref={fileInput}
+						hidden
+						accept='image/*'
+						onChange={e => handleFile(e.target.files[0])}
+					/>
 					{
 						<>
 							<AvatarBlockImage imgOrSvg={data.name}>
 								{
 									data?.name?.length > 0
 										? <img src={data.path} alt={data.name} />
-										: <svg width="33.866mm" height="33.866mm" version="1.1" viewBox="0 0 33.866 33.866" xmlns="http://www.w3.org/2000/svg">
-											<g transform="translate(-83.608,-110.07)" fill="#fff">
-												<g transform="matrix(.26458 0 0 .26458 83.608 110.07)">
-													<circle id="circle" cx="64" cy="64" r="64" fill="#aaa" />
-													<path id="left" d="m64 28.5c-11 0-20 9-20 20 0 7.2 3.9 13.6 9.6 17.1-14.2 4.4-24.6 17.4-24.6 33.4h35" />
-													<path d="m64 28.5c11 0 20 9 20 20 0 7.2-3.9 13.6-9.6 17.1 14.2 4.4 24.6 17.4 24.6 33.4h-35" />
-												</g>
-											</g>
-										</svg>
+										: <AnonimICO />
 								}
 							</AvatarBlockImage>
 							{

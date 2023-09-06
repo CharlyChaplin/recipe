@@ -25,20 +25,22 @@ export const AvatarBlockPlaceholder = styled(({ text, size, ...props }) => (
 	width: 100%;
 `;
 
-export const AvatarBlock = styled.div`
+export const AvatarBlock = styled(({ labelPos, children, ...props }) => (
+	<div {...props}>{children}</div>
+))`
 	width: 100%;
 	height: 100%;
 	display: flex;
-	flex-direction: ${({ $labelPos }) => $labelPos && $labelPos === 'row' ? 'row' : 'column'};
+	flex-direction: ${({ labelPos }) => labelPos || 'row'};
 	align-items: center;
-	gap: ${rem(15)};
+	${adaptiveValue('gap', 15, 10)};
 `;
 
 export const AvatarLabel = styled(({ labelVerticalPos, labelText, fontSize, ...props }) => (
 	<span {...props}>{labelText}</span>
 ))`
 	font-family: "RobotoRegular", sans-serif;
-	font-size: ${({fontSize}) => `${adaptiveValue('font-size', fontSize, 12)}`};
+	font-size: ${({ fontSize }) => `${adaptiveValue('font-size', fontSize, 12)}`};
 	letter-spacing: ${rem(1)};
 	line-height: 1.3;
 	color: ${vars.text};
@@ -75,7 +77,7 @@ export const AvatarBlockImage = styled(({ children, imgOrSvg, ...props }) => {
 	return (
 		<div {...props}> {children}</div>
 	)
-	
+
 })`
 	position: absolute;
 	background: ${vars.adminLayer};
