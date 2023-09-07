@@ -55,8 +55,7 @@ const vars = {
 	cubic: 'cubic-bezier(0.5, -1, 0.5, 2)',	// анимация
 	fz: 16,	// базовая высота шрифта
 	borderRadiusSearchInput: 20,	// округлость поиска на главной странице
-	// remoteHost: 'http://localhost:7000',
-	remoteHost: 'https://recipe-backend-abx5r1wah-charlychaplin.vercel.app',
+	remoteHost: 'http://localhost:7000',
 };
 
 
