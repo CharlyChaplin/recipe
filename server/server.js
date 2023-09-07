@@ -17,7 +17,8 @@ const app = express();
 
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: ["http://localhost:3000", "http://95.188.84.114:3000"] }));
+// app.use(cors({ credentials: true, origin: ["http://localhost:3000", "http://95.188.84.114:3000"] }));
+app.use(cors({ credentials: true, origin: "https://recipe-backend-abx5r1wah-charlychaplin.vercel.app" }));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({defCharset: 'utf8', defParamCharset: 'utf8'}));
