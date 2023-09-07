@@ -56,7 +56,7 @@ const vars = {
 	fz: 16,	// базовая высота шрифта
 	borderRadiusSearchInput: 20,	// округлость поиска на главной странице
 	// remoteHost: 'http://localhost:7000',
-	remoteHost: '',
+	remoteHost: 'http://recipe-back-l122xhjnx-charlychaplin.vercel.app:7000',
 };
 
 
