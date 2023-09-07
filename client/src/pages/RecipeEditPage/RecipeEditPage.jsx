@@ -72,7 +72,6 @@ const RecipeEditPage = () => {
 
 	function getRecipe() {
 		if (Object.keys(recipeData).length) {
-
 			// создаём массив из ингредиентов с сервера
 			const arr = recipeData.ingredients?.reduce((acc, curr) => {
 				return [
@@ -153,8 +152,6 @@ const RecipeEditPage = () => {
 	}
 
 	function handleEditRecipe() {
-		console.log("Edit action occured");
-		console.log(fields);
 		const fd = new FormData();
 		for (let [key, value] of Object.entries(fields)) {
 			if (key === 'ingredients') {

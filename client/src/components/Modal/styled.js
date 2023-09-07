@@ -39,6 +39,7 @@ export const ModalWrapper = styled(({ children, onClose = () => { }, ...props })
 	background-color: ${rgba(0, 0, 0, 0.75)};
 	animation: ${appear} 0.25s ease-in-out;
 	user-select: none;
+	/* overflow: auto; */
 `;
 
 export const ModalDialog = styled(({ children, ...props }) => (
@@ -51,9 +52,10 @@ export const ModalDialog = styled(({ children, ...props }) => (
 	${adaptiveValue('gap', 60, 30)};
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	overflow: auto;
-	height: 100%;
-	box-shadow: 0 ${rem(4)} ${rem(8)} 0 ${rgba(0, 0, 0, 0.2)}, 0 ${rem(6)} ${rem(20)} 0 ${rgba(0, 0, 0, 0.19)};
+	/* height: 100%; */
+	box-shadow: 0 ${rem(4)} ${rem(8)} 0 ${rgba(0, 0, 0, .2)}, 0 ${rem(6)} ${rem(20)} 0 ${rgba(0, 0, 0, .19)};
 	animation: ${slideIn} 0.3s ease-in-out;
 	${adaptiveValue('border-radius', 20, 10)};
 	${adaptiveValue('padding-top', 50, 20)};
@@ -64,25 +66,26 @@ export const ModalDialog = styled(({ children, ...props }) => (
 
 export const ModalHeader = styled.div`
 	text-align: center;
+	/* ${adaptiveValue('margin-bottom', 60, 30)}; */
 `;
 
 export const ModalBody = styled.div`
-	border: 1px solid ${vars.lightGreen};
-	border-radius: 10px;
+	border: ${rem(1)} solid ${vars.lightGreen};
+	border-radius: ${rem(10)};
 	
 	${adaptiveValue('padding-top', 15, 7)};
 	${adaptiveValue('padding-bottom', 15, 7)};
 	${adaptiveValue('padding-left', 20, 10)};
 	${adaptiveValue('padding-right', 20, 10)};
+	
+	/* ${adaptiveValue('margin-bottom', 60, 30)}; */
 	width: 100%;
 `;
 
-export const ModalContent = styled.div`
-	
-`;
+export const ModalContent = styled.div``;
 
 export const ModalButtons = styled.div`
 	display: flex;
 	flex-direction: row;
-	gap: ${rem(32)};
+	${adaptiveValue('gap', 32, 22)};
 `;

@@ -16,7 +16,8 @@ const AvatarSelect = ({
 	singleFileOnly,
 	image,
 	source = 'userData',
-	size = 100
+	size = 100,
+	locked = false
 }) => {
 	const [draggable, setDraggable] = useState(false);
 	const [data, getFile] = useState({ name: "", path: "" });
@@ -39,18 +40,21 @@ const AvatarSelect = ({
 	function handleDragEnter(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		if (locked) return;
 		setDraggable(true);
 	}
 
 	function handleDragLeave(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		if (locked) return;
 		setDraggable(false);
 	}
 
 	function handleDrop(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		if (locked) return;
 		setDraggable(false);
 
 		if (singleFileOnly && e.dataTransfer.files.length > 1) {
@@ -62,6 +66,7 @@ const AvatarSelect = ({
 	}
 
 	function handleFile(file) {
+		if (locked) return;
 		setFile(file);
 		setPreviewUrl(URL.createObjectURL(file));
 		URL.revokeObjectURL(file);
@@ -72,7 +77,7 @@ const AvatarSelect = ({
 	function handleSendFile(file) {
 		let formData = new FormData();
 
-		formData.append(`file[0]`, el);
+		formData.append(`file`, file);
 		formData.append('userPath', source === 'userById' ? userById.email : userData.user.email);
 
 		axios.post(`${vars.remoteHost}/file/upload`, formData)
@@ -84,6 +89,9 @@ const AvatarSelect = ({
 			})
 			.catch(err => console.log(err));
 	}
+	
+	
+	
 
 
 	return (

@@ -1,7 +1,7 @@
 import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
-import { datePrepare } from '../services/datePrepare.js';
+import { datePrepare, datePrepareForDB, datePrepareForFrontend } from '../services/datePrepare.js';
 import { config } from 'dotenv';
 import ResetSeq from '../services/resetSequence.js';
 import translitPrepare from '../services/translitPrepare.js';
@@ -47,7 +47,7 @@ class BlogController {
 			ResetSeq.resetSequence('blog');
 			const newBlog = await db.query(`
 				INSERT INTO blog(user_id, dateadd, caption, photoorig, photopreview, description)
-				VALUES (${userId}, '${dateadd}', '${caption}', '${photoorig}', '${photopreview}', '${description}')
+				VALUES (${userId}, '${datePrepareForDB(dateadd)}', '${caption}', '${photoorig}', '${photopreview}', '${description}')
 				RETURNING *;
 			`);
 			res.json(newBlog.rows[0]);
@@ -102,7 +102,7 @@ class BlogController {
 
 		// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
 		if (!dateadd) {
-			dateadd = datePrepare(blogNow.rows[0].dateadd);
+			dateadd = blogNow.rows[0].dateadd;
 		};
 
 		if (!caption) {
@@ -154,7 +154,7 @@ class BlogController {
 		try {
 			const updatedBlog = await db.query(`
 				UPDATE blog
-				SET dateadd='${dateadd}',
+				SET dateadd='${datePrepareForDB(dateadd)}',
 					 user_id=${owner},
 					 photoorig='${photoorig}',
 					 photopreview='${photopreview}',
@@ -173,10 +173,6 @@ class BlogController {
 	}
 
 	async getOneBlog(req, res) {
-		const { isAccessValid } = await primaryCheckUser(req.cookies);
-		if (!isAccessValid.email) throw ApiError.UnathorizedError();
-
-		// после всех проверок достаём данные блога
 		try {
 			let { blogCaption } = req.body;
 			blogCaption = translitPrepare(blogCaption).toLowerCase().replaceAll(" ", "_");
@@ -191,7 +187,8 @@ class BlogController {
 				SELECT name FROM persondata
 				WHERE user_id=${isBlog.rows[0].user_id};
 			`);
-			isBlog.rows[0].dateadd = datePrepare(isBlog.rows[0].dateadd);
+			// редактируем данные для БД
+			isBlog.rows[0].dateadd = datePrepareForFrontend(isBlog.rows[0].dateadd);
 			isBlog.rows[0].photopreview = config().parsed.LOCAL_ADDRESS + isBlog.rows[0].photopreview;
 			isBlog.rows[0].photoorig = config().parsed.LOCAL_ADDRESS + isBlog.rows[0].photoorig;
 			const userData = Object.assign(
@@ -257,7 +254,7 @@ class BlogController {
 
 				blog = {
 					...blog,
-					dateadd: datePrepare(blog.dateadd),
+					dateadd: datePrepareForFrontend(blog.dateadd),
 					photopreview: photopreview,
 					description: limitText(blog.description, 35),
 				}

@@ -98,7 +98,7 @@ const BlogAddPage = () => {
 
 
 						<BlogEditTopChangedForAddBlog>
-							<Input name='dateadd' value={fields.dateadd} handleChange={changeInput} autoFocus center placeholder="Дата создания..." />
+							<EditNotEdit data={fields.dateadd} />
 							<Divisor />
 							<EditNotEdit data={userData?.user?.nickname} />
 						</BlogEditTopChangedForAddBlog>

@@ -4,7 +4,7 @@ import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import { config } from 'dotenv';
 import ResetSeq from '../services/resetSequence.js';
 import translitPrepare from '../services/translitPrepare.js';
-import { datePrepare } from '../services/datePrepare.js';
+import { datePrepare, datePrepareForDB, datePrepareForFrontend } from '../services/datePrepare.js';
 import fs from 'fs';
 
 
@@ -52,7 +52,7 @@ class RecipeController {
 			// добавляем запись в таблицу recipe
 			const newRecipe = await db.query(`
 				INSERT INTO recipe(user_id, category_id, dateadd, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext)
-				VALUES (${userId}, ${categoryId}, '${dateadd}', '${caption}', '${captionLat}', '${photoorig}', '${photopreview}', '${shortDescription}', '${cookingText}')
+				VALUES (${userId}, ${categoryId}, '${datePrepareForDB(dateadd)}', '${caption}', '${captionLat}', '${photoorig}', '${photopreview}', '${shortDescription}', '${cookingText}')
 				RETURNING *;
 			`);
 			// добавляем записи в таблицу ingredient
@@ -219,7 +219,7 @@ class RecipeController {
 				UPDATE recipe
 				SET user_id=${owner},
 					 category_id=${categoryId},
-					 dateadd='${dateadd}',
+					 dateadd='${datePrepareForDB(dateadd)}',
 					 caption='${caption}',
 					 caption_lat='${captionLat}',
 					 photoorig='${photoorig}',
@@ -235,7 +235,7 @@ class RecipeController {
 			// обновляем запись ингредиентов (для начала удалив все текущие, касательно данного рецепта)
 			const deleteOldIngredientsForCurrentRecipe = await db.query(`
 				DELETE FROM ingredient
-				WHERE recipe_id=${recipeNow.rows[0].id}
+				WHERE recipe_id=${recipeNow.rows[0].id};
 			`);
 			// создаём ингредиенты для текущего рецепта
 			// рождаем строки для множественного добавления
@@ -245,7 +245,7 @@ class RecipeController {
 				)
 			});
 			// устанавливаем последовательность на MAX значение текущего id + 1
-			ResetSeq.resetSequence('ingredient');
+			// ResetSeq.resetSequence('ingredient');
 			// добавляем запись
 			const newIngredients = await db.query(`
 				INSERT INTO ingredient(user_id, recipe_id, caption)
@@ -277,15 +277,18 @@ class RecipeController {
 				WHERE caption_lat='${translitPrepare(recipeCaption).toLowerCase().replaceAll(" ", '_')}';
 			`);
 			if (!isRecipe.rowCount) throw ApiError.NotFoundURL("Not found data");
+			isRecipe.rows[0].dateadd = datePrepareForFrontend(isRecipe.rows[0].dateadd);
+			
 			// достаём владельца рецепта
 			const owner = await db.query(`
 				SELECT name FROM persondata
 				WHERE user_id=${isRecipe.rows[0].user_id};
 			`);
+			
 			let recipeData = Object.assign(
 				{},
-				owner.rows[0],
 				isRecipe.rows[0],
+				owner.rows[0]
 			);
 
 			// получаем текущую категорию в виде кириллицы

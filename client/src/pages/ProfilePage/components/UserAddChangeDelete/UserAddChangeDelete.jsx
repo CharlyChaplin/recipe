@@ -27,7 +27,7 @@ const UserAddChangeDelete = () => {
 	const { users, userData, userById, roles } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	
+
 	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
 	const mediaWatcher = window.matchMedia("(max-width: 800px)");
 	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
@@ -35,7 +35,7 @@ const UserAddChangeDelete = () => {
 
 	useEffect(() => {
 		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
-		
+
 		setSelectedVal('');
 		// очищаем локальное хранилище
 		modalStore.changeUserEditNewNickname('');
@@ -149,6 +149,7 @@ const UserAddChangeDelete = () => {
 						image={userById?.avatar ? userById.avatar : null}
 						source='userById'
 						size={55}
+						locked={!selectedVal.length}
 					/>
 					<Input
 						labelPos='row'
