@@ -9,6 +9,7 @@ const app = express();
 app.use(express.static('build'));
 
 app.get('*', (req, res) => {
+	console.log("hello");
 	res.sendFile('./build/index.html')
 });
 
