@@ -6,11 +6,13 @@ import Cookies from "js-cookie";
 const ax = axios.create({
 	baseURL: vars.remoteHost,
 	headers: { 'Content-Type': 'application/json' },
-	withCredentials: true,
+	withCredentials: true
 });
 
 ax.interceptors.request.use(config => {
-	config.headers.authorization = `Bearer ${Cookies.get('accesstoken')}`;
+	if (Cookies.get('accesstoken')) {
+		config.headers.authorization = `Bearer ${Cookies.get('accesstoken')}`;
+	}
 	return config;
 });
 
