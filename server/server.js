@@ -27,7 +27,7 @@ app.use(cors({ credentials: true, origin: "https://77.222.60.238" }));
 // 	res.header("Access-Control-Allow-Credentials", true); // Разрешить отправку файлов cookie
 // 	next();
 // });
-app.use('/test', (res, req) => res.json("Hello from server!"));
+app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
