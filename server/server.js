@@ -19,7 +19,14 @@ const app = express();
 app.use(express.json());
 // app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
 app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
-// app.use(cors({ credentials: true, origin: "recipe-front-ten.vercel.app:3000" }));
+app.all('*', function (req, res, next) {
+	res.header ("Access-Control-Allow-Origin", req.headers.origin); // Переход от исходного * к источнику текущего запроса
+	res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,token");
+	res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+	res.header("Content-Type", "application/json;charset=utf-8");
+		  res.header ("Access-Control-Allow-Credentials", true); // Разрешить отправку файлов cookie
+	next();
+});
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({defCharset: 'utf8', defParamCharset: 'utf8'}));
