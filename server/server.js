@@ -17,12 +17,7 @@ const app = express();
 
 
 app.use(express.json());
-<<<<<<< HEAD
 app.use(cors({ credentials: true, origin: "http://77-222-60-238.swtest.ru" }));
-// app.use(cors({ credentials: true, origin: "recipe-front-ten.vercel.app:3000" }));
-=======
-// app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
-app.use(cors({ credentials: true, origin: "http://77.222.60.238" }));
 // app.all('*', function (req, res, next) {
 // 	res.header("Access-Control-Allow-Origin", req.headers.origin); // Переход от исходного * к источнику текущего запроса
 // 	res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,token");
@@ -32,7 +27,6 @@ app.use(cors({ credentials: true, origin: "http://77.222.60.238" }));
 // 	next();
 // });
 app.use('/test', (req, res) => res.json("Hello from server!"));
->>>>>>> 4ff9354d278bd85cf7b3a3244c0d2c48665f9af9
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
