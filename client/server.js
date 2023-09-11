@@ -1,8 +1,8 @@
-import express from 'express';
-import path from 'path';
+const express = require('express');
+const path = require('path');
 
 
-const PORT = 8080;
+const PORT = 80;
 
 const app = express();
 
@@ -14,4 +14,4 @@ app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(PORT);
+app.listen(PORT, () => console.log(`Started on port ${PORT}`));
