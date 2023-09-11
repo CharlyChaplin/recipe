@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 const ax = axios.create({
 	baseURL: vars.remoteHost,
 	headers: { 'Content-Type': 'application/json' },
-	withCredentials: true
+	withCredentials: true,
 });
 
 ax.interceptors.request.use(config => {

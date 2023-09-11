@@ -18,10 +18,19 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', 'http://lexun.ru');
+	res.header(
+		'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization,  X-PINGOTHER'
+	);
+	res.header('Access-Control-Allow-Credentials', true);
+	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS');
+	next();
+});
 // app.use(cors({ credentials: true, origin: "recipe-front-ten.vercel.app:3000" }));
 app.use(cookieParser());
 app.use(express.static('static'));
-app.use(fileUpload({defCharset: 'utf8', defParamCharset: 'utf8'}));
+app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 app.use('/', router);
 app.use(errorMiddleware);
 
