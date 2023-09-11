@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 
 
-const PORT = 8080;
+const PORT = 80;
 
 const app = express();
 
