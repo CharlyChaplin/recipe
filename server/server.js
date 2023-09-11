@@ -18,7 +18,7 @@ const app = express();
 
 app.use(express.json());
 // app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
-app.use(cors({ credentials: true, origin: "https://77-222-60-238.swtest.ru" }));
+app.use(cors({ credentials: true, origin: "https://77.222.60.238" }));
 // app.all('*', function (req, res, next) {
 // 	res.header("Access-Control-Allow-Origin", req.headers.origin); // Переход от исходного * к источнику текущего запроса
 // 	res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,token");
@@ -27,6 +27,7 @@ app.use(cors({ credentials: true, origin: "https://77-222-60-238.swtest.ru" }));
 // 	res.header("Access-Control-Allow-Credentials", true); // Разрешить отправку файлов cookie
 // 	next();
 // });
+app.use('/test', (res, req) => console.log("Hello from server"));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
