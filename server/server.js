@@ -18,7 +18,7 @@ const app = express();
 
 app.use(express.json());
 // app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
-app.use(cors({ credentials: true, origin: "https://77.222.60.238:3000" }));
+app.use(cors({ credentials: true, origin: "http://77.222.60.238:3000" }));
 // app.all('*', function (req, res, next) {
 // 	res.header("Access-Control-Allow-Origin", req.headers.origin); // Переход от исходного * к источнику текущего запроса
 // 	res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,token");
