@@ -1,0 +1,15 @@
+import express from 'express';
+import path from 'path';
+
+
+const PORT = 8080;
+
+const app = express();
+
+app.use(express.static('build'));
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join('build', 'index.html'))
+});
+
+app.listen(PORT);
