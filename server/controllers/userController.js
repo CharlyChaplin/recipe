@@ -150,8 +150,8 @@ class UserController {
 					RETURNING *;
 				`);
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: 'none', secure });
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: 'none', secure });
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: 'none', secure: true });
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: 'none', secure: true });
 			// userData = { ...userData };
 			res.json(userData);
 		} catch (err) {
@@ -225,7 +225,7 @@ class UserController {
 			`);
 			if (!newRefreshToken) throw ApiError.BadRequest("Can't to update refreshToken.");
 			// обновляем cookie для refreshToken
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: 'none', secure });
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: 'none', secure: true });
 			res.json({ message: "Congratulations! You're activated!" });
 		} catch (err) {
 			next(err);
@@ -271,8 +271,8 @@ class UserController {
 			`);
 			if (!newRefreshToken.rowCount) throw ApiError.UnathorizedError("Can't to update refreshToken in DB");
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: 'none', secure });
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: 'none', secure });
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: 'none', secure: true });
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: 'none', secure: true });
 			// добавляем остальные данные о пользователе
 			const additionalUserData = await db.query(`
 				SELECT name FROM persondata
