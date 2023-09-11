@@ -10,7 +10,9 @@ const ax = axios.create({
 });
 
 ax.interceptors.request.use(config => {
-	config.headers.authorization = `Bearer ${Cookies.get('accesstoken')}`;
+	if (Cookies.get('accesstoken')) {
+		config.headers.authorization = `Bearer ${Cookies.get('accesstoken')}`;
+	}
 	return config;
 });
 

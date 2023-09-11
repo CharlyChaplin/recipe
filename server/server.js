@@ -17,11 +17,11 @@ const app = express();
 
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "http://77-222-60-238.swtest.ru" }));
+app.use(cors({ credentials: true, origin: "https://77.222.61.81:3000/*" }));
 // app.use(cors({ credentials: true, origin: "recipe-front-ten.vercel.app:3000" }));
 app.use(cookieParser());
 app.use(express.static('static'));
-app.use(fileUpload({defCharset: 'utf8', defParamCharset: 'utf8'}));
+app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 app.use('/', router);
 app.use(errorMiddleware);
 
