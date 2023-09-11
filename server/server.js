@@ -18,7 +18,7 @@ const app = express();
 
 app.use(express.json());
 // app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
-app.use(cors({ credentials: true, origin: "http://lexun.ru/" }));
+app.use(cors({ credentials: true }));
 // app.use(cors({ credentials: true, origin: "recipe-front-ten.vercel.app:3000" }));
 app.use(cookieParser());
 app.use(express.static('static'));
