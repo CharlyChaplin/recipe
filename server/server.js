@@ -17,7 +17,7 @@ const app = express();
 
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "https://lexun.ru" }));
+app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
 app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(cookieParser());
 app.use(express.static('static'));
