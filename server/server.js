@@ -15,7 +15,6 @@ if (!fs.existsSync('static')) fs.mkdirSync('./static', err => console.log(err));
 
 const app = express();
 
-var whitelist = ['https://lexun.ru'];
 
 var corsOptions = {
 	origin: 'https://lexun.ru',
