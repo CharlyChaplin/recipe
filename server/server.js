@@ -15,9 +15,15 @@ if (!fs.existsSync('static')) fs.mkdirSync('./static', err => console.log(err));
 
 const app = express();
 
+var corsOptions = {
+	origin: 'https://lexun.ru',
+	// optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+	credentials: true
+ }
+
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "http://lexun.ru" }));
+app.use(cors(corsOptions));
 app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(cookieParser());
 app.use(express.static('static'));
