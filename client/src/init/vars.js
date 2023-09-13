@@ -56,7 +56,7 @@ const vars = {
 	fz: 16,	// базовая высота шрифта
 	borderRadiusSearchInput: 20,	// округлость поиска на главной странице
 	// remoteHost: 'http://localhost:7000',
-	remoteHost: 'https://77.222.60.238:7000',
+	remoteHost: 'http://77.222.60.238:7000',
 };
 
 
