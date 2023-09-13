@@ -10,7 +10,7 @@ app.use(express.static(__dirname));
 app.use(express.static(path.resolve(__dirname, 'build')));
 
 app.get('*', (req, res) => {
-	console.log("hello");
+	console.log(`Hello (${new Date().getDate()}.${new Date().getMonth()+1}.${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()})`);
 	res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
