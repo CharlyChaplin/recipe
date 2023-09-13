@@ -7,7 +7,7 @@ import InnerItems from '../InnerItems/InnerItems';
 import { useLocation, useParams } from 'react-router-dom';
 import { categoryGetCategoryName, clearCategoryData } from 'redux/slices/categorySlice';
 import { MainWrapper } from 'pages/pages.styled';
-import bg from 'assets/img/categories/bg.jpg';
+import bg from 'assets/img/blog/bg.jpg';
 
 
 
