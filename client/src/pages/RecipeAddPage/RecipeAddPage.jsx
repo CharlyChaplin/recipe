@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import bg from 'assets/img/category/soups/bg.jpg';
+import bg from 'assets/img/blog/bg.jpg';
 import { ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper, RecipeBlockContentWrapper } from 'pages/pages.styled';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';

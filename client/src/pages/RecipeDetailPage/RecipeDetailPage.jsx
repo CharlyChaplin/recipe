@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import NoData from 'components/NoData/NoData';
 import Spinner from 'components/Spinner/Spinner';
 import { ButtonBtn, ContentWrapper, InnerWrapper, MainWrapper } from 'pages/pages.styled';
-import bg from 'assets/img/category/soups/bg.jpg';
+import bg from 'assets/img/blog/bg.jpg';
 import listMarker from 'assets/img/recipe/list-item.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { recipeGetRecipe } from 'redux/slices/recipeSlice';

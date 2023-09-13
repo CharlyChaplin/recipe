@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { AddPhotoBlock, ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper } from 'pages/pages.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import bg from 'assets/img/blogedit/bg.jpg';
+import bg from 'assets/img/blog/bg.jpg';
 import { useEffect } from 'react';
 import Spinner from 'components/Spinner/Spinner';
 import { useNavigate } from 'react-router-dom';

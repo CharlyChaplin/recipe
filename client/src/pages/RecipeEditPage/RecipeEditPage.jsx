@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ContentPaddingTop, EditNotEdit, InnerWrapper, MainWrapper, RecipeBlockContentWrapper } from 'pages/pages.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import bg from 'assets/img/category/soups/bg.jpg';
+import bg from 'assets/img/blog/bg.jpg';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
 import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeAddIngredientWrapper, RecipeCookingText, RecipeCookingTextWrapper, RecipeEditButtonWrapper, RecipeEditTop, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from './styled';
