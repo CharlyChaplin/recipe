@@ -1,5 +1,5 @@
 import express from 'express';
-// import cors from 'cors';
+import cors from 'cors';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import fs from 'fs';
@@ -16,31 +16,19 @@ if (!fs.existsSync('static')) fs.mkdirSync('./static', err => console.log(err));
 const app = express();
 
 
-// var corsOptions = {
-// 	origin: 'https://lexun.ru',
-// 	credentials: true,
-// }
+var corsOptions = {
+	origin: 'http://localhost:3000',
+	credentials: true,
+}
 
 
 app.use(express.json());
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 app.use('/', router);
-
-app.use('*', function (req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', 'https://lexun.ru');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-	res.header("Access-Control-Allow-Credentials", true); // Разрешить отправку файлов cookie
-	// res.header("Access-Control-Allow-Origin", 'https://lexun.ru'); // Переход от исходного * к источнику текущего запроса
-	// res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,token");
-	// res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-	// res.header("Content-Type", "application/json;charset=utf-8");
-	// res.header("Access-Control-Allow-Credentials", true); // Разрешить отправку файлов cookie
-	next();
-});
 
 app.use(errorMiddleware);
 app.listen(PORT, console.log(`Server has started on port ${PORT}`));
