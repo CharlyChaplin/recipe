@@ -20,7 +20,12 @@ export const MainWrapper = styled(({ children, image, noOverlay, ...props }) => 
 	overflow: hidden;
 	${adaptiveValue('border-radius', 30, 15)};
 	z-index: 0;
-	background: url(${({ image }) => image ? image : null}) 0 0 no-repeat;
+	background: ${({ image }) => image && image?.split('').includes('#')
+		? image
+		: image
+			? `url(${image}) 0 0 no-repeat`
+			: null
+	};
 	background-size: cover;
 	color: ${vars.whiteColor};
 	position: relative;

@@ -19,8 +19,8 @@ export const FooterContainer = styled(({ children, ...props }) => (
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	${adaptiveValue("padding-top", 10, 10)};
-	${adaptiveValue("padding-bottom", 10, 10)};
+	${adaptiveValue("padding-top", 5, 3)};
+	${adaptiveValue("padding-bottom", 5, 3)};
 	color: ${vars.whiteColor};
 	a {
 		color: ${vars.whiteColor};

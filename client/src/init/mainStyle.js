@@ -166,7 +166,7 @@ const InitStyle = createGlobalStyle`
 	}
 	
 	ul li {
-		list-style: none;
+		list-style-type: none;
 	}
 	
 	img {
@@ -192,6 +192,7 @@ const InitStyle = createGlobalStyle`
 	/* button */
 	&::-webkit-scrollbar-button {
 		background: transparent;
+		height: ${rem(12)};
 	}
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
