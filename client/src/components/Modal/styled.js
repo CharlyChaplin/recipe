@@ -39,7 +39,6 @@ export const ModalWrapper = styled(({ children, onClose = () => { }, ...props })
 	background-color: ${rgba(0, 0, 0, 0.75)};
 	animation: ${appear} 0.25s ease-in-out;
 	user-select: none;
-	/* overflow: auto; */
 `;
 
 export const ModalDialog = styled(({ children, ...props }) => (
@@ -66,7 +65,6 @@ export const ModalDialog = styled(({ children, ...props }) => (
 
 export const ModalHeader = styled.div`
 	text-align: center;
-	/* ${adaptiveValue('margin-bottom', 60, 30)}; */
 `;
 
 export const ModalBody = styled.div`

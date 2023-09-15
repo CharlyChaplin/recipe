@@ -130,7 +130,7 @@ const ProfilePage = () => {
 				dispatch(phraseGetPhrases());
 				Object.keys(modalParams).forEach(key => delete modalParams[key]);
 				Object.assign(modalParams, {
-					title: <SectionHeader>Фразы</SectionHeader>,
+					title: <SectionHeader>Фразы на главной странице</SectionHeader>,
 					content: <PhraseAddChangeDelete />,
 					actionType: "phraseAddChangeDelete",
 					cancelBtnCaption: "Закрыть",

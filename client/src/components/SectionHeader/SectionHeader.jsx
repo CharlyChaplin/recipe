@@ -17,7 +17,7 @@ const SectionHeader = styled(({ children, backBtnExists, color = vars.text, ...p
 	}
 	font-family: "Giger", sans-serif;
 	${adaptiveValue('font-size', 45, 30)};
-	${adaptiveValue('line-height', 45, 35)};
+	line-height: 1.2;
 	letter-spacing: ${rem(2)};
 	width: fit-content;
 	margin: 0;

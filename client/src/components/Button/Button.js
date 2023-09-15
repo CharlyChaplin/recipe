@@ -45,7 +45,7 @@ const Button = styled(({
 	};
 	border: ${p => p.type === 'plain' ? rem(0) : rem(1)} solid ${vars.darkGreen};
 	border-radius: ${p => p.type === 'back' ? rem(12) : rem(5)};
-	overflow: hidden;
+	// overflow: hidden;
 	text-align: center;
 	font-family: ${p => p.type === 'back' ? 'RalewayRegular' : 'RobotoRegular'}, sans-serif;
 	${adaptiveValue("font-size", 16, 14)};
