@@ -208,7 +208,7 @@ const RecipeAddPage = () => {
 											<RecipeCookingTextWrapper>
 												<RecipeMiniCaption text="Способ приготовления:" />
 												<RecipeCookingText>
-													<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." handleChange={changeInput} />
+													<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." handleChange={changeInput} value={fields.cookingText} />
 												</RecipeCookingText>
 											</RecipeCookingTextWrapper>
 
