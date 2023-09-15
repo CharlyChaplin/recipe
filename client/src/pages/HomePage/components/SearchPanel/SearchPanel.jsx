@@ -45,7 +45,7 @@ const SearchPanel = ({ showQuotationFunc }) => {
 
 	// отображаем результаты поиска в зависимости от наличия текста в input
 	function searchAction() {
-		navigate(location.pathname + `?q=${searchValue}`);
+		navigate(location.pathname.concat(searchValue.length ? `?q=${searchValue}` : ''));
 		setShowSearch(searchValue.length !== 0);
 	}
 
