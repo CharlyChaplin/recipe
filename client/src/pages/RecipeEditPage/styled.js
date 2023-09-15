@@ -143,7 +143,7 @@ export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	flex: 0 0 50%;
 	display: flex;
 	flex-direction: column;
-	${adaptiveValue("gap", 20, 15, 3, 1390, 860)};
+	${adaptiveValue("gap", 20, 15)};
 	width: 100%;
 	
 	@media (max-width: ${em(860)}) {
