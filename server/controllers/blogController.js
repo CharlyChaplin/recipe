@@ -50,7 +50,6 @@ class BlogController {
 				VALUES (${userId}, '${datePrepareForDB(dateadd)}', '${caption}', '${captionLat}', '${photoorig}', '${photopreview}', '${description}')
 				RETURNING *;
 			`);
-			console.log(newBlog.rows[0]);
 			res.json(newBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
