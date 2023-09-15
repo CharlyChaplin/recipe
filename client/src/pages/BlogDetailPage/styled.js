@@ -113,5 +113,6 @@ export const BlogTextWrapper = styled(({ content, ...props }) => (
 	article {
 		text-indent: ${rem(25)};
 		hyphens: auto;
+		white-space: pre-line;
 	}
 `;

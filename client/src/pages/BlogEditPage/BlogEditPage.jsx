@@ -10,7 +10,7 @@ import Button from 'components/Button/Button';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import vars from 'init/vars';
 import Input from 'components/Input/Input';
-import { blogEditBlog } from 'redux/slices/blogSlice';
+import { blogEditBlog, clearBlogData } from 'redux/slices/blogSlice';
 import { showInfo } from 'redux/slices/infoSlice';
 import DropdownList from 'components/DropdownList'
 import { userGetUsersNickname } from 'redux/slices/userSlice';
@@ -30,7 +30,7 @@ const BlogEditPage = () => {
 		oldBlogCaption: ''
 	});
 	const { userData, users, usersName } = useSelector(state => state.userReducer);
-	const { blogData, loading, errors } = useSelector(state => state.blogReducer);
+	const { blogData, loading, errors, completed } = useSelector(state => state.blogReducer);
 	const [selected, setSelected] = useState('');
 	const [inputText, setInputText] = useState(selected);
 	const [receivedData, setReceivedData] = useState();	// для перерисовки компонента
@@ -47,12 +47,18 @@ const BlogEditPage = () => {
 		setInputText(blogData.name);
 		setFields({ ...fields, oldBlogCaption: dataSource?.caption });
 
-		// проверяем, если после запроса 'edit' данные получены,
-		// то переходим на страницу изменённого блога
-		if (blogData[0]?.id) navigate(`/blog/${blogData[0].caption_lat}`);
-
 		return () => localStorage.removeItem('blogEdit');
 	}, [blogData]);
+
+	useEffect(() => {
+		// проверяем, если после запроса 'edit' данные получены,
+		// то переходим на страницу изменённого блога
+		if (completed) {
+			navigate(`/blog/${blogData.caption_lat}`);
+		}
+
+		// return () => dispatch(clearBlogData());
+	}, [completed]);
 
 	const getBlog = useCallback(() => {
 		if (Object.keys(blogData).length) {

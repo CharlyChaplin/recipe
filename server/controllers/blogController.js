@@ -19,7 +19,7 @@ class BlogController {
 		const [file] = Object.values(req.files);
 
 		const captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
-		
+
 		try {
 			// описываем путь, по которому расположится папка блога
 			const mainPath = `static/blogs/${captionLat}`;
@@ -92,66 +92,67 @@ class BlogController {
 		let file = null;
 		if (req.files) file = Object.values(req.files)[0];
 
-		// console.log(dateadd, owner, caption, description, oldBlogCaption, file);
 
-		// берём данные из текущего состояния блога
-		const blogNow = await db.query(`
+		try {
+			// берём данные из текущего состояния блога
+			const blogNow = await db.query(`
 			SELECT * FROM blog
 			WHERE caption='${oldBlogCaption}';
 		`);
 
-		// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
-		if (!dateadd) {
-			dateadd = blogNow.rows[0].dateadd;
-		};
+			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
+			if (!dateadd) {
+				dateadd = blogNow.rows[0].dateadd;
+			};
+			dateadd = datePrepareForFrontend(dateadd);
 
-		if (!caption) {
-			caption = blogNow.rows[0].caption;
-		};
-		if (!description) {
-			description = blogNow.rows[0].description;
-		};
-		if (!owner) {
-			const currentOwner = await db.query(`
+			if (!caption) {
+				caption = blogNow.rows[0].caption;
+			};
+			if (!description) {
+				description = blogNow.rows[0].description;
+			};
+			if (!owner) {
+				const currentOwner = await db.query(`
 				SELECT B.user_id FROM blog A, persondata B
 				WHERE A.caption='${oldBlogCaption}' AND A.user_id=B.user_id;
 			`);
-			owner = currentOwner.rows[0].user_id;
-		} else {
-			const getOwnerId = await db.query(`
+				owner = currentOwner.rows[0].user_id;
+			} else {
+				const getOwnerId = await db.query(`
 				SELECT user_id FROM persondata
 				WHERE name='${owner}';
 			`);
-			owner = getOwnerId.rows[0].user_id;
-		}
+				owner = getOwnerId.rows[0].user_id;
+			}
 
-		// определяем пути для изображений
-		let photoorig = blogNow.rows[0].photoorig;
-		let photopreview = blogNow.rows[0].photopreview;
+			// определяем пути для изображений
+			let photoorig = blogNow.rows[0].photoorig;
+			let photopreview = blogNow.rows[0].photopreview;
 
-		// изменяем название папки блога в папке blogs в случае изменения названия блога
-		if (caption != undefined && (caption !== oldBlogCaption)) {
-			// описываем путь для старой папки блога
-			const oldPath = `static/blogs/${translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_')}`;
-			// описываем путь для новой папки блога
-			const newPath = `static/blogs/${translitPrepare(caption).toLowerCase().replaceAll(" ", '_')}`;
-			// переименовываем папку для блога
-			fs.renameSync(oldPath, newPath, err => console.log(err));
-			photoorig = `${newPath.replace('static', '')}/photo.jpg`;
-			photopreview = `${newPath.replace('static', '')}/photo.jpg`;
-		}
+			// изменяем название папки блога в папке blogs в случае изменения названия блога
+			if (caption != undefined && (caption !== oldBlogCaption)) {
+				// описываем путь для старой папки блога
+				const oldPath = `static/blogs/${translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_')}`;
+				// описываем путь для новой папки блога
+				const newPath = `static/blogs/${translitPrepare(caption).toLowerCase().replaceAll(" ", '_')}`;
+				// переименовываем папку для блога
+				fs.renameSync(oldPath, newPath, err => console.log(err));
+				photoorig = `${newPath.replace('static', '')}/photo.jpg`;
+				photopreview = `${newPath.replace('static', '')}/photo.jpg`;
+			}
 
-		// если картинка была заменёна
-		if (file) {
-			// перемещаем файл в папку
-			file.mv(`static/${photoorig}`, err => {
-				if (err) {
-					return res.status(500).send({ err: err, msg: "Error occurred" });
-				}
-			});
-		}
+			// если картинка была заменёна
+			if (file) {
+				// перемещаем файл в папку
+				file.mv(`static/${photoorig}`, err => {
+					if (err) {
+						return res.status(500).send({ err: err, msg: "Error occurred" });
+					}
+				});
+			}
 
-		try {
+
 			const updatedBlog = await db.query(`
 				UPDATE blog
 				SET dateadd='${datePrepareForDB(dateadd)}',
@@ -165,8 +166,9 @@ class BlogController {
 				RETURNING *;
 			`);
 			if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");
-			res.json(updatedBlog.rows);
+			res.json(updatedBlog.rows[0]);
 		} catch (err) {
+			console.log(err);
 			res.status(400).json({ message: err });
 		}
 

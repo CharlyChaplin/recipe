@@ -63,10 +63,9 @@ const RecipeEditPage = () => {
 	}, [ingredients]);
 
 	useEffect(() => {
-		if (completed) {
-			dispatch(clearRecipeData());
-			navigate(`/recipe/${recipeData.caption}`);
-		};
+		if (completed) navigate(`/recipe/${recipeData.caption}`);
+
+		return () => dispatch(clearRecipeData());
 	}, [completed]);
 
 
@@ -221,7 +220,7 @@ const RecipeEditPage = () => {
 								<RecipeIngredientsWrapper>
 									<RecipeMiniCaption text="Ингредиенты:" />
 									<RecipeBlockContentWrapperForIngredients>
-										
+
 										<Button equalPadding action={addIngredient} ><AddICO /></Button>
 										<hr />
 										<RecipeIngredientsItemsWrapper>

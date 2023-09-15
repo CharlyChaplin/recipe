@@ -129,11 +129,13 @@ export const blogSlice = createSlice({
 		build.addCase(blogEditBlog.fulfilled, (state, action) => {
 			state.loading = false;
 			state.blogData = action.payload;
+			state.completed = true;
 			state.errors = "";
 		});
 		build.addCase(blogEditBlog.rejected, (state, action) => {
 			state.loading = false;
 			state.blogData = [];
+			state.completed = false;
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
