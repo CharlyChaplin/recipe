@@ -56,7 +56,7 @@ class CategoryController {
 			const photopreview = previewPath && previewPath.replace('static', '');
 			const bg = bgPath && bgPath.replace('static', '');
 
-			ResetSeq.resetSequence('category');
+			await ResetSeq.resetSequence('category');
 			const newCategory = await db.query(`
 				INSERT INTO category(user_id, caption, photopreview, bg, caption_lat)
 				VALUES ('${user_id}','${categoryText}', '${photopreview}', '${bg}', '${captionLat}')

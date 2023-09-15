@@ -44,7 +44,7 @@ class BlogController {
 
 		try {
 			// сбрасываем счётчик последовательности в таблице blog
-			ResetSeq.resetSequence('blog');
+			await ResetSeq.resetSequence('blog');
 			const newBlog = await db.query(`
 				INSERT INTO blog(user_id, dateadd, caption, caption_lat, photoorig, photopreview, description)
 				VALUES (${userId}, '${datePrepareForDB(dateadd)}', '${caption}', '${captionLat}', '${photoorig}', '${photopreview}', '${description}')

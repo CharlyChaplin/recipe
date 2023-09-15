@@ -48,7 +48,7 @@ class RecipeController {
 
 		try {
 			// сбрасываем счётчик последовательности в таблице recipe
-			ResetSeq.resetSequence('recipe');
+			await ResetSeq.resetSequence('recipe');
 			// добавляем запись в таблицу recipe
 			const newRecipe = await db.query(`
 				INSERT INTO recipe(user_id, category_id, dateadd, caption, caption_lat, photoorig, photopreview, shortdescription, cookingtext)
@@ -63,7 +63,7 @@ class RecipeController {
 				)
 			});
 			// сбрасываем последовательность
-			ResetSeq.resetSequence('ingredient');
+			await ResetSeq.resetSequence('ingredient');
 			// добавляем запись
 			const newIngredients = await db.query(`
 				INSERT INTO ingredient(user_id, recipe_id, caption)
@@ -244,8 +244,8 @@ class RecipeController {
 					`(${owner}, ${recipeNow.rows[0].id}, '${ing}')`
 				)
 			});
-			// устанавливаем последовательность на MAX значение текущего id + 1
-			// ResetSeq.resetSequence('ingredient');
+			// сбрасываем счётчик последовательности в таблице ingredient
+			await ResetSeq.resetSequence('ingredient');
 			// добавляем запись
 			const newIngredients = await db.query(`
 				INSERT INTO ingredient(user_id, recipe_id, caption)

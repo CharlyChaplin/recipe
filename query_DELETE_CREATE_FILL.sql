@@ -144,7 +144,6 @@ ALTER TABLE IF EXISTS public.users
     ON DELETE NO ACTION
     NOT VALID;
 
-
 ALTER TABLE IF EXISTS public.category
     ADD CONSTRAINT "Category_FK_Error" FOREIGN KEY (user_id)
     REFERENCES public.users (id) MATCH SIMPLE
@@ -250,5 +249,5 @@ INSERT INTO public.users (id, email, password, role, isactivated, activationlink
 ----------------
 INSERT INTO public.persondata (id, user_id, name, avatar) VALUES (1, 1, 'CRASH', NULL);
 ----------------
-INSERT INTO public.token (id, user_id, ) VALUES (1, 1, NULL);
+INSERT INTO public.token (id, user_id, refreshtoken) VALUES (1, 1, NULL);
 ----------------

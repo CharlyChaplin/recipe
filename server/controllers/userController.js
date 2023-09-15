@@ -34,7 +34,7 @@ class UserController {
 			const activationLink = nanoid();
 
 			// сбрасываем счётчик последовательности в таблице users
-			ResetSeq.resetSequence('users');
+			await ResetSeq.resetSequence('users');
 			// записываем в БД пользователя
 			const newUser = await db.query(`
 				INSERT INTO users (email, password, role, isactivated, activationlink)
@@ -42,22 +42,17 @@ class UserController {
 				RETURNING *;
 			`);
 
-			try {
-				// сбрасываем счётчик последовательности в таблице persondata
-				ResetSeq.resetSequence('persondata');
-				// создаём запись в таблице persondata
-				const newPersonData = await db.query(`
+			// сбрасываем счётчик последовательности в таблице persondata
+			await ResetSeq.resetSequence('persondata');
+			// создаём запись в таблице persondata
+			const newPersonData = await db.query(`
 				INSERT INTO persondata (user_id)
 				VALUES (${newUser.rows[0].id})
 				RETURNING *;
 			`);
-			} catch (err) {
-				const deleteFromUsers = await db.query(`DELETE FROM users WHERE id=${newUser.rows[0].id} RETURNING *;`);
-				throw ApiError.BadRequest('Internal Error');
-			}
 
 			// сбрасываем счётчик последовательности в таблице token
-			ResetSeq.resetSequence('token');
+			await ResetSeq.resetSequence('token');
 			// записываем в БД поле refreshToken. Это поле пустое, т.к. юзер не логинился
 			const newRefreshToken = await db.query(`
 				INSERT INTO token (user_id, refreshtoken)
@@ -76,6 +71,7 @@ class UserController {
 
 			res.json({ message: "User registered. Check your e-mail." });
 		} catch (err) {
+			// console.log("Err=", err);
 			next(err);
 		}
 	}

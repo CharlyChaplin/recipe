@@ -6,10 +6,9 @@ import db from '../db.js';
 
 class ResetSeq {
 
-	static resetSequence(tableName) {
-		db.query(`SELECT MAX(id) FROM ${tableName};`)
-			.then(resp => db.query(`ALTER SEQUENCE ${tableName}_id_seq RESTART WITH ${resp.rows[0].max + 1};`));
-
+	static async resetSequence(tableName) {
+		const max = await db.query(`SELECT MAX(id) FROM ${tableName};`);
+		const reset = await db.query(`ALTER SEQUENCE ${tableName}_id_seq RESTART WITH ${max.rows[0].max + 1};`);
 	}
 
 }
