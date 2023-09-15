@@ -38,10 +38,9 @@ const BlogAddPage = () => {
 	}, [blogData]);
 
 	useEffect(() => {
-		if (completed) {
-			dispatch(clearBlogData());
-			navigate(`/blog/${blogData.id}`);
-		};
+		if (completed) navigate(`/blog/${blogData.caption_lat}`);
+
+		return () => dispatch(clearBlogData());
 	}, [completed]);
 
 

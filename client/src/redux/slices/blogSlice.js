@@ -93,7 +93,7 @@ export const blogGetPreviewBlogs = createAsyncThunk(
 
 
 export const blogSlice = createSlice({
-	name: 'recipeSlice',
+	name: 'blogSlice',
 	initialState,
 	reducers: {
 		clearBlogData: (state, action) => {
@@ -155,7 +155,6 @@ export const blogSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(blogGetBlog.pending, (state, action) => {
 			state.loading = true;
-			state.blogData = [];
 			state.errors = "";
 		});
 		build.addCase(blogGetBlog.fulfilled, (state, action) => {

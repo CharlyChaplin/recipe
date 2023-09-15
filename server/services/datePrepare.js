@@ -31,7 +31,10 @@ export function datePrepareForFrontend(val) {
 // принимает формат 15.08.2023
 // возвращает формат 2023-08-15
 export function datePrepareForDB(val) {
-	const time = new Date(val.split('.').reverse().join('-'));
+	const time = new Date(val
+		.split('.')
+		.reverse()
+	);
 
-	return time;
+	return [time.getFullYear(), time.getMonth() + 1, time.getDate()].join('-');
 };
