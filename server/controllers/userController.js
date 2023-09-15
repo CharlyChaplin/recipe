@@ -151,7 +151,7 @@ class UserController {
 				`);
 			// В Cookies сохраняем accessToken и refreshToken
 			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000 });
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true});
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true });
 			// userData = { ...userData };
 			res.json(userData);
 		} catch (err) {
@@ -225,7 +225,7 @@ class UserController {
 			`);
 			if (!newRefreshToken) throw ApiError.BadRequest("Can't to update refreshToken.");
 			// обновляем cookie для refreshToken
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true});
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true });
 			res.json({ message: "Congratulations! You're activated!" });
 		} catch (err) {
 			next(err);
@@ -348,7 +348,9 @@ class UserController {
 					rolecyr: strRole.rows[0].roledescription,
 					isactivated: getUser.rows[0].isactivated,
 					nickname: getUserData.rows[0]?.name || null,
-					avatar: config().parsed.LOCAL_ADDRESS + '/' + getUserData.rows[0]?.avatar || null
+					avatar: getUserData.rows[0]?.avatar
+						? config().parsed.LOCAL_ADDRESS + '/' + getUserData.rows[0].avatar
+						: null
 				}
 			};
 			res.json(userData);

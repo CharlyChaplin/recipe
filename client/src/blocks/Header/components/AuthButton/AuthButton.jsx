@@ -12,7 +12,8 @@ const AuthButton = () => {
 	const { isAuth, userData, loading } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
 	const [isShowMenu, setIsShowMenu] = useState(false);
-	const [image, setImage] = useState('');
+	const [image, setImage] = useState(null);
+	
 	useEffect(() => {
 		if (userData.user?.avatar) {
 			setImage(`${userData.user?.avatar}`);
@@ -27,6 +28,7 @@ const AuthButton = () => {
 		await dispatch(showInfo({ text: "Выходим?", isConfirm: { ok: "Да", cancel: "Нет" }, logoutAction }));
 	}
 
+	
 
 	return (
 		<>
