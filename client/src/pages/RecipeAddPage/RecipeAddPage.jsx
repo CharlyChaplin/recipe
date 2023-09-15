@@ -156,8 +156,8 @@ const RecipeAddPage = () => {
 
 												<AddPhotoBlockForRecipeAdd><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipeAdd>
 												<RecipeLeftTopTextWrapper>
-													<Input name='caption' handleChange={changeInput} center placeholder="Название блюда..." />
-													<Input type='textarea' name='shortDescription' handleChange={changeInput} placeholder="Краткое описание..." fz={12} />
+													<Input name='caption' handleChange={changeInput} value={fields.caption} center placeholder="Название блюда..." />
+													<Input type='textarea' name='shortDescription' handleChange={changeInput} value={fields.shortDescription} placeholder="Краткое описание..." fz={12} />
 												</RecipeLeftTopTextWrapper>
 
 											</RecipeLeftTopWrapper>
