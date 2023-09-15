@@ -250,3 +250,5 @@ INSERT INTO public.users (id, email, password, role, isactivated, activationlink
 ----------------
 INSERT INTO public.persondata (id, user_id, name, avatar) VALUES (1, 1, 'CRASH', NULL);
 ----------------
+INSERT INTO public.token (id, user_id, ) VALUES (1, 1, NULL);
+----------------

@@ -21,7 +21,6 @@ ax.interceptors.response.use(response => {
 },
 	async error => {
 		const originalRequest = error.config;
-		console.log(error);
 		if (error.response.status === 401 && error.config && !error.config._isRetry) {
 			error.config._isRetry = true;
 			try {
