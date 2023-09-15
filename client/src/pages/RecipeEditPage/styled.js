@@ -47,7 +47,7 @@ export const RecipeEditTop = styled(({ children, ...props }) => (
 	}
 `;
 
-export const RecipeWrapper = styled(({ children, ...props }) => (
+export const RecipeWrapper = styled(({ noLine, children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
 	display: flex;
@@ -58,7 +58,7 @@ export const RecipeWrapper = styled(({ children, ...props }) => (
 	width: 100%;
 	position: relative;
 	&:after {
-		content: '';
+		content: ${({ noLine }) => noLine ? 'none' : ''};
 		position: absolute;
 		top: 0;
 		left: calc(50% - 1px);
@@ -66,6 +66,17 @@ export const RecipeWrapper = styled(({ children, ...props }) => (
 		width: ${rem(1)};
 		background-color: ${vars.adminLayer};
 		box-shadow: ${rem(0)} ${rem(4)} ${rem(4)} ${rem(0)} ${rgba(vars.darkGreen, 0.25)} inset;
+	}
+	
+	h1 {
+		font-family: sans-serif;
+		text-transform: uppercase;
+		letter-spacing: ${rem(1)};
+		${adaptiveValue('font-size', 25, 18)};
+		color: ${vars.redColor};
+		line-height: 1.5;
+		width: 100%;
+		text-align: center;
 	}
 	
 	@media (max-width: ${em(992)}) {

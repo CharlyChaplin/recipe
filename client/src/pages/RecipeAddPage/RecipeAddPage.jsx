@@ -6,7 +6,7 @@ import vars from 'init/vars';
 import { AddPhotoBlockForRecipe, ContentWrapperChangedForRecipeEdit, RecipeCookingText, RecipeCookingTextWrapper, RecipeEditButtonWrapper, RecipeIngredientsWrapper, RecipeLeft, RecipeLeftTopTextWrapper, RecipeLeftTopWrapper, RecipeMiniCaption, RecipeRight, RecipeWrapper } from 'pages/RecipeEditPage/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { datePrepare } from 'utils/datePrepare';
-import { AddPhotoBlockForRecipeAdd, RecipeAddTop, RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from './styled';
+import { AddPhotoBlockForRecipeAdd, InnerWrapperChangedForRecipeAdd, RecipeAddTop, RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper } from './styled';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import Input from 'components/Input/Input';
 import { useCallback } from 'react';
@@ -29,11 +29,11 @@ const RecipeAddPage = () => {
 		dateadd: '',
 		owner: '',
 		picture: '',
-		caption: 'CRASH',
-		shortDescription: 'short Description',
+		caption: '',
+		shortDescription: '',
 		ingredients: [],
 		category: '',
-		cookingText: 'How to cooking...'
+		cookingText: ''
 	});
 	const { userData, errors } = useSelector(state => state.userReducer);
 	const { recipeData, loading, completed } = useSelector(state => state.recipeReducer);
@@ -132,8 +132,8 @@ const RecipeAddPage = () => {
 		<>
 			<MainWrapper image={bg}>
 
-				<InnerWrapper>
-
+				<InnerWrapperChangedForRecipeAdd>
+					
 					<SectionHeader color={vars.whiteColor}><ContentPaddingTop />Добавляем рецепт</SectionHeader>
 					<ContentWrapperChangedForRecipeEdit>
 
@@ -146,82 +146,96 @@ const RecipeAddPage = () => {
 							</div>
 						</RecipeAddTop>
 
-						<RecipeWrapper>
+						<RecipeWrapper noLine={!categoryData.length}>
+							{
+								categoryData.length
+									?
+									<>
+										<RecipeLeft>
+											<RecipeLeftTopWrapper>
 
-							<RecipeLeft>
-								<RecipeLeftTopWrapper>
+												<AddPhotoBlockForRecipeAdd><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipeAdd>
+												<RecipeLeftTopTextWrapper>
+													<Input name='caption' handleChange={changeInput} center placeholder="Название блюда..." />
+													<Input type='textarea' name='shortDescription' handleChange={changeInput} placeholder="Краткое описание..." fz={12} />
+												</RecipeLeftTopTextWrapper>
 
-									<AddPhotoBlockForRecipeAdd><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipeAdd>
-									<RecipeLeftTopTextWrapper>
-										<Input name='caption' handleChange={changeInput} center placeholder="Название блюда..." />
-										<Input type='textarea' name='shortDescription' handleChange={changeInput} placeholder="Краткое описание..." fz={12} />
-									</RecipeLeftTopTextWrapper>
+											</RecipeLeftTopWrapper>
 
-								</RecipeLeftTopWrapper>
+											<RecipeIngredientsWrapper>
+												<RecipeMiniCaption text="Ингредиенты:" />
+												<RecipeBlockContentWrapperForIngredients>
+													<Button equalPadding action={addIngredient} ><AddICO /></Button>
+													<hr />
+													<RecipeIngredientsItemsWrapper>
+														{
+															ingredients.map((ingredient, index) => {
+																return (
+																	<IngredientItem
+																		key={index}
+																		name={index}
+																		data={ingredient.data}
+																		mode={ingredient.mode}
+																		value={ingredient.value}
+																		handleChange={changeIngredients}
+																		getKey={changeKeyPressIngredients}
+																		deleteAction={() => deleteIngredient(index)}
+																	/>
+																)
+															})
+														}
+													</RecipeIngredientsItemsWrapper>
+												</RecipeBlockContentWrapperForIngredients>
 
-								<RecipeIngredientsWrapper>
-									<RecipeMiniCaption text="Ингредиенты:" />
-									<RecipeBlockContentWrapperForIngredients>
-										<Button equalPadding action={addIngredient} ><AddICO /></Button>
-										<hr />
-										<RecipeIngredientsItemsWrapper>
-											{
-												ingredients.map((ingredient, index) => {
-													return (
-														<IngredientItem
-															key={index}
-															name={index}
-															data={ingredient.data}
-															mode={ingredient.mode}
-															value={ingredient.value}
-															handleChange={changeIngredients}
-															getKey={changeKeyPressIngredients}
-															deleteAction={() => deleteIngredient(index)}
-														/>
-													)
-												})
-											}
-										</RecipeIngredientsItemsWrapper>
-									</RecipeBlockContentWrapperForIngredients>
+											</RecipeIngredientsWrapper>
 
-								</RecipeIngredientsWrapper>
+											<RecipeIngredientsWrapper>
+												<RecipeMiniCaption text="Категория:" />
+												<RecipeBlockContentWrapper>
+													{
+														categoryLoading
+															? <Spinner height={26} />
+															: <DropdownList elements={(categoryData?.map(el => el.caption))} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
+													}
 
-								<RecipeIngredientsWrapper>
-									<RecipeMiniCaption text="Категория:" />
-									<RecipeBlockContentWrapper>
-										{
-											categoryLoading
-												? <Spinner height={26} />
-												: <DropdownList elements={(categoryData?.map(el => el.caption))} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
-										}
+												</RecipeBlockContentWrapper>
+											</RecipeIngredientsWrapper>
 
-									</RecipeBlockContentWrapper>
-								</RecipeIngredientsWrapper>
+										</RecipeLeft>
 
-							</RecipeLeft>
+										<RecipeRight>
 
+											<RecipeCookingTextWrapper>
+												<RecipeMiniCaption text="Способ приготовления:" />
+												<RecipeCookingText>
+													<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." handleChange={changeInput} />
+												</RecipeCookingText>
+											</RecipeCookingTextWrapper>
 
-							<RecipeRight>
+										</RecipeRight>
+									</>
+									: <h1>Для начала создайте категории!</h1>
+							}
 
-								<RecipeCookingTextWrapper>
-									<RecipeMiniCaption text="Способ приготовления:" />
-									<RecipeCookingText>
-										<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." handleChange={changeInput} />
-									</RecipeCookingText>
-								</RecipeCookingTextWrapper>
-
-							</RecipeRight>
 
 						</RecipeWrapper>
 
 						<RecipeEditButtonWrapper>
-							<Button action={handleAddRecipe}>Добавить</Button>
-							<Button onClick={() => navigate(paths.categories)}>Отмена</Button>
+							{
+								categoryData.length > 0
+									?
+									<>
+										<Button action={handleAddRecipe}>Добавить</Button>
+										<Button onClick={() => navigate(paths.categories)}>Отмена</Button>
+									</>
+									: <Button onClick={() => navigate(paths.profile)}>Отмена</Button>
+							}
+
 						</RecipeEditButtonWrapper>
 
 					</ContentWrapperChangedForRecipeEdit>
 
-				</InnerWrapper>
+				</InnerWrapperChangedForRecipeAdd>
 
 			</MainWrapper>
 		</>

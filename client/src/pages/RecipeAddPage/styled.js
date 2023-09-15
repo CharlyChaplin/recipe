@@ -2,9 +2,16 @@ import { styled } from "styled-components";
 import { adaptiveValue, em, rem } from "init/mixins";
 import { AddPhotoBlockForRecipe, RecipeEditTop } from "pages/RecipeEditPage/styled";
 import vars from "init/vars";
-import { EditNotEdit, RecipeBlockContentWrapper } from "pages/pages.styled";
+import { EditNotEdit, InnerWrapper, RecipeBlockContentWrapper } from "pages/pages.styled";
 import { lighten, rgba } from "polished";
 
+
+
+
+export const InnerWrapperChangedForRecipeAdd = styled(InnerWrapper)`
+	${adaptiveValue("padding-left", 20, 10)};
+	${adaptiveValue("padding-right", 20, 10)};
+`;
 
 export const RecipeAddTop = styled(RecipeEditTop)`
 	color: ${lighten(.2, vars.text)};
