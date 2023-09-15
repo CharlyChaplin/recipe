@@ -180,7 +180,6 @@ const RecipeEditPage = () => {
 	}
 
 
-	// console.log(fields);
 
 
 

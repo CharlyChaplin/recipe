@@ -18,31 +18,31 @@ class BlogController {
 		const { dateadd, caption, description } = req.body;
 		const [file] = Object.values(req.files);
 
-
 		const captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
-
-		// описываем путь, по которому расположится папка блога
-		const mainPath = `static/blogs/${captionLat}`;
-		// создаём папку для блога
-		fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
-		// описываем путь, по которому расположится файл
-		const filePath = `${mainPath}/photo.jpg`;
-		// перемещаем файл в папку
-		file.mv(`${filePath}`, err => {
-			if (err) {
-				return res.status(500).send({ err: err, msg: "Error occurred" });
-			}
-		});
-
-		// получаем id юзера по e-mail из токена
-		const getUserId = await db.query(`SELECT id FROM users WHERE email='${isAccessValid.email}';`)
-		const userId = getUserId.rows[0].id;
-
-		// убираем из пути слово 'static'
-		const photoorig = filePath.replace('static', '');
-		const photopreview = filePath.replace('static', '');
-
+		
 		try {
+			// описываем путь, по которому расположится папка блога
+			const mainPath = `static/blogs/${captionLat}`;
+			// создаём папку для блога
+			fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
+			// описываем путь, по которому расположится файл
+			const filePath = `${mainPath}/photo.jpg`;
+			// перемещаем файл в папку
+			file.mv(`${filePath}`, err => {
+				if (err) {
+					return res.status(500).send({ err: err, msg: "Error occurred" });
+				}
+			});
+
+			// получаем id юзера по e-mail из токена
+			const getUserId = await db.query(`SELECT id FROM users WHERE email='${isAccessValid.email}';`)
+			const userId = getUserId.rows[0].id;
+
+			// убираем из пути слово 'static'
+			const photoorig = filePath.replace('static', '');
+			const photopreview = filePath.replace('static', '');
+
+
 			// сбрасываем счётчик последовательности в таблице blog
 			await ResetSeq.resetSequence('blog');
 			const newBlog = await db.query(`

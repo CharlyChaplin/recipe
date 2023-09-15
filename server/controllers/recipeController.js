@@ -16,37 +16,40 @@ class RecipeController {
 
 		// после всех проверок достаём рецепт и файл картинки для занесения их в БД
 		const { dateadd, owner, caption, shortDescription, ingredients, category, cookingText } = req.body;
-		let picture;
-		if (req.files) picture = Object.values(req.files);
-
-		const captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
-
-		// описываем путь, по которому расположится папка рецепта
-		const mainPath = `static/recipe/${captionLat}`;
-		// создаём папку для рецепта
-		fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
-		// описываем путь, по которому расположится файл
-		const filePath = `${mainPath}/photo.jpg`;
-		// перемещаем файл в папку
-		picture.mv(`${filePath}`, err => {
-			if (err) {
-				return res.status(500).send({ err: err, msg: "Error occurred" });
-			}
-		});
-
-		// получаем id категории
-		const getCategoryId = await db.query(`SELECT id FROM category WHERE caption='${category}'`);
-		const categoryId = getCategoryId.rows[0].id;
-
-		// получаем id юзера по e-mail из токена
-		const getUserId = await db.query(`SELECT id FROM users WHERE email='${isAccessValid.email}';`)
-		const userId = getUserId.rows[0].id;
-
-		// убираем из пути слово 'static'
-		const photoorig = filePath.replace('static', '');
-		const photopreview = filePath.replace('static', '');
 
 		try {
+			let picture;
+			if (req.files) picture = Object.values(req.files)[0];
+
+			const captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
+
+			// описываем путь, по которому расположится папка рецепта
+			const mainPath = `static/recipe/${captionLat}`;
+			// создаём папку для рецепта
+			fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
+			// описываем путь, по которому расположится файл
+			const filePath = `${mainPath}/photo.jpg`;
+
+			// перемещаем файл в папку
+			picture.mv(`${filePath}`, err => {
+				if (err) {
+					return res.status(500).send({ err: err, msg: "Error occurred" });
+				}
+			});
+
+			// получаем id категории
+			const getCategoryId = await db.query(`SELECT id FROM category WHERE caption='${category}'`);
+			const categoryId = getCategoryId.rows[0].id;
+
+			// получаем id юзера по e-mail из токена
+			const getUserId = await db.query(`SELECT id FROM users WHERE email='${isAccessValid.email}';`)
+			const userId = getUserId.rows[0].id;
+
+			// убираем из пути слово 'static'
+			const photoorig = filePath.replace('static', '');
+			const photopreview = filePath.replace('static', '');
+
+
 			// сбрасываем счётчик последовательности в таблице recipe
 			await ResetSeq.resetSequence('recipe');
 			// добавляем запись в таблицу recipe
@@ -77,7 +80,7 @@ class RecipeController {
 			res.json(recipeData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 	}
 
@@ -111,7 +114,7 @@ class RecipeController {
 			res.json(deletedRecipe.rows[0].caption);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 
 	}
@@ -278,13 +281,13 @@ class RecipeController {
 			`);
 			if (!isRecipe.rowCount) throw ApiError.NotFoundURL("Not found data");
 			isRecipe.rows[0].dateadd = datePrepareForFrontend(isRecipe.rows[0].dateadd);
-			
+
 			// достаём владельца рецепта
 			const owner = await db.query(`
 				SELECT name FROM persondata
 				WHERE user_id=${isRecipe.rows[0].user_id};
 			`);
-			
+
 			let recipeData = Object.assign(
 				{},
 				isRecipe.rows[0],
@@ -342,7 +345,7 @@ class RecipeController {
 						const out = resp.rows.map(item => item.caption);
 						res.json(out);
 					})
-					.catch(err => res.status(400).json({message: err}));
+					.catch(err => res.status(400).json({ message: err }));
 			} else if (roleDescription === 'user') {
 				db.query(`
 					SELECT * FROM recipe
@@ -352,10 +355,10 @@ class RecipeController {
 						const out = resp.rows.map(item => item.caption);
 						res.json(out);
 					})
-					.catch(err => res.status(400).json({message: err}));
+					.catch(err => res.status(400).json({ message: err }));
 			}
 		} catch (err) {
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 
 	}
@@ -382,7 +385,7 @@ class RecipeController {
 
 			res.json(recipiesData);
 		} catch (err) {
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 	}
 
@@ -405,7 +408,7 @@ class RecipeController {
 			res.json(recipiesData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 	}
 }

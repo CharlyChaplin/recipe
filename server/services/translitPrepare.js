@@ -19,8 +19,9 @@ function translitPrepare(word){
 	};
  
 	for (var i = 0; i < word.length; ++i) {
-		if (converter[word[i]] === '') continue;
-		answer += converter[word[i]] ? converter[word[i]] : word[i];
+		if (converter[word[i]] === '' ) continue;
+		const regex = /\~|\`|\!|\@|\"|\#|\№|\$|\;|\'|\%|\^|\:|\&|\?|\*|\(|\)|-\|\+|\=|\||\\|\/|\<|\>|\{|\}|\[|\]/i;
+		answer += converter[word[i]] ? converter[word[i]] : word[i].replace(regex, '');
 	}
  
 	return answer;
@@ -28,4 +29,4 @@ function translitPrepare(word){
 
 export default translitPrepare;
 
-// console.log(translitPrepare("Борщ").toLowerCase().replaceAll(' ', '_'));
+// console.log(translitPrepare("Что такое здо#ровое питание?").toLowerCase().replaceAll(' ', '_'));
