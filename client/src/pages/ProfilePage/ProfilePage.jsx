@@ -82,7 +82,6 @@ const ProfilePage = () => {
 		});
 	}, [fields]);
 
-
 	const handleKey = e => { if (e.key === 'Enter') handleApplyProfile(); }
 
 	function showModal(e, mode) {
@@ -154,7 +153,6 @@ const ProfilePage = () => {
 		}
 		setModalVisible(true);
 	}
-
 
 	async function handleApplyProfile() {
 		const fd = new FormData();

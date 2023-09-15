@@ -443,7 +443,7 @@ class UserController {
 						rolecyr: strRole.rows[0].roledescription,
 						isactivated: getUser.rows[0].isactivated,
 						nickname: newNickName.rows[0].name,
-						avatar: newNickName.rows[0].avatar
+						avatar: config().parsed.LOCAL_ADDRESS + '/' + newNickName.rows[0].avatar
 					}
 				}
 			}
