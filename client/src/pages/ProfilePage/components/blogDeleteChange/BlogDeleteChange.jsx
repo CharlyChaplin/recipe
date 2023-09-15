@@ -77,6 +77,7 @@ const BlogDeleteChange = () => {
 					labelText="Название блога:"
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
 					labelPos={isNarrowScreen ? 'column' : 'row'}
+					minWidth={300}
 					inputText={inputText}
 					setInputText={setInputText}
 					selectedValue={handleSelected}
