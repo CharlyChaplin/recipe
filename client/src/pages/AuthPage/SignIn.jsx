@@ -16,7 +16,8 @@ const SignIn = () => {
 	const [login, setLogin] = useState('admin@lexun.ru');
 	const [password, setPassword] = useState('0611920');
 	const navigate = useNavigate();
-	const { userData, loading } = useSelector(state => state.userReducer);
+	const { userData } = useSelector(state => state.userReducer);
+	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 
 
@@ -52,25 +53,29 @@ const SignIn = () => {
 		fd.append('email', login);
 		fd.append('password', password);
 		try {
+			setLoading(true);
 			const resp = await axios.post('/user/signin', fd);
 			if (resp.status && resp.status === 200) {
+				setLoading(false);
 				dispatch(showInfo({ text: getGreeting(resp.data.user?.nickname) }));
 			}
 			getAuth();
 			navigate(paths.home);
 		} catch (error) {
 			if (error.response.data.message === 'User not registered.') {
+				setLoading(false);
 				dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
 			} else {
+				setLoading(false);
 				dispatch(showInfo({ text: `${error.response.data.message}`, cancel: true }));
 			}
 		}
 
-	}, [dispatch, userData, login, password]);
+	}, [dispatch, userData, login, password, loading]);
 
 
 
-
+	
 
 	return (
 		<>

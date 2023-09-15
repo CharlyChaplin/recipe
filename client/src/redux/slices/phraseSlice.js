@@ -59,7 +59,11 @@ export const getRandomPhrase = createAsyncThunk(
 export const phraseSlice = createSlice({
 	name: 'phraseSlice',
 	initialState,
-	reducers: {},
+	reducers: {
+		clearPhraseData: (state, action) => {
+			state.phraseData = [];
+		}
+	},
 	extraReducers: (build) => {
 		//========================================================================================================================================================
 		build.addCase(phraseAddPhrase.pending, (state, action) => {
@@ -127,6 +131,6 @@ export const phraseSlice = createSlice({
 });
 
 
-export const { } = phraseSlice.actions;
+export const { clearPhraseData } = phraseSlice.actions;
 
 export default phraseSlice.reducer;

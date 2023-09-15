@@ -69,41 +69,45 @@ const Button = styled(({
 	svg {
 		width: ${rem(20)};
 		height: ${rem(20)};
-		fill: ${p => p.type === 'back' || p.type === 'plain'
-		? vars.lightGreen
-		: vars.text
-	};
+		fill: ${
+			p => p.type === 'back' || p.type === 'plain'
+				? vars.lightGreen
+				: vars.text
+		};
 		transition: all 0.25s ${vars.cubic} 0s;
 	}
 	
 	&:hover {
 		background: ${({ type, disabled }) =>
-		disabled
-			? vars.buttonDisabledColor
-			: type === 'dark'
-				? `linear-gradient(180deg, ${darken(.05, rgba(vars.buttonTopBottomDarkColor, 0.85))} 0%, ${darken(.05, rgba(vars.dark, 0.85))} 50%, ${darken(.05, rgba(vars.buttonTopBottomDarkColor, 0.85))} 100%)`
-				: type === 'back'
-					? `linear-gradient(180deg, ${darken(.1, vars.buttonTopColor)} 0%, ${darken(.1, vars.buttonBottomColor)} 100%)`
-					: type === 'plain'
-						? ''
-						: `linear-gradient(180deg, ${darken(.1, vars.buttonTopColor)} 0%, ${darken(.1, vars.buttonBottomColor)} 100%)`};
+			disabled
+				? vars.buttonDisabledColor
+				: type === 'dark'
+					? `linear-gradient(180deg, ${darken(.05, rgba(vars.buttonTopBottomDarkColor, 0.85))} 0%, ${darken(.05, rgba(vars.dark, 0.85))} 50%, ${darken(.05, rgba(vars.buttonTopBottomDarkColor, 0.85))} 100%)`
+					: type === 'back'
+						? `linear-gradient(180deg, ${darken(.1, vars.buttonTopColor)} 0%, ${darken(.1, vars.buttonBottomColor)} 100%)`
+						: type === 'plain'
+							? ''
+							: `linear-gradient(180deg, ${darken(.1, vars.buttonTopColor)} 0%, ${darken(.1, vars.buttonBottomColor)} 100%)`
+		};
 		
 		svg {
 			scale: ${({ type, disabled }) => (
-		disabled
-			? 1
-			: type === 'back'
-				? 1
-				: 1.25
-	)};
+				disabled
+					? 1
+					: type === 'back'
+						? 1
+						: 1.25
+			)};
+			
 			fill: ${({ equalPadding, mode, disabled }) => (
-		disabled
-			? vars.text
-			: equalPadding && mode === 'dangerIco'
-				? lighten(.35, vars.redColor)
-				: mode === 'back'
-					? 'none'
-					: vars.accent)};
+				disabled
+					? vars.text
+					: equalPadding && mode === 'dangerIco'
+						? lighten(.35, vars.redColor)
+						: mode === 'back'
+							? 'none'
+							: vars.accent)
+			};
 		}
 	}
 
@@ -118,7 +122,7 @@ const Button = styled(({
 		justify-content: center;
 		align-items: center;
 		gap: ${rem(10)};
-		width: 100%;
+		// width: 100%;
 	}
 `;
 

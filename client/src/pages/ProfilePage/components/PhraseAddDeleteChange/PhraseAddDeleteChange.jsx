@@ -33,9 +33,9 @@ const phraseAddChangeDelete = () => {
 	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
 	const mediaWatcher = window.matchMedia("(max-width: 800px)");
 	const updateIsNarrowScreen = e => setIsNarrowScreen(e.matches);
-	
+
 	useEffect(() => {
-		mediaWatcher.addEventListener('change', updateIsNarrowScreen)
+		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
 	}, []);
 
 
@@ -128,6 +128,7 @@ const phraseAddChangeDelete = () => {
 		setChangedPhrase(selected);
 	}
 
+	
 
 	return (
 		<>
@@ -149,7 +150,7 @@ const phraseAddChangeDelete = () => {
 				<HorizontalLine />
 
 				<DropdownList
-					elements={phraseData ? phraseData : []}
+					elements={phraseData.length ? phraseData : []}
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
 					minWidth={300}
 					inputText={inputText}

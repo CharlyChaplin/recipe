@@ -4,7 +4,7 @@ import { ContentWrapper, InnerWrapper } from "pages/pages.styled";
 
 
 export const InnerWrapperForCategories = styled(InnerWrapper)`
-	${adaptiveValue("gap", 70, 30)};
+	${adaptiveValue("gap", 50, 20)};
 	${adaptiveValue("padding-top", 30, 20)};
 `;
 

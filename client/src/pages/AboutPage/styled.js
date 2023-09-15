@@ -21,8 +21,7 @@ export const AboutWrapper = styled.div`
 	z-index: 0;
 	position: relative;
 	border: ${rem(1)} solid ${vars.dark};
-	max-width: ${rem(500)};
-`;
+	`;
 
 export const AboutContent = styled.div`
 	${adaptiveValue('padding', 30, 15)};
@@ -33,6 +32,7 @@ export const AboutContent = styled.div`
 	z-index: 1;
 	border: ${rem(1)} solid ${vars.text};
 	color: ${vars.text};
+	max-width: ${rem(500)};
 	
 	hr {
 		background-color: ${rgba(vars.text, .25)};
