@@ -15,8 +15,8 @@ import { showInfo } from 'redux/slices/infoSlice';
 
 const SignUp = () => {
 	const { userData } = useSelector(state => state.userReducer);
-	const [login, setLogin] = useState('admin@lexun.ru');
-	const [password, setPassword] = useState('0611920');
+	const [login, setLogin] = useState('');
+	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 	const { loading } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();

@@ -5,14 +5,24 @@ import nodeMailer from 'nodemailer';
 class MailService {
 
 	constructor(from, to, link) {
+		const {
+			EMAIL_HOST,
+			EMAIL_PORT,
+			EMAIL_SENDER,
+			EMAIL_PASSWORD
+		} = config().parsed;
+
 		this.transmitter = from;
 		this.receiver = to;
 		this.link = link;
 		this.mailer = nodeMailer.createTransport({
-			host: "smtp.spaceweb.ru",
-			port: 25,
+			host: EMAIL_HOST,
+			port: EMAIL_PORT,
 			secure: false,
-			auth: { user: "admin@lexun.ru", pass: "GavaNA121xsd" }
+			auth: {
+				user: EMAIL_SENDER,
+				pass: EMAIL_PASSWORD
+			}
 		});
 	}
 
@@ -29,12 +39,12 @@ class MailService {
 	async sendMail() {
 		const { LOCAL_ADDRESS } = config().parsed;
 		await this.mailer.sendMail({
-			from: `CRASH <${this.transmitter}>`,
+			from: `recipe_confirmation <${this.transmitter}>`,
 			to: this.receiver,
 			text: "",
 			html: `
 				<!DOCTYPE html>
-				<html lang="en">
+				<html lang="ru">
 				<head>
 					<meta charset="UTF-8">
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">

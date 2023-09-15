@@ -38,7 +38,7 @@ class UserController {
 			// записываем в БД пользователя
 			const newUser = await db.query(`
 				INSERT INTO users (email, password, role, isactivated, activationlink)
-				VALUES ('${email}', '${cipher}', 1, false, '${activationLink}')
+				VALUES ('${email}', '${cipher}', 2, false, '${activationLink}')
 				RETURNING *;
 			`);
 
@@ -69,17 +69,9 @@ class UserController {
 			// общая папка юзера
 			const mainPath = `static/users/${email}`;
 			fs.mkdirSync(mainPath, err => console.log(err));
-			/*
-			// папка для хранения блогов
-			const blogPath = mainPath + '/blog';
-			fs.mkdirSync(blogPath, err => console.log(err));
-			// папка для хранения рецептов
-			const recipePath = mainPath + '/recipe';
-			fs.mkdirSync(recipePath, err => console.log(err));
-			*/
 
 			// отправляем письмо
-			const mailService = new MailService('admin@lexun.ru', 'test@lexun.ru', activationLink);
+			const mailService = new MailService(config().parsed.EMAIL_SENDER, email, activationLink);
 			mailService.sendMail();
 
 			res.json({ message: "User registered. Check your e-mail." });

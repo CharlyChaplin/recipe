@@ -13,8 +13,8 @@ import Cookies from 'js-cookie';
 
 
 const SignIn = () => {
-	const [login, setLogin] = useState('admin@lexun.ru');
-	const [password, setPassword] = useState('0611920');
+	const [login, setLogin] = useState('');
+	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 	const { userData } = useSelector(state => state.userReducer);
 	const [loading, setLoading] = useState(false);
