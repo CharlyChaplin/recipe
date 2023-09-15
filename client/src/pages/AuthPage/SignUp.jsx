@@ -38,6 +38,7 @@ const SignUp = () => {
 	}
 
 	const handleSignUp = useCallback(async () => {
+		if (!login.length || !password.length) return;
 		const fd = new FormData();
 		fd.append('email', login);
 		fd.append('password', password);
