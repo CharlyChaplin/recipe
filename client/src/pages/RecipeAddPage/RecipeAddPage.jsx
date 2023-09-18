@@ -49,6 +49,11 @@ const RecipeAddPage = () => {
 
 	useEffect(() => {
 		if (completed) {
+			if (errors.length > 0 && !loading) {
+				dispatch(showInfo({ text: errors, cancel: true }));
+			} else {
+				dispatch(showInfo({ text: "Рецепт успешно добавлен", ok: true }));
+			}
 			dispatch(clearRecipeData());
 			navigate(`/recipe/${recipeData.recipe.caption_lat}`);
 		};
@@ -113,13 +118,6 @@ const RecipeAddPage = () => {
 
 		try {
 			dispatch(recipeAddRecipe(fd));
-			setTimeout(() => {
-				if (errors.length > 0 && !loading) {
-					dispatch(showInfo({ text: errors, cancel: true }));
-				} else {
-					dispatch(showInfo({ text: "Рецепт успешно добавлен", ok: true }));
-				}
-			}, 300);
 		} catch (error) {
 			console.log("Error: ", error);
 		}
@@ -133,7 +131,7 @@ const RecipeAddPage = () => {
 			<MainWrapper image={bg}>
 
 				<InnerWrapperChangedForRecipeAdd>
-					
+
 					<SectionHeader color={vars.whiteColor}><ContentPaddingTop />Добавляем рецепт</SectionHeader>
 					<ContentWrapperChangedForRecipeEdit>
 

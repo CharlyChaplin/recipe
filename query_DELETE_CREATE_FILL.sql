@@ -87,8 +87,7 @@ CREATE TABLE IF NOT EXISTS public.ingredient
     user_id integer NOT NULL,
     recipe_id integer NOT NULL,
     caption character varying(255) NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT "Ingredient_UNIQUE_Error" UNIQUE (caption)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.persondata
@@ -143,6 +142,7 @@ ALTER TABLE IF EXISTS public.users
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
+
 
 ALTER TABLE IF EXISTS public.category
     ADD CONSTRAINT "Category_FK_Error" FOREIGN KEY (user_id)
