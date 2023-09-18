@@ -36,7 +36,7 @@ class CategoryController {
 			const mainPath = `static/category/${captionLat}`;
 			// создаём папку для категории
 			fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
-			
+
 			// если есть файл изображения
 			if (picture) {
 				// описываем путь, по которому расположится файл
@@ -126,7 +126,7 @@ class CategoryController {
 			// определяем пути для изображений
 			let bgImage;
 			let photoPreview;
-			
+
 			// изменяем название папки категории в папке category в случае изменения названия категории
 			// описываем путь для старой папки категории
 			const oldPath = `static/category/${translitPrepare(oldCategory).toLowerCase().replaceAll(" ", '_')}`;
@@ -134,9 +134,7 @@ class CategoryController {
 			const newPath = `static/category/${categoryLat}`;
 			// переименовываем папку для категории
 			fs.renameSync(oldPath, newPath, err => console.log(err));
-			// создаём пути к файлам для БД
-			bgImage = `${newPath.replace('static', '')}/bg.jpg`;
-			photoPreview = `${newPath.replace('static', '')}/photo.jpg`;
+			
 
 			// если картинка была заменёна
 			if (file) {
@@ -145,7 +143,7 @@ class CategoryController {
 					.resize({ width: 170, height: 140 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 80 })
-					.toFile(photoPreview, (err, info) => {
+					.toFile(`${newPath}/photo.jpg`, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
@@ -155,13 +153,16 @@ class CategoryController {
 					.resize({ width: 1920, height: 1080 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 100 })
-					.toFile(bgImage, (err, info) => {
+					.toFile(`${newPath}/bg.jpg`, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
 					});
 			}
 
+			// создаём пути к файлам для БД
+			bgImage = `${newPath.replace('static', '')}/bg.jpg`;
+			photoPreview = `${newPath.replace('static', '')}/photo.jpg`;
 
 
 			const updatedCategory = await db.query(`

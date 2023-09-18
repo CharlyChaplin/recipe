@@ -3,7 +3,7 @@ import { NewImageOverlay, NewImagePicture, NewImagePlaceholder, NewImageWrapper 
 import { useEffect } from 'react';
 
 
-const ImageInsert = ({ currentFile, selectedFile, placeholder }) => {
+const ImageInsert = ({ currentFile, selectedFile, placeholder, clear }) => {
 	// console.log('currentFile=', currentFile, 'selectedFile=', selectedFile);
 	const [draggable, setDraggable] = useState(false);
 
@@ -13,9 +13,9 @@ const ImageInsert = ({ currentFile, selectedFile, placeholder }) => {
 
 
 	useEffect(() => {
-		console.log(file);
 		if (file) selectedFile(file);
-	}, [file]);
+		if (clear) setPreviewUrl("");
+	}, [file, clear]);
 
 	function handleDragEnter(e) {
 		e.preventDefault();
@@ -51,7 +51,6 @@ const ImageInsert = ({ currentFile, selectedFile, placeholder }) => {
 	}
 
 
-	// console.log(currentFile, previewUrl);
 	
 
 	return (

@@ -175,7 +175,7 @@ export const RecipeIngredientsWrapper = styled(({ children, ...props }) => (
 	flex-direction: column;
 	align-items: flex-start;
 	width: 100%;
-	${adaptiveValue('gap', 23, 10)};
+	${adaptiveValue('gap', 10, 5)};
 `;
 
 export const RecipeCookingTextWrapper = styled(({ children, ...props }) => (

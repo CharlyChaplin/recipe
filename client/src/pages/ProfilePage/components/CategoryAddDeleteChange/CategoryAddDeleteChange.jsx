@@ -34,6 +34,7 @@ const categoryAddChangeDelete = () => {
 	const [selected, setSelected] = useState('');
 	const [inputText, setInputText] = useState(selected);
 	const [categories, setCategories] = useState([]);
+	const [clear, setClear] = useState(false);
 	const [picture, setPicture] = useState("");
 
 	const [isNarrowScreen, setIsNarrowScreen] = useState(matchMedia('(max-width: 800px)').matches);
@@ -47,7 +48,11 @@ const categoryAddChangeDelete = () => {
 
 		if (categoryData.length > 0) {
 			setCategories(categoryData.map(el => el.caption));
+		} else {
+			setCategories([]);
 		}
+
+		return () => setClear(false);
 	}, [categoryData]);
 
 	// получаем новую фразу в состояние
@@ -82,12 +87,13 @@ const categoryAddChangeDelete = () => {
 			const resp = await axios.post('/category/add', fd, { headers: { "Content-Type": 'multipart/formdata' } });
 			if (resp.status && resp.status === 200) {
 				dispatch(showInfo({ text: `Категория "${resp.data.caption}" была добавлена.`, ok: true }));
-				setInputText('');		// сбрасываем состояние выбранности DropListBox
-				setIsEdit(false);		// сбрасываем состояние редактирования
-				setSelected('');		// блокируем кнопки удаления/изменения
-				setNewCategory('');	// очищаем поле ввода новой категории
-				dispatch(categoryGetCategories());	// получаем заного оставшиеся категории
 			}
+			setInputText('');		// сбрасываем состояние выбранности DropListBox
+			setIsEdit(false);		// сбрасываем состояние редактирования
+			setClear(true);		// очищаем картинку
+			setSelected('');		// блокируем кнопки удаления/изменения
+			setNewCategory('');	// очищаем поле ввода новой категории
+			dispatch(categoryGetCategories());	// получаем заного оставшиеся категории
 		} catch (error) {
 			dispatch(showInfo({ text: `Ошибка при добавлении (${error.response.data.detail})`, cancel: true }));
 		}
@@ -139,12 +145,13 @@ const categoryAddChangeDelete = () => {
 			const resp = await axios.post('/category/edit', fd, { headers: { "Content-Type": "application/formdata" } });
 			if (resp.status && resp.status === 200) {
 				dispatch(showInfo({ text: `Категория "${selected}" была успешно изменена.`, ok: true }));
-				setIsEdit(false);
-				setChangedCategory('');
-				setInputText('');		// сбрасываем состояние выбранности DropListBox
-				setSelected('');		// блокируем кнопки удаления/изменения
-				dispatch(categoryGetCategories());	// получаем заного оставшиеся категории
 			}
+			setIsEdit(false);
+			setChangedCategory('');
+			setInputText('');		// сбрасываем состояние выбранности DropListBox
+			setClear(true);		// очищаем картинку
+			setSelected('');		// блокируем кнопки удаления/изменения
+			dispatch(categoryGetCategories());	// получаем заного оставшиеся категории
 		} catch (error) {
 			dispatch(showInfo({ text: `Ошибка при изменении (${error.response.data.detail})`, cancel: true }));
 		}
@@ -169,7 +176,8 @@ const categoryAddChangeDelete = () => {
 	}
 
 	
-	console.log(currentCategoryImage);
+	
+	
 
 
 	return (
@@ -190,7 +198,7 @@ const categoryAddChangeDelete = () => {
 					</AddWrapperCategorySidePart>
 					<AddCategoryPhoto>
 						<span>Фон для категории:</span>
-						<AddPhotoBlock><ImageInsert currentFile={currentCategoryImage} selectedFile={getSelectedFile} placeholder="Выберите или перетащите файл..." /></AddPhotoBlock>
+						<AddPhotoBlock><ImageInsert clear={clear} currentFile={currentCategoryImage} selectedFile={getSelectedFile} placeholder="Выберите или перетащите файл..." /></AddPhotoBlock>
 					</AddCategoryPhoto>
 				</AddWrapperCategory>
 

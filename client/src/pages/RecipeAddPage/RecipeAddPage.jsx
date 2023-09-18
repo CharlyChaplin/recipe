@@ -106,20 +106,44 @@ const RecipeAddPage = () => {
 		setFields({ ...fields, picture: pictureFile });
 	}
 
-	function handleAddRecipe() {
-		const fd = new FormData();
+	function checkRequiredFields() {
+		let check = true;
+		let description = '';
+
 		for (let [key, value] of Object.entries(fields)) {
-			if (key === 'ingredients') {
-				fd.append(key, JSON.stringify(value));
-			} else {
-				fd.append(key, value);
+			if (key === 'ingredients' && !value.length) {
+				check = false;
+				description = 'Не хватает ингредиентов';
+			};
+			if (!value) {
+				if (key === 'picture') description = 'Нет изображения';
+				if (key === 'caption') description = 'Нет краткого описания рецепта';
+				if (key === 'category') description = 'Не заполнена категория';
+				if (key === 'cookingText') description = 'Не заполнен текст способа приготовления';
+
+				check = false;
 			}
 		}
+		return { check, description };
+	}
 
+	function handleAddRecipe() {
 		try {
+			const { check, description } = checkRequiredFields();
+			if (!check) throw new Error(description);
+
+			const fd = new FormData();
+			for (let [key, value] of Object.entries(fields)) {
+				if (key === 'ingredients') {
+					fd.append(key, JSON.stringify(value));
+				} else {
+					fd.append(key, value);
+				}
+			}
+
 			dispatch(recipeAddRecipe(fd));
 		} catch (error) {
-			console.log("Error: ", error);
+			dispatch(showInfo({ text: error.message, cancel: true }));
 		}
 	}
 
