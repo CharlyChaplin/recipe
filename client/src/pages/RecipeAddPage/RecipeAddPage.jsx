@@ -146,73 +146,75 @@ const RecipeAddPage = () => {
 
 						<RecipeWrapper noLine={!categoryData.length}>
 							{
-								categoryData.length
-									?
-									<>
-										<RecipeLeft>
-											<RecipeLeftTopWrapper>
+								loading
+									? <Spinner />
+									: categoryData.length
+										?
+										<>
+											<RecipeLeft>
+												<RecipeLeftTopWrapper>
 
-												<AddPhotoBlockForRecipeAdd><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipeAdd>
-												<RecipeLeftTopTextWrapper>
-													<Input name='caption' handleChange={changeInput} value={fields.caption} center placeholder="Название блюда..." />
-													<Input type='textarea' name='shortDescription' handleChange={changeInput} value={fields.shortDescription} placeholder="Краткое описание..." fz={12} />
-												</RecipeLeftTopTextWrapper>
+													<AddPhotoBlockForRecipeAdd><ImageInsert selectedFile={getSelectedFile} /></AddPhotoBlockForRecipeAdd>
+													<RecipeLeftTopTextWrapper>
+														<Input name='caption' handleChange={changeInput} value={fields.caption} center placeholder="Название блюда..." />
+														<Input type='textarea' name='shortDescription' handleChange={changeInput} value={fields.shortDescription} placeholder="Краткое описание..." fz={12} />
+													</RecipeLeftTopTextWrapper>
 
-											</RecipeLeftTopWrapper>
+												</RecipeLeftTopWrapper>
 
-											<RecipeIngredientsWrapper>
-												<RecipeMiniCaption text="Ингредиенты:" />
-												<RecipeBlockContentWrapperForIngredients>
-													<Button equalPadding action={addIngredient} ><AddICO /></Button>
-													<hr />
-													<RecipeIngredientsItemsWrapper>
+												<RecipeIngredientsWrapper>
+													<RecipeMiniCaption text="Ингредиенты:" />
+													<RecipeBlockContentWrapperForIngredients>
+														<Button equalPadding action={addIngredient} ><AddICO /></Button>
+														<hr />
+														<RecipeIngredientsItemsWrapper>
+															{
+																ingredients.map((ingredient, index) => {
+																	return (
+																		<IngredientItem
+																			key={index}
+																			name={index}
+																			data={ingredient.data}
+																			mode={ingredient.mode}
+																			value={ingredient.value}
+																			handleChange={changeIngredients}
+																			getKey={changeKeyPressIngredients}
+																			deleteAction={() => deleteIngredient(index)}
+																		/>
+																	)
+																})
+															}
+														</RecipeIngredientsItemsWrapper>
+													</RecipeBlockContentWrapperForIngredients>
+
+												</RecipeIngredientsWrapper>
+
+												<RecipeIngredientsWrapper>
+													<RecipeMiniCaption text="Категория:" />
+													<RecipeBlockContentWrapper>
 														{
-															ingredients.map((ingredient, index) => {
-																return (
-																	<IngredientItem
-																		key={index}
-																		name={index}
-																		data={ingredient.data}
-																		mode={ingredient.mode}
-																		value={ingredient.value}
-																		handleChange={changeIngredients}
-																		getKey={changeKeyPressIngredients}
-																		deleteAction={() => deleteIngredient(index)}
-																	/>
-																)
-															})
+															categoryLoading
+																? <Spinner height={26} />
+																: <DropdownList elements={(categoryData?.map(el => el.caption))} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
 														}
-													</RecipeIngredientsItemsWrapper>
-												</RecipeBlockContentWrapperForIngredients>
 
-											</RecipeIngredientsWrapper>
+													</RecipeBlockContentWrapper>
+												</RecipeIngredientsWrapper>
 
-											<RecipeIngredientsWrapper>
-												<RecipeMiniCaption text="Категория:" />
-												<RecipeBlockContentWrapper>
-													{
-														categoryLoading
-															? <Spinner height={26} />
-															: <DropdownList elements={(categoryData?.map(el => el.caption))} placeholder='Категория...' selectedValue={handleCategorySelected} inputText={fields.category} />
-													}
+											</RecipeLeft>
 
-												</RecipeBlockContentWrapper>
-											</RecipeIngredientsWrapper>
+											<RecipeRight>
 
-										</RecipeLeft>
+												<RecipeCookingTextWrapper>
+													<RecipeMiniCaption text="Способ приготовления:" />
+													<RecipeCookingText>
+														<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." handleChange={changeInput} value={fields.cookingText} />
+													</RecipeCookingText>
+												</RecipeCookingTextWrapper>
 
-										<RecipeRight>
-
-											<RecipeCookingTextWrapper>
-												<RecipeMiniCaption text="Способ приготовления:" />
-												<RecipeCookingText>
-													<Input rowsNumber={0} type='textarea' name='cookingText' placeholder="Описание процесса готовки..." handleChange={changeInput} value={fields.cookingText} />
-												</RecipeCookingText>
-											</RecipeCookingTextWrapper>
-
-										</RecipeRight>
-									</>
-									: <h1>Для начала создайте категории!</h1>
+											</RecipeRight>
+										</>
+										: <h1>Для начала создайте категории!</h1>
 							}
 
 

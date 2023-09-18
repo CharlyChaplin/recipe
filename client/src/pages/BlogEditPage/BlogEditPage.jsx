@@ -51,6 +51,11 @@ const BlogEditPage = () => {
 	}, [blogData]);
 
 	useEffect(() => {
+		if (errors.length > 0 && !loading) {
+			dispatch(showInfo({ text: errors, cancel: true }));
+		} else {
+			dispatch(showInfo({ text: "Блог успешно обновлён", ok: true }));
+		}
 		// проверяем, если после запроса 'edit' данные получены,
 		// то переходим на страницу изменённого блога
 		if (completed) {
@@ -97,13 +102,6 @@ const BlogEditPage = () => {
 
 		try {
 			dispatch(blogEditBlog(fd));
-			setTimeout(() => {
-				if (errors.length > 0 && !loading) {
-					dispatch(showInfo({ text: errors, cancel: true }));
-				} else {
-					dispatch(showInfo({ text: "Блог успешно обновлён", ok: true }));
-				}
-			}, 300);
 		} catch (error) {
 			console.log("Error: ", error);
 		}
@@ -113,6 +111,9 @@ const BlogEditPage = () => {
 	function getSelectedFile(pictureFile) {
 		setFields({ ...fields, picture: pictureFile });
 	}
+
+
+
 
 
 	return (

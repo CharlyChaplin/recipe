@@ -4,8 +4,9 @@ import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import { config } from 'dotenv';
 import ResetSeq from '../services/resetSequence.js';
 import translitPrepare from '../services/translitPrepare.js';
-import { datePrepare, datePrepareForDB, datePrepareForFrontend } from '../services/datePrepare.js';
+import { datePrepareForDB, datePrepareForFrontend } from '../services/datePrepare.js';
 import fs from 'fs';
+import sharp from 'sharp';
 
 
 class RecipeController {
@@ -28,14 +29,28 @@ class RecipeController {
 			// создаём папку для рецепта
 			fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
 			// описываем путь, по которому расположится файл
-			const filePath = `${mainPath}/photo.jpg`;
+			const previewPath = `${mainPath}/preview.jpg`;
+			const origPath = `${mainPath}/photo.jpg`;
 
-			// перемещаем файл в папку
-			picture.mv(`${filePath}`, err => {
-				if (err) {
-					return res.status(500).send({ err: err, msg: "Error occurred" });
-				}
-			});
+			// перемещаем файл в папку, изменяя его размер для превью
+			sharp(picture.data)
+				.resize({ width: 200, height: 140 })
+				.toFormat('jpeg')
+				.jpeg({ quality: 80 })
+				.toFile(previewPath, (err, info) => {
+					if (err) {
+						console.log(err);
+					}
+				});
+			sharp(picture.data)
+				.resize({ width: 320, height: 240 })
+				.toFormat('jpeg')
+				.jpeg({ quality: 100 })
+				.toFile(origPath, (err, info) => {
+					if (err) {
+						console.log(err);
+					}
+				});
 
 			// получаем id категории
 			const getCategoryId = await db.query(`SELECT id FROM category WHERE caption='${category}'`);
@@ -46,8 +61,8 @@ class RecipeController {
 			const userId = getUserId.rows[0].id;
 
 			// убираем из пути слово 'static'
-			const photoorig = filePath.replace('static', '');
-			const photopreview = filePath.replace('static', '');
+			const photopreview = previewPath.replace('static', '');
+			const photoorig = origPath.replace('static', '');
 
 
 			// сбрасываем счётчик последовательности в таблице recipe
@@ -128,19 +143,19 @@ class RecipeController {
 			let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
 			let file = null;
 			if (req.files) file = Object.values(req.files)[0];
-			if (!oldRecipeCaption) throw ApiError.BadRequest("Absent old caption");
+			if (!oldRecipeCaption) {
+				throw ApiError.BadRequest("Absent old caption")
+			};
 
-			// console.log(dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption, file);
 			let categoryId;
 			let captionLat;
 
 			// берём данные из текущего состояния рецепта
 			const recipeNow = await db.query(`
 				SELECT * FROM recipe
-				WHERE caption='${oldRecipeCaption}';
+				WHERE caption_lat='${oldRecipeCaption}';
 			`);
-			// console.log(recipeNow.rows[0].dateadd);
-
+			
 			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
 			if (!dateadd) {
 				dateadd = recipeNow.rows[0].dateadd;
@@ -178,7 +193,7 @@ class RecipeController {
 				const currentOwner = await db.query(`
 					SELECT B.user_id
 					FROM recipe A, persondata B
-					WHERE A.caption='${oldRecipeCaption}' AND A.user_id=B.user_id;
+					WHERE A.caption_lat='${oldRecipeCaption}' AND A.user_id=B.user_id;
 				`);
 				owner = currentOwner.rows[0].user_id;
 			} else {
@@ -193,6 +208,36 @@ class RecipeController {
 			let photoorig = recipeNow.rows[0].photoorig;
 			let photopreview = recipeNow.rows[0].photopreview;
 
+			// если картинка была заменёна
+			if (file) {
+				// перемещаем файл в папку, изменяя его размер для превью
+				sharp(file.data)
+					.resize({ width: 200, height: 140 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 80 })
+					.toFile(`static/${photopreview}`, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				// перемещаем файл в папку, изменяя его размер
+				sharp(file.data)
+					.resize({ width: 320, height: 240 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 100 })
+					.toFile(`static/${photoorig}`, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				// перемещаем файл в папку
+				// file.mv(`static/${photoorig}`, err => {
+				// 	if (err) {
+				// 		return res.status(500).send({ err: err, msg: "Error occurred" });
+				// 	}
+				// });
+			}
+			
 			// изменяем название папки рецепта в папке recipe в случае изменения названия рецепта
 			if (caption != undefined && (caption !== oldRecipeCaption)) {
 				// описываем путь для старой папки рецепта
@@ -202,18 +247,9 @@ class RecipeController {
 				// переименовываем папку для рецепта
 				fs.renameSync(oldPath, newPath, err => console.log(err));
 				photoorig = `${newPath.replace('static', '')}/photo.jpg`;
-				photopreview = `${newPath.replace('static', '')}/photo.jpg`;
+				photopreview = `${newPath.replace('static', '')}/preview.jpg`;
 			}
 
-			// если картинка была заменёна
-			if (file) {
-				// перемещаем файл в папку
-				file.mv(`static/${photoorig}`, err => {
-					if (err) {
-						return res.status(500).send({ err: err, msg: "Error occurred" });
-					}
-				});
-			}
 
 			// console.log(owner, categoryId, dateadd, caption, photoorig, photopreview, shortDescription, cookingText);
 
@@ -230,7 +266,7 @@ class RecipeController {
 					 shortdescription='${shortDescription}',
 					 cookingtext='${cookingText}'
 
-				WHERE caption='${oldRecipeCaption}'
+				WHERE caption_lat='${oldRecipeCaption}'
 				RETURNING *;
 			`);
 			if (!updatedRecipe.rowCount) throw ApiError.BadRequest("Can't to UPDATE recipe while EDIT recipe");

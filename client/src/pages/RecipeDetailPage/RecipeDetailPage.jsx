@@ -64,7 +64,7 @@ const RecipeDetailPage = () => {
 												<RecipeShowPhotoBlock><ImageInsert currentFile={recipeData.photoorig} /></RecipeShowPhotoBlock>
 												<RecipeLeftTopTextWrapper>
 													<RecipeShowCaption text={recipeData.caption} />
-													<RecipeShowShortDescription>Борщ — горячий заправочный суп на основе свёклы, которая придаёт ему характерный красный цвет.</RecipeShowShortDescription>
+													<RecipeShowShortDescription>{recipeData.shortdescription}</RecipeShowShortDescription>
 												</RecipeLeftTopTextWrapper>
 
 											</RecipeLeftTopWrapper>

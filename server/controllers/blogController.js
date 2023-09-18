@@ -7,6 +7,7 @@ import ResetSeq from '../services/resetSequence.js';
 import translitPrepare from '../services/translitPrepare.js';
 import fs from 'fs';
 import limitText from '../services/limitText.js';
+import sharp from 'sharp';
 
 
 class BlogController {
@@ -26,21 +27,43 @@ class BlogController {
 			// создаём папку для блога
 			fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
 			// описываем путь, по которому расположится файл
-			const filePath = `${mainPath}/photo.jpg`;
+			const origPath = `${mainPath}/photo.jpg`;
+			const previewPath = `${mainPath}/preview.jpg`;
+			
+			// перемещаем файл в папку, изменяя его размер для превью
+			sharp(file.data)
+				.resize({ width: 170, height: 140 })
+				.toFormat('jpeg')
+				.jpeg({ quality: 80 })
+				.toFile(previewPath, (err, info) => {
+					if (err) {
+						console.log(err);
+					}
+				});
+			// перемещаем файл в папку, изменяя его размер
+			sharp(file.data)
+				.resize({ width: 320, height: 240 })
+				.toFormat('jpeg')
+				.jpeg({ quality: 100 })
+				.toFile(origPath, (err, info) => {
+					if (err) {
+						console.log(err);
+					}
+				});
 			// перемещаем файл в папку
-			file.mv(`${filePath}`, err => {
-				if (err) {
-					return res.status(500).send({ err: err, msg: "Error occurred" });
-				}
-			});
+			// file.mv(`${filePath}`, err => {
+			// 	if (err) {
+			// 		return res.status(500).send({ err: err, msg: "Error occurred" });
+			// 	}
+			// });
 
 			// получаем id юзера по e-mail из токена
 			const getUserId = await db.query(`SELECT id FROM users WHERE email='${isAccessValid.email}';`)
 			const userId = getUserId.rows[0].id;
 
 			// убираем из пути слово 'static'
-			const photoorig = filePath.replace('static', '');
-			const photopreview = filePath.replace('static', '');
+			const photoorig = origPath.replace('static', '');
+			const photopreview = previewPath.replace('static', '');
 
 
 			// сбрасываем счётчик последовательности в таблице blog
@@ -97,7 +120,7 @@ class BlogController {
 			// берём данные из текущего состояния блога
 			const blogNow = await db.query(`
 			SELECT * FROM blog
-			WHERE caption='${oldBlogCaption}';
+			WHERE caption_lat='${oldBlogCaption}';
 		`);
 
 			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
@@ -115,7 +138,7 @@ class BlogController {
 			if (!owner) {
 				const currentOwner = await db.query(`
 				SELECT B.user_id FROM blog A, persondata B
-				WHERE A.caption='${oldBlogCaption}' AND A.user_id=B.user_id;
+				WHERE A.caption_lat='${oldBlogCaption}' AND A.user_id=B.user_id;
 			`);
 				owner = currentOwner.rows[0].user_id;
 			} else {
@@ -129,7 +152,40 @@ class BlogController {
 			// определяем пути для изображений
 			let photoorig = blogNow.rows[0].photoorig;
 			let photopreview = blogNow.rows[0].photopreview;
+			
+			
+			// если картинка была заменёна
+			// перемещаем файл в папку, изменяя его размер для превью
+			sharp(file.data)
+				.resize({ width: 170, height: 140 })
+				.toFormat('jpeg')
+				.jpeg({ quality: 80 })
+				.toFile(previewPath, (err, info) => {
+					if (err) {
+						console.log(err);
+					}
+				});
+			// перемещаем файл в папку, изменяя его размер
+			sharp(file.data)
+				.resize({ width: 320, height: 240 })
+				.toFormat('jpeg')
+				.jpeg({ quality: 100 })
+				.toFile(origPath, (err, info) => {
+					if (err) {
+						console.log(err);
+					}
+				});
+			// если картинка была заменёна
+			// if (file) {
+			// 	// перемещаем файл в папку
+			// 	file.mv(`static/${photoorig}`, err => {
+			// 		if (err) {
+			// 			return res.status(500).send({ err: err, msg: "Error occurred" });
+			// 		}
+			// 	});
+			// }
 
+			
 			// изменяем название папки блога в папке blogs в случае изменения названия блога
 			if (caption != undefined && (caption !== oldBlogCaption)) {
 				// описываем путь для старой папки блога
@@ -139,19 +195,9 @@ class BlogController {
 				// переименовываем папку для блога
 				fs.renameSync(oldPath, newPath, err => console.log(err));
 				photoorig = `${newPath.replace('static', '')}/photo.jpg`;
-				photopreview = `${newPath.replace('static', '')}/photo.jpg`;
+				photopreview = `${newPath.replace('static', '')}/preview.jpg`;
 			}
-
-			// если картинка была заменёна
-			if (file) {
-				// перемещаем файл в папку
-				file.mv(`static/${photoorig}`, err => {
-					if (err) {
-						return res.status(500).send({ err: err, msg: "Error occurred" });
-					}
-				});
-			}
-
+			
 
 			const updatedBlog = await db.query(`
 				UPDATE blog
@@ -162,7 +208,7 @@ class BlogController {
 					 caption='${caption}',
 					 description='${description}'
 
-				WHERE caption='${oldBlogCaption}'
+				WHERE caption_lat='${oldBlogCaption}'
 				RETURNING *;
 			`);
 			if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");

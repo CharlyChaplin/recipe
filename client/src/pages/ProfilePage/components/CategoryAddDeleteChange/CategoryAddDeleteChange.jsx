@@ -76,11 +76,15 @@ const categoryAddChangeDelete = () => {
 		modalStore.addNewCategoryPhoto(picture);
 		const fd = new FormData();
 		fd.append('categoryText', newCategory);
-		fd.append('bg', picture);
+		if (picture) fd.append('bg', picture);
+
 		try {
 			const resp = await axios.post('/category/add', fd, { headers: { "Content-Type": 'multipart/formdata' } });
 			if (resp.status && resp.status === 200) {
 				dispatch(showInfo({ text: `Категория "${resp.data.caption}" была добавлена.`, ok: true }));
+				setInputText('');		// сбрасываем состояние выбранности DropListBox
+				setIsEdit(false);		// сбрасываем состояние редактирования
+				setSelected('');		// блокируем кнопки удаления/изменения
 				setNewCategory('');	// очищаем поле ввода новой категории
 				dispatch(categoryGetCategories());	// получаем заного оставшиеся категории
 			}
@@ -114,6 +118,7 @@ const categoryAddChangeDelete = () => {
 					dispatch(showInfo({ text: `Категория "${resp.data}" была удалена.`, ok: true }));
 				}
 				setInputText('');		// сбрасываем состояние выбранности DropListBox
+				setIsEdit(false);		// сбрасываем состояние редактирования
 				setSelected('');		// блокируем кнопки удаления/изменения
 				dispatch(categoryGetCategories());	// получаем заного оставшиеся категории
 			} catch (error) {
@@ -159,10 +164,12 @@ const categoryAddChangeDelete = () => {
 	}
 
 	const findedImage = categoryData.find(i => i.caption == selected);
-	if (findedImage) {
+	if (findedImage && findedImage?.photopreview) {
 		currentCategoryImage = vars.remoteHost + '/' + findedImage.photopreview.split('')?.slice(1)?.join('');
 	}
 
+	
+	console.log(currentCategoryImage);
 
 
 	return (
@@ -183,14 +190,14 @@ const categoryAddChangeDelete = () => {
 					</AddWrapperCategorySidePart>
 					<AddCategoryPhoto>
 						<span>Фон для категории:</span>
-						<AddPhotoBlock><ImageInsert currentFile={currentCategoryImage} selectedFile={getSelectedFile} /></AddPhotoBlock>
+						<AddPhotoBlock><ImageInsert currentFile={currentCategoryImage} selectedFile={getSelectedFile} placeholder="Выберите или перетащите файл..." /></AddPhotoBlock>
 					</AddCategoryPhoto>
 				</AddWrapperCategory>
 
 				<HorizontalLine />
 
 				<DropdownList
-					elements={categories ? categories : []}
+					elements={categories || []}
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
 					minWidth={300}
 					inputText={inputText}

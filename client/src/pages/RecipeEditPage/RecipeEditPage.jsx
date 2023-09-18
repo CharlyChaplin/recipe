@@ -44,7 +44,7 @@ const RecipeEditPage = () => {
 		ingredients: [],
 		category: '',
 		cookingText: '',
-		oldRecipeCaption: recipeData?.caption
+		oldRecipeCaption: ''
 	});
 
 
@@ -52,6 +52,8 @@ const RecipeEditPage = () => {
 	useEffect(() => {
 		getRecipe();
 
+		// заполняем старый заголовок
+		setFields({ ...fields, oldRecipeCaption: recipeData?.caption_lat });
 		// показываем в DropBox для юзера текущее значение
 		setUserInputText(recipeData.name);
 		// показываем в DropBox для категории текущее значение
@@ -63,6 +65,12 @@ const RecipeEditPage = () => {
 	}, [ingredients]);
 
 	useEffect(() => {
+		if (errors.length > 0 && !loading) {
+			dispatch(showInfo({ text: errors, cancel: true }));
+		} else {
+			dispatch(showInfo({ text: "Рецепт успешно изменён", ok: true }));
+		}
+
 		if (completed) navigate(`/recipe/${recipeData.caption}`);
 
 		return () => dispatch(clearRecipeData());
@@ -166,18 +174,10 @@ const RecipeEditPage = () => {
 
 		try {
 			dispatch(recipeEditRecipe(fd));
-			setTimeout(() => {
-				if (errors.length > 0 && !loading) {
-					dispatch(showInfo({ text: errors, cancel: true }));
-				} else {
-					dispatch(showInfo({ text: "Рецепт успешно изменён", ok: true }));
-				}
-			}, 300);
 		} catch (error) {
 			console.log("Error: ", error);
 		}
 	}
-
 
 
 
@@ -209,7 +209,7 @@ const RecipeEditPage = () => {
 							<RecipeLeft>
 								<RecipeLeftTopWrapper>
 
-									<AddPhotoBlockForRecipe><ImageInsert currentFile={recipeData.photoorig} selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
+									<AddPhotoBlockForRecipe><ImageInsert currentFile={recipeData.photopreview} selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
 									<RecipeLeftTopTextWrapper>
 										<EditNotEdit data={recipeData?.caption} isCaption upperCase letterSpacing />
 										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} autoFocus placeholder={recipeData?.shortdescription} fz={12} />

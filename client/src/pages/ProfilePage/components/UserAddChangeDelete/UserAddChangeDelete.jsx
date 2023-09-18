@@ -56,6 +56,7 @@ const UserAddChangeDelete = () => {
 				if (resp.status === 200) {
 					dispatch(showInfo({ text: `Пользователь "${resp.data.deletedUser}" был удалён.`, ok: true }));
 					// если пользователь удалил сам себя, то удаляем cookies
+					// и автоматически будем неавторизованы
 					if (resp.data.itself) {
 						Cookies.remove('accesstoken');
 						Cookies.remove('refreshtoken');

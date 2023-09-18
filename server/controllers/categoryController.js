@@ -5,6 +5,7 @@ import translitPrepare from '../services/translitPrepare.js';
 import ResetSeq from '../services/resetSequence.js';
 import fs from 'fs';
 import { config } from 'dotenv';
+import sharp from 'sharp';
 
 
 class CategoryController {
@@ -31,35 +32,47 @@ class CategoryController {
 			let previewPath = null;
 			let bgPath = null;
 
+			// описываем путь, по которому расположится папка категории
+			const mainPath = `static/category/${captionLat}`;
+			// создаём папку для категории
+			fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
+			
+			// если есть файл изображения
 			if (picture) {
-				// описываем путь, по которому расположится папка категории
-				const mainPath = `static/category/${captionLat}`;
-				// создаём папку для категории
-				fs.mkdirSync(mainPath, { recursive: true }, err => console.log(err));
 				// описываем путь, по которому расположится файл
 				previewPath = `${mainPath}/photo.jpg`;
 				bgPath = `${mainPath}/bg.jpg`;
-				// перемещаем файл в папку
-				picture.mv(`${previewPath}`, err => {
-					if (err) {
-						return res.status(500).send({ err: err, msg: "Error occurred" });
-					}
-				});
-				picture.mv(`${bgPath}`, err => {
-					if (err) {
-						return res.status(500).send({ err: err, msg: "Error occurred" });
-					}
-				});
+
+				// перемещаем файл в папку, изменяя его размер для превью
+				sharp(picture.data)
+					.resize({ width: 170, height: 140 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 80 })
+					.toFile(previewPath, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				// перемещаем файл в папку, изменяя его размер для фона
+				sharp(picture.data)
+					.resize({ width: 1920, height: 1080 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 100 })
+					.toFile(bgPath, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
 			}
 
 			// убираем из пути слово 'static'
-			const photopreview = previewPath && previewPath.replace('static', '');
-			const bg = bgPath && bgPath.replace('static', '');
+			const photopreview = picture ? previewPath && previewPath.replace('static', '') : null;
+			const bg = picture ? bgPath && bgPath.replace('static', '') : null;
 
 			await ResetSeq.resetSequence('category');
 			const newCategory = await db.query(`
 				INSERT INTO category(user_id, caption, photopreview, bg, caption_lat)
-				VALUES ('${user_id}','${categoryText}', '${photopreview}', '${bg}', '${captionLat}')
+				VALUES ('${user_id}','${categoryText}', ${photopreview ? `'${photopreview}'` : null}, ${bg ? `'${bg}'` : null}, '${captionLat}')
 				RETURNING *;
 			`);
 			if (!newCategory.rowCount) throw ApiError.BadRequest("Can't to add new category");
@@ -113,12 +126,12 @@ class CategoryController {
 			// определяем пути для изображений
 			let bgImage;
 			let photoPreview;
-
+			
 			// изменяем название папки категории в папке category в случае изменения названия категории
 			// описываем путь для старой папки категории
 			const oldPath = `static/category/${translitPrepare(oldCategory).toLowerCase().replaceAll(" ", '_')}`;
 			// описываем путь для новой папки категории
-			const newPath = `static/category/${translitPrepare(newCategory).toLowerCase().replaceAll(" ", '_')}`;
+			const newPath = `static/category/${categoryLat}`;
 			// переименовываем папку для категории
 			fs.renameSync(oldPath, newPath, err => console.log(err));
 			// создаём пути к файлам для БД
@@ -127,13 +140,29 @@ class CategoryController {
 
 			// если картинка была заменёна
 			if (file) {
-				// перемещаем файл в папку
-				file.mv(`static/${bgImage}`, err => {
-					if (err) {
-						return res.status(500).send({ err: err, msg: "Error occurred" });
-					}
-				});
+				// перемещаем файл в папку, изменяя его размер для превью
+				sharp(file.data)
+					.resize({ width: 170, height: 140 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 80 })
+					.toFile(photoPreview, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				// перемещаем файл в папку, изменяя его размер для фона
+				sharp(file.data)
+					.resize({ width: 1920, height: 1080 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 100 })
+					.toFile(bgImage, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
 			}
+
+
 
 			const updatedCategory = await db.query(`
 				UPDATE category
@@ -149,7 +178,7 @@ class CategoryController {
 
 			res.json(updatedCategory.rows[0]);
 		} catch (err) {
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 	}
 
@@ -172,7 +201,7 @@ class CategoryController {
 			});
 			res.json(categoryData);
 		} catch (err) {
-			res.status(err.status).json({message: err});
+			res.status(err.status).json({ message: err });
 		}
 	}
 
@@ -196,7 +225,7 @@ class CategoryController {
 			res.json(categoryData);
 		} catch (err) {
 			console.log(err);
-			res.status(err.status).json({message: err});
+			res.status(err.status).json({ message: err });
 		}
 	}
 }
