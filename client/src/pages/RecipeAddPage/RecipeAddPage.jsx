@@ -118,7 +118,7 @@ const RecipeAddPage = () => {
 			if (!value && key !== 'shortDescription') {
 				
 				if (key === 'picture') description = 'Нет изображения';
-				if (key === 'caption') description = 'Нет краткого описания рецепта';
+				if (key === 'caption') description = 'Нет названия рецепта';
 				if (key === 'category') description = 'Не заполнена категория';
 				if (key === 'cookingText') description = 'Не заполнен текст способа приготовления';
 
@@ -169,7 +169,7 @@ const RecipeAddPage = () => {
 							</div>
 						</RecipeAddTop>
 
-						<RecipeWrapper noLine={!categoryData.length}>
+						<RecipeWrapper>
 							{
 								categoryLoading
 									? <div style={{margin: '0 auto'}}><Spinner height={150} /></div>

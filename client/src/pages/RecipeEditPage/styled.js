@@ -47,9 +47,14 @@ export const RecipeEditTop = styled(({ children, ...props }) => (
 	}
 `;
 
-export const RecipeWrapper = styled(({ noLine, children, ...props }) => (
-	<div {...props}>{children}</div>
-))`
+export const RecipeWrapper = styled(({ noLine, children, ...props }) => {
+	// console.log(noLine);
+	return (
+		<div {...props}>
+			{children}
+		</div>
+	)
+})`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -58,7 +63,7 @@ export const RecipeWrapper = styled(({ noLine, children, ...props }) => (
 	width: 100%;
 	position: relative;
 	&:after {
-		content: ${({ noLine }) => noLine ? 'none' : ''};
+		${({ noLine }) => noLine ? 'content : none' : "content: ''"};
 		position: absolute;
 		top: 0;
 		left: calc(50% - 1px);
@@ -121,12 +126,12 @@ export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	${adaptiveValue("gap", 35, 15, 0, 1390, 860)};
+	${adaptiveValue("gap", 20, 15, 0, 1390, 860)};
 	
 	@media (max-width: ${em(992)}) {
 		justify-content: space-evenly;
 		width: 100%;
-		${adaptiveValue("gap", 15, 30, 0, 860, 320)};
+		/* ${adaptiveValue("gap", 15, 30, 0, 860, 320)}; */
 	}
 	@media (max-width: ${em(479.98)}) {
 		flex-direction: column;
@@ -134,13 +139,13 @@ export const RecipeLeftTopWrapper = styled(({ children, ...props }) => (
 `;
 
 export const AddPhotoBlockForRecipe = styled(AddPhotoBlock)`
-	flex: 0 1 50%;
+	flex: 0 0 40%;
 `;
 
 export const RecipeLeftTopTextWrapper = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	flex: 0 0 50%;
+	/* flex: 0 0 60%; */
 	display: flex;
 	flex-direction: column;
 	${adaptiveValue("gap", 20, 15)};

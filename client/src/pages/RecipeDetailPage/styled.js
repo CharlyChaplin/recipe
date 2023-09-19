@@ -51,6 +51,7 @@ export const RecipeDetailTop = styled.div`
 `;
 
 export const RecipeShowPhotoBlock = styled(AddPhotoBlock)`
+	align-self: flex-start;
 	min-width: ${rem(160)};
 	max-width: ${rem(213)};
 	
@@ -81,6 +82,7 @@ export const RecipeShowShortDescription = styled.div`
 	hyphens: auto;
 	text-align: justify;
 	text-indent: ${rem(20)};
+	white-space: pre-wrap;
 `;
 
 export const RecipeShowLeft = styled(RecipeLeft)`
@@ -139,11 +141,12 @@ export const RecipeCookingTextCaption = styled(RecipeMiniCaption)`
 `;
 
 export const RecipeShowCookingText = styled.div`
-	font-family: "RobotoLight", sans-serif;
+	font-family: "RobotoRegular", sans-serif;
 	line-height: calc(${(vars.fz + (vars.fz * 0.5)) / vars.fz});
 	text-align: justify;
 	hyphens: auto;
 	color: ${vars.text};
-	text-indent: ${rem(30)};
+	/* text-indent: ${rem(30)}; */
 	letter-spacing: ${rem(1.5)};
+	white-space: pre-wrap;
 `;
