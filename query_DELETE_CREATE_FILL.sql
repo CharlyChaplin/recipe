@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS public.ingredient
     user_id integer NOT NULL,
     recipe_id integer NOT NULL,
     caption character varying(255) NOT NULL,
+    definition character varying,
     PRIMARY KEY (id)
 );
 

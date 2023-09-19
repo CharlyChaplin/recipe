@@ -81,8 +81,8 @@ const RecipeDetailPage = () => {
 																		return (
 																			<IngredientItem
 																				key={nanoid()}
-																				item={item}
-																				listIcon={listMarker}
+																				item={item[0]}
+																				listIcon={item[1] ? null : listMarker}
 																			/>
 																		)
 																	})

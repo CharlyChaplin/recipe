@@ -339,15 +339,15 @@ class RecipeController {
 
 			// достаём ингредиенты рецепта
 			const ingredients = await db.query(`
-				SELECT caption FROM ingredient
-				WHERE recipe_id = ${isRecipe.rows[0].id}
+				SELECT * FROM ingredient
+				WHERE recipe_id = ${isRecipe.rows[0].id} ORDER BY id ASC
 			`);
 			// формируем объект для выдачи
 			recipeData = {
 				...recipeData,
 				photopreview: config().parsed.LOCAL_ADDRESS + isRecipe.rows[0].photopreview,
 				photoorig: config().parsed.LOCAL_ADDRESS + isRecipe.rows[0].photoorig,
-				ingredients: ingredients.rows.map(item => item.caption),
+				ingredients: ingredients.rows.map(item => [item.caption, item.definition]),
 				category: currentCategoryCyr.rows[0].caption
 			}
 			delete recipeData.id;
