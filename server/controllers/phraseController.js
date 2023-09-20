@@ -58,10 +58,9 @@ class PhraseController {
 	}
 
 	async changePhrase(req, res) {
-		const { accesstoken } = req.cookies;
-		if (!accesstoken) throw ApiError.UnathorizedError();
-		// проверяем accessToken на валидность
-		const isAccessValid = TokenService.validAccessToken(accesstoken);
+		const { isAccessValid } = await primaryCheckUser(req.cookies);
+		if (!isAccessValid.email) throw ApiError.UnathorizedError();
+		
 		// если токен валиден
 		let user_id = 0;
 		if (isAccessValid) {
@@ -73,11 +72,16 @@ class PhraseController {
 			if (!getUser.rowCount) throw ApiError.UnathorizedError();
 			user_id = getUser.rows[0].id;
 		}
+		
 		// после всех проверок достаём фразы для изменения в БД
 		const { oldPhrase, newPhrase } = req.body;
+		console.log(`
+		UPDATE phrase SET caption='${newPhrase}'
+		WHERE caption='${oldPhrase}' RETURNING *;
+	`);
 		db.query(`
-			UPDATE phrase SET "caption"='${newPhrase}'
-			WHERE "caption"='${oldPhrase}' RETURNING *;
+			UPDATE phrase SET caption='${newPhrase}'
+			WHERE caption='${oldPhrase}' RETURNING *;
 		`)
 			.then(resp => res.json(resp.rows[0]))
 			.catch(err => res.status(400).json({message: err}));

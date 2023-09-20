@@ -40,7 +40,7 @@ const Input = ({
 							type={type}
 							placeholder={placeholder}
 							onChange={handleChange}
-							onKeyPress={(e) => handleKeyPress(e, name)}
+							onKeyDown={(e) => handleKeyPress(e, name)}
 						/>
 						: null
 				}
@@ -59,6 +59,7 @@ const Input = ({
 						bgAdminLayer={bgAdminLayer}
 						fz={fz}
 						onChange={handleChange}
+						onKeyDown={handleKeyPress}
 						autoComplete="off"
 					/>
 				}

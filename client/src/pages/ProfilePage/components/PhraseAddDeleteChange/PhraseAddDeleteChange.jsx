@@ -11,7 +11,7 @@ import DropdownList from 'components/DropdownList';
 import { useContext } from 'react';
 import { DataContext } from 'pages/ProfilePage/context/index.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { phraseGetPhrases } from 'redux/slices/phraseSlice.js';
+import { clearPhraseData, phraseGetPhrases } from 'redux/slices/phraseSlice.js';
 import { showInfo } from 'redux/slices/infoSlice.js';
 import { useCallback } from 'react';
 import axios from 'axiosSetup';
@@ -36,6 +36,8 @@ const phraseAddChangeDelete = () => {
 
 	useEffect(() => {
 		mediaWatcher.addEventListener('change', updateIsNarrowScreen);
+
+		return () => dispatch(clearPhraseData());
 	}, []);
 
 
@@ -44,17 +46,15 @@ const phraseAddChangeDelete = () => {
 
 	// обработка Enter после ввода в поле Input
 	function handleKeyPress(e, type = '') {
-		if (e.key === "Enter") {
-			switch (type) {
-				case 'add':
-					handleAdd();
-					break;
-				case 'change':
-					handleCorrectPhrase();
-					break;
-				default:
-					return;
-			}
+		switch (type) {
+			case 'add':
+				if (e.ctrlKey && e.keyCode === 13) handleAdd();
+				break;
+			case 'change':
+				if (e.ctrlKey && e.keyCode === 13) handleCorrectPhrase();
+				break;
+			default:
+				return;
 		}
 	}
 
@@ -128,7 +128,7 @@ const phraseAddChangeDelete = () => {
 		setChangedPhrase(selected);
 	}
 
-	
+
 
 	return (
 		<>
@@ -142,7 +142,7 @@ const phraseAddChangeDelete = () => {
 						type='textarea'
 						autoFocus
 						handleChange={handleAddPhrase}
-						handleKeyPress={e => handleKeyPress(e, 'add')}
+						handleKeyPress={(e) => handleKeyPress(e, 'add')}
 					/>
 					<Button equalPadding action={handleAdd} disabled={!newPhrase.length > 0}>{<AddICO />}</Button>
 				</AddWrapper>
@@ -171,6 +171,7 @@ const phraseAddChangeDelete = () => {
 						<Input
 							value={changedPhrase}
 							handleChange={handleChangePhrase}
+							type='textarea'
 							handleKeyPress={e => handleKeyPress(e, 'change')}
 							autoFocus
 						/>

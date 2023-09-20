@@ -47,9 +47,28 @@ export const QuoteWrapper = styled.div`
 	user-select: none;
 `;
 
-export const QuotePhrase = styled(({ text, ...props }) => (
-	<div {...props}>{text}</div>
-))`
+export const QuotePhrase = styled(({ text, ...props }) => {
+	let content = null;
+	let author = null;
+	if (text?.includes('--')) {
+		const divisorPosition = text.indexOf('--')
+		content = text?.slice(0, divisorPosition)?.trim();
+		author = text?.slice(divisorPosition + 2);
+	} else {
+		content = text?.trim();
+	};
+	return (
+		<div {...props}>
+			{content}
+			{
+				author && <><div>({author})</div></>
+			}
+		</div>
+	)
+})`
+	display: flex;
+	flex-direction: column;
+	${adaptiveValue("gap", 10, 5)};
 	font-weight: 700;
 	${adaptiveValue("font-size", 20, 14)};
 	${adaptiveValue("line-height", 25, 16)};
@@ -58,4 +77,13 @@ export const QuotePhrase = styled(({ text, ...props }) => (
 	text-align: center;
 	pointer-events: none;
 	user-select: none;
+	
+	div {
+		font-family: sans-serif;
+		font-weight: 300;
+		letter-spacing: 0;
+		${adaptiveValue("font-size", 14, 12)};
+		font-style: italic;
+		text-align: right;
+	}
 `;

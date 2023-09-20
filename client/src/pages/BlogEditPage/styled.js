@@ -139,6 +139,7 @@ export const BlogEditTextWrapper = styled(({ children, ...props }) => (
 		min-height: 100%;
 		
 		textarea {
+			font-family: sans-serif;
 			height: 100%;
 			width: 100%
 		}

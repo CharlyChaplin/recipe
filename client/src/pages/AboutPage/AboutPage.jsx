@@ -25,7 +25,8 @@ const AboutPage = () => {
 									'React JS',
 									'Node JS',
 									'Express',
-									'PostgreSQL (Postgres)'
+									'PostgreSQL (Postgres)',
+									'Авторизация по токену (access и refresh)'
 								]}
 							/>
 
