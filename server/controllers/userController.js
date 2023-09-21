@@ -71,7 +71,6 @@ class UserController {
 
 			res.json({ message: "User registered. Check your e-mail." });
 		} catch (err) {
-			// console.log("Err=", err);
 			next(err);
 		}
 	}

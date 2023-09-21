@@ -61,20 +61,22 @@ export const QuotePhrase = styled(({ text, ...props }) => {
 		<div {...props}>
 			{content}
 			{
-				author && <><div>({author})</div></>
+				author && <><div>{author}</div></>
 			}
 		</div>
 	)
 })`
 	display: flex;
 	flex-direction: column;
-	${adaptiveValue("gap", 10, 5)};
+	gap: 0;
 	font-weight: 700;
 	${adaptiveValue("font-size", 20, 14)};
 	${adaptiveValue("line-height", 25, 16)};
 	${adaptiveValue("letter-spacing", 2, 1)};
 	color: ${vars.text};
-	text-align: center;
+	text-align: justify;
+	hyphens: auto;
+	text-indent: ${rem(15)};
 	pointer-events: none;
 	user-select: none;
 	
