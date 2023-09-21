@@ -5,20 +5,28 @@ import db from '../db.js';
 class SearchController {
 	async searchQuery(req, res) {
 		const { q } = req.query;
-		let categoryResult, blogResult;
 		
+		let categoryResult, blogResult;
+
 		try {
-			// ищем в рецептах
 			const getDataFromRecipe = await db.query(`
-				 SELECT caption,
-				 		  caption_lat,
-				 		  shortdescription,
-				 		  cookingtext,
-						  photopreview
-				 FROM recipe
-				 WHERE caption LIKE '%${q}%' OR
-				       shortdescription LIKE '%${q}%' OR
-						 cookingtext LIKE '%${q}%';
+				SELECT *
+				FROM recipe
+				WHERE
+				id IN (
+					SELECT DISTINCT(recipe_id)
+					FROM ingredient
+					WHERE caption LIKE '%${q}%'
+					ORDER BY recipe_id
+				)
+				
+				OR
+					(
+						caption LIKE '%${q}%' OR
+						caption_lat LIKE '%${q}%' OR
+						shortdescription LIKE '%${q}%' OR
+						cookingtext LIKE '%${q}%'
+					);
 			`);
 			// если нашли, то формируем массив из найденого
 			if (getDataFromRecipe.rowCount) {
@@ -40,6 +48,7 @@ class SearchController {
 						  photopreview
 				 FROM blog
 				 WHERE caption LIKE '%${q}%' OR
+				 		 caption_lat LIKE '%${q}%' OR
 				 		 description LIKE '%${q}%';
 			`);
 			// если нашли, то формируем массив из найденого
@@ -54,18 +63,17 @@ class SearchController {
 					)
 				})
 			}
-			
 
 			// формируем объект для выдачи
 			const outData = {
 				category: categoryResult,
 				blog: blogResult
 			}
-
+						
 			res.json(outData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 	}
 }

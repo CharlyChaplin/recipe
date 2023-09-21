@@ -12,7 +12,7 @@ const SearchResult = ({ categoryFounded, blogFounded }) => {
 				<SearchResultWrapper>
 
 					<SearchResultBlock>
-						<SearchResultCategoryCaption categoryName="СУПЫ" />
+						<SearchResultCategoryCaption categoryName="РЕЦЕПТЫ" />
 
 						<SearchResultFindItemList>
 							{
