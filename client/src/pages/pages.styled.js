@@ -18,7 +18,7 @@ export const MainWrapper = styled(({ children, image, noOverlay, ...props }) => 
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	${adaptiveValue('border-radius', 30, 15)};
+	${adaptiveValue('border-radius', 15, 5)};
 	z-index: 0;
 	background: ${({ image }) => image && image?.split('').includes('#')
 		? image
