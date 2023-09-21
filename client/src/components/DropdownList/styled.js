@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { adaptiveValue, rem } from "init/mixins.js";
 import vars from "init/vars.js";
-import { rgba } from "polished";
+import { lighten, rgba } from "polished";
 
 const radius = rem(7);
 
@@ -129,12 +129,13 @@ export const DropdownListt = styled.ul`
 	width: 100%;
 	max-height: ${rem(157)};
 	overflow: auto;
+	scroll-behavior: smooth;
 	padding: 0;
 	cursor: pointer;
 	background-color: ${vars.whiteColor};
 	outline: 1px solid ${vars.lightGreen};
 	transition: all 0.25s ease 0s;
-	${adaptiveValue("font-size", 18, 18)};
+	/* ${adaptiveValue("font-size", 18, 12)}; */
 	border-bottom-left-radius: ${radius};
 	border-bottom-right-radius: ${radius};
 `;
@@ -144,11 +145,19 @@ export const DropdownListitem = styled(({ children, noItems, ...props }) => (
 ))`
 	user-select: 'none';
 	pointer-events: ${({ noItems }) => noItems ? 'none' : 'all'};
-	padding: ${rem(8)};
+	${adaptiveValue('padding-top', 8, 3)};
+	${adaptiveValue('padding-bottom', 8, 3)};
+	${adaptiveValue('padding-left', 8, 5)};
+	${adaptiveValue('padding-right', 8, 5)};
 	color: ${({ noItems }) => noItems ? vars.placeholderColor : vars.text};
 	font-family: "RobotoRegular", sans-serif;
-	${adaptiveValue('font-size', 16, 14)};
+	${adaptiveValue('font-size', 16, 12)};
+	line-height: 1.2;
 	margin-bottom: ${rem(0)};
+	
+	&:nth-child(even) {
+		background-color: ${lighten(.325, vars.lightGreen)};
+	}
 	
 	&:hover {
 		background-color: ${({ noItems }) => noItems ? vars.placeholderColor : rgba(vars.logoLight, .75)};

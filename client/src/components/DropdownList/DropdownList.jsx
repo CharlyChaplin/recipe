@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect, useRef } from 'react';
 import { nanoid } from 'nanoid';
 import { ItcCollapse } from './collapse.js';
@@ -6,8 +6,10 @@ import { Dropdown, DropdownBody, DropdownButtons, DropdownControl, DropdownDropb
 import Button from 'components/Button/Button.js';
 import vars from 'init/vars.js';
 import { UseOnClickOutside } from 'helpers/hooks';
-import {ReactComponent as ArrowICO} from './icon/arrow.svg';
+import { ReactComponent as ArrowICO } from './icon/arrow.svg';
 
+
+let elems;
 
 const DropdownList = ({
 	elements = [],
@@ -15,6 +17,7 @@ const DropdownList = ({
 	selectedValue,
 	minWidth,
 	labelText,
+	editable = false,
 	labelPos,
 	inputText = '',
 	setInputText = () => { },
@@ -31,6 +34,9 @@ const DropdownList = ({
 	const list = useRef(null);
 	const collapseButton = useRef(null);
 	let collapse;
+
+	const [search, setSearch] = useState('');
+	const [searchList, setSearchList] = useState([]);
 
 
 	useEffect(() => {
@@ -58,7 +64,22 @@ const DropdownList = ({
 		collapse.toggle();
 	}
 
+	function handleSearch(e) {
+		if (input.current.value.length) {
+			collapse.show();
+		} else {
+			collapse.hide();
+		}
+		
+		setSearch(e.target.value);
+		setSearchList(elements.filter(el => el.toLowerCase().includes(e.target.value.toLowerCase())));
+	}
+
 	UseOnClickOutside(dropdown, onBodyHide);
+
+	
+	elems = editable ? searchList : elements;
+
 
 	return (
 		<>
@@ -68,19 +89,17 @@ const DropdownList = ({
 					<DropdownControl position={labelPos}>
 						{!!labelText && labelText.length > 0 && <DropdownLabel position={labelPos}>{labelText}</DropdownLabel>}
 
-						<DropdownWrapper ref={dropdown} onClick={handleCollapse}>
+						<DropdownWrapper ref={dropdown} onClick={editable ? null : handleCollapse}>
 							<DropdownInputWrapper>
 								<DropdownDropbox minWidth={minWidth}>
-									<input ref={input} value={inputText} onChange={setInputText} type="text" placeholder={placeholder} readOnly />
-									<DropdownIcon>
-										<ArrowICO />
-									</DropdownIcon>
+									<input ref={input} value={editable ? search : inputText} onChange={editable ? handleSearch : setInputText} type="text" placeholder={placeholder} readOnly={!editable} />
+									<DropdownIcon><ArrowICO /></DropdownIcon>
 								</DropdownDropbox>
 							</DropdownInputWrapper>
 							<DropdownListt ref={list} className="collapse">
 								{
-									elements.length > 0
-										? elements.map(el => {
+									elems?.length > 0
+										? elems.map(el => {
 											return (
 												<DropdownListitem key={nanoid()}>
 													{el}

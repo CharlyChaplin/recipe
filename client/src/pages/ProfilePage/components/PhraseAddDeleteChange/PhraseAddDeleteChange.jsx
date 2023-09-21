@@ -153,6 +153,7 @@ const phraseAddChangeDelete = () => {
 					elements={phraseData.length ? phraseData : []}
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
 					minWidth={300}
+					editable
 					inputText={inputText}
 					setInputText={setInputText}
 					selectedValue={handleSelected}
