@@ -166,8 +166,9 @@ class UserController {
 				RETURNING *;
 			`);
 			// удаляем токены из Cookies
-			res.cookie('accesstoken', "");
-			res.cookie('refreshtoken', "");
+			res.clearCookie();
+			// res.cookie('accesstoken', "");
+			// res.cookie('refreshtoken', "");
 			res.status(200).json({ message: "ok" });
 		} catch (err) {
 			next(err)
@@ -565,8 +566,9 @@ class UserController {
 			`);
 			if (getCurrentUser.rows[0].email === isAccessValid.email) {
 				// удаляем токены из Cookies
-				res.cookie('accesstoken', "");
-				res.cookie('refreshtoken', "");
+				res.clearCookie();
+				// res.cookie('accesstoken', "");
+				// res.cookie('refreshtoken', "");
 				// делаем отметку в возвращаемом объекте
 				userData = { ...userData, itself: true };
 			} else {
