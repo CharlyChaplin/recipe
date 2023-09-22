@@ -11,7 +11,7 @@ const ax = axios.create({
 
 ax.interceptors.request.use(config => {
 	if (Cookies.get('accesstoken')) {
-		config.headers.authorization = `Bearer ${Cookies.get('accesstoken')}`;
+		config.headers.Authorization = `Bearer ${Cookies.get('accesstoken')}`;
 	}
 	return config;
 });
