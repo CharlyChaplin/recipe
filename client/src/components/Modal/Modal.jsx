@@ -57,7 +57,6 @@ const Modal = ({ params: {
 				}
 				break;
 			default:
-				console.log("Hello default");
 				okBtnFunc();
 				onClose();
 				break;

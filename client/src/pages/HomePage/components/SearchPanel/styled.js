@@ -18,7 +18,7 @@ export const SearchMainFormInputWrapper = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
 	width: 100%;
-	${adaptiveValue('border-radius', 20, 10)};
+	${adaptiveValue('border-radius', vars.borderRadiusSearchInput, vars.borderRadiusSearchInput - 5)};
 	border: ${rem(2)} solid ${vars.darkGreen};
 	overflow: hidden;
 `;
@@ -45,8 +45,8 @@ export const SearchMainFormPlaceholderBox = styled(({ children, showSearch, ...p
 		flex-direction: row;
 		align-items: center;
 		outline: none;
-		border-top-right-radius: ${({ showSearch }) => showSearch ? 0 : vars.borderRadiusSearchInput};
-		border-bottom-right-radius: ${({ showSearch }) => showSearch ? 0 : vars.borderRadiusSearchInput};
+		border-top-right-radius: ${({ showSearch }) => showSearch ? 0 : `${adaptiveValue('border-top-right-radius', vars.borderRadiusSearchInput, vars.borderRadiusSearchInput) - 5}`};
+		border-bottom-right-radius: ${({ showSearch }) => showSearch ? 0 : `${adaptiveValue('border-bottom-right-radius', vars.borderRadiusSearchInput, vars.borderRadiusSearchInput) - 5}`};
 		&:invalid + ${PlaceholderText} {
 			display: block;
 		}

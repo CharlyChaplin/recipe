@@ -17,7 +17,7 @@ const app = express();
 
 
 var corsOptions = {
-	origin: 'https://lexun.ru',
+	origin: 'http://localhost:3000',
 	credentials: true,
 }
 

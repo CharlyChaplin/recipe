@@ -48,7 +48,7 @@ export const RecipeEditTop = styled(({ children, ...props }) => (
 `;
 
 export const RecipeWrapper = styled(({ noLine, children, ...props }) => {
-	// console.log(noLine);
+	
 	return (
 		<div {...props}>
 			{children}

@@ -73,7 +73,6 @@ const UserAddChangeDelete = () => {
 				modalStore.changeUserEditEmailForChange('');
 				dispatch(userGetUsers());
 			} catch (error) {
-				console.log(error);
 				dispatch(showInfo({ text: `Ошибка при удалении пользователя`, cancel: true }));
 			}
 		}

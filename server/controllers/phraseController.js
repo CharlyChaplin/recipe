@@ -22,6 +22,7 @@ class PhraseController {
 			if (!getUser.rowCount) throw ApiError.UnathorizedError();
 			user_id = getUser.rows[0].id;
 		}
+
 		// после всех проверок достаём фразу для занесения её в БД
 		const { phraseText } = req.body;
 		db.query(`SELECT MAX(id) FROM phrase;`)
@@ -30,7 +31,11 @@ class PhraseController {
 			'${user_id}','${phraseText}') RETURNING *;`)
 			.then(resp => res.json(resp.rows[0]))
 			.catch(err => {
-				res.status(400).json({message: err})
+				if (Number(err.code) === 23505) {
+					res.status(400).json({ message: "Такая фраза уже существует!" });
+				} else {
+					res.status(400).json({ message: "Ошибка при добавлении" });
+				}
 			});
 	}
 
@@ -54,13 +59,13 @@ class PhraseController {
 		const { phrase } = req.body;
 		db.query(`DELETE FROM phrase WHERE caption='${phrase}' RETURNING caption;`)
 			.then(resp => res.json([resp.rows[0].caption]))
-			.catch(err => res.json({message: err}));
+			.catch(err => res.json({ message: err }));
 	}
 
 	async changePhrase(req, res) {
 		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
-		
+
 		// если токен валиден
 		let user_id = 0;
 		if (isAccessValid) {
@@ -72,26 +77,29 @@ class PhraseController {
 			if (!getUser.rowCount) throw ApiError.UnathorizedError();
 			user_id = getUser.rows[0].id;
 		}
-		
+
 		// после всех проверок достаём фразы для изменения в БД
 		const { oldPhrase, newPhrase } = req.body;
-		console.log(`
-		UPDATE phrase SET caption='${newPhrase}'
-		WHERE caption='${oldPhrase}' RETURNING *;
-	`);
+
 		db.query(`
 			UPDATE phrase SET caption='${newPhrase}'
 			WHERE caption='${oldPhrase}' RETURNING *;
 		`)
 			.then(resp => res.json(resp.rows[0]))
-			.catch(err => res.status(400).json({message: err}));
+			.catch(err => {
+				if (Number(err.code) === 23505) {
+					res.status(400).json({ message: "Такая фраза уже существует!" });
+				} else {
+					res.status(400).json({ message: "Ошибка при изменении." });
+				}
+			});
 	}
 
 	getPhraseById(req, res) {
 		const { id } = req.params;
 		db.query(`SELECT * FROM phrase WHERE id=${id};`)
 			.then(resp => res.json(resp.rows))
-			.catch(err => res.json({message: err}));
+			.catch(err => res.json({ message: err }));
 	}
 
 	getRandomPhrase(req, res) {
@@ -102,7 +110,7 @@ class PhraseController {
 			ORDER BY random() LIMIT 1;
 		`)
 			.then(resp => res.json(resp.rows))
-			.catch(err => res.json({message: err}));
+			.catch(err => res.json({ message: err }));
 	}
 
 	async getAllPhrases(req, res) {
@@ -111,11 +119,11 @@ class PhraseController {
 
 		// после всех проверок достаём фразы в зависимости от прав пользователя
 		try {
-			const isPhrases = await db.query(`SELECT * FROM phrase;`);
+			const isPhrases = await db.query(`SELECT * FROM phrase ORDER BY caption;`);
 			const out = isPhrases.rows.map(item => item.caption);
 			res.json(out);
 		} catch (err) {
-			res.status(400).json({message: err});
+			res.status(400).json({ message: err });
 		}
 	}
 }

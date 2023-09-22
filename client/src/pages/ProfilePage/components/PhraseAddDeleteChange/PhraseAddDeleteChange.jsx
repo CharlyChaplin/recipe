@@ -21,7 +21,7 @@ const phraseAddChangeDelete = () => {
 	let modalStore = useContext(DataContext);
 
 	const { userData } = useSelector(state => state.userReducer);
-	const { phraseData, loading } = useSelector(state => state.phraseReducer);
+	const { phraseData, loading, errors } = useSelector(state => state.phraseReducer);
 	const dispatch = useDispatch();
 
 	const [newPhrase, setNewPhrase] = useState('');
@@ -70,7 +70,7 @@ const phraseAddChangeDelete = () => {
 				dispatch(phraseGetPhrases());	// получаем заного оставшиеся фразы
 			}
 		} catch (error) {
-			dispatch(showInfo({ text: `Ошибка при добавлении (${error.response.data.detail})`, cancel: true }));
+			dispatch(showInfo({ text: error.response.data.message, cancel: true }));
 		}
 	}, [dispatch, newPhrase]);
 
@@ -116,7 +116,7 @@ const phraseAddChangeDelete = () => {
 				dispatch(phraseGetPhrases());	// получаем заного оставшиеся фразы
 			}
 		} catch (error) {
-			dispatch(showInfo({ text: `Ошибка при изменении (${error.response.data.detail})`, cancel: true }));
+			dispatch(showInfo({ text: error.response.data.message, cancel: true }));
 		}
 
 	}, [dispatch, changedPhrase]);
@@ -136,7 +136,7 @@ const phraseAddChangeDelete = () => {
 				<AddWrapper>
 					<Input
 						labelPos='column'
-						labelText='Добавить фразу:'
+						labelText={`Добавить фразу (всего фраз ${phraseData?.length}):`}
 						value={newPhrase}
 						placeholder='Новая фраза...'
 						type='textarea'
@@ -153,6 +153,7 @@ const phraseAddChangeDelete = () => {
 					elements={phraseData.length ? phraseData : []}
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
 					minWidth={300}
+					editable
 					inputText={inputText}
 					setInputText={setInputText}
 					selectedValue={handleSelected}

@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 
 
 const ImageInsert = ({ currentFile, selectedFile, placeholder, clear }) => {
-	// console.log('currentFile=', currentFile, 'selectedFile=', selectedFile);
 	const [draggable, setDraggable] = useState(false);
 
 	const [file, setFile] = useState(null);
