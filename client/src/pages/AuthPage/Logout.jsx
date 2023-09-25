@@ -16,9 +16,9 @@ const Logout = memo(() => {
 
 	useEffect(() => {
 		// if (isConfirmResult) {
-			setTimeout(() => {
-				handleLogout();
-			}, 200);
+		// setTimeout(() => {
+		handleLogout();
+		// }, 200);
 		// }
 	}, []);
 
@@ -29,7 +29,7 @@ const Logout = memo(() => {
 			dispatch(showInfo({ text: `Увидимся!` }));
 		}
 
-		await dispatch(userLogout());
+		dispatch(userLogout());
 
 		navigate(paths.home);
 
