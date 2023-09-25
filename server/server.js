@@ -29,15 +29,16 @@ app.options('*', cors(corsOptions));
 
 app.use(cors(corsOptions));
 
+app.use(function(req, res, next) {
+	res.setHeader('Cache-Control', 'no-cache');
+	next();
+ });
+
 app.use(express.json());
 app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
-app.use((req, res, next) => {
-	res.header('Cache-Control', 'no-cache');
-	next();
-})
 app.use('/', router);
 
 app.use(errorMiddleware);
