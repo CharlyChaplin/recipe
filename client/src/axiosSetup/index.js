@@ -24,7 +24,7 @@ ax.interceptors.response.use(response => {
 		if (error.response.status === 401 && error.config && !error.config._isRetry) {
 			error.config._isRetry = true;
 			try {
-				await axios.get(`${vars.remoteHost}/user/refresh`, { withCredentials: true });
+				await axios.get(`${vars.remoteHost}/user/refresh`, { withCredentials: true, headers: { 'Content-Type': 'application/json' } });
 				return ax.request(originalRequest);
 			} catch (err) {
 				console.log(err.message);
