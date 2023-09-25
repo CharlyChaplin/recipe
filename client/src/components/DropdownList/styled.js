@@ -87,7 +87,6 @@ export const DropdownWrapper = styled.div`
 `;
 
 export const DropdownDropbox = styled(({ minWidth, children, ...props }) => {
-
 	return (
 		<div {...props}>{children}</div>
 	)
@@ -133,7 +132,7 @@ export const DropdownListt = styled.ul`
 	padding: 0;
 	cursor: pointer;
 	background-color: ${vars.whiteColor};
-	outline: 1px solid ${vars.lightGreen};
+	outline: ${rem(1)} solid ${vars.lightGreen};
 	transition: all 0.25s ease 0s;
 	/* ${adaptiveValue("font-size", 18, 12)}; */
 	border-bottom-left-radius: ${radius};

@@ -166,8 +166,8 @@ class UserController {
 				RETURNING *;
 			`);
 			// удаляем токены из Cookies
-			res.cookie('accesstoken', "");
-			res.cookie('refreshtoken', "");
+			res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 			res.status(200).json({ message: "ok" });
 		} catch (err) {
 			next(err)
@@ -565,8 +565,8 @@ class UserController {
 			`);
 			if (getCurrentUser.rows[0].email === isAccessValid.email) {
 				// удаляем токены из Cookies
-				res.cookie('accesstoken', "");
-				res.cookie('refreshtoken', "");
+				res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+				res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 				// делаем отметку в возвращаемом объекте
 				userData = { ...userData, itself: true };
 			} else {

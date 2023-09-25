@@ -70,14 +70,14 @@ const DropdownList = ({
 		} else {
 			collapse.hide();
 		}
-		
+
 		setSearch(e.target.value);
 		setSearchList(elements.filter(el => el.toLowerCase().includes(e.target.value.toLowerCase())));
 	}
 
 	UseOnClickOutside(dropdown, onBodyHide);
 
-	
+
 	elems = editable ? searchList : elements;
 
 
@@ -93,7 +93,7 @@ const DropdownList = ({
 							<DropdownInputWrapper>
 								<DropdownDropbox minWidth={minWidth}>
 									<input ref={input} value={editable ? search : inputText} onChange={editable ? handleSearch : setInputText} type="text" placeholder={placeholder} readOnly={!editable} />
-									<DropdownIcon><ArrowICO /></DropdownIcon>
+									<DropdownIcon onClick={handleCollapse}><ArrowICO /></DropdownIcon>
 								</DropdownDropbox>
 							</DropdownInputWrapper>
 							<DropdownListt ref={list} className="collapse">
