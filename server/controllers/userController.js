@@ -282,8 +282,8 @@ class UserController {
 	}
 
 	async getUsers(req, res, next) {
-		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		try {
+			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
 			// получаем id юзера, по email из токена
@@ -294,7 +294,7 @@ class UserController {
 			if (!getUser.rowCount) throw ApiError.UnathorizedError();
 			const role = getUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
-			
+
 			let userData;
 			if (roleDescription === 'admin') {
 				const users = await db.query(`SELECT email FROM users ORDER BY ASC;`);
