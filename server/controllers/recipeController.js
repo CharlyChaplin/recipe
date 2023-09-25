@@ -380,6 +380,7 @@ class RecipeController {
 				db.query('SELECT * FROM recipe ORDER BY id ASC;')
 					.then(resp => {
 						const out = resp.rows.map(item => item.caption);
+						console.log("out=", out);
 						res.json(out);
 					})
 					.catch(err => res.status(400).json({ message: err }));
