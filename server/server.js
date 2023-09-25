@@ -14,6 +14,7 @@ const PORT = config().parsed.PORT || 5000;
 if (!fs.existsSync('static')) fs.mkdirSync('./static', err => console.log(err));
 
 const app = express();
+app.use(cookieParser());
 
 
 var corsOptions = {
@@ -36,7 +37,6 @@ app.use(function(req, res, next) {
 
 app.use(express.json());
 app.use('/test', (req, res) => res.json("Hello from server!"));
-app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 app.use('/', router);
