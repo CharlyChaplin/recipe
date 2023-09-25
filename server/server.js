@@ -20,7 +20,7 @@ var corsOptions = {
 	preflightContinue: true,
 	origin: 'https://lexun.ru',
 	credentials: true,
-	allowedHeaders: ['Content-Type', 'Authorization'],
+	allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control'],
 	methods: ['GET', 'PUT', 'POST', 'DELETE'],
 	// optionsSuccessStatus: 200
 }
@@ -34,6 +34,10 @@ app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
+app.use((req, res, next) => {
+	res.header('Cache-Control', 'no-cache');
+	next();
+})
 app.use('/', router);
 
 app.use(errorMiddleware);
