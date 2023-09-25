@@ -24,12 +24,12 @@ var corsOptions = {
 // app.options('*', cors());
 
 app.use(express.json());
-app.use(cors(corsOptions));
 app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 app.use('/', router);
+app.use(cors(corsOptions));
 
 app.use(errorMiddleware);
 app.listen(PORT, console.log(`Server has started on port ${PORT}`));
