@@ -313,13 +313,33 @@ class UserController {
 	}
 
 	async getUsersNickname(req, res, next) {
-		const usersName = await db.query(`
-			SELECT B.name FROM users A, persondata B
-			WHERE A.id = B.user_id;
-		`);
+		try {
+			const { isAccessValid } = await primaryCheckUser(req.cookies);
+			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-		const sendData = usersName.rows.map(item => item.name);
-		res.json(sendData);
+			// получаем id юзера, по email из токена
+			const checkGetUser = await db.query(`
+				SELECT * FROM users
+				WHERE email = '${isAccessValid.email}';
+			`);
+
+			if (!checkGetUser.rowCount) throw ApiError.UnathorizedError();
+			const role = checkGetUser.rows[0].role;
+			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
+			
+			let sendData = [];
+			if (roleDescription === 'admin') {
+				const usersName = await db.query(`
+				SELECT B.name FROM users A, persondata B
+				WHERE A.id = B.user_id;
+			`);
+				sendData = usersName.rows.map(item => item.name);
+			}
+			res.json(sendData);
+		} catch (err) {
+			res.status(400).json({ message: err });
+		}
+
 	}
 
 	async getUser(req, res, next) {
