@@ -505,7 +505,7 @@ class UserController {
 					WHERE email = '${email}';
 				`);
 				// получаем дополнительные данные юзера
-				const getAdditionalUser = await db.query(`SELECT * FROM persondata WHERE user_id = ${getUser.rows[0].id}`);
+				const getAdditionalUser = await db.query(`SELECT * FROM persondata WHERE user_id = ${checkGetUser.rows[0].id}`);
 				if (!getAdditionalUser.rowCount) throw ApiError.BadRequest("Error while fetching user data.");
 
 				// получаем строковое значение роли юзера
