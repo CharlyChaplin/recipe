@@ -224,7 +224,8 @@ class UserController {
 		try {
 			// достаём из cookies refreshToken
 			const refreshToken = req.cookies.refreshtoken;
-			if (!refreshToken) throw ApiError.UnathorizedError("Absent refreshToken in cookies");
+			// if (!refreshToken) throw ApiError.UnathorizedError("Absent refreshToken in cookies");
+			if (!refreshToken) res.json();
 			// проверяем есть ли refreshToken в БД
 			const isTokenExists = await db.query(`
 				SELECT * FROM token
@@ -306,7 +307,8 @@ class UserController {
 	async getUser(req, res, next) {
 		try {
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
-			if (!isAccessValid) return res.status(401).json({ message: "User not authorized" });
+			// if (!isAccessValid) return res.status(401).json({ message: "User not authorized" });
+			if (!isAccessValid) return res.json();
 
 			// если токены валидны, получаем id юзера, имеющего email
 			const getUser = await db.query(`
