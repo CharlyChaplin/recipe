@@ -27,7 +27,7 @@ const SignIn = () => {
 				getAuth();
 				navigate(paths.home);
 			} else {
-				console.log(errors);
+				console.log(errors, errors.message);
 				// if (error.response.data.message === 'User not registered.') {
 				// 	setLoading(false);
 				// 	dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
