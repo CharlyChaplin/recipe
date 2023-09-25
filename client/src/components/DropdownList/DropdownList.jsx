@@ -78,7 +78,11 @@ const DropdownList = ({
 	UseOnClickOutside(dropdown, onBodyHide);
 
 
-	elems = editable ? searchList : elements;
+	elems = editable
+		? searchList.length
+			? searchList
+			: elements
+		: elements;
 
 
 	return (
