@@ -26,19 +26,20 @@ var corsOptions = {
 	optionsSuccessStatus: 200
 }
 
-app.options('*', cors(corsOptions));
-
-app.use(cors(corsOptions));
 
 app.use(function(req, res, next) {
 	res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
 	next();
- });
+});
 
 app.use(express.json());
-app.use('/test', (req, res) => res.json("Hello from server!"));
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
+
+app.use('/test', (req, res) => res.json("Hello from server!"));
+
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
 app.use('/', router);
 
 app.use(errorMiddleware);

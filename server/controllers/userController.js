@@ -13,7 +13,7 @@ import ResetSeq from '../services/resetSequence.js';
 
 
 class UserController {
-	async signup(req, res, next) {
+	async signup(req, res) {
 		try {
 			const { email, password } = req.body;
 			const resultValidation = validationResult(req);
@@ -71,11 +71,11 @@ class UserController {
 
 			res.json({ message: "User registered. Check your e-mail." });
 		} catch (err) {
-			next(err);
+			res.status(400).json({ message: err });
 		}
 	}
 
-	async signin(req, res, next) {
+	async signin(req, res) {
 		try {
 			let refreshToken;
 			const { email, password } = req.body;
@@ -139,11 +139,11 @@ class UserController {
 			// В Cookies сохраняем accessToken и refreshToken
 			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
 			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
-			
-			
+
+
 			res.json(userData);
 		} catch (err) {
-			next(err)
+			res.status(400).json({ message: err });
 		}
 	}
 
@@ -327,7 +327,7 @@ class UserController {
 			if (!checkGetUser.rowCount) throw ApiError.UnathorizedError();
 			const role = checkGetUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
-			
+
 			let sendData = [];
 			if (roleDescription === 'admin') {
 				const usersName = await db.query(`
