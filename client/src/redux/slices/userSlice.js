@@ -33,7 +33,6 @@ export const userLogin = createAsyncThunk(
 			const resp = await axios.post('/user/signin', formData);
 			return resp.data;
 		} catch (err) {
-			console.log(err);
 			return rejectWithValue(err.message);
 		}
 	}
