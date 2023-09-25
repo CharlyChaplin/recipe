@@ -22,10 +22,10 @@ var corsOptions = {
 	credentials: true,
 	allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control'],
 	methods: ['GET', 'PUT', 'POST', 'DELETE'],
-	// optionsSuccessStatus: 200
+	optionsSuccessStatus: 200
 }
 
-// app.options('*', cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(cors(corsOptions));
 
