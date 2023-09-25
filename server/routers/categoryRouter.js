@@ -5,9 +5,9 @@ import roleCheck from "../middlewares/roleCheck.js";
 const categoryRouter = Router();
 
 
-categoryRouter.post('/add', roleCheck(1), CategoryController.addCategory);
-categoryRouter.post('/delete', roleCheck(1), CategoryController.deleteCategory);
-categoryRouter.post('/edit', roleCheck(1), CategoryController.editCategory);
+categoryRouter.post('/add', CategoryController.addCategory);
+categoryRouter.post('/delete', CategoryController.deleteCategory);
+categoryRouter.post('/edit', CategoryController.editCategory);
 categoryRouter.get('/categories', CategoryController.getAllCategories);
 categoryRouter.post('/getcategoryname', CategoryController.getCategoryName);
 
