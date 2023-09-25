@@ -181,7 +181,7 @@ export const userSlice = createSlice({
 			state.userData = "";
 			state.errors = action.payload;
 			state.isAuth = false;
-			state.completed = false;
+			state.completed = true;
 		});
 		//========================================================================================================================================================
 		build.addCase(userLogout.pending, (state, action) => {
