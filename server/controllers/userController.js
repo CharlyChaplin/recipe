@@ -286,7 +286,7 @@ class UserController {
 			console.log('req.cookies from getUsers()=', req.cookies);
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
-
+			console.log("hello");
 			// получаем id юзера, по email из токена
 			const getUser = await db.query(`
 				SELECT * FROM users
