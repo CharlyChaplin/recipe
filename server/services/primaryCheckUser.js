@@ -4,6 +4,7 @@ import TokenService from './tokenService.js';
 export async function primaryCheckUser({ accesstoken, refreshtoken }) {
 	if (!accesstoken && !refreshtoken) throw ApiError.UnathorizedError();
 	// проверяем accessToken на валидность
+	console.log(accesstoken);
 	const isAccessValid = TokenService.validAccessToken(accesstoken);
 	// проверяем refreshToken на валидность
 	const isRefreshValid = TokenService.validRefreshToken(refreshtoken);
