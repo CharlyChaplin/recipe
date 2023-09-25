@@ -21,8 +21,8 @@ const SignIn = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!loading && completed) {
-			if (!errors) {
+		if (!loading) {
+			if (!errors && completed) {
 				dispatch(showInfo({ text: getGreeting(userData?.user?.nickname) }));
 				getAuth();
 				navigate(paths.home);
