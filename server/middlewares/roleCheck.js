@@ -5,7 +5,7 @@ function roleCheck(role) {
 	return function (req, res, next) {
 		console.log("req=", req.headers);
 		// достаём accessToken из заголовка Authorization
-		const accessToken = req.headers?.Authorization?.split(' ')[1];
+		const accessToken = req.headers?.authorization?.split(' ')[1];
 		console.log(accessToken);
 		if (!accessToken) return res.status(401).json("User not authorized");
 		// расшифровываем токен и убеждаемся что он не истёк
