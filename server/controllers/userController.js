@@ -299,7 +299,7 @@ class UserController {
 
 			let userData = [];
 			if (roleDescription === 'admin') {
-				const users = await db.query(`SELECT email FROM users ORDER BY ASC;`);
+				const users = await db.query(`SELECT email FROM users;`);
 
 				if (users.rowCount) {
 					userData = users.rows.map(el => el.email);
