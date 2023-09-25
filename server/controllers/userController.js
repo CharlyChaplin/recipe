@@ -483,37 +483,46 @@ class UserController {
 	async getUserByEmail(req, res, next) {
 		try {
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
-			// получаем id юзера, имеющего email
-			const getUserId = await db.query(`
+			if (!isAccessValid.email) throw ApiError.UnathorizedError();
+
+			// получаем id юзера, по email из токена
+			const checkGetUser = await db.query(`
+				SELECT * FROM users
+				WHERE email = '${isAccessValid.email}';
+			`);
+
+			if (!checkGetUser.rowCount) throw ApiError.UnathorizedError();
+			const role = checkGetUser.rows[0].role;
+			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
+
+			let userData = {};
+			if (roleDescription === 'admin') {
+				// после проверки токена выполняем основные действия
+				const { email } = req.body;
+				// получаем данные юзера
+				const checkGetUser = await db.query(`
 					SELECT * FROM users
-					WHERE email = '${isAccessValid.email}';
+					WHERE email = '${email}';
 				`);
-			let userId = 0;
-			if (!getUserId.rowCount) throw ApiError.UnathorizedError();
-			userId = getUserId.rows[0].id;
+				// получаем дополнительные данные юзера
+				const getAdditionalUser = await db.query(`SELECT * FROM persondata WHERE user_id = ${getUser.rows[0].id}`);
+				if (!getAdditionalUser.rowCount) throw ApiError.BadRequest("Error while fetching user data.");
 
-			// после проверки токена выполняем основные действия
-			const { email } = req.body;
-			// получаем основные данные юзера
-			const getUser = await db.query(`SELECT * FROM users WHERE email = '${email}';`);
-			if (!getUser.rowCount) throw ApiError.BadRequest("Error while fetching user data.");
-			// получаем дополнительные данные юзера
-			const getAdditionalUser = await db.query(`SELECT * FROM persondata WHERE user_id = ${getUser.rows[0].id}`);
-			if (!getAdditionalUser.rowCount) throw ApiError.BadRequest("Error while fetching user data.");
-
-			// получаем строковое значение роли юзера
-			const strRole = await db.query(`
+				// получаем строковое значение роли юзера
+				const strRole = await db.query(`
 				SELECT role FROM roles
 				WHERE id=${getUser.rows[0].role}
 			`);
 
-			const userData = {
-				email: getUser.rows[0].email,
-				role: strRole.rows[0].role,
-				isactivated: getUser.rows[0].isactivated,
-				nickname: getAdditionalUser.rows[0].name,
-				avatar: config().parsed.LOCAL_ADDRESS + '/' + getAdditionalUser.rows[0].avatar
-			};
+				userData = {
+					email: getUser.rows[0].email,
+					role: strRole.rows[0].role,
+					isactivated: getUser.rows[0].isactivated,
+					nickname: getAdditionalUser.rows[0].name,
+					avatar: config().parsed.LOCAL_ADDRESS + '/' + getAdditionalUser.rows[0].avatar
+				};
+			}
+
 			res.json(userData);
 		} catch (err) {
 			next(err);
@@ -525,39 +534,51 @@ class UserController {
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
+			// получаем id юзера, по email из токена
+			const checkGetUser = await db.query(`
+				SELECT * FROM users
+				WHERE email = '${isAccessValid.email}';
+			`);
+
+			if (!checkGetUser.rowCount) throw ApiError.UnathorizedError();
+			const checkRole = checkGetUser.rows[0].role;
+			const roleDescription = checkRole === 1 ? 'admin' : checkRole === 2 ? 'user' : 'unknown';
+
 			let userData = {};
+			if (roleDescription === 'admin') {
+				const { email, nickname, role } = req.body;
+				// получаем основные данные юзера для замены
+				const getUser = await db.query(`SELECT * FROM users WHERE email = '${email}';`);
+				if (!getUser.rowCount) throw ApiError.BadRequest("Error while fetching user data.");
 
-			const { email, nickname, role } = req.body;
-			// получаем основные данные юзера для замены
-			const getUser = await db.query(`SELECT * FROM users WHERE email = '${email}';`);
-			if (!getUser.rowCount) throw ApiError.BadRequest("Error while fetching user data.");
+				// изменяем дополнительные данные юзера
+				let getAdditionalUser = '';
+				if (nickname.length) {
+					getAdditionalUser = await db.query(`
+						UPDATE persondata SET name='${nickname}'
+						WHERE user_id = ${getUser.rows[0].id}
+						RETURNING *;
+					`);
+					userData = { ...userData, nickname: getAdditionalUser.rows[0].name };
+					if (!getAdditionalUser.rowCount) throw ApiError.BadRequest("Error while changing user nickname.");
+				}
 
-			// изменяем дополнительные данные юзера
-			let getAdditionalUser = '';
-			if (nickname.length) {
-				getAdditionalUser = await db.query(`
-					UPDATE persondata SET name='${nickname}'
-					WHERE user_id = ${getUser.rows[0].id}
-					RETURNING *;
-				`);
-				userData = { ...userData, nickname: getAdditionalUser.rows[0].name };
-				if (!getAdditionalUser.rowCount) throw ApiError.BadRequest("Error while changing user nickname.");
+				// изменяем основные данные юзера
+				let isRoles = '';
+				let getChangedUser = '';
+				if (role) {
+					// получаем все роли
+					isRoles = await db.query(`SELECT id from roles WHERE role='${role}'`);
+					getChangedUser = await db.query(`
+						UPDATE users SET role = '${isRoles.rows[0].id}'
+						WHERE id = ${getUser.rows[0].id}
+						RETURNING *;
+					`);
+					userData = { ...userData, role: getChangedUser.rows[0].id }
+					if (!getChangedUser.rowCount) throw ApiError.BadRequest("Error while changing user role.");
+				}
 			}
 
-			// изменяем основные данные юзера
-			let isRoles = '';
-			let getChangedUser = '';
-			if (role) {
-				// получаем все роли
-				isRoles = await db.query(`SELECT id from roles WHERE role='${role}'`);
-				getChangedUser = await db.query(`
-					UPDATE users SET role = '${isRoles.rows[0].id}'
-					WHERE id = ${getUser.rows[0].id}
-					RETURNING *;
-				`);
-				userData = { ...userData, role: getChangedUser.rows[0].id }
-				if (!getChangedUser.rowCount) throw ApiError.BadRequest("Error while changing user role.");
-			}
 
 			// формируем данные для отправки
 			userData = {

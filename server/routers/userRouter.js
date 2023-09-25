@@ -19,8 +19,8 @@ userRouter.get('/getusersname', roleCheck(1), UserController.getUsersNickname);
 userRouter.get('/getuser', UserController.getUser);
 userRouter.get('/getroles', UserController.getRoles);
 userRouter.post('/updateuser', UserController.updateUser);
-userRouter.post('/getuserbyemail', roleCheck(1), UserController.getUserByEmail);
-userRouter.post('/changeuserbyemail', roleCheck(1), UserController.changeUserByEmail);
+userRouter.post('/getuserbyemail', UserController.getUserByEmail);
+userRouter.post('/changeuserbyemail', UserController.changeUserByEmail);
 userRouter.post('/delete', roleCheck(1), UserController.deleteUser);
 
 
