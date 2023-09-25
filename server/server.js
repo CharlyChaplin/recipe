@@ -27,7 +27,7 @@ var corsOptions = {
 }
 
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
 	next();
 });
@@ -40,7 +40,9 @@ app.use('/test', (req, res) => res.json("Hello from server!"));
 
 app.options('*', cors(corsOptions));
 // app.use(cors(corsOptions));
-app.use('/', cors(corsOptions), router);
+// app.use('/', cors(corsOptions), router);
+app.all('*', cors(corsOptions));
+app.use('/', router);
 
 app.use(errorMiddleware);
 app.listen(PORT, console.log(`Server has started on port ${PORT}`));
