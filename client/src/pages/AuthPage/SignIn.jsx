@@ -23,7 +23,7 @@ const SignIn = () => {
 	useEffect(() => {
 		if (completed) {
 			if (!errors) {
-				dispatch(showInfo({ text: getGreeting(resp.data.user?.nickname) }));
+				dispatch(showInfo({ text: getGreeting(userData?.user?.nickname) }));
 				getAuth();
 				navigate(paths.home);
 			} else {

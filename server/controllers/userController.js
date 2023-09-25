@@ -107,7 +107,7 @@ class UserController {
 					role: isUserExists.rows[0].role,
 					isactivated: isUserExists.rows[0].isactivated,
 					nickname: userNickname,
-					avatar: userAvatar
+					avatar: config().parsed.LOCAL_ADDRESS + '/' + userAvatar
 				}
 			}
 			// refreshToken генерируется раз в 30 дн. исключением является
