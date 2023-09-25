@@ -44,7 +44,8 @@ export const userLogout = createAsyncThunk(
 		try {
 			const resp = await axios.get('/user/logout');
 			if (resp.status === 200) {
-				Cookies.remove('accesstoken');
+				const tmp = Cookies.remove('accesstoken');
+				console.log(tmp);
 				Cookies.remove('refreshtoken');
 			}
 			return resp.data;

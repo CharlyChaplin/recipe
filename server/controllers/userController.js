@@ -79,6 +79,7 @@ class UserController {
 		try {
 			let refreshToken;
 			const { email, password } = req.body;
+			console.log(email, password);
 			// проверяем есть ли юзер в БД
 			const isUserExists = await db.query(`SELECT * FROM users WHERE email='${email}';`);
 			if (!isUserExists.rowCount) throw ApiError.BadRequest("User not registered.");
