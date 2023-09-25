@@ -21,7 +21,7 @@ const SignIn = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (completed) {
+		if (!loading && completed) {
 			if (!errors) {
 				dispatch(showInfo({ text: getGreeting(userData?.user?.nickname) }));
 				getAuth();
@@ -73,7 +73,6 @@ const SignIn = () => {
 		fd.append('email', login);
 		fd.append('password', password);
 		dispatch(userLogin(fd));
-
 	}, [dispatch, userData, login, password, loading]);
 
 
