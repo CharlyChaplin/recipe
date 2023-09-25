@@ -64,7 +64,6 @@ export const userGetUser = createAsyncThunk(
 			console.log(resp.data);
 			return resp.data;
 		} catch (err) {
-			console.log("err=", err);
 			return rejectWithValue(err.message);
 		}
 	}
