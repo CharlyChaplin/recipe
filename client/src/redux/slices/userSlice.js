@@ -26,7 +26,6 @@ export const userRegister = createAsyncThunk(
 	}
 );
 
-// пока не используется нигде
 export const userLogin = createAsyncThunk(
 	'user/signin',
 	async (formData, { rejectWithValue }) => {
@@ -34,6 +33,7 @@ export const userLogin = createAsyncThunk(
 			const resp = await axios.post('/user/signin', formData);
 			return resp.data;
 		} catch (err) {
+			console.log(err);
 			return rejectWithValue(err.message);
 		}
 	}
