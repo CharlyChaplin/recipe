@@ -76,16 +76,16 @@ class UserController {
 	}
 
 	async signin(req, res) {
-		try {
-			let refreshToken;
-			const { email, password } = req.body;
-			// проверяем есть ли юзер в БД
-			const isUserExists = await db.query(`SELECT * FROM users WHERE email='${email}';`);
-			if (!isUserExists.rowCount) throw ApiError.BadRequest("User not registered.");
-			// проверяем правильность пароля
-			const match = bcrypt.compareSync(password, isUserExists.rows[0].password);
-			if (!match) throw ApiError.BadRequest("Login or password are wrong.");
+		let refreshToken;
+		const { email, password } = req.body;
+		// проверяем есть ли юзер в БД
+		const isUserExists = await db.query(`SELECT * FROM users WHERE email='${email}';`);
+		if (!isUserExists.rowCount) throw ApiError.BadRequest("User not registered.");
+		// проверяем правильность пароля
+		const match = bcrypt.compareSync(password, isUserExists.rows[0].password);
+		if (!match) throw ApiError.BadRequest("Login or password are wrong.");
 
+		try {
 			// создаём данные для токенов
 			const payload = {
 				email: isUserExists.rows[0].email,
