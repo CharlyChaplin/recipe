@@ -283,21 +283,21 @@ class UserController {
 
 	async getUsers(req, res, next) {
 		try {
-			console.log('req.cookies from getUsers()=', req.cookies);
+			// console.log('req.cookies from getUsers()=', req.cookies);
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
-			
+
 			// получаем id юзера, по email из токена
 			const getUser = await db.query(`
 				SELECT * FROM users
 				WHERE email = '${isAccessValid.email}';
 			`);
-			console.log(getUser.rows);
+
 			if (!getUser.rowCount) throw ApiError.UnathorizedError();
 			const role = getUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
-			
-			let userData;
+
+			let userData = [];
 			if (roleDescription === 'admin') {
 				const users = await db.query(`SELECT email FROM users ORDER BY ASC;`);
 
@@ -307,7 +307,7 @@ class UserController {
 					userData = [];
 				}
 			}
-			
+
 			res.json(userData);
 		} catch (err) {
 			res.status(400).json({ message: err });
