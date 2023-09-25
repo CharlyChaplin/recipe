@@ -283,7 +283,6 @@ class UserController {
 
 	async getUsers(req, res, next) {
 		try {
-			// console.log('req.cookies from getUsers()=', req.cookies);
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
@@ -307,10 +306,8 @@ class UserController {
 					userData = [];
 				}
 			}
-			console.log(userData);
 			res.json(userData);
 		} catch (err) {
-			console.log('err from getUsers():', err);
 			res.status(400).json({ message: err });
 		}
 	}
@@ -371,19 +368,32 @@ class UserController {
 	async getRoles(req, res, next) {
 		try {
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
-			if (!isAccessValid) return res.status(401).json({ message: "User not authorized" });
+			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-			// получаем строковые значения ролей юзеров
-			const roles = await db.query(`SELECT * FROM roles`);
+			// получаем id юзера, по email из токена
+			const getUser = await db.query(`
+				SELECT * FROM users
+				WHERE email = '${isAccessValid.email}';
+			`);
 
-			const rolesData = roles.rows.map(role => {
-				return (
-					{
-						rolelat: role.role,
-						rolecyr: role.roledescription
-					}
-				)
-			})
+			if (!getUser.rowCount) throw ApiError.UnathorizedError();
+			const role = getUser.rows[0].role;
+			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
+
+			let rolesData = [];
+			if (roleDescription === 'admin') {
+				// получаем строковые значения ролей юзеров
+				const roles = await db.query(`SELECT * FROM roles`);
+
+				rolesData = roles.rows.map(role => {
+					return (
+						{
+							rolelat: role.role,
+							rolecyr: role.roledescription
+						}
+					)
+				});
+			}
 
 			res.json(rolesData);
 		} catch (err) {
