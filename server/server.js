@@ -17,11 +17,13 @@ const app = express();
 
 
 var corsOptions = {
+	preflightContinue: true,
 	origin: 'https://lexun.ru',
 	credentials: true,
+	optionsSuccessStatus: 200
 }
 
-// app.options('*', cors());
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use('/test', (req, res) => res.json("Hello from server!"));
@@ -29,7 +31,6 @@ app.use(cookieParser());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 app.use('/', router);
-app.use(cors(corsOptions));
 
 app.use(errorMiddleware);
 app.listen(PORT, console.log(`Server has started on port ${PORT}`));
