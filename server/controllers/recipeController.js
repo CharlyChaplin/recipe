@@ -374,9 +374,10 @@ class RecipeController {
 			const user_id = getUser.rows[0].id;
 			const role = getUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
+			
 			// после всех проверок достаём рецепты в зависимости от прав пользователя
 			if (roleDescription === 'admin') {
-				db.query('SELECT * FROM recipe;')
+				db.query('SELECT * FROM recipe ORDER BY id ASC;')
 					.then(resp => {
 						const out = resp.rows.map(item => item.caption);
 						res.json(out);
@@ -385,7 +386,8 @@ class RecipeController {
 			} else if (roleDescription === 'user') {
 				db.query(`
 					SELECT * FROM recipe
-					WHERE user_id = ${user_id};
+					WHERE user_id = ${user_id}
+					ORDER BY id ASC;
 			`)
 					.then(resp => {
 						const out = resp.rows.map(item => item.caption);

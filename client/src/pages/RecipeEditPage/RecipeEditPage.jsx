@@ -67,7 +67,7 @@ const RecipeEditPage = () => {
 	useEffect(() => {
 		if (errors.length > 0 && !loading) {
 			dispatch(showInfo({ text: errors, cancel: true }));
-		} else {
+		} else if (completed) {
 			dispatch(showInfo({ text: "Рецепт успешно изменён", ok: true }));
 		}
 
