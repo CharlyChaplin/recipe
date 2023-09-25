@@ -5,20 +5,39 @@ import Button from 'components/Button';
 import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
 import { useDispatch, useSelector } from 'react-redux';
-import { userGetUser } from 'redux/slices/userSlice';
+import { userGetUser, userLogin } from 'redux/slices/userSlice';
 import Spinner from 'components/Spinner';
 import { showInfo } from 'redux/slices/infoSlice';
 import axios from 'axiosSetup';
 import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 
 const SignIn = () => {
 	const [login, setLogin] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
-	const { userData } = useSelector(state => state.userReducer);
-	const [loading, setLoading] = useState(false);
+	const { userData, completed, loading, errors } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (completed) {
+			if (!errors) {
+				dispatch(showInfo({ text: getGreeting(resp.data.user?.nickname) }));
+				getAuth();
+				navigate(paths.home);
+			} else {
+				console.log(errors);
+				// if (error.response.data.message === 'User not registered.') {
+				// 	setLoading(false);
+				// 	dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
+				// } else {
+				// 	setLoading(false);
+				// 	dispatch(showInfo({ text: `${error.response.data.message}`, cancel: true }));
+				// }
+			}
+		}
+	}, [completed]);
 
 
 	function handleLoginInput(e) { setLogin(e.target.value); }
@@ -53,30 +72,13 @@ const SignIn = () => {
 		const fd = new FormData();
 		fd.append('email', login);
 		fd.append('password', password);
-		try {
-			setLoading(true);
-			const resp = await axios.post('/user/signin', fd);
-			if (resp.status && resp.status === 200) {
-				setLoading(false);
-				dispatch(showInfo({ text: getGreeting(resp.data.user?.nickname) }));
-			}
-			getAuth();
-			navigate(paths.home);
-		} catch (error) {
-			if (error.response.data.message === 'User not registered.') {
-				setLoading(false);
-				dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
-			} else {
-				setLoading(false);
-				dispatch(showInfo({ text: `${error.response.data.message}`, cancel: true }));
-			}
-		}
+		dispatch(userLogin(fd));
 
 	}, [dispatch, userData, login, password, loading]);
 
 
 
-	
+
 
 	return (
 		<>

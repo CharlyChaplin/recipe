@@ -11,6 +11,7 @@ const initialState = {
 	userById: [],
 	roles: [],
 	errors: "",
+	completed: false
 }
 
 export const userRegister = createAsyncThunk(
@@ -25,6 +26,7 @@ export const userRegister = createAsyncThunk(
 	}
 );
 
+// пока не используется нигде
 export const userLogin = createAsyncThunk(
 	'user/signin',
 	async (formData, { rejectWithValue }) => {
@@ -167,18 +169,21 @@ export const userSlice = createSlice({
 			state.userData = "";
 			state.errors = "";
 			state.isAuth = false;
+			state.completed = false;
 		});
 		build.addCase(userLogin.fulfilled, (state, action) => {
 			state.loading = false;
 			state.userData = action.payload;
 			state.errors = "";
 			state.isAuth = true;
+			state.completed = true;
 		});
 		build.addCase(userLogin.rejected, (state, action) => {
 			state.loading = false;
 			state.userData = "";
 			state.errors = action.payload;
 			state.isAuth = false;
+			state.completed = false;
 		});
 		//========================================================================================================================================================
 		build.addCase(userLogout.pending, (state, action) => {
