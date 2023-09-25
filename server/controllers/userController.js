@@ -137,10 +137,10 @@ class UserController {
 					RETURNING *;
 				`);
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { domain: 'lexun.space', maxAge: 86400 * 1000, sameSite: "None", secure: true });
-			res.cookie('refreshtoken', tokens.refreshToken, { domain: 'lexun.space', maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
-
-
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
+			
+			
 			res.json(userData);
 		} catch (err) {
 			next(err)
@@ -327,7 +327,7 @@ class UserController {
 			if (!checkGetUser.rowCount) throw ApiError.UnathorizedError();
 			const role = checkGetUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
-
+			
 			let sendData = [];
 			if (roleDescription === 'admin') {
 				const usersName = await db.query(`
