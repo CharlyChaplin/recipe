@@ -137,8 +137,8 @@ class UserController {
 					RETURNING *;
 				`);
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "Lax", secure: true });
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "Lax", secure: true });
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 			// userData = { ...userData };
 			res.json(userData);
 		} catch (err) {
@@ -166,8 +166,8 @@ class UserController {
 				RETURNING *;
 			`);
 			// удаляем токены из Cookies
-			res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "Lax", secure: true });
-			res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "Lax", secure: true });
+			res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 			res.status(200).json({ message: "ok" });
 		} catch (err) {
 			next(err)
@@ -212,7 +212,7 @@ class UserController {
 			`);
 			if (!newRefreshToken) throw ApiError.BadRequest("Can't to update refreshToken.");
 			// обновляем cookie для refreshToken
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "Lax", secure: true });
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 			res.json({ message: "Congratulations! You're activated!" });
 		} catch (err) {
 			next(err);
@@ -258,8 +258,8 @@ class UserController {
 			`);
 			if (!newRefreshToken.rowCount) throw ApiError.UnathorizedError("Can't to update refreshToken in DB");
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "Lax", secure: true });
-			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "Lax", secure: true });
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 			// добавляем остальные данные о пользователе
 			const additionalUserData = await db.query(`
 				SELECT name FROM persondata
@@ -649,8 +649,8 @@ class UserController {
 			`);
 				if (getCurrentUser.rows[0].email === isAccessValid.email) {
 					// удаляем токены из Cookies
-					res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "Lax", secure: true });
-					res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "Lax", secure: true });
+					res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+					res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 					// делаем отметку в возвращаемом объекте
 					userData = { ...userData, itself: true };
 				} else {
