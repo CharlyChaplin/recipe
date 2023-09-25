@@ -26,7 +26,7 @@ const App = () => {
 	useEffect(() => {
 		dispatch(userGetUser());
 
-	}, []);
+	}, [dispatch]);
 
 
 	return (

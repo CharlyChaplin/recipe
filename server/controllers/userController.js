@@ -134,7 +134,7 @@ class UserController {
 			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
 			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 
-
+			console.log(userData);
 			res.json(userData);
 		} catch (err) {
 			res.status(400).json({ message: err });
