@@ -20,10 +20,12 @@ var corsOptions = {
 	preflightContinue: true,
 	origin: 'https://lexun.ru',
 	credentials: true,
-	optionsSuccessStatus: 200
+	allowedHeaders: ['Content-Type', 'Authorization'],
+	methods: ['GET', 'PUT', 'POST', 'DELETE'],
+	// optionsSuccessStatus: 200
 }
 
-app.options('*', cors(corsOptions));
+// app.options('*', cors(corsOptions));
 
 app.use(cors(corsOptions));
 
