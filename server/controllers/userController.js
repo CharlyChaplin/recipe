@@ -138,7 +138,7 @@ class UserController {
 			res.json(userData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err });
+			res.status(400).json(err);
 		}
 	}
 
