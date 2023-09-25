@@ -32,7 +32,7 @@ const SignIn = () => {
 				} else if (errors === 'Login or password are wrong.') {
 					dispatch(showInfo({ text: `Связка логин/пароль неверна`, cancel: true }));
 				} else {
-					dispatch(showInfo({ text: `${error.response.data.message}`, cancel: true }));
+					dispatch(showInfo({ text: `${errors}`, cancel: true }));
 				}
 			}
 		}
