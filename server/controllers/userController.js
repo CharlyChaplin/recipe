@@ -286,13 +286,13 @@ class UserController {
 			console.log('req.cookies from getUsers()=', req.cookies);
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
-			console.log(isAccessValid.email);
 			
 			// получаем id юзера, по email из токена
 			const getUser = await db.query(`
 				SELECT * FROM users
 				WHERE email = '${isAccessValid.email}';
 			`);
+			console.log(getUser.rows);
 			if (!getUser.rowCount) throw ApiError.UnathorizedError();
 			const role = getUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
