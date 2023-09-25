@@ -377,7 +377,7 @@ class RecipeController {
 			
 			// после всех проверок достаём рецепты в зависимости от прав пользователя
 			if (roleDescription === 'admin') {
-				db.query('SELECT * FROM recipe ORDER BY id ASC;')
+				db.query('SELECT * FROM recipe ORDER BY caption ASC;')
 					.then(resp => {
 						const out = resp.rows.map(item => item.caption);
 						console.log("out=", out);
@@ -388,7 +388,7 @@ class RecipeController {
 				db.query(`
 					SELECT * FROM recipe
 					WHERE user_id = ${user_id}
-					ORDER BY id ASC;
+					ORDER BY caption ASC;
 			`)
 					.then(resp => {
 						const out = resp.rows.map(item => item.caption);
