@@ -23,6 +23,8 @@ var corsOptions = {
 	optionsSuccessStatus: 200
 }
 
+app.options('*', cors(corsOptions));
+
 app.use(cors(corsOptions));
 
 app.use(express.json());
