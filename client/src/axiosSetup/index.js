@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 const ax = axios.create({
 	baseURL: vars.remoteHost,
-	headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache, no-store, must-revalidate' },
+	headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache, no-store' },
 	withCredentials: true
 });
 

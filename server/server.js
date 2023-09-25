@@ -30,7 +30,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(function(req, res, next) {
-	res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+	res.set('Cache-Control', 'no-cache, no-store');
 	next();
  });
 
