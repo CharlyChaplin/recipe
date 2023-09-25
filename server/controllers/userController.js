@@ -598,51 +598,64 @@ class UserController {
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-			let userData = {};
+			// получаем id юзера, по email из токена
+			const checkGetUser = await db.query(`
+				SELECT * FROM users
+				WHERE email = '${isAccessValid.email}';
+			`);
 
-			// после всех проверок достаём пользователя для удаления его из БД
-			const { email } = req.body;
-			// получаем данные о пользователе во всех таблицах
-			// получаем данные из основной таблицы
-			const getUserFromMainTable = await db.query(`SELECT id FROM users WHERE email='${email}';`);
-			// получаем данные из таблицы токенов
-			const getUserFromTokensTable = await db.query(`SELECT id FROM token WHERE user_id='${getUserFromMainTable.rows[0].id}';`);
-			// получаем данные из таблицы персональных данных
-			const getUserFromPersondataTable = await db.query(`SELECT id FROM persondata WHERE user_id=${getUserFromMainTable.rows[0].id};`);
+			if (!checkGetUser.rowCount) throw ApiError.UnathorizedError();
+			const role = checkGetUser.rows[0].role;
+			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
+
+			if (roleDescription === 'admin') {
+				let userData = {};
+
+				// после всех проверок достаём пользователя для удаления его из БД
+				const { email } = req.body;
+				// получаем данные о пользователе во всех таблицах
+				// получаем данные из основной таблицы
+				const getUserFromMainTable = await db.query(`SELECT id FROM users WHERE email='${email}';`);
+				// получаем данные из таблицы токенов
+				const getUserFromTokensTable = await db.query(`SELECT id FROM token WHERE user_id='${getUserFromMainTable.rows[0].id}';`);
+				// получаем данные из таблицы персональных данных
+				const getUserFromPersondataTable = await db.query(`SELECT id FROM persondata WHERE user_id=${getUserFromMainTable.rows[0].id};`);
 
 
-			// если это текущий юзер, который удалил сам себя, то чистим токены
-			const getCurrentUser = await db.query(`
+				// если это текущий юзер, который удалил сам себя, то чистим токены
+				const getCurrentUser = await db.query(`
 				SELECT email FROM users
 				WHERE id=${getUserFromMainTable.rows[0].id}
 			`);
-			if (getCurrentUser.rows[0].email === isAccessValid.email) {
-				// удаляем токены из Cookies
-				res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "Strict", secure: true });
-				res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "Strict", secure: true });
-				// делаем отметку в возвращаемом объекте
-				userData = { ...userData, itself: true };
-			} else {
-				userData = { ...userData, itself: false };
+				if (getCurrentUser.rows[0].email === isAccessValid.email) {
+					// удаляем токены из Cookies
+					res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "Strict", secure: true });
+					res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "Strict", secure: true });
+					// делаем отметку в возвращаемом объекте
+					userData = { ...userData, itself: true };
+				} else {
+					userData = { ...userData, itself: false };
+				}
+
+				// удаляем записи из таблиц
+				// persondata
+				const deleteFromPersondata = await db.query(`DELETE FROM persondata WHERE id=${getUserFromPersondataTable.rows[0].id} RETURNING *;`);
+				if (!deleteFromPersondata) throw ApiError.BadRequest("Error while deleting from 'persondata' table.");
+				// token
+				const deleteFromToken = await db.query(`DELETE FROM token WHERE id=${getUserFromTokensTable.rows[0].id} RETURNING *;`);
+				if (!deleteFromToken) throw ApiError.BadRequest("Error while deleting from 'token' table.");
+				// users
+				const deleteFromUsers = await db.query(`DELETE FROM users WHERE id=${getUserFromMainTable.rows[0].id} RETURNING *;`);
+				if (!deleteFromUsers) throw ApiError.BadRequest("Error while deleting from 'users' table.");
+
+
+				// удаляем папки юзера в static
+				fs.rmSync(`static/users/${email}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
+
+				// формируем воздвращающийся объект
+				userData = { ...userData, deletedUser: deleteFromUsers.rows[0].email }
 			}
 
-			// удаляем записи из таблиц
-			// persondata
-			const deleteFromPersondata = await db.query(`DELETE FROM persondata WHERE id=${getUserFromPersondataTable.rows[0].id} RETURNING *;`);
-			if (!deleteFromPersondata) throw ApiError.BadRequest("Error while deleting from 'persondata' table.");
-			// token
-			const deleteFromToken = await db.query(`DELETE FROM token WHERE id=${getUserFromTokensTable.rows[0].id} RETURNING *;`);
-			if (!deleteFromToken) throw ApiError.BadRequest("Error while deleting from 'token' table.");
-			// users
-			const deleteFromUsers = await db.query(`DELETE FROM users WHERE id=${getUserFromMainTable.rows[0].id} RETURNING *;`);
-			if (!deleteFromUsers) throw ApiError.BadRequest("Error while deleting from 'users' table.");
-
-
-			// удаляем папки юзера в static
-			fs.rmSync(`static/users/${email}`, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
-
-			// формируем воздвращающийся объект
-			userData = { ...userData, deletedUser: deleteFromUsers.rows[0].email }
 
 			res.json(userData);
 		} catch (err) {

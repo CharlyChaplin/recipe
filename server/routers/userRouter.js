@@ -21,7 +21,7 @@ userRouter.get('/getroles', UserController.getRoles);
 userRouter.post('/updateuser', UserController.updateUser);
 userRouter.post('/getuserbyemail', UserController.getUserByEmail);
 userRouter.post('/changeuserbyemail', UserController.changeUserByEmail);
-userRouter.post('/delete', roleCheck(1), UserController.deleteUser);
+userRouter.post('/delete', UserController.deleteUser);
 
 
 
