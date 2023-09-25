@@ -310,6 +310,7 @@ class UserController {
 			console.log(userData);
 			res.json(userData);
 		} catch (err) {
+			console.log('err from getUsers():', err);
 			res.status(400).json({ message: err });
 		}
 	}
