@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 function roleCheck(role) {
 	return function (req, res, next) {
-		console.log("req.headers from roleCheck=", req.headers);
+		// console.log("req.headers from roleCheck=", req.headers);
 		// достаём accessToken из заголовка Authorization
 		const accessToken = req.headers?.authorization?.split(' ')[1];
 		if (!accessToken) return res.status(401).json("User not authorized");
