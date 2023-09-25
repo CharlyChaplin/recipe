@@ -98,6 +98,11 @@ class UserController {
 				SELECT name, avatar FROM persondata
 				WHERE user_id = ${isUserExists.rows[0].id};
 			`);
+			// получаем роль юзера в виде строки
+			const strRole = await db.query(`
+				SELECT role, roledescription FROM roles
+				WHERE id=${getUser.rows[0].role};
+			`);
 			const userNickname = additionalUserData?.rows[0]?.name || "";
 			const userAvatar = additionalUserData?.rows[0]?.avatar;
 			// формируем данные для отдачи на клиент
@@ -105,6 +110,7 @@ class UserController {
 				user: {
 					email: isUserExists.rows[0].email,
 					role: isUserExists.rows[0].role,
+					rolelat: strRole.rows[0].roledescription,
 					isactivated: isUserExists.rows[0].isactivated,
 					nickname: userNickname,
 					avatar: config().parsed.LOCAL_ADDRESS + '/' + userAvatar
