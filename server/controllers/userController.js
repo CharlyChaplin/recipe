@@ -295,7 +295,7 @@ class UserController {
 			if (!getUser.rowCount) throw ApiError.UnathorizedError();
 			const role = getUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
-
+			console.log(role, roleDescription);
 			let userData;
 			if (roleDescription === 'admin') {
 				const users = await db.query(`SELECT email FROM users ORDER BY ASC;`);
@@ -306,7 +306,7 @@ class UserController {
 					userData = [];
 				}
 			}
-			console.log(userData);
+			
 			res.json(userData);
 		} catch (err) {
 			res.status(400).json({ message: err });
