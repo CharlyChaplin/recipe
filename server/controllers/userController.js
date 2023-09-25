@@ -283,7 +283,7 @@ class UserController {
 
 	async getUsers(req, res, next) {
 		try {
-			console.log('req.cookies=', req.cookies);
+			console.log('req.cookies from getUsers()=', req.cookies);
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
