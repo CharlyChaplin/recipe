@@ -79,19 +79,12 @@ class UserController {
 		try {
 			let refreshToken;
 			const { email, password } = req.body;
-			console.log(email, password);
 			// проверяем есть ли юзер в БД
 			const isUserExists = await db.query(`SELECT * FROM users WHERE email='${email}';`);
 			if (!isUserExists.rowCount) throw ApiError.BadRequest("User not registered.");
 			// проверяем правильность пароля
 			const match = bcrypt.compareSync(password, isUserExists.rows[0].password);
 			if (!match) throw ApiError.BadRequest("Login or password are wrong.");
-
-			// получаем строковое значение роли юзера
-			const strRole = await db.query(`
-				SELECT role FROM roles
-				WHERE id=${isUserExists.rows[0].role}
-			`);
 
 			// создаём данные для токенов
 			const payload = {
@@ -144,6 +137,7 @@ class UserController {
 
 			res.json(userData);
 		} catch (err) {
+			console.log(err);
 			res.status(400).json({ message: err });
 		}
 	}
