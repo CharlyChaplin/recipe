@@ -21,17 +21,19 @@ const SignIn = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!loading && !errors && completed) {
-			dispatch(showInfo({ text: getGreeting(userData?.user?.nickname) }));
-			getAuth();
-			navigate(paths.home);
-		} else if (!loading && errors) {
-			if (errors === 'User not registered.') {
-				dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
-			} else if (errors === 'Login or password are wrong.') {
-				dispatch(showInfo({ text: `Связка логин/пароль неверна`, cancel: true }));
+		if (completed) {
+			if (!errors) {
+				dispatch(showInfo({ text: getGreeting(userData?.user?.nickname) }));
+				getAuth();
+				navigate(paths.home);
 			} else {
-				dispatch(showInfo({ text: errors, cancel: true }));
+				if (errors === 'User not registered.') {
+					dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
+				} else if (errors === 'Login or password are wrong.') {
+					dispatch(showInfo({ text: `Связка логин/пароль неверна`, cancel: true }));
+				} else {
+					dispatch(showInfo({ text: errors, cancel: true }));
+				}
 			}
 		}
 	}, [completed]);
