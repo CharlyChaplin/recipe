@@ -2,8 +2,8 @@ import ApiError from "../exeptions/apiError.js";
 
 function errorMiddleware(err, req, res, next) {
 	console.log("Catched Error: ", err);
+	console.log(err);
 	if (err instanceof ApiError) {
-		console.log(err);
 		return res.status(err.status).json({ message: err.message, errors: err.errors });
 	} else {
 		res.status(500).json({ message: "Internal Error" })
