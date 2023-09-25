@@ -111,6 +111,7 @@ class UserController {
 					email: isUserExists.rows[0].email,
 					role: isUserExists.rows[0].role,
 					rolelat: strRole.rows[0].role,
+					rolecyr: strRole.rows[0].roledescription,
 					isactivated: isUserExists.rows[0].isactivated,
 					nickname: userNickname,
 					avatar: config().parsed.LOCAL_ADDRESS + '/' + userAvatar
