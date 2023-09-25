@@ -178,7 +178,7 @@ class PhraseController {
 				phrasesData = isPhrases.rows.map(item => item.caption);
 			}
 
-			res.json(out);
+			res.json(phrasesData);
 		} catch (err) {
 			res.status(400).json({ message: err });
 		}
