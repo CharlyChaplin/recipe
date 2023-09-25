@@ -282,15 +282,33 @@ class UserController {
 	}
 
 	async getUsers(req, res, next) {
-		const users = await db.query(`SELECT email FROM users;`);
+		const { isAccessValid } = await primaryCheckUser(req.cookies);
+		try {
+			if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-		let userData;
-		if (users.rowCount) {
-			userData = users.rows.map(el => { return (el.email) });
-		} else {
-			userData = [];
+			// получаем id юзера, по email из токена
+			const getUser = await db.query(`
+				SELECT * FROM users
+				WHERE email = '${isAccessValid.email}';
+			`);
+			if (!getUser.rowCount) throw ApiError.UnathorizedError();
+			const role = getUser.rows[0].role;
+			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
+			
+			let userData;
+			if (roleDescription === 'admin') {
+				const users = await db.query(`SELECT email FROM users ORDER BY ASC;`);
+
+				if (users.rowCount) {
+					userData = users.rows.map(el => el.email);
+				} else {
+					userData = [];
+				}
+			}
+			res.json(userData);
+		} catch (err) {
+			res.status(400).json({ message: err });
 		}
-		res.json(userData);
 	}
 
 	async getUsersNickname(req, res, next) {
