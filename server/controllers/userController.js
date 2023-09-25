@@ -304,7 +304,7 @@ class UserController {
 		res.json(sendData);
 	}
 
-	async getUser(req, res, next) {
+	async getUser(req, res) {
 		try {
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			// if (!isAccessValid) return res.status(401).json({ message: "User not authorized" });
@@ -344,7 +344,7 @@ class UserController {
 			};
 			res.json(userData);
 		} catch (err) {
-			next(err);
+			res.json({ message: err });
 		}
 	}
 
