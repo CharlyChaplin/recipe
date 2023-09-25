@@ -101,7 +101,7 @@ class UserController {
 			// получаем роль юзера в виде строки
 			const strRole = await db.query(`
 				SELECT role, roledescription FROM roles
-				WHERE id=${getUser.rows[0].role};
+				WHERE id=${isUserExists.rows[0].role};
 			`);
 			const userNickname = additionalUserData?.rows[0]?.name || "";
 			const userAvatar = additionalUserData?.rows[0]?.avatar;
