@@ -26,15 +26,14 @@ const SignIn = () => {
 				dispatch(showInfo({ text: getGreeting(userData?.user?.nickname) }));
 				getAuth();
 				navigate(paths.home);
-			} else {
-				console.log(errors, errors.message);
-				// if (error.response.data.message === 'User not registered.') {
-				// 	setLoading(false);
-				// 	dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
-				// } else {
-				// 	setLoading(false);
-				// 	dispatch(showInfo({ text: `${error.response.data.message}`, cancel: true }));
-				// }
+			} else if (errors) {
+				if (errors === 'User not registered.') {
+					dispatch(showInfo({ text: `Пользователь не зарегистрирован`, cancel: true }));
+				} else if (errors === 'Login or password are wrong.') {
+					dispatch(showInfo({ text: `Связка логин/пароль неверна`, cancel: true }));
+				} else {
+					dispatch(showInfo({ text: `${error.response.data.message}`, cancel: true }));
+				}
 			}
 		}
 	}, [completed]);
