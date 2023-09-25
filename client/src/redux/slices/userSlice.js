@@ -45,8 +45,7 @@ export const userLogout = createAsyncThunk(
 		try {
 			const resp = await axios.get('/user/logout');
 			if (resp.status === 200) {
-				const tmp = Cookies.remove('accesstoken');
-				console.log(tmp);
+				Cookies.remove('accesstoken');
 				Cookies.remove('refreshtoken');
 			}
 			return resp.data;
@@ -194,11 +193,13 @@ export const userSlice = createSlice({
 			state.userData = action.payload;
 			state.errors = "";
 			state.isAuth = false;
+			state.completed = false;
 		});
 		build.addCase(userLogout.rejected, (state, action) => {
 			state.loading = false;
 			state.userData = "";
 			state.errors = action.payload;
+			state.completed = false;
 		});
 		//========================================================================================================================================================
 		build.addCase(userGetUser.pending, (state, action) => {
