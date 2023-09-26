@@ -567,10 +567,11 @@ class UserController {
 			const roleDescription = checkRole === 1 ? 'admin' : checkRole === 2 ? 'user' : 'unknown';
 
 			let userData = {};
+			let getUser;
 			if (roleDescription === 'admin') {
 				const { email, nickname, role } = req.body;
 				// получаем основные данные юзера для замены
-				const getUser = await db.query(`SELECT * FROM users WHERE email = '${email}';`);
+				getUser = await db.query(`SELECT * FROM users WHERE email = '${email}';`);
 				if (!getUser.rowCount) throw ApiError.BadRequest("Error while fetching user data.");
 
 				// изменяем дополнительные данные юзера

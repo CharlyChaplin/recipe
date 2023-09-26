@@ -82,7 +82,7 @@ const RecipeDetailPage = () => {
 																			<IngredientItem
 																				key={nanoid()}
 																				item={item[0]}
-																				listIcon={item[1] ? null : ListMarkerICO}
+																				listIcon={item[1] ? null : <ListMarkerICO />}
 																			/>
 																		)
 																	})

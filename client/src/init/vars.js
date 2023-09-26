@@ -57,6 +57,7 @@ const vars = {
 	borderRadiusSearchInput: 15,	// округлость поиска на главной странице
 	
 	remoteHost: 'https://lexun.space',
+	// remoteHost: 'http://localhost:7000',
 };
 
 
