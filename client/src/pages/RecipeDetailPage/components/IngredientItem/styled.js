@@ -7,7 +7,7 @@ import { darken, lighten } from "polished";
 export const IngredientShowListItem = styled(({ children, image, ...props }) => (
 	<li {...props}>
 		{
-			image ? <img src={image} alt="" /> : null
+			image ? image : null
 		}
 		{children}
 	</li>

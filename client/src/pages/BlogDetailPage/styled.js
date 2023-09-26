@@ -63,9 +63,9 @@ export const BlogDetailPhoto = styled(({ image, imageAltText, ...props }) => (
 	overflow: hidden;
 	margin-bottom: ${rem(7)};
 	max-width: ${rem(250)};
-	max-height: ${rem(136)};
+	max-height: ${rem(210)};
 	width: ${rem(250)};
-	height: ${rem(136)};
+	/* height: ${rem(136)}; */
 	img {
 		width: 100%;
 	}

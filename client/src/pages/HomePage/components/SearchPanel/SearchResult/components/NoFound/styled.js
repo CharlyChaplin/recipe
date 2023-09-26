@@ -15,18 +15,18 @@ export const SearchNotFound = styled.div`
 	color: ${vars.text};
 `;
 
-export const SearchNotFoundImageBlock = styled(({ image, alt, ...props }) => (
+export const SearchNotFoundImageBlock = styled(({ children, ...props }) => (
 	<div {...props}>
-		<img src={image} alt={alt} />
+		{children}
 	</div>
 ))`
 	width: ${rem(30)};
 	height: ${rem(24)};
+	filter: drop-shadow(${rem(2)} ${rem(2)} ${rem(5)} ${rgba(vars.blackColor, .25)});
 	
-	img {
+	svg {
 		width: 100%;
 		height: 100%;
-		filter: drop-shadow(${rem(2)} ${rem(2)} ${rem(5)} ${rgba(vars.blackColor, .25)});
 	}
 `;
 
