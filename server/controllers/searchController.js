@@ -16,16 +16,16 @@ class SearchController {
 				id IN (
 					SELECT DISTINCT(recipe_id)
 					FROM ingredient
-					WHERE caption ILIKE '%${q}%'
+					WHERE caption LIKE '%${q}%'
 					ORDER BY recipe_id
 				)
 				
 				OR
 					(
-						caption ILIKE '%${q}%' OR
-						caption_lat ILIKE '%${q}%' OR
-						shortdescription ILIKE '%${q}%' OR
-						cookingtext ILIKE '%${q}%'
+						caption LIKE '%${q}%' OR
+						caption_lat LIKE '%${q}%' OR
+						shortdescription LIKE '%${q}%' OR
+						cookingtext LIKE '%${q}%'
 					);
 			`);
 			// если нашли, то формируем массив из найденого
@@ -47,9 +47,9 @@ class SearchController {
 				 		  description,
 						  photopreview
 				 FROM blog
-				 WHERE caption ILIKE '%${q}%' OR
-				 		 caption_lat ILIKE '%${q}%' OR
-				 		 description ILIKE '%${q}%';
+				 WHERE caption LIKE '%${q}%' OR
+				 		 caption_lat LIKE '%${q}%' OR
+				 		 description LIKE '%${q}%';
 			`);
 			// если нашли, то формируем массив из найденого
 			if (getDataFromBlog.rowCount) {
