@@ -10,6 +10,7 @@ import MailService from '../services/mailSender.js';
 import fs from 'fs';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import ResetSeq from '../services/resetSequence.js';
+import timeToLifeAccessToken from '../services/tokenTimeExpire.js';
 
 
 class UserController {
