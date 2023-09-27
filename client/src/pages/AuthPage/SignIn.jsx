@@ -61,6 +61,7 @@ const SignIn = () => {
 
 	function getAuth() {
 		const accessCookie = Cookies.get('accesstoken');
+		console.log(accessCookie);
 		if (accessCookie) {
 			dispatch(userGetUser({ accesstoken: accessCookie }));
 		}
