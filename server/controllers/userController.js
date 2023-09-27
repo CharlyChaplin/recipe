@@ -138,7 +138,8 @@ class UserController {
 					RETURNING *;
 				`);
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			// res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: 10 * 1000, sameSite: "None", secure: true });
 			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 
 			console.log(userData);
