@@ -1,4 +1,4 @@
 // в секундах
-const timeToLifeAccessToken = 10;
+const timeToLifeAccessToken = 86400;
 
 export default timeToLifeAccessToken;
