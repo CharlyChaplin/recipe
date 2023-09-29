@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { rem } from "init/mixins";
+import { adaptiveValue, rem } from "init/mixins";
 import vars from "init/vars";
 import { rgba } from "polished";
 import { ReactComponent as WarningIco } from './img/warning.svg';
@@ -16,13 +16,17 @@ export const Info = styled(({ children, view = false, warning, ok, cancel, ...pr
 	width: fit-content;
 	transform: translate(-50%, ${({ view }) => view ? 1 : -110}%);
 	z-index: 10000;
-	background-color: Silver;
-	background-color: DarkSlateGray;
-	border-radius: ${rem(10)};
+	background-color: ${vars.informerBackColor};
+	${adaptiveValue('border-radius', 10, 5)};
 	overflow: hidden;
-	border: ${rem(2)} solid ${rgba(vars.whiteColor, .75)};
+	${adaptiveValue('border-width', 2, 1)};
+	border-style: solid;
+	border-color: ${rgba(vars.whiteColor, .75)};
 	max-width: ${rem(500)};
-	padding: ${rem(10)} ${rem(20)};
+	${adaptiveValue('padding-top', 10, 5)};
+	${adaptiveValue('padding-bottom', 10, 5)};
+	${adaptiveValue('padding-left', 20, 10)};
+	${adaptiveValue('padding-right', 20, 10)};
 	transition: all 0.25s ${vars.cubic} 0s;
 	cursor: default;
 `;
@@ -43,7 +47,7 @@ export const InfoWrapper = styled(({ children, warning, ok, cancel, isConfirm, .
 	${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'grid-auto-flow: column' : null};
 	justify-content: start;
 	justify-items: ${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'center' : 'start'};
-	gap: ${({ warning, ok, cancel, isConfirm }) => (warning || ok || cancel || (isConfirm.ok || isConfirm.cancel)) ? rem(20) : 0};
+	gap: ${({ warning, ok, cancel, isConfirm }) => (warning || ok || cancel || (isConfirm.ok || isConfirm.cancel)) ? `${adaptiveValue('gap', 20, 10)}` : 0};
 `;
 
 export const InfoIcon = styled(({ warning, ok, cancel, ...props }) => (
@@ -53,28 +57,28 @@ export const InfoIcon = styled(({ warning, ok, cancel, ...props }) => (
 		{cancel && <CancelIco />}
 	</div>
 ))`
-align-self: center;
-display: ${({ warning, ok, cancel }) => (warning || ok || cancel) ? 'flex' : 'none'};
-flex-direction: row;
-justify-content: center;
-align-items: center;
-margin-top: ${rem(-1)};
-width: ${rem(25)};
-height: ${rem(25)};
+	align-self: center;
+	display: ${({ warning, ok, cancel }) => (warning || ok || cancel) ? 'flex' : 'none'};
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	${adaptiveValue('max-width', 25, 22)};
+	${adaptiveValue('max-height', 25, 22)};
+	
 	svg {
-	width: 95%;
-	height: 95%;
-	fill: ${({ warning, ok, cancel }) => (
-		warning
-			? 'orange'
-			: ok
-				? 'lightgreen'
-				: cancel
-					? 'orangeRed'
-					: 'none'
-	)
+		width: 100%;
+		height: 100%;
+		fill: ${({ warning, ok, cancel }) => (
+			warning
+				? 'orange'
+				: ok
+					? 'lightgreen'
+					: cancel
+						? 'orangeRed'
+						: 'none'
+			)
+		}
 	}
-}
 `;
 
 export const InfoContent = styled(({ children, ...props }) => (
@@ -82,28 +86,27 @@ export const InfoContent = styled(({ children, ...props }) => (
 ))`
 	display: flex;
 	flex-direction: column;
-	gap: ${rem(15)};
+	${adaptiveValue('gap', 15, 10)};
 	align-items: center;
 	justify-content: center;
+	width: min-content;
 `;
 
 export const InfoText = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-font-family: "RobotoRegular", sans-serif;
-font-size: ${rem(18)};
-width: fit-content;
-line-height: 1.3;
-white-space: wrap;
-text-align: center;
-/* margin-bottom: ${rem(10)}; */
+	font-family: "RobotoRegular", sans-serif;
+	${adaptiveValue('font-size', 18, 13)};
+	width: 100%;
+	line-height: 1.3;
+	white-space: wrap;
 `;
 
 export const ButtonsWrapper = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
-gap: ${rem(15)};
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	${adaptiveValue('gap', 15, 7)};
 `;
 

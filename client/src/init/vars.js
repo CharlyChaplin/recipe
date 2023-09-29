@@ -46,6 +46,7 @@ const vars = {
 	disabledColor: '#CCCCCC',
 	quoteColor: '#DDDDDD',
 	searchMainFormBackcolor: '#AFAFAF',
+	informerBackColor: '#2F4F4F',
 	
 	
 	// переменные для проекта
