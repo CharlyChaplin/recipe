@@ -10,8 +10,8 @@ import Quotation from './components/Quotation/Quotation';
 import { useDispatch } from 'react-redux';
 import { clearPhraseData } from 'redux/slices/phraseSlice';
 
-// const titlePage = "Заголовок";
-const titlePage = "Рецепты для удовольствия!";
+const titlePage = "Заголовок";
+// const titlePage = "Рецепты для удовольствия!";
 
 
 const HomePage = () => {

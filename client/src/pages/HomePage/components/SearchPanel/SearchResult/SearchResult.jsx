@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import NoFound from './components/NoFound/NoFound';
 import { SearchResultBlock, SearchResultCategoryCaption, SearchResultComponent, SearchResultFindItemList, SearchResultItem, SearchResultWrapper } from './styled';
 import { nanoid } from 'nanoid';
 
 
-const SearchResult = ({ categoryFounded, blogFounded }) => {
+const SearchResult = memo(({ categoryFounded, blogFounded }) => {
 	
 	return (
 		<>
@@ -59,6 +59,6 @@ const SearchResult = ({ categoryFounded, blogFounded }) => {
 			</SearchResultComponent>
 		</>
 	);
-}
+});
 
 export default SearchResult;
