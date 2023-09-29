@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root'))
 			{/* <StrictMode> */}
 			< InitStyle />
 
-			<BrowserRouter>
+			<BrowserRouter basename='/cooking'>
 				<Provider store={store}>
 					<App />
 				</Provider>
