@@ -10,6 +10,7 @@ import MailService from '../services/mailSender.js';
 import fs from 'fs';
 import { primaryCheckUser } from '../services/primaryCheckUser.js';
 import ResetSeq from '../services/resetSequence.js';
+import timeToLifeAccessToken from '../services/tokenTimeExpire.js';
 
 
 class UserController {
@@ -63,6 +64,8 @@ class UserController {
 			// создаём папки в static для юзера
 			// общая папка юзера
 			const mainPath = `static/users/${email}`;
+			// удаляем папки юзера в static, если она есть
+			fs.rmSync(mainPath, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
 			fs.mkdirSync(mainPath, err => console.log(err));
 
 			// отправляем письмо
@@ -114,7 +117,7 @@ class UserController {
 					rolecyr: strRole.rows[0].roledescription,
 					isactivated: isUserExists.rows[0].isactivated,
 					nickname: userNickname,
-					avatar: config().parsed.LOCAL_ADDRESS + '/' + userAvatar
+					avatar: userAvatar ? config().parsed.LOCAL_ADDRESS + '/' + userAvatar : null
 				}
 			}
 			// refreshToken генерируется раз в 30 дн. исключением является
@@ -138,10 +141,9 @@ class UserController {
 					RETURNING *;
 				`);
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: timeToLifeAccessToken * 1000, sameSite: "None", secure: true });
 			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 
-			console.log(userData);
 			res.json(userData);
 		} catch (err) {
 			res.status(400).json({ message: err.message });
@@ -168,8 +170,8 @@ class UserController {
 				RETURNING *;
 			`);
 			// удаляем токены из Cookies
-			res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "None", secure: true });
-			res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
+			res.cookie('accesstoken', "", { maxAge: timeToLifeAccessToken * 1000, sameSite: "None", secure: true });
+			res.cookie('refreshtoken', "", { maxAge: timeToLifeAccessToken * 1000, httpOnly: true, sameSite: "None", secure: true });
 			res.status(200).json({ message: "ok" });
 		} catch (err) {
 			next(err)
@@ -260,7 +262,7 @@ class UserController {
 			`);
 			if (!newRefreshToken.rowCount) throw ApiError.UnathorizedError("Can't to update refreshToken in DB");
 			// В Cookies сохраняем accessToken и refreshToken
-			res.cookie('accesstoken', tokens.accessToken, { maxAge: 86400 * 1000, sameSite: "None", secure: true });
+			res.cookie('accesstoken', tokens.accessToken, { maxAge: timeToLifeAccessToken * 1000, sameSite: "None", secure: true });
 			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
 			// добавляем остальные данные о пользователе
 			const additionalUserData = await db.query(`
@@ -492,7 +494,7 @@ class UserController {
 						rolecyr: strRole.rows[0].roledescription,
 						isactivated: getUser.rows[0].isactivated,
 						nickname: newNickName.rows[0].name,
-						avatar: config().parsed.LOCAL_ADDRESS + '/' + newNickName.rows[0].avatar
+						avatar: newNickName.rows[0].avatar ? config().parsed.LOCAL_ADDRESS + '/' + newNickName.rows[0].avatar : null
 					}
 				}
 			}
@@ -652,8 +654,8 @@ class UserController {
 			`);
 				if (getCurrentUser.rows[0].email === isAccessValid.email) {
 					// удаляем токены из Cookies
-					res.cookie('accesstoken', "", { maxAge: 86400 * 1000, sameSite: "None", secure: true });
-					res.cookie('refreshtoken', "", { maxAge: 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
+					res.cookie('accesstoken', "", { maxAge: timeToLifeAccessToken * 1000, sameSite: "None", secure: true });
+					res.cookie('refreshtoken', "", { maxAge: timeToLifeAccessToken * 1000, httpOnly: true, sameSite: "None", secure: true });
 					// делаем отметку в возвращаемом объекте
 					userData = { ...userData, itself: true };
 				} else {
