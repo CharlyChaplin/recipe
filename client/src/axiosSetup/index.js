@@ -28,7 +28,7 @@ ax.interceptors.response.use(response => {
 				await axios.get(`${vars.remoteHost}/user/refresh`, { withCredentials: true, headers: { 'Content-Type': 'application/json' } });
 				return ax.request(originalRequest);
 			} catch (err) {
-				console.log(err.message);
+				// console.log(err.message);
 			}
 		} else {
 			throw error;
