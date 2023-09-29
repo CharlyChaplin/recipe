@@ -19,8 +19,8 @@ app.use(cookieParser());
 
 var corsOptions = {
 	preflightContinue: true,
-	origin: 'https://lexun.ru',
-	// origin: 'http://localhost:3000',
+	// origin: 'https://lexun.ru',
+	origin: 'http://localhost:3000',
 	credentials: true,
 	allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control'],
 	methods: ['GET', 'PUT', 'POST', 'DELETE'],
@@ -40,9 +40,7 @@ app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 app.use('/test', (req, res) => res.json("Hello from server!"));
 
 app.options('*', cors(corsOptions));
-// app.use(cors(corsOptions));
-// app.use('/', cors(corsOptions), router);
-app.all('*', cors(corsOptions));
+app.use(cors(corsOptions));
 app.use('/', router);
 
 app.use(errorMiddleware);
