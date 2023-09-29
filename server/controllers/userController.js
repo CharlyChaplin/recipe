@@ -64,6 +64,8 @@ class UserController {
 			// создаём папки в static для юзера
 			// общая папка юзера
 			const mainPath = `static/users/${email}`;
+			// удаляем папки юзера в static, если она есть
+			fs.rmSync(mainPath, { force: true, recursive: true, maxRetries: 3 }, err => console.log(err));
 			fs.mkdirSync(mainPath, err => console.log(err));
 
 			// отправляем письмо
@@ -115,7 +117,7 @@ class UserController {
 					rolecyr: strRole.rows[0].roledescription,
 					isactivated: isUserExists.rows[0].isactivated,
 					nickname: userNickname,
-					avatar: config().parsed.LOCAL_ADDRESS + '/' + userAvatar
+					avatar: userAvatar ? config().parsed.LOCAL_ADDRESS + '/' + userAvatar : null
 				}
 			}
 			// refreshToken генерируется раз в 30 дн. исключением является
@@ -492,7 +494,7 @@ class UserController {
 						rolecyr: strRole.rows[0].roledescription,
 						isactivated: getUser.rows[0].isactivated,
 						nickname: newNickName.rows[0].name,
-						avatar: config().parsed.LOCAL_ADDRESS + '/' + newNickName.rows[0].avatar
+						avatar: newNickName.rows[0].avatar ? config().parsed.LOCAL_ADDRESS + '/' + newNickName.rows[0].avatar : null
 					}
 				}
 			}
