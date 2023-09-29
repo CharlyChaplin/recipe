@@ -21,7 +21,7 @@ export const AboutWrapper = styled.div`
 	z-index: 0;
 	position: relative;
 	border: ${rem(1)} solid ${vars.dark};
-	`;
+`;
 
 export const AboutContent = styled.div`
 	${adaptiveValue('padding', 30, 15)};
@@ -119,7 +119,7 @@ export const AboutTechnologies = styled(({ caption, items, ...props }) => (
 					${adaptiveValue('margin-left', 15, 7)};
 					background-color: transparent;
 				}
-				background: url(${listMarker}) left center no-repeat;
+				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns='https://www.w3.org/2000/svg' width='17.103mm' height='13.229mm' version='1.1' viewBox='0 0 17.103 13.229'%3E%3Cg transform='translate(-116.94 -20.6)'%3E%3Cg transform='matrix(.26458 0 0 .26458 101.51 10.704)'%3E%3Ccircle cx='82.8' cy='62.4' r='22.5' fill='%23e9be76'/%3E%3Cpath d='m93.3 62.4c0 6.9-5.6 12.5-12.5 12.5' fill='%23e9be76'/%3E%3Cpath d='m83.3 87.4c-13.8 0-25-11.2-25-25s11.2-25 25-25 39.643 10.843 39.643 24.643-25.843 25.357-39.643 25.357zm0-45c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20z' fill='%238b987f'/%3E%3Cpath d='m83.3 77.4c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5c5.5 0 10-4.5 10-10 0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5c0 8.3-6.7 15-15 15z' fill='%238b987f'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") left center no-repeat;
 				background-position-x: ${rem(7)};
 				background-size: ${rem(17)};
 			}
