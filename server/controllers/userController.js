@@ -633,8 +633,8 @@ class UserController {
 			const role = checkGetUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
 
+			let userData = {};
 			if (roleDescription === 'admin') {
-				let userData = {};
 
 				// после всех проверок достаём пользователя для удаления его из БД
 				const { email } = req.body;
