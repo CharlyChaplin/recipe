@@ -35,7 +35,7 @@ class SearchController {
 						{
 							image: config().parsed.LOCAL_ADDRESS + item.photopreview,
 							description: item.caption,
-							link: `/recipe/${item.caption_lat}`
+							link: `/cooking/recipe/${item.caption_lat}`
 						}
 					)
 				})
