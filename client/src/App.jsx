@@ -15,6 +15,7 @@ import AppContent from 'components/AppContent/AppContent';
 const SignIn = lazy(() => import('pages/AuthPage/SignIn'));
 const SignUp = lazy(() => import('pages/AuthPage/SignUp'));
 const Logout = lazy(() => import('pages/AuthPage/Logout'));
+const Activation = lazy(() => import('pages/AuthPage/Activation'));
 
 const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
@@ -37,6 +38,7 @@ const App = () => {
 					<Route path={paths.signin} element={<SignIn />} />
 					<Route path={paths.signup} element={<SignUp />} />
 					<Route path={paths.logout} element={<Logout />} />
+					<Route path={paths.activation} element={<Activation />} />
 
 					<Route element={<ProtectedRoute />}>
 						<Route path={paths.profile} element={<ProfilePage />} />

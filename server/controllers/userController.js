@@ -217,9 +217,9 @@ class UserController {
 			if (!newRefreshToken) throw ApiError.BadRequest("Can't to update refreshToken.");
 			// обновляем cookie для refreshToken
 			res.cookie('refreshtoken', tokens.refreshToken, { maxAge: 30 * 86400 * 1000, httpOnly: true, sameSite: "None", secure: true });
-			res.json({ message: "Congratulations! You're activated!" });
+			res.redirect(`${config().parsed.FRONTEND_ADDRESS}/activate/ok`);
 		} catch (err) {
-			next(err);
+			res.redirect(`${config().parsed.FRONTEND_ADDRESS}/activate/err`);
 		}
 
 	}
@@ -543,7 +543,7 @@ class UserController {
 					role: strRole.rows[0].role,
 					isactivated: getUser.rows[0].isactivated,
 					nickname: getAdditionalUser.rows[0].name,
-					avatar: config().parsed.LOCAL_ADDRESS + '/' + getAdditionalUser.rows[0].avatar
+					avatar: getAdditionalUser.rows[0].avatar ? config().parsed.LOCAL_ADDRESS + '/' + getAdditionalUser.rows[0].avatar : null
 				};
 			}
 
@@ -638,6 +638,7 @@ class UserController {
 
 				// после всех проверок достаём пользователя для удаления его из БД
 				const { email } = req.body;
+
 				// получаем данные о пользователе во всех таблицах
 				// получаем данные из основной таблицы
 				const getUserFromMainTable = await db.query(`SELECT id FROM users WHERE email='${email}';`);
@@ -646,12 +647,19 @@ class UserController {
 				// получаем данные из таблицы персональных данных
 				const getUserFromPersondataTable = await db.query(`SELECT id FROM persondata WHERE user_id=${getUserFromMainTable.rows[0].id};`);
 
+				// получаем данные о том, есть ли пользовательские данные в рецептах или блогах
+				const isFilledUserRecipe = await db.query(`SELECT * FROM recipe WHERE user_id = ${getUserFromMainTable.rows[0].id};`);
+				if (isFilledUserRecipe.rowCount) throw ApiError.BadRequest("Сначала удали данные пользователя (в рецептах)");
+				const isFilledUserBlog = await db.query(`SELECT * FROM blog WHERE user_id = ${getUserFromMainTable.rows[0].id}`);
+				if (isFilledUserBlog.rowCount) throw ApiError.BadRequest("Сначала удали данные пользователя (в блогах)");
+				console.log(isFilledUserRecipe.rowCount, isFilledUserBlog.rowCount);
 
 				// если это текущий юзер, который удалил сам себя, то чистим токены
 				const getCurrentUser = await db.query(`
-				SELECT email FROM users
-				WHERE id=${getUserFromMainTable.rows[0].id}
-			`);
+					SELECT email FROM users
+					WHERE id=${getUserFromMainTable.rows[0].id}
+				`);
+
 				if (getCurrentUser.rows[0].email === isAccessValid.email) {
 					// удаляем токены из Cookies
 					res.cookie('accesstoken', "", { maxAge: timeToLifeAccessToken * 1000, sameSite: "None", secure: true });
@@ -684,7 +692,7 @@ class UserController {
 
 			res.json(userData);
 		} catch (err) {
-			next(err);
+			res.status(400).json({ message: err.message });
 		}
 	}
 

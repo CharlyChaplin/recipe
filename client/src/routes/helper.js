@@ -17,6 +17,7 @@ export const pathsPublic = {
 	blogadd: '/blog/add',
 	about: '/about',
 	profile: '/user/profile',
+	activation: '/activate/*'
 }
 
 export const pathsPrivate = {

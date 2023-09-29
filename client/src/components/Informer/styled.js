@@ -47,7 +47,7 @@ export const InfoWrapper = styled(({ children, warning, ok, cancel, isConfirm, .
 	${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'grid-auto-flow: column' : null};
 	justify-content: start;
 	justify-items: ${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'center' : 'start'};
-	gap: ${({ warning, ok, cancel, isConfirm }) => (warning || ok || cancel || (isConfirm.ok || isConfirm.cancel)) ? 20 : 0};
+	${({ warning, ok, cancel, isConfirm }) => (warning || ok || cancel || (isConfirm.ok || isConfirm.cancel)) ? `${adaptiveValue('gap', 20, 10)}` : 0};
 `;
 
 export const InfoIcon = styled(({ warning, ok, cancel, ...props }) => (

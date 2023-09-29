@@ -15,7 +15,7 @@ export const AuthPageMain = styled.div`
 	align-items: center;
 	overflow: auto;
 	padding: ${rem(10)};
-	${adaptiveValue('padding-top', 80, 0)};
+	${adaptiveValue('padding-top', 20, 0)};
 `;
 
 export const AuthPageContent = styled.div`
