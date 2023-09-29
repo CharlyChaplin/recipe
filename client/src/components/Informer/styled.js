@@ -89,7 +89,7 @@ export const InfoContent = styled(({ children, ...props }) => (
 	${adaptiveValue('gap', 15, 10)};
 	align-items: center;
 	justify-content: center;
-	width: min-content;
+	width: fit-content;
 `;
 
 export const InfoText = styled(({ children, ...props }) => (
