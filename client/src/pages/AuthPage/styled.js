@@ -32,7 +32,7 @@ export const AuthPageContent = styled.div`
 
 export const AuthPageCaption = styled.div`
 	font-family: "Giger", sans-serif;
-	${adaptiveValue("font-size", 45, 27)};
+	${adaptiveValue("font-size", 45, 32)};
 	color: ${vars.whiteColor};
 	letter-spacing: ${rem(1)};
 	text-align: center;
