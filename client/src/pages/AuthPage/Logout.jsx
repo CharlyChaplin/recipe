@@ -15,7 +15,11 @@ const Logout = memo(() => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		handleLogout();
+		if (isConfirmResult) {
+			setTimeout(() => {
+				handleLogout();
+			}, 200);
+		}
 	}, []);
 
 	const handleLogout = useCallback(async () => {
