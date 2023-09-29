@@ -4,6 +4,7 @@ class FileController {
 	async addFile(req, res) {
 		const { userPath } = req.body;
 		const myFiles = Object.values(req.files);
+		console.log('req.body=', req.body, 'req.files=', myFiles);
 		var out = [];
 		let filePath = '';
 
