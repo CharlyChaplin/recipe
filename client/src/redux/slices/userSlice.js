@@ -138,6 +138,8 @@ export const userSlice = createSlice({
 		},
 		clearUserDataInStore: (state, action) => {
 			state.userById = [];
+			state.errors = "";
+			state.completed = false;
 		},
 	},
 	extraReducers: (build) => {

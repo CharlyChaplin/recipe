@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthPageCaption, AuthPageContent, AuthPageForm, AuthPageFormButtons, AuthPageFormHaveAccount, AuthPageFormWrapper, AuthPageInputWrapper, AuthPageLayer, AuthPageMain, AuthPageWrapper } from './styled';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
-import { userRegister } from 'redux/slices/userSlice';
+import { clearUserDataInStore, userRegister } from 'redux/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from 'components/Spinner/Spinner';
 import { useCallback } from 'react';
@@ -21,6 +21,11 @@ const SignUp = () => {
 	const { loading } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
 
+	useEffect(() => {
+		
+		return () => dispatch(clearUserDataInStore());
+	}, []);
+	
 	function handleLoginInput(e) {
 		setLogin(e.target.value);
 	}

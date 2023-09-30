@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
 import { useDispatch, useSelector } from 'react-redux';
-import { userGetUser, userLogin } from 'redux/slices/userSlice';
+import { clearUserDataInStore, userGetUser, userLogin } from 'redux/slices/userSlice';
 import Spinner from 'components/Spinner';
 import { showInfo } from 'redux/slices/infoSlice';
 import axios from 'axiosSetup';
@@ -36,6 +36,8 @@ const SignIn = () => {
 				}
 			}
 		}
+		
+		return () => dispatch(clearUserDataInStore());
 	}, [completed]);
 
 
