@@ -174,7 +174,7 @@ class UserController {
 			res.cookie('refreshtoken', "", { maxAge: timeToLifeAccessToken * 1000, httpOnly: true, sameSite: "None", secure: true });
 			res.status(200).json({ message: "ok" });
 		} catch (err) {
-			next(err)
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -280,9 +280,8 @@ class UserController {
 			};
 			res.json(userData);
 		} catch (err) {
-			next(err)
+			res.status(400).json({ message: err.message });
 		}
-
 	}
 
 	async getUsers(req, res, next) {
@@ -312,7 +311,7 @@ class UserController {
 			}
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -341,7 +340,7 @@ class UserController {
 			}
 			res.json(sendData);
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 
 	}
@@ -385,7 +384,7 @@ class UserController {
 			};
 			res.json(userData);
 		} catch (err) {
-			next(err);
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -421,7 +420,7 @@ class UserController {
 
 			res.json(rolesData);
 		} catch (err) {
-			next(err);
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -500,7 +499,7 @@ class UserController {
 			}
 			res.json(userData);
 		} catch (err) {
-			next(err);
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -549,7 +548,7 @@ class UserController {
 
 			res.json(userData);
 		} catch (err) {
-			next(err);
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -614,7 +613,7 @@ class UserController {
 			};
 			res.json(userData);
 		} catch (err) {
-			next(err);
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -688,7 +687,6 @@ class UserController {
 				// формируем воздвращающийся объект
 				userData = { ...userData, deletedUser: deleteFromUsers.rows[0].email }
 			}
-
 
 			res.json(userData);
 		} catch (err) {
