@@ -59,9 +59,9 @@ const Informer = () => {
 		}
 	}
 
-	async function handleOk() {
-		await dispatch(isConfirmOk());
-		if (isLogoutAction) navigate(paths.logout);
+	function handleOk() {
+		dispatch(isConfirmOk());
+		if (isConfirmOk && isLogoutAction) navigate(paths.logout);
 	}
 
 	function handleCancel() {

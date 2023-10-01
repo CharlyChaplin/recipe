@@ -23,9 +23,9 @@ const AuthButton = () => {
 
 	function showMenu() { setIsShowMenu(!isShowMenu); }
 
-	async function handleExit() {
+	function handleExit() {
 		const logoutAction = true;
-		await dispatch(showInfo({ text: "Выходим?", isConfirm: { ok: "Да", cancel: "Нет" }, logoutAction }));
+		dispatch(showInfo({ text: "Выходим?", isConfirm: { ok: "Да", cancel: "Нет" }, logoutAction }));
 	}
 
 	
