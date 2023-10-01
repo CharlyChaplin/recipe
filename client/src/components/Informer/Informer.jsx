@@ -61,14 +61,13 @@ const Informer = () => {
 
 	function handleOk() {
 		dispatch(isConfirmOk());
-		if (isConfirmOk && isLogoutAction) navigate(paths.logout);
+		if (isLogoutAction) navigate(paths.logout);
 	}
 
 	function handleCancel() {
-		if (!isConfirmResult) unloadMe(true);
+		unloadMe(true);
 	}
 
-	if (isConfirmResult) unloadMe(true);
 
 	return (
 		<>

@@ -15,7 +15,6 @@ const Logout = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		console.log(showInformation.isConfirmResult);
 		if (showInformation.isConfirmResult) {
 			setTimeout(() => {
 				handleLogout();

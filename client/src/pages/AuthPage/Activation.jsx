@@ -22,7 +22,7 @@ const Activation = () => {
 				break;
 			case 'ok':
 				dispatch(showInfo({ text: 'Ваш аккаунт активирован! Укажите ваш ник', ok: true }));
-				navigate(paths.profile);
+				navigate(paths.home);
 				break;
 			default:
 				break;
