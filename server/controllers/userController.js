@@ -651,7 +651,6 @@ class UserController {
 				if (isFilledUserRecipe.rowCount) throw ApiError.BadRequest("Сначала удали данные пользователя (в рецептах)");
 				const isFilledUserBlog = await db.query(`SELECT * FROM blog WHERE user_id = ${getUserFromMainTable.rows[0].id}`);
 				if (isFilledUserBlog.rowCount) throw ApiError.BadRequest("Сначала удали данные пользователя (в блогах)");
-				console.log(isFilledUserRecipe.rowCount, isFilledUserBlog.rowCount);
 
 				// если это текущий юзер, который удалил сам себя, то чистим токены
 				const getCurrentUser = await db.query(`

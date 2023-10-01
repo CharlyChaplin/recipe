@@ -22,7 +22,7 @@ const Logout = memo(() => {
 		}
 	}, []);
 
-	const handleLogout = useCallback(async () => {
+	const handleLogout = () => {
 		if (Boolean(userData?.user?.nickname)) {
 			dispatch(showInfo({ text: `Увидимся,  ${userData?.user?.nickname}!` }));
 		} else {
@@ -33,7 +33,7 @@ const Logout = memo(() => {
 
 		navigate(paths.home);
 
-	}, [dispatch, navigate, isAuth]);
+	};
 
 
 

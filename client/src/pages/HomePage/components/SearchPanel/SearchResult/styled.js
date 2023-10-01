@@ -69,6 +69,7 @@ export const SearchResultItem = styled(({ image, description, link, ...props }) 
 	cursor: pointer;
 	transition: all 0.25s ease 0s;
 	color: ${vars.text};
+	${adaptiveValue('padding', 7, 3)};
 	
 	${adaptiveValue('border-radius', 5, 3)};
 	display: flex;
@@ -83,11 +84,11 @@ export const SearchResultItem = styled(({ image, description, link, ...props }) 
 	a {
 		display: flex;
 		width: 100%;
-		${adaptiveValue('padding', 7, 3)};
 		flex-direction: row;
 		align-items: center;
 		${adaptiveValue('gap', 15, 7)};
 		color: ${vars.text};
+		overflow: hidden;
 		
 		div {
 			// первый элемент в контейнере это рисунок

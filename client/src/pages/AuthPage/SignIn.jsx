@@ -94,7 +94,7 @@ const SignIn = () => {
 										<Input
 											labelPos='column'
 											labelText='Логин:'
-											type='text'
+											type='email'
 											value={login}
 											placeholder='Ваш e-mail'
 											autoFocus
