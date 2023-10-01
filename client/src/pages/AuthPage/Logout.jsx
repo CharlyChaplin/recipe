@@ -10,12 +10,13 @@ import { paths } from 'routes/helper';
 
 const Logout = () => {
 	const { isAuth, userData } = useSelector(state => state.userReducer);
-	const { isConfirmResult } = useSelector(state => state.infoReducer.showInformation);
+	const { showInformation } = useSelector(state => state.infoReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (isConfirmResult) {
+		console.log(showInformation.isConfirmResult);
+		if (showInformation.isConfirmResult) {
 			setTimeout(() => {
 				handleLogout();
 			}, 200);
