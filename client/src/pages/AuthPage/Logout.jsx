@@ -8,7 +8,7 @@ import { userLogout } from 'redux/slices/userSlice';
 import { paths } from 'routes/helper';
 
 
-const Logout = memo(() => {
+const Logout = () => {
 	const { isAuth, userData } = useSelector(state => state.userReducer);
 	const { isConfirmResult } = useSelector(state => state.infoReducer.showInformation);
 	const dispatch = useDispatch();
@@ -42,6 +42,6 @@ const Logout = memo(() => {
 
 		</>
 	);
-})
+}
 
 export default Logout;
