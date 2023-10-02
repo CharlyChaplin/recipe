@@ -59,19 +59,11 @@ const Categories = () => {
 		}));
 	}
 
-
-	console.log('categoryData.caption=', categoryData?.caption);
+	
 
 	return (
 		<>
 			<Helmet>
-				{/* <title>
-					{
-						!categoryLoading && name?.length > 0
-							? categoryData?.caption
-							: "Рецепты по категориям"
-					}
-				</title> */}
 				<meta name="description" content="Recipes, Category of recipe one page"></meta>
 			</Helmet>
 			<MainWrapper image={name ? categoryData?.bg : bg}>
