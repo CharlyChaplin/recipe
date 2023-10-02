@@ -12,6 +12,7 @@ import { RecipeIngredientsWrapper, RecipeLeftTopTextWrapper, RecipeLeftTopWrappe
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import IngredientItem from './components/IngredientItem';
 import { nanoid } from 'nanoid';
+import { paths } from 'routes/helper';
 
 
 const RecipeDetailPage = () => {
@@ -36,7 +37,7 @@ const RecipeDetailPage = () => {
 		<>
 			<MainWrapper image={bg}>
 				<InnerWrapperChangedForRecipeDetail>
-					<ButtonBtn handleaction={() => navigate(-1)} />
+					<ButtonBtn handleaction={() => navigate(paths.recipe)} />
 					{
 						loading
 							? <ContentWrapper spiner><Spinner height={100} /></ContentWrapper>
