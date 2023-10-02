@@ -141,13 +141,6 @@ class RecipeController {
 		try {
 			// после всех проверок достаём рецепт из запроса для изменения в БД
 			let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
-			console.log("dateadd=", dateadd,
-				"owner=", owner,
-				"caption=", caption,
-				"shortDescription=", shortDescription,
-				"category=", category,
-				"cookingText=", cookingText,
-				"oldRecipeCaption=", oldRecipeCaption);
 			let file = null;
 			if (req.files) file = Object.values(req.files)[0];
 			if (!oldRecipeCaption) {
@@ -168,13 +161,9 @@ class RecipeController {
 				dateadd = recipeNow.rows[0].dateadd;
 			};
 
-			if (!caption) {
-				caption = recipeNow.rows[0].caption;
-				captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
-				// console.log(captionLat);
-			} else {
-				captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
-			};
+			if (!caption) caption = recipeNow.rows[0].caption;
+			captionLat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
+
 
 			if (!shortDescription) {
 				shortDescription = recipeNow.rows[0].shortdescription;
@@ -237,12 +226,6 @@ class RecipeController {
 							console.log(err);
 						}
 					});
-				// перемещаем файл в папку
-				// file.mv(`static/${photoorig}`, err => {
-				// 	if (err) {
-				// 		return res.status(500).send({ err: err, msg: "Error occurred" });
-				// 	}
-				// });
 			}
 
 			// изменяем название папки рецепта в папке recipe в случае изменения названия рецепта
@@ -257,8 +240,6 @@ class RecipeController {
 				photopreview = `${newPath.replace('static', '')}/preview.jpg`;
 			}
 
-
-			// console.log(owner, categoryId, dateadd, caption, photoorig, photopreview, shortDescription, cookingText);
 
 			// обновляем запись рецепта
 			const updatedRecipe = await db.query(`
@@ -276,7 +257,7 @@ class RecipeController {
 				WHERE caption_lat='${oldRecipeCaption}'
 				RETURNING *;
 			`);
-			if (!updatedRecipe.rowCount) throw ApiError.BadRequest("Can't to UPDATE recipe while EDIT recipe");
+			if (!updatedRecipe.rowCount) throw ApiError.BadRequest("Результат запроса вернул пустую строку");
 
 			// обновляем запись ингредиентов (для начала удалив все текущие, касательно данного рецепта)
 			const deleteOldIngredientsForCurrentRecipe = await db.query(`
@@ -387,6 +368,7 @@ class RecipeController {
 				db.query('SELECT * FROM recipe ORDER BY caption ASC;')
 					.then(resp => {
 						const out = resp.rows.map(item => item.caption);
+						console.log("out=", out);
 						res.json(out);
 					})
 					.catch(err => res.status(400).json({ message: err }));
