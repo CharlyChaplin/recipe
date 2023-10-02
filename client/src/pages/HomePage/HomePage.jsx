@@ -12,7 +12,7 @@ import { clearPhraseData } from 'redux/slices/phraseSlice';
 import { Helmet } from 'react-helmet';
 
 // const titlePage = "Заголовок";
-const titlePage = "Рецепты для удовольствия!";
+const titlePage = "1Рецепты для удовольствия!";
 
 
 const HomePage = () => {
