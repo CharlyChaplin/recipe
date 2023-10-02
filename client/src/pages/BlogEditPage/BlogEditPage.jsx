@@ -51,14 +51,13 @@ const BlogEditPage = () => {
 	}, [blogData]);
 
 	useEffect(() => {
+		console.log("completed=", completed);
 		if (errors.length > 0 && !loading) {
 			dispatch(showInfo({ text: errors, cancel: true }));
-		} else {
+		} else if (completed) {
+			// проверяем, если после запроса 'edit' данные получены,
+			// то переходим на страницу изменённого блога
 			dispatch(showInfo({ text: "Блог успешно обновлён", ok: true }));
-		}
-		// проверяем, если после запроса 'edit' данные получены,
-		// то переходим на страницу изменённого блога
-		if (completed) {
 			navigate(`/blog/${blogData.caption_lat}`);
 		}
 
