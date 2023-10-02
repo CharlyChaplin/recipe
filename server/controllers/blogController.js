@@ -114,8 +114,8 @@ class BlogController {
 		let { dateadd, owner, caption, description, oldBlogCaption } = req.body;
 		let oldBlogCaptionTranslited = '';
 		if (oldBlogCaption) {
-			oldBlogCaptionTranslited = translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_')
-		};
+			oldBlogCaptionTranslited = translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_');
+		}
 		let file = null;
 		if (req.files) file = Object.values(req.files)[0];
 
@@ -132,9 +132,13 @@ class BlogController {
 			};
 			dateadd = datePrepareForFrontend(dateadd);
 
+			// если нет заголовка, то получаем его из БД в транслитерированном виде
 			if (!caption) {
-				caption = blogNow.rows[0].caption;
-			};
+				caption = blogNow.rows[0].caption_lat;
+			} else {
+				// если есть, то из кириллицы делаем латиницу
+				caption = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
+			}
 			if (!description) {
 				description = blogNow.rows[0].description;
 			};
