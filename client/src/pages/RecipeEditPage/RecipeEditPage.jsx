@@ -212,7 +212,12 @@ const RecipeEditPage = () => {
 
 									<AddPhotoBlockForRecipe><ImageInsert currentFile={recipeData.photopreview} selectedFile={getSelectedFile} /></AddPhotoBlockForRecipe>
 									<RecipeLeftTopTextWrapper>
-										<EditNotEdit data={recipeData?.caption} isCaption upperCase letterSpacing />
+										{
+											userData?.user?.role === 1
+												? <Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder={recipeData?.caption} />
+												: <EditNotEdit data={recipeData?.caption} isCaption upperCase letterSpacing />
+										}
+										{/* <EditNotEdit data={recipeData?.caption} isCaption upperCase letterSpacing /> */}
 										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} autoFocus placeholder={recipeData?.shortdescription} fz={12} />
 									</RecipeLeftTopTextWrapper>
 
