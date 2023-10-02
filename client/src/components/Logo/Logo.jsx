@@ -6,7 +6,7 @@ import { LogoDescriptionBottom, LogoDescriptionTop, LogoDescriptionWrapper, Logo
 const Logo = ({ noIcon = false, noText = false }) => {
 	return (
 		<>
-			<LogoWrapper>
+			<LogoWrapper noText={noText}>
 				{
 					!noIcon &&
 					<LogoIcon>{<LogoICO />}</LogoIcon>

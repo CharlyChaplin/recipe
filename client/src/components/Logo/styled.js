@@ -6,8 +6,14 @@ import { paths } from 'routes/helper';
 import { Link } from 'react-router-dom';
 
 
-export const LogoWrapper = styled(({ children, ...props }) => (
-	<Link to={`${paths.home}`} aria-label='Logotype icon' {...props}>{children}</Link>
+export const LogoWrapper = styled(({ noText, children, ...props }) => (
+	<Link
+		to={`${paths.home}`}
+		aria-label={noText ? 'Логотип' : 'Готовим вместе'}
+		{...props}
+	>
+		{children}
+	</Link>
 ))`
 	display: flex;
 	flex-direction: row;
