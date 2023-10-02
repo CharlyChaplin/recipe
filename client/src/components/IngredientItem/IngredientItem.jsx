@@ -9,7 +9,7 @@ import { useWhyDidYouUpdate } from 'ahooks';
 
 // mode = 'change' || 'add' || 'view'
 const IngredientItem = ({ mode, locked, data, data1, name, deleteAction, value, value1, handleChange, handleChange1, getKey }) => {
-
+	
 	// useWhyDidYouUpdate('IngredientItem', { mode, data, name, cloneAction, deleteAction, value, handleChange, getKey });
 
 
@@ -27,7 +27,7 @@ const IngredientItem = ({ mode, locked, data, data1, name, deleteAction, value, 
 								<>
 									<Input
 										name={name}
-										placeholder={data === false ? '' : data}
+										placeholder={data === false ? '' : data[0]}
 										rectangle
 										fz={12}
 										value={value}

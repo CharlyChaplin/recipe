@@ -52,8 +52,6 @@ const RecipeEditPage = () => {
 	useEffect(() => {
 		getRecipe();
 
-		// заполняем старый заголовок
-		setFields({ ...fields, oldRecipeCaption: recipeData?.caption_lat });
 		// показываем в DropBox для юзера текущее значение
 		setUserInputText(recipeData.name);
 		// показываем в DropBox для категории текущее значение
@@ -159,13 +157,17 @@ const RecipeEditPage = () => {
 
 	function handleEditRecipe() {
 		const fd = new FormData();
+
 		for (let [key, value] of Object.entries(fields)) {
 			if (key === 'ingredients') {
 				const prepareIngredients = ingredients.map(item => {
 					// если value1 пуст, значит это старые данные и извлекаем только поле 'data', иначе value1
-					return (item.value1 || item.data);
+					return (item.value1 ? [item.value1, null] : item.data);
 				});
 				fd.append(key, JSON.stringify(prepareIngredients));
+			} else if (key === 'oldRecipeCaption') {
+				// заполняем старый заголовок
+				fd.append(key, recipeData.caption_lat);
 			} else {
 				fd.append(key, value);
 			}
@@ -224,7 +226,7 @@ const RecipeEditPage = () => {
 										<hr />
 										<RecipeIngredientsItemsWrapper>
 											{
-												fields?.ingredients?.map((_, index) => {
+												fields?.ingredients?.map((item, index) => {
 													return (
 														<IngredientItem
 															key={index}
