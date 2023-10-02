@@ -12,7 +12,7 @@ const Footer = () => {
 				<FooterContainer>
 					
 					<FooterIco><Logo noText /></FooterIco>
-					<FooterAbout><Link to={paths.about}>О проекте</Link></FooterAbout>
+					<FooterAbout><Link to={paths.about} aria-label='Hello'>О проекте</Link></FooterAbout>
 					<FooterYear />
 					
 				</FooterContainer>
