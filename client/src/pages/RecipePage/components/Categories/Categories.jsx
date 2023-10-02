@@ -60,17 +60,16 @@ const Categories = () => {
 	}
 
 
-	console.log(categoryData.caption);
+
 
 	return (
 		<>
 			<Helmet>
 				<title>
 					{
-						(!categoryLoading && !loading) &&
-							name
-								? categoryData?.caption
-								: "Рецепты по категориям"
+						!categoryLoading && name?.length > 0
+							? categoryData?.caption
+							: "Рецепты по категориям"
 					}
 				</title>
 				<meta name="description" content="Recipes, Category of recipe one page"></meta>
