@@ -347,17 +347,17 @@ class UserController {
 
 	async getUser(req, res, next) {
 		try {
-			console.log("Hello");
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid) return res.status(200).json({ message: "Hi1User not authorized" });
-
+			
 			// если токены валидны, получаем id юзера, имеющего email
 			const getUser = await db.query(`
-					SELECT * FROM users
-					WHERE email = '${isAccessValid.email}';
-				`);
+			SELECT * FROM users
+			WHERE email = '${isAccessValid.email}';
+			`);
 			let userId = 0;
 			if (!getUser.rowCount) return res.status(200).json({ message: "HiUser not authorized" });
+			console.log("Hello");
 			userId = getUser.rows[0].id;
 			// получаем nickname юзера из дополнительной таблицы юзеров
 			const getUserData = await db.query(`
