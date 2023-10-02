@@ -356,7 +356,7 @@ class UserController {
 					WHERE email = '${isAccessValid.email}';
 				`);
 			let userId = 0;
-			if (!getUser.rowCount) return res.status(200).json({ message: "User not authorized" });
+			if (!getUser.rowCount) return res.status(200).json({ message: "HiUser not authorized" });
 			userId = getUser.rows[0].id;
 			// получаем nickname юзера из дополнительной таблицы юзеров
 			const getUserData = await db.query(`
