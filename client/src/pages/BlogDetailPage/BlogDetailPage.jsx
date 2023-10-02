@@ -32,7 +32,7 @@ const BlogDetailPage = () => {
 	return (
 		<>
 			<Helmet>
-				<title>{blogData?.caption || 'Рецепты для удовольствия'}</title>
+				{/* <title>{blogData?.caption || 'Рецепты для удовольствия'}</title> */}
 				<meta name="description" content="Recipes, Blog detail page"></meta>
 			</Helmet>
 			<MainWrapperChangedForBlogDetail image={bg}>
