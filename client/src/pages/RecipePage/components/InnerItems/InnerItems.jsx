@@ -14,6 +14,8 @@ import { Helmet } from 'react-helmet';
 
 const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
 	const navigate = useNavigate();
+	
+	console.log('headerCaption=', headerCaption);
 
 	return (
 		<>
