@@ -37,7 +37,7 @@ const RecipeDetailPage = () => {
 		<>
 			<MainWrapper image={bg}>
 				<InnerWrapperChangedForRecipeDetail>
-					<ButtonBtn handleaction={() => navigate(paths.recipe)} />
+					<ButtonBtn handleaction={() => navigate(paths.categories)} />
 					{
 						loading
 							? <ContentWrapper spiner><Spinner height={100} /></ContentWrapper>
