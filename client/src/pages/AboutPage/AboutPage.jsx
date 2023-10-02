@@ -3,11 +3,13 @@ import { InnerWrapper, MainWrapper } from 'pages/pages.styled';
 import vars from 'init/vars';
 import { AboutCaption, AboutContent, AboutDescription, AboutSocials, AboutTechnologies, AboutWrapper } from './styled';
 import { ReactComponent as GithubICO } from 'assets/img/icons/github.svg';
+import { Helmet } from 'react-helmet';
 
 
 const AboutPage = () => {
 	return (
 		<>
+			<Helmet><title>О проекте</title></Helmet>
 			<MainWrapper image={vars.overlay} noOverlay>
 				<InnerWrapper>
 
