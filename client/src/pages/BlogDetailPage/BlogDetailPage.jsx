@@ -7,6 +7,7 @@ import { BlogDetailCaption, BlogDetailPhoto, BlogDetailTop, BlogTextWrapper, Con
 import { ButtonBtn, InnerWrapper } from 'pages/pages.styled';
 import Spinner from 'components/Spinner/Spinner';
 import NoData from 'components/NoData/NoData';
+import { paths } from 'routes/helper';
 
 
 const BlogDetailPage = () => {
@@ -32,7 +33,7 @@ const BlogDetailPage = () => {
 			<MainWrapperChangedForBlogDetail image={bg}>
 
 				<InnerWrapper>
-					<ButtonBtn handleaction={() => navigate(-1)} />
+					<ButtonBtn handleaction={() => navigate(paths.blog)} />
 					<ContentWrapperChangedForBlogDetail>
 						{
 							loading
