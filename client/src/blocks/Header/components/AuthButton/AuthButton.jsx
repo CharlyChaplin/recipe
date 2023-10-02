@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { AuthElementWrapper, AuthImage, AuthText, DropDownMenuListItem, DropDownMenuWrapper } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from 'components/Spinner';
 import { paths } from 'routes/helper';
 import { showInfo } from 'redux/slices/infoSlice';
-import { useEffect } from 'react';
 
-let image = '';
+
 
 const AuthButton = () => {
 	const { isAuth, userData, loading } = useSelector(state => state.userReducer);
