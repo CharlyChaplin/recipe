@@ -4,7 +4,7 @@ import vars from "init/vars";
 
 
 export const BurgerButton = styled(({ children, ...props }) => (
-	<button {...props}>{children}</button>
+	<button aria-label="Menu-burger" {...props}>{children}</button>
 ))`
 	display: none;
 	@media (max-width: ${em(925)}) {
