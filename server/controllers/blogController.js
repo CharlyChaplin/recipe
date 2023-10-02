@@ -112,11 +112,8 @@ class BlogController {
 
 		// после всех проверок достаём блоги для изменения в БД
 		let { dateadd, owner, caption, description, oldBlogCaption } = req.body;
-		let oldBlogCaptionTranslited = '';
 		let caption_lat = '';
-		if (oldBlogCaption) {
-			oldBlogCaptionTranslited = translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_');
-		}
+		
 		let file = null;
 		if (req.files) file = Object.values(req.files)[0];
 
@@ -195,19 +192,6 @@ class BlogController {
 				photopreview = `${newPath.replace('static', '')}/preview.jpg`;
 			}
 
-			console.log(`
-			UPDATE blog
-			SET dateadd='${datePrepareForDB(dateadd)}',
-				 user_id=${owner},
-				 photoorig='${photoorig}',
-				 photopreview='${photopreview}',
-				 caption='${caption}',
-				 caption_lat='${caption_lat}',
-				 description='${description}'
-
-			WHERE caption='${oldBlogCaption}'
-			RETURNING *;
-		`);
 			const updatedBlog = await db.query(`
 				UPDATE blog
 				SET dateadd='${datePrepareForDB(dateadd)}',
@@ -221,7 +205,7 @@ class BlogController {
 				WHERE caption='${oldBlogCaption}'
 				RETURNING *;
 			`);
-			if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");
+			if (!updatedBlog.rowCount) throw ApiError.BadRequest("Результат запроса вернул пустую строку");
 			res.json(updatedBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
