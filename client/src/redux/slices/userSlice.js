@@ -60,7 +60,6 @@ export const userGetUser = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const resp = await axios.get('/user/getuser');
-			console.log(resp);
 			return resp.data;
 		} catch (err) {
 			return rejectWithValue(err.message);
