@@ -16,7 +16,7 @@ let outData;
 
 const Categories = () => {
 	const { recipePreview, recipeInCategory, loading } = useSelector(state => state.recipeReducer);
-	const { categoryData } = useSelector(state => state.categoryReducer);
+	const { categoryData, categoryLoading } = useSelector(state => state.categoryReducer);
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const { name } = useParams();
@@ -67,7 +67,7 @@ const Categories = () => {
 			<Helmet>
 				<title>
 					{
-						loading
+						categoryLoading
 							? name
 								? categoryData?.caption
 								: "Рецепты по категориям"
