@@ -74,7 +74,7 @@ const Categories = () => {
 			</Helmet>
 			<MainWrapper image={name ? categoryData?.bg : bg}>
 
-				<InnerItems backBtn={!!name} headerCaption={name ? categoryData.caption : 'Рецепты по категориям'} items={outData} loadStatus={loading} />
+				<InnerItems backBtn={!!name} headerCaption={categoryData?.caption} items={outData} loadStatus={loading} />
 
 			</MainWrapper>
 		</>
