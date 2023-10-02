@@ -122,7 +122,7 @@ class BlogController {
 			SELECT * FROM blog
 			WHERE caption_lat='${oldBlogCaption}';
 		`);
-			console.log(blogNow.rows);
+			console.log(dateadd, owner, caption, description, oldBlogCaption);
 			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
 			if (!dateadd) {
 				dateadd = blogNow.rows[0].dateadd;
