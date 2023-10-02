@@ -37,7 +37,7 @@ const RecipeDetailPage = () => {
 	return (
 		<>
 			<Helmet>
-				<title>{recipeData?.caption || 'Рецепты для удовольствия'}</title>
+				<title>{recipeData?.caption}</title>
 				<meta name="description" content="Recipes, Recipe detail page"></meta>
 			</Helmet>
 			<MainWrapper image={bg}>
