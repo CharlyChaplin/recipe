@@ -141,7 +141,7 @@ class RecipeController {
 		try {
 			// после всех проверок достаём рецепт из запроса для изменения в БД
 			let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
-			// console.log("oldRecipeCaption=", oldRecipeCaption);
+			
 			let file = null;
 			if (req.files) file = Object.values(req.files)[0];
 			if (!oldRecipeCaption) {
