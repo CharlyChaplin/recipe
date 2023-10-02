@@ -168,6 +168,7 @@ export const recipeSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(recipeGetRecipe.pending, (state, action) => {
 			state.loading = true;
+			state.recipeData = [];
 			state.errors = "";
 		});
 		build.addCase(recipeGetRecipe.fulfilled, (state, action) => {
