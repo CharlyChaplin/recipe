@@ -112,6 +112,7 @@ class BlogController {
 
 		// после всех проверок достаём блоги для изменения в БД
 		let { dateadd, owner, caption, description, oldBlogCaption } = req.body;
+		if (oldBlogCaption) translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_');
 		let file = null;
 		if (req.files) file = Object.values(req.files)[0];
 
