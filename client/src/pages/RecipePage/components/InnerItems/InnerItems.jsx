@@ -9,6 +9,7 @@ import { nanoid } from 'nanoid';
 import NoData from 'components/NoData/NoData';
 import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
+import { Helmet } from 'react-helmet';
 
 
 const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
