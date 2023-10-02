@@ -67,11 +67,10 @@ const Categories = () => {
 			<Helmet>
 				<title>
 					{
-						!categoryLoading && !loading
-							? name
+						(!categoryLoading && !loading) &&
+							name
 								? categoryData?.caption
 								: "Рецепты по категориям"
-							: "Рецепты по категориям"
 					}
 				</title>
 				<meta name="description" content="Recipes, Category of recipe one page"></meta>
