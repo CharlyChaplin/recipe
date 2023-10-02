@@ -347,6 +347,7 @@ class UserController {
 
 	async getUser(req, res, next) {
 		try {
+			console.log("Hello");
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
 			if (!isAccessValid) return res.status(200).json({ message: "Hi1User not authorized" });
 
