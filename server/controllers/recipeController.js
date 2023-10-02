@@ -141,7 +141,13 @@ class RecipeController {
 		try {
 			// после всех проверок достаём рецепт из запроса для изменения в БД
 			let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
-			console.log(dateadd, owner, caption, shortDescription, category, cookingText, oldRecipeCaption);
+			console.log("dateadd=", dateadd,
+				"owner=", owner,
+				"caption=", caption,
+				"shortDescription=", shortDescription,
+				"category=", category,
+				"cookingText=", cookingText,
+				"oldRecipeCaption=", oldRecipeCaption);
 			let file = null;
 			if (req.files) file = Object.values(req.files)[0];
 			if (!oldRecipeCaption) {
@@ -156,7 +162,7 @@ class RecipeController {
 				SELECT * FROM recipe
 				WHERE caption_lat='${oldRecipeCaption}';
 			`);
-			
+
 			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
 			if (!dateadd) {
 				dateadd = recipeNow.rows[0].dateadd;
@@ -238,7 +244,7 @@ class RecipeController {
 				// 	}
 				// });
 			}
-			
+
 			// изменяем название папки рецепта в папке recipe в случае изменения названия рецепта
 			if (caption != undefined && (caption !== oldRecipeCaption)) {
 				// описываем путь для старой папки рецепта
@@ -375,7 +381,7 @@ class RecipeController {
 			const user_id = getUser.rows[0].id;
 			const role = getUser.rows[0].role;
 			const roleDescription = role === 1 ? 'admin' : role === 2 ? 'user' : 'unknown';
-			
+
 			// после всех проверок достаём рецепты в зависимости от прав пользователя
 			if (roleDescription === 'admin') {
 				db.query('SELECT * FROM recipe ORDER BY caption ASC;')

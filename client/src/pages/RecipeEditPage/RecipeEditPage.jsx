@@ -69,9 +69,8 @@ const RecipeEditPage = () => {
 			dispatch(showInfo({ text: errors, cancel: true }));
 		} else if (completed) {
 			dispatch(showInfo({ text: "Рецепт успешно изменён", ok: true }));
+			navigate(`/recipe/${recipeData.caption}`)
 		}
-
-		if (completed) navigate(`/recipe/${recipeData.caption}`);
 
 		return () => dispatch(clearRecipeData());
 	}, [completed]);
