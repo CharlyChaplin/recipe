@@ -194,7 +194,18 @@ class BlogController {
 				photopreview = `${newPath.replace('static', '')}/preview.jpg`;
 			}
 
+			console.log(`
+			UPDATE blog
+			SET dateadd='${datePrepareForDB(dateadd)}',
+				 user_id=${owner},
+				 photoorig='${photoorig}',
+				 photopreview='${photopreview}',
+				 caption='${caption}',
+				 description='${description}'
 
+			WHERE caption_lat='${oldBlogCaption}'
+			RETURNING *;
+		`);
 			const updatedBlog = await db.query(`
 				UPDATE blog
 				SET dateadd='${datePrepareForDB(dateadd)}',
