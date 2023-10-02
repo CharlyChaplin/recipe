@@ -8,6 +8,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { categoryGetCategoryName, clearCategoryData } from 'redux/slices/categorySlice';
 import { MainWrapper } from 'pages/pages.styled';
 import bg from 'assets/img/blog/bg.jpg';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -63,6 +64,10 @@ const Categories = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>{name || "Рецепты по категориям"}</title>
+				<meta name="description" content="Recipes, Category of recipe one page"></meta>
+			</Helmet>
 			<MainWrapper image={name ? categoryData?.bg : bg}>
 
 				<InnerItems backBtn={!!name} headerCaption={name ? categoryData.caption : 'Рецепты по категориям'} items={outData} loadStatus={loading} />

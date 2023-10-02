@@ -83,7 +83,10 @@ const SignIn = () => {
 
 	return (
 		<>
-			<Helmet><title>Авторизация</title></Helmet>
+			<Helmet>
+				<title>Авторизация</title>
+				<meta name="description" content="Recipes, SignIn page"></meta>
+			</Helmet>
 			<AuthPageMain>
 				<AuthPageContent>
 					<AuthPageCaption>Авторизация</AuthPageCaption>

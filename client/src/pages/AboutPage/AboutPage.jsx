@@ -9,7 +9,10 @@ import { Helmet } from 'react-helmet';
 const AboutPage = () => {
 	return (
 		<>
-			<Helmet><title>О проекте</title></Helmet>
+			<Helmet>
+				<title>О проекте</title>
+				<meta name="description" content="Recipes, About page"></meta>
+			</Helmet>
 			<MainWrapper image={vars.overlay} noOverlay>
 				<InnerWrapper>
 

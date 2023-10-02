@@ -30,6 +30,7 @@ import { blogGetBlogs } from 'redux/slices/blogSlice';
 import BlogDeleteChange from './components/blogDeleteChange/BlogDeleteChange';
 import { recipeGetRecipies } from 'redux/slices/recipeSlice';
 import RecipeDeleteChange from './components/RecipeDeleteChange/RecipeDeleteChange';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -194,6 +195,10 @@ const ProfilePage = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Личный кабинет</title>
+				<meta name="description" content="Recipes, Account profile page"></meta>
+			</Helmet>
 
 			<ProfileMainWrapper activated={userData?.user?.isactivated}>
 

@@ -16,6 +16,7 @@ import DropdownList from 'components/DropdownList'
 import { userGetUsersNickname } from 'redux/slices/userSlice';
 import { BlogAddPhoto } from 'pages/BlogAddPage/styled';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
+import { Helmet } from 'react-helmet';
 
 
 let dataSource;
@@ -116,6 +117,10 @@ const BlogEditPage = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Редактируем блог</title>
+				<meta name="description" content="Recipes, Blog edit page"></meta>
+			</Helmet>
 			<MainWrapper image={bg}>
 
 				<InnerWrapper>

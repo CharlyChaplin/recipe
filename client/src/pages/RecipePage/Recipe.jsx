@@ -12,7 +12,10 @@ const RecipePage = () => {
 
 	return (
 		<>
-			<Helmet><title>Рецепты по категориям</title></Helmet>
+			<Helmet>
+				<title>Рецепты по категориям</title>
+				<meta name="description" content="Recipes, Category of recipes page"></meta>
+			</Helmet>
 			<Routes>
 
 				<Route index element={<Categories />} />

@@ -67,7 +67,10 @@ const SignUp = () => {
 
 	return (
 		<>
-			<Helmet><title>Регистрация</title></Helmet>
+			<Helmet>
+				<title>Регистрация</title>
+				<meta name="description" content="Recipes, SignUp page"></meta>
+			</Helmet>
 			<AuthPageMain>
 				<AuthPageContent>
 					<AuthPageCaption>Регистрация</AuthPageCaption>

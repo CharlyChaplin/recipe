@@ -20,6 +20,7 @@ import { ReactComponent as AddICO } from 'assets/img/icons/plus.svg';
 import { clearRecipeData, recipeAddRecipe } from 'redux/slices/recipeSlice';
 import { showInfo } from 'redux/slices/infoSlice';
 import Spinner from 'components/Spinner/Spinner';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -153,6 +154,10 @@ const RecipeAddPage = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Новый рецепт</title>
+				<meta name="description" content="Recipes, Add recipe page"></meta>
+			</Helmet>
 			<MainWrapper image={bg}>
 
 				<InnerWrapperChangedForRecipeAdd>

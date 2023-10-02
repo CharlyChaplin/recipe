@@ -13,6 +13,7 @@ import ImageInsert from 'components/ImageInsert/ImageInsert';
 import IngredientItem from './components/IngredientItem';
 import { nanoid } from 'nanoid';
 import { paths } from 'routes/helper';
+import { Helmet } from 'react-helmet';
 
 
 const RecipeDetailPage = () => {
@@ -35,6 +36,10 @@ const RecipeDetailPage = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>{recipeData?.caption || 'Рецепты для удовольствия'}</title>
+				<meta name="description" content="Recipes, Recipe detail page"></meta>
+			</Helmet>
 			<MainWrapper image={bg}>
 				<InnerWrapperChangedForRecipeDetail>
 					<ButtonBtn handleaction={() => navigate(paths.categories)} />

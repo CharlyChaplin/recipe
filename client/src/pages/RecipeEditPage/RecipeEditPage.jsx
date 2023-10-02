@@ -20,6 +20,7 @@ import { RecipeBlockContentWrapperForIngredients, RecipeIngredientsItemsWrapper 
 import { clearRecipeData, recipeEditRecipe } from 'redux/slices/recipeSlice';
 import { showInfo } from 'redux/slices/infoSlice';
 import { InnerWrapperChangedForRecipeDetail } from 'pages/RecipeDetailPage/styled';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -186,6 +187,10 @@ const RecipeEditPage = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Редактируем рецепт</title>
+				<meta name="description" content="Recipes, Recipe edit page"></meta>
+			</Helmet>
 			<MainWrapper image={bg}>
 
 				<InnerWrapperChangedForRecipeDetail>
@@ -217,7 +222,6 @@ const RecipeEditPage = () => {
 												? <Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder={recipeData?.caption} />
 												: <EditNotEdit data={recipeData?.caption} isCaption upperCase letterSpacing />
 										}
-										{/* <EditNotEdit data={recipeData?.caption} isCaption upperCase letterSpacing /> */}
 										<Input type='textarea' name='shortDescription' value={fields.shortDescription} handleChange={changeInput} autoFocus placeholder={recipeData?.shortdescription} fz={12} />
 									</RecipeLeftTopTextWrapper>
 

@@ -17,6 +17,7 @@ import { datePrepare } from 'utils/datePrepare';
 import { showInfo } from 'redux/slices/infoSlice';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import { InnerWrapperChangedForRecipeDetail } from 'pages/RecipeDetailPage/styled';
+import { Helmet } from 'react-helmet';
 
 
 const BlogAddPage = () => {
@@ -89,6 +90,10 @@ const BlogAddPage = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Новый блог</title>
+				<meta name="description" content="Recipes, Add blog page"></meta>
+			</Helmet>
 			<MainWrapper image={bg}>
 
 				<InnerWrapperChangedForRecipeDetail>

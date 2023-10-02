@@ -8,6 +8,7 @@ import { ButtonBtn, InnerWrapper } from 'pages/pages.styled';
 import Spinner from 'components/Spinner/Spinner';
 import NoData from 'components/NoData/NoData';
 import { paths } from 'routes/helper';
+import { Helmet } from 'react-helmet';
 
 
 const BlogDetailPage = () => {
@@ -24,12 +25,16 @@ const BlogDetailPage = () => {
 	}, []);
 
 	const getData = useCallback(() => {
-		dispatch(blogGetBlog({blogCaption: name}));
+		dispatch(blogGetBlog({ blogCaption: name }));
 	}, [dispatch, blogData]);
 
 
 	return (
 		<>
+			<Helmet>
+				<title>{blogData?.caption || 'Рецепты для удовольствия'}</title>
+				<meta name="description" content="Recipes, Blog detail page"></meta>
+			</Helmet>
 			<MainWrapperChangedForBlogDetail image={bg}>
 
 				<InnerWrapper>

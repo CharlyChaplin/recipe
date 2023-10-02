@@ -30,7 +30,10 @@ const BlogPage = () => {
 
 	return (
 		<>
-			<Helmet><title>Блоги</title></Helmet>
+			<Helmet>
+				<title>Блоги</title>
+				<meta name="description" content="Recipes, Blogs page"></meta>
+			</Helmet>
 			<MainWrapper image={bg}>
 
 				<InnerWrapper>
