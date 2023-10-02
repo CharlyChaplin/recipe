@@ -232,7 +232,7 @@ class RecipeController {
 			// изменяем название папки рецепта в папке recipe в случае изменения названия рецепта
 			if (caption != undefined && (caption !== oldRecipeCaption)) {
 				// описываем путь для старой папки рецепта
-				const oldPath = `static/recipe/oldRecipeCaption`;
+				const oldPath = `static/recipe/${oldRecipeCaption}`;
 				// описываем путь для новой папки рецепта
 				const newPath = `static/recipe/${translitPrepare(caption).toLowerCase().replaceAll(" ", '_')}`;
 				// переименовываем папку для рецепта
