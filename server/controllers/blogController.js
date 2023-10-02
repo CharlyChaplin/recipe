@@ -109,10 +109,11 @@ class BlogController {
 		const { isAccessValid } = await primaryCheckUser(req.cookies);
 		if (!isAccessValid.email) throw ApiError.UnathorizedError();
 
-
+		
 		// после всех проверок достаём блоги для изменения в БД
 		let { dateadd, owner, caption, description, oldBlogCaption } = req.body;
 		let oldBlogCaptionTranslited = '';
+		let caption_lat='';
 		if (oldBlogCaption) {
 			oldBlogCaptionTranslited = translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_');
 		}
@@ -134,10 +135,10 @@ class BlogController {
 
 			// если нет заголовка, то получаем его из БД в транслитерированном виде
 			if (!caption) {
-				caption = blogNow.rows[0].caption_lat;
+				caption_lat = blogNow.rows[0].caption_lat;
 			} else {
 				// если есть, то из кириллицы делаем латиницу
-				caption = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
+				caption_lat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
 			}
 			if (!description) {
 				description = blogNow.rows[0].description;
@@ -205,6 +206,7 @@ class BlogController {
 				 photoorig='${photoorig}',
 				 photopreview='${photopreview}',
 				 caption='${caption}',
+				 caption_lat='${caption_lat}',
 				 description='${description}'
 
 			WHERE caption_lat='${oldBlogCaption}'
@@ -217,6 +219,7 @@ class BlogController {
 					 photoorig='${photoorig}',
 					 photopreview='${photopreview}',
 					 caption='${caption}',
+					 caption_lat='${caption_lat}',
 					 description='${description}'
 
 				WHERE caption_lat='${oldBlogCaption}'
