@@ -133,11 +133,11 @@ class BlogController {
 			};
 			dateadd = datePrepareForFrontend(dateadd);
 
-			// если нет заголовка, то получаем его из БД в транслитерированном виде
+			// если нет заголовка, то получаем его из БД
 			if (!caption) {
-				caption_lat = blogNow.rows[0].caption_lat;
+				caption = blogNow.rows[0].caption;
 			} else {
-				// если есть, то из кириллицы делаем латиницу
+				// если есть, то дополнительно из кириллицы делаем латиницу
 				caption_lat = translitPrepare(caption).toLowerCase().replaceAll(" ", '_');
 			}
 			if (!description) {
@@ -209,7 +209,7 @@ class BlogController {
 				 caption_lat='${caption_lat}',
 				 description='${description}'
 
-			WHERE caption_lat='${oldBlogCaption}'
+			WHERE caption='${oldBlogCaption}'
 			RETURNING *;
 		`);
 			const updatedBlog = await db.query(`
@@ -222,7 +222,7 @@ class BlogController {
 					 caption_lat='${caption_lat}',
 					 description='${description}'
 
-				WHERE caption_lat='${oldBlogCaption}'
+				WHERE caption='${oldBlogCaption}'
 				RETURNING *;
 			`);
 			if (!updatedBlog.rowCount) throw ApiError.BadRequest("Can't to UPDATE blog");
