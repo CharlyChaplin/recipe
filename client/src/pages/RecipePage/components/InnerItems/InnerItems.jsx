@@ -19,7 +19,6 @@ const InnerItems = ({ backBtn, headerCaption, items, loadStatus }) => {
 	return (
 		<>
 			<Helmet>
-				{/* <title>{headerCaption}</title> */}
 				<meta name="description" content="Recipes, Category of recipe one page"></meta>
 			</Helmet>
 			<InnerWrapperForCategories>

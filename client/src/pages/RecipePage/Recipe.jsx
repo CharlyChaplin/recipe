@@ -13,7 +13,7 @@ const RecipePage = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Рецепты по категориям</title>
+				{/* <title>Рецепты по категориям</title> */}
 				<meta name="description" content="Recipes, Category of recipes page"></meta>
 			</Helmet>
 			<Routes>
