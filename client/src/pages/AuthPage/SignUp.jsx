@@ -10,6 +10,7 @@ import Spinner from 'components/Spinner/Spinner';
 import { useCallback } from 'react';
 import axios from 'axiosSetup';
 import { showInfo } from 'redux/slices/infoSlice';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -22,10 +23,10 @@ const SignUp = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		
+
 		return () => dispatch(clearUserDataInStore());
 	}, []);
-	
+
 	function handleLoginInput(e) {
 		setLogin(e.target.value);
 	}
@@ -66,6 +67,7 @@ const SignUp = () => {
 
 	return (
 		<>
+			<Helmet><title>Регистрация</title></Helmet>
 			<AuthPageMain>
 				<AuthPageContent>
 					<AuthPageCaption>Регистрация</AuthPageCaption>

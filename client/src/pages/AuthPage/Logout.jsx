@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { memo } from 'react';
 import { useCallback } from 'react';
+import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { showInfo } from 'redux/slices/infoSlice';
@@ -39,7 +40,7 @@ const Logout = () => {
 
 	return (
 		<>
-
+			<Helmet><title>Выходим...</title></Helmet>
 		</>
 	);
 }

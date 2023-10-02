@@ -11,6 +11,7 @@ import { showInfo } from 'redux/slices/infoSlice';
 import axios from 'axiosSetup';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 
 
 const SignIn = () => {
@@ -82,6 +83,7 @@ const SignIn = () => {
 
 	return (
 		<>
+			<Helmet><title>Авторизация</title></Helmet>
 			<AuthPageMain>
 				<AuthPageContent>
 					<AuthPageCaption>Авторизация</AuthPageCaption>
