@@ -113,7 +113,7 @@ class BlogController {
 		// после всех проверок достаём блоги для изменения в БД
 		let { dateadd, owner, caption, description, oldBlogCaption } = req.body;
 		let caption_lat = '';
-		
+
 		let file = null;
 		if (req.files) file = Object.values(req.files)[0];
 
@@ -121,9 +121,9 @@ class BlogController {
 		try {
 			// берём данные из текущего состояния блога
 			const blogNow = await db.query(`
-			SELECT * FROM blog
-			WHERE caption='${oldBlogCaption}';
-		`);
+				SELECT * FROM blog
+				WHERE caption='${oldBlogCaption}';
+			`);
 			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
 			if (!dateadd) {
 				dateadd = blogNow.rows[0].dateadd;
@@ -138,15 +138,15 @@ class BlogController {
 			};
 			if (!owner) {
 				const currentOwner = await db.query(`
-				SELECT B.user_id FROM blog A, persondata B
-				WHERE A.caption_lat='${oldBlogCaption}' AND A.user_id=B.user_id;
-			`);
+					SELECT B.user_id FROM blog A, persondata B
+					WHERE A.caption='${oldBlogCaption}' AND A.user_id=B.user_id;
+				`);
 				owner = currentOwner.rows[0].user_id;
 			} else {
 				const getOwnerId = await db.query(`
-				SELECT user_id FROM persondata
-				WHERE name='${owner}';
-			`);
+					SELECT user_id FROM persondata
+					WHERE name='${owner}';
+				`);
 				owner = getOwnerId.rows[0].user_id;
 			}
 
