@@ -211,7 +211,7 @@ class CategoryController {
 
 			res.json(updatedCategory.rows[0]);
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -234,7 +234,7 @@ class CategoryController {
 			});
 			res.json(categoryData);
 		} catch (err) {
-			res.status(err.status).json({ message: err });
+			res.status(err.status).json({ message: err.message });
 		}
 	}
 
@@ -258,7 +258,7 @@ class CategoryController {
 			res.json(categoryData);
 		} catch (err) {
 			console.log(err);
-			res.status(err.status).json({ message: err });
+			res.status(err.status).json({ message: err.message });
 		}
 	}
 }

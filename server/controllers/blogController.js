@@ -76,7 +76,7 @@ class BlogController {
 			res.json(newBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -100,7 +100,7 @@ class BlogController {
 
 			res.json(deletedBlog.rows[0].caption);
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 
 	}
@@ -243,7 +243,7 @@ class BlogController {
 			res.json(userData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -305,7 +305,7 @@ class BlogController {
 
 			res.json(blogsData);
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 }

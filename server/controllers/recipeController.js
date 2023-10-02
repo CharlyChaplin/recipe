@@ -95,7 +95,7 @@ class RecipeController {
 			res.json(recipeData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -129,7 +129,7 @@ class RecipeController {
 			res.json(deletedRecipe.rows[0].caption);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 
 	}
@@ -141,6 +141,7 @@ class RecipeController {
 		try {
 			// после всех проверок достаём рецепт из запроса для изменения в БД
 			let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
+			console.log(dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption);
 			let file = null;
 			if (req.files) file = Object.values(req.files)[0];
 			if (!oldRecipeCaption) {
@@ -380,7 +381,6 @@ class RecipeController {
 				db.query('SELECT * FROM recipe ORDER BY caption ASC;')
 					.then(resp => {
 						const out = resp.rows.map(item => item.caption);
-						console.log("out=", out);
 						res.json(out);
 					})
 					.catch(err => res.status(400).json({ message: err }));
@@ -397,7 +397,7 @@ class RecipeController {
 					.catch(err => res.status(400).json({ message: err }));
 			}
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 
 	}
@@ -424,7 +424,7 @@ class RecipeController {
 
 			res.json(recipiesData);
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -447,7 +447,7 @@ class RecipeController {
 			res.json(recipiesData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 }

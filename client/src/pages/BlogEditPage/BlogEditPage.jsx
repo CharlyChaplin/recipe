@@ -51,7 +51,6 @@ const BlogEditPage = () => {
 	}, [blogData]);
 
 	useEffect(() => {
-		console.log("completed=", completed);
 		if (errors.length > 0 && !loading) {
 			dispatch(showInfo({ text: errors, cancel: true }));
 		} else if (completed) {

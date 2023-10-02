@@ -43,7 +43,7 @@ class PhraseController {
 			}
 
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -70,7 +70,7 @@ class PhraseController {
 					.catch(err => res.status(400).json({ message: err }));
 			}
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -115,7 +115,7 @@ class PhraseController {
 					});
 			}
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -141,7 +141,7 @@ class PhraseController {
 					.catch(err => res.json({ message: err }));
 			}
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 	}
 
@@ -180,7 +180,7 @@ class PhraseController {
 
 			res.json(phrasesData);
 		} catch (err) {
-			res.status(400).json({ message: err });
+			res.status(400).json({ message: err.message });
 		}
 
 	}
