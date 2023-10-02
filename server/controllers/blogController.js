@@ -29,7 +29,7 @@ class BlogController {
 			// описываем путь, по которому расположится файл
 			const origPath = `${mainPath}/photo.jpg`;
 			const previewPath = `${mainPath}/preview.jpg`;
-			
+
 			// перемещаем файл в папку, изменяя его размер для превью
 			sharp(file.data)
 				.resize({ width: 170, height: 140 })
@@ -112,7 +112,10 @@ class BlogController {
 
 		// после всех проверок достаём блоги для изменения в БД
 		let { dateadd, owner, caption, description, oldBlogCaption } = req.body;
-		if (oldBlogCaption) translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_');
+		let oldBlogCaptionTranslited = '';
+		if (oldBlogCaption) {
+			oldBlogCaptionTranslited = translitPrepare(oldBlogCaption).toLowerCase().replaceAll(" ", '_')
+		};
 		let file = null;
 		if (req.files) file = Object.values(req.files)[0];
 
@@ -121,7 +124,7 @@ class BlogController {
 			// берём данные из текущего состояния блога
 			const blogNow = await db.query(`
 			SELECT * FROM blog
-			WHERE caption_lat='${oldBlogCaption}';
+			WHERE caption_lat='${oldBlogCaptionTranslited}';
 		`);
 			console.log(dateadd, owner, caption, description, oldBlogCaption);
 			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
@@ -153,8 +156,8 @@ class BlogController {
 			// определяем пути для изображений
 			let photoorig = blogNow.rows[0].photoorig;
 			let photopreview = blogNow.rows[0].photopreview;
-			
-			
+
+
 			// если картинка была заменёна
 			// перемещаем файл в папку, изменяя его размер для превью
 			sharp(file.data)
@@ -186,7 +189,7 @@ class BlogController {
 			// 	});
 			// }
 
-			
+
 			// изменяем название папки блога в папке blogs в случае изменения названия блога
 			if (caption != undefined && (caption !== oldBlogCaption)) {
 				// описываем путь для старой папки блога
@@ -198,7 +201,7 @@ class BlogController {
 				photoorig = `${newPath.replace('static', '')}/photo.jpg`;
 				photopreview = `${newPath.replace('static', '')}/preview.jpg`;
 			}
-			
+
 
 			const updatedBlog = await db.query(`
 				UPDATE blog
