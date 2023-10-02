@@ -30,6 +30,7 @@ var corsOptions = {
 
 app.use(function (req, res, next) {
 	res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+	res.set('meta', 'http-equiv="Content-Security-Policy" content="script-src \'none\'"');
 	next();
 });
 
