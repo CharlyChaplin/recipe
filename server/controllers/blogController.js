@@ -126,7 +126,6 @@ class BlogController {
 			SELECT * FROM blog
 			WHERE caption_lat='${oldBlogCaptionTranslited}';
 		`);
-			console.log(dateadd, owner, caption, description, oldBlogCaption);
 			// если какие-либо данные отсутствуют, то запрашиваем их из текущей записи
 			if (!dateadd) {
 				dateadd = blogNow.rows[0].dateadd;
@@ -159,35 +158,28 @@ class BlogController {
 
 
 			// если картинка была заменёна
-			// перемещаем файл в папку, изменяя его размер для превью
-			sharp(file.data)
-				.resize({ width: 170, height: 140 })
-				.toFormat('jpeg')
-				.jpeg({ quality: 80 })
-				.toFile(previewPath, (err, info) => {
-					if (err) {
-						console.log(err);
-					}
-				});
-			// перемещаем файл в папку, изменяя его размер
-			sharp(file.data)
-				.resize({ width: 320, height: 240 })
-				.toFormat('jpeg')
-				.jpeg({ quality: 100 })
-				.toFile(origPath, (err, info) => {
-					if (err) {
-						console.log(err);
-					}
-				});
-			// если картинка была заменёна
-			// if (file) {
-			// 	// перемещаем файл в папку
-			// 	file.mv(`static/${photoorig}`, err => {
-			// 		if (err) {
-			// 			return res.status(500).send({ err: err, msg: "Error occurred" });
-			// 		}
-			// 	});
-			// }
+			if (file) {
+				// перемещаем файл в папку, изменяя его размер для превью
+				sharp(file.data)
+					.resize({ width: 170, height: 140 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 80 })
+					.toFile(previewPath, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				// перемещаем файл в папку, изменяя его размер
+				sharp(file.data)
+					.resize({ width: 320, height: 240 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 100 })
+					.toFile(origPath, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+			}
 
 
 			// изменяем название папки блога в папке blogs в случае изменения названия блога
