@@ -59,11 +59,17 @@ const Categories = () => {
 		}));
 	}
 
-	
+
+
 
 	return (
 		<>
 			<Helmet>
+				<title>
+					{
+						!categoryLoading && name
+					}
+				</title>
 				<meta name="description" content="Recipes, Category of recipe one page"></meta>
 			</Helmet>
 			<MainWrapper image={name ? categoryData?.bg : bg}>
