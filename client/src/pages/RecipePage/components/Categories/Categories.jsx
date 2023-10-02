@@ -60,7 +60,7 @@ const Categories = () => {
 	}
 
 
-
+	console.log(categoryData.caption);
 
 	return (
 		<>
