@@ -31,7 +31,10 @@ const HomePage = () => {
 
 	return (
 		<>
-			<Helmet><title>{titlePage}</title></Helmet>
+			<Helmet>
+				<title>{titlePage}</title>
+				<meta name="description" content="Recipes, Search recipes, Main Page, Random Phrases"></meta>
+			</Helmet>
 			<MainWrapper image={bg}>
 				<InnerWrapperForMain>
 
