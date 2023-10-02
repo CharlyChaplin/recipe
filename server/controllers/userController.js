@@ -348,7 +348,7 @@ class UserController {
 	async getUser(req, res, next) {
 		try {
 			const { isAccessValid } = await primaryCheckUser(req.cookies);
-			if (!isAccessValid) return res.status(200).json({ message: "HiUser not authorized" });
+			if (!isAccessValid) return res.status(200).json({ message: "User not authorized" });
 
 			// если токены валидны, получаем id юзера, имеющего email
 			const getUser = await db.query(`
@@ -356,7 +356,7 @@ class UserController {
 					WHERE email = '${isAccessValid.email}';
 				`);
 			let userId = 0;
-			if (!getUser.rowCount) throw ApiError.UnathorizedError();
+			if (!getUser.rowCount) return res.status(200).json({ message: "User not authorized" });
 			userId = getUser.rows[0].id;
 			// получаем nickname юзера из дополнительной таблицы юзеров
 			const getUserData = await db.query(`
