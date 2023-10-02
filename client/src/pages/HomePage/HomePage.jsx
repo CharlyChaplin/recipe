@@ -9,6 +9,7 @@ import SearchPanel from './components/SearchPanel/SearchPanel';
 import Quotation from './components/Quotation/Quotation';
 import { useDispatch } from 'react-redux';
 import { clearPhraseData } from 'redux/slices/phraseSlice';
+import { Helmet } from 'react-helmet';
 
 // const titlePage = "Заголовок";
 const titlePage = "Рецепты для удовольствия!";
@@ -21,8 +22,8 @@ const HomePage = () => {
 	const showQuotationFunc = val => setShowQuotation(val);
 
 	useEffect(() => {
-		
-		
+
+
 		return () => dispatch(clearPhraseData());
 	}, []);
 
@@ -30,6 +31,7 @@ const HomePage = () => {
 
 	return (
 		<>
+			<Helmet><title>{titlePage}</title></Helmet>
 			<MainWrapper image={bg}>
 				<InnerWrapperForMain>
 

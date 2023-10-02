@@ -9,6 +9,7 @@ import { nanoid } from 'nanoid';
 import Spinner from 'components/Spinner/Spinner';
 import NoData from 'components/NoData/NoData';
 import { ContentWrapperForBlog } from './styled';
+import { Helmet } from 'react-helmet';
 
 
 const BlogPage = () => {
@@ -29,6 +30,7 @@ const BlogPage = () => {
 
 	return (
 		<>
+			<Helmet><title>Блоги</title></Helmet>
 			<MainWrapper image={bg}>
 
 				<InnerWrapper>
