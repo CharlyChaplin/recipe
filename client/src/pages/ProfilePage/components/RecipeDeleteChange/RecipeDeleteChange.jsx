@@ -77,6 +77,7 @@ const RecipeDeleteChange = () => {
 					placeholder={userData?.user?.rolelat === 'admin' ? 'Выберите из существующего...' : 'Выберите из созданного вами...'}
 					labelPos={isNarrowScreen ? 'column' : 'row'}
 					minWidth={300}
+					editable
 					inputText={inputText}
 					setInputText={setInputText}
 					selectedValue={handleSelected}
