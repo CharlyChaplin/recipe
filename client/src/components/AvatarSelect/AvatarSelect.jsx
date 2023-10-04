@@ -81,7 +81,11 @@ const AvatarSelect = ({
 		formData.append(`file`, file);
 		formData.append('userPath', source === 'userById' ? userById.email : userData.user.email);
 
-		ax.post(`${vars.remoteHost}/file/upload`, formData)
+		ax.post(`${vars.remoteHost}/file/upload`, formData, {
+			headers: {
+				"Content-Type": 'multipart/formdata'
+			}
+		})
 			.then(res => {
 				getFile({
 					name: res.data[0].name,
@@ -90,9 +94,9 @@ const AvatarSelect = ({
 			})
 			.catch(err => console.log(err));
 	}
-	
-	
-	
+
+
+
 
 
 	return (
