@@ -1,3 +1,4 @@
+import sharp from 'sharp';
 import db from '../db.js';
 import ApiError from '../exeptions/apiError.js';
 
@@ -14,9 +15,19 @@ class FileController {
 
 			myFiles.forEach(file => {
 				filePath = `static/users/${userPath}/${file.name}`;
-				file.mv(filePath, err => {
-					if (err) throw ApiError.BadRequest("Error while move file");
-				});
+				// перемещаем файл в папку, изменяя его размер
+				sharp(file.data)
+					.resize({ width: 120, height: 120 })
+					.toFormat('jpeg')
+					.jpeg({ quality: 95 })
+					.toFile(filePath, (err, info) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				// file.mv(filePath, err => {
+				// 	if (err) throw ApiError.BadRequest("Error while move file");
+				// });
 
 				out = [...out, { name: file.name, path: `/${file.name}` }];
 			});
