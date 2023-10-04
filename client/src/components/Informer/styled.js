@@ -20,8 +20,7 @@ export const Info = styled(({ children, view = false, ...props }) => (
 	background-color: ${vars.informerBackColor};
 	${adaptiveValue('border-radius', 10, 5)};
 	overflow: hidden;
-	${adaptiveValue('border-width', 2, 1)};
-	border-style: solid;
+	border: ${rem(2)} solid ${rgba(vars.whiteColor, .75)};
 	border-color: ${rgba(vars.whiteColor, .75)};
 	max-width: ${rem(500)};
 	${adaptiveValue('padding-top', 10, 5)};
@@ -71,17 +70,17 @@ export const InfoIcon = styled(({ warning, ok, cancel, info, ...props }) => (
 		width: 100%;
 		height: 100%;
 		fill: ${({ warning, ok, cancel, info }) => (
-			warning
-				? 'orange'
-				: ok
-					? 'lightgreen'
-					: cancel
-						? 'orangeRed'
-						: info
-							? 'lightgreen'
-							: 'none'
-			)
-		}
+		warning
+			? 'orange'
+			: ok
+				? 'lightgreen'
+				: cancel
+					? 'orangeRed'
+					: info
+						? 'lightgreen'
+						: 'none'
+	)
+	}
 	}
 `;
 
