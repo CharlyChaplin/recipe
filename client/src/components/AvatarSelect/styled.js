@@ -64,10 +64,10 @@ export const AvatarBlockWrapper = styled(({ children, size, ...props }) => (
 	cursor: pointer;
 	border-radius: 50%;
 	border: ${rem(1)} solid ${rgba(vars.lightGreen, .75)};
-	box-shadow: 0px 0px 2px ${vars.lightGreen};
+	box-shadow: ${rem(0)} ${rem(0)} ${rem(2)} ${vars.lightGreen};
 	transition: all 0.25s ease 0s;
 	&:hover {
-		border: 1px solid ${rgba(vars.lightGreen, 1)};
+		border: ${rem(1)} solid ${rgba(vars.lightGreen, 1)};
 	}
 	&:hover ${AvatarBlockPlaceholder} {
 		color: ${rgba(vars.darkGreen, 1)};

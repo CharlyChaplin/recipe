@@ -162,7 +162,7 @@ const AvatarSelect = ({
 								}
 							</>
 							: <AvatarLoadingView>
-								<Spinner sizeIncrease={3} />
+								<Spinner sizeIncrease={2} />
 							</AvatarLoadingView>
 					}
 
