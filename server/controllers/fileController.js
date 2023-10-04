@@ -7,7 +7,6 @@ class FileController {
 		const { userPath } = req.body;
 
 		try {
-			console.log("hello");
 			const myFiles = req.files ? Object.values(req.files) : null;
 			var out = [];
 			let filePath = '';
