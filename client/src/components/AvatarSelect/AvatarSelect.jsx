@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AvatarBlock, AvatarBlockImage, AvatarBlockPlaceholder, AvatarBlockWrapper, AvatarLabel, HiddenInput } from './styled.js';
-import axios from 'axios';
+// import axios from 'axios';
+import ax from 'axiosSetup/index.js';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import vars from 'init/vars.js';
@@ -80,7 +81,7 @@ const AvatarSelect = ({
 		formData.append(`file`, file);
 		formData.append('userPath', source === 'userById' ? userById.email : userData.user.email);
 
-		axios.post(`${vars.remoteHost}/file/upload`, formData)
+		ax.post(`${vars.remoteHost}/file/upload`, formData)
 			.then(res => {
 				getFile({
 					name: res.data[0].name,
