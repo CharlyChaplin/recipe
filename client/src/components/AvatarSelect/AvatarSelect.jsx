@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { AvatarBlock, AvatarBlockImage, AvatarBlockPlaceholder, AvatarBlockWrapper, AvatarLabel, HiddenInput } from './styled.js';
+import { AvatarBlock, AvatarBlockImage, AvatarBlockPlaceholder, AvatarBlockWrapper, AvatarLabel, AvatarLoadingView, HiddenInput } from './styled.js';
 // import axios from 'axios';
 import ax from 'axiosSetup/index.js';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import vars from 'init/vars.js';
 import { ReactComponent as AnonimICO } from './img/login.svg';
 import { useRef } from 'react';
+import { showInfo } from 'redux/slices/infoSlice.js';
+import Spinner from 'components/Spinner/Spinner.js';
 
 
 const AvatarSelect = ({
@@ -20,6 +22,7 @@ const AvatarSelect = ({
 	size = 100,
 	locked = false
 }) => {
+	const [loading, setLoading] = useState(false);
 	const [draggable, setDraggable] = useState(false);
 	const [data, getFile] = useState({ name: "", path: "" });
 	const { userData, userById } = useSelector(state => state.userReducer);
@@ -27,6 +30,8 @@ const AvatarSelect = ({
 	const [file, setFile] = useState(null);
 	const [previewUrl, setPreviewUrl] = useState("");
 	const fileInput = useRef(null);
+
+	const dispatch = useDispatch();
 
 
 	useEffect(() => {
@@ -78,15 +83,26 @@ const AvatarSelect = ({
 	function handleSendFile(file) {
 		let formData = new FormData();
 
+		// при большом размере файла (для аватарки) выводим сообщение
+		if (file.size > 1500000) {
+			dispatch(showInfo(
+				{
+					text: `Размер файла слишком большой для аватара (${new Intl.NumberFormat("ru-RU").format(file.size)} байт). Подождите его загрузки...`,
+					info: true
+				}))
+		}
+		// формируем объект для отправки на сервер
 		formData.append(`file`, file);
 		formData.append('userPath', source === 'userById' ? userById.email : userData.user.email);
 
+		setLoading(true);
 		ax.post(`${vars.remoteHost}/file/upload`, formData, {
 			headers: {
 				"Content-Type": 'multipart/formdata'
 			}
 		})
 			.then(res => {
+				setLoading(false);
 				getFile({
 					name: res.data[0].name,
 					path: `${vars.remoteHost}/users/${source == 'userById' ? userById.email : userData.user.email}${res.data[0].path}`
@@ -102,7 +118,9 @@ const AvatarSelect = ({
 	return (
 		<>
 			<AvatarBlock labelPos={labelPos}>
+
 				{!!labelText && labelText.length > 0 ? <AvatarLabel labelVerticalPos={labelVerticalPos} labelText={labelText} fontSize={vars.fz} /> : null}
+
 				<AvatarBlockWrapper onClick={() => fileInput.current.click()} size={size} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDragLeave} onDragOver={handleDragEnter} onDrop={handleDrop}>
 					<input
 						type="file"
@@ -112,20 +130,26 @@ const AvatarSelect = ({
 						onChange={e => handleFile(e.target.files[0])}
 					/>
 					{
-						<>
-							<AvatarBlockImage imgOrSvg={data.name}>
+						!loading
+							? <>
+								<AvatarBlockImage imgOrSvg={data.name}>
+									{
+										data?.name?.length > 0
+											? <img src={data.path} alt={data.name} />
+											: <AnonimICO />
+									}
+								</AvatarBlockImage>
+
+
 								{
-									data?.name?.length > 0
-										? <img src={data.path} alt={data.name} />
-										: <AnonimICO />
+									(!draggable && data?.name?.length == 0)
+										? <AvatarBlockPlaceholder size={size} text={placeholderText} />
+										: null
 								}
-							</AvatarBlockImage>
-							{
-								(!draggable && data?.name?.length == 0)
-									? <AvatarBlockPlaceholder size={size} text={placeholderText} />
-									: null
-							}
-						</>
+							</>
+							: <AvatarLoadingView>
+								<Spinner sizeIncrease={3} />
+							</AvatarLoadingView>
 					}
 
 

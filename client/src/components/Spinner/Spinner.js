@@ -29,7 +29,7 @@ const Spinner = styled(({ height, color, sizeIncrease, ...props }) => (
 		width: 100%;
 		height: 100%;
 		border-radius: 50%;
-		border: 2px solid ${vars.whiteColor};
+		border: ${rem(2)} solid ${vars.whiteColor};
 		border-color: ${({color}) => color || vars.accent} transparent ${({color}) => color || vars.accent} transparent;
 		animation: ${spiner} 1s linear infinite;
 	}

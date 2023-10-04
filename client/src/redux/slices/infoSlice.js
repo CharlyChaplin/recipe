@@ -8,6 +8,7 @@ const initialState = {
 		warning: false,
 		ok: false,
 		cancel: false,
+		info: false,
 		isConfirm: {},
 		isConfirmResult: false,
 		isLogoutAction: false,
@@ -19,13 +20,14 @@ export const infoSlice = createSlice({
 	name: 'informer',
 	initialState,
 	reducers: {
-		showInfo: (state, { payload: { text, warning = false, ok = false, cancel = false, isConfirm = {}, logoutAction = false } }) => {
+		showInfo: (state, { payload: { text, warning = false, ok = false, cancel = false, info = false, isConfirm = {}, logoutAction = false } }) => {
 			state.showInformation = {
 				text,
 				show: true,
 				warning,
 				ok,
 				cancel,
+				info,
 				isConfirm,
 				isLogoutAction: logoutAction,
 			}
@@ -37,6 +39,7 @@ export const infoSlice = createSlice({
 				warning: false,
 				ok: false,
 				cancel: false,
+				info: false,
 				isConfirm: {}
 			}
 		},
