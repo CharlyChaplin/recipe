@@ -32,7 +32,7 @@ class FileController {
 			res.json(out);
 		} catch (err) {
 			console.log(err.message);
-			res.status(400).json(err.message);
+			res.json(err.message);
 		}
 	}
 }
