@@ -9,12 +9,11 @@ class FileController {
 		try {
 			console.log("hello");
 			const myFiles = req.files ? Object.values(req.files) : null;
-			console.log('req.body=', req.body, 'req.files=', myFiles);
 			var out = [];
 			let filePath = '';
 
 			myFiles.forEach(file => {
-				filePath = `static/users/${userPath}/${file.name}`;
+				filePath = `static/users/${userPath}/avatar.jpg`;
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 120, height: 120 })
@@ -25,11 +24,8 @@ class FileController {
 							console.log(err);
 						}
 					});
-				// file.mv(filePath, err => {
-				// 	if (err) throw ApiError.BadRequest("Error while move file");
-				// });
 
-				out = [...out, { name: file.name, path: `/${file.name}` }];
+				out = [...out, { name: file.name, path: `/avatar.jpg` }];
 			});
 			const userId = await db.query(`
 				SELECT id FROM users
