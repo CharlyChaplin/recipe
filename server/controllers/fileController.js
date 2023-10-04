@@ -1,6 +1,5 @@
 import sharp from 'sharp';
 import db from '../db.js';
-import ApiError from '../exeptions/apiError.js';
 
 class FileController {
 	async addFile(req, res) {
