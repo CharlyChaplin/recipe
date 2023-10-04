@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 
 var corsOptions = {
-	preflightContinue: true,
+	// preflightContinue: true,
 	origin: 'https://lexun.ru',
 	// origin: 'http://localhost:3000',
 	credentials: true,
