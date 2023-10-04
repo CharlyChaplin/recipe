@@ -3,7 +3,7 @@ import db from '../db.js';
 class FileController {
 	async addFile(req, res) {
 		const { userPath } = req.body;
-		const myFiles = Object.values(req.files);
+		const myFiles = req.files ? Object.values(req.files) : null;
 		console.log('req.body=', req.body, 'req.files=', myFiles);
 		var out = [];
 		let filePath = '';
