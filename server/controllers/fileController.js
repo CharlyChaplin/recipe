@@ -25,7 +25,7 @@ class FileController {
 						}
 					});
 
-				out = [...out, { name: file.name, path: `/${file.name}` }];
+				out = [...out, { name: file.name, path: `/avatar.jpg` }];
 			});
 			const userId = await db.query(`
 				SELECT id FROM users
