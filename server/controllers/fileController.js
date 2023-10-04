@@ -13,19 +13,19 @@ class FileController {
 			let filePath = '';
 
 			myFiles.forEach(file => {
-				filePath = `static/users/${userPath}/avatar.jpg`;
+				filePath = `users/${userPath}/avatar.jpg`;
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 120, height: 120 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 95 })
-					.toFile(filePath, (err, info) => {
+					.toFile(`static/${filePath}`, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
 					});
 
-				out = [...out, { name: file.name, path: `/avatar.jpg` }];
+				out = [...out, { name: file.name, path: `/${file.name}` }];
 			});
 			const userId = await db.query(`
 				SELECT id FROM users
