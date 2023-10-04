@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { AvatarBlock, AvatarBlockImage, AvatarBlockPlaceholder, AvatarBlockWrapper, AvatarLabel, AvatarLoadingView, HiddenInput } from './styled.js';
-// import axios from 'axios';
 import ax from 'axiosSetup/index.js';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +9,7 @@ import { useRef } from 'react';
 import { showInfo } from 'redux/slices/infoSlice.js';
 import Spinner from 'components/Spinner/Spinner.js';
 
+const allowImageTypes = ['jpeg', 'png', 'webp', 'gif', 'avif'];
 
 const AvatarSelect = ({
 	labelPos = 'row',
@@ -73,6 +73,7 @@ const AvatarSelect = ({
 
 	function handleFile(file) {
 		if (locked) return;
+
 		setFile(file);
 		setPreviewUrl(URL.createObjectURL(file));
 		URL.revokeObjectURL(file);
@@ -82,6 +83,19 @@ const AvatarSelect = ({
 
 	function handleSendFile(file) {
 		let formData = new FormData();
+
+		// проверяем на правильный формат
+		const fileAllowed = Boolean(allowImageTypes.find(el =>
+			el === file.type.replace('image/', '').trim()
+		));
+		if (!fileAllowed) {
+			dispatch(showInfo(
+				{
+					text: `Неверный формат изображения. ${String.fromCharCode(10, 13)} Принимаются форматы:${String.fromCharCode(10, 13)}${allowImageTypes.reduce((acc, curr) => acc += curr.toUpperCase() + " ", "")}`,
+					info: true
+				}))
+			return;
+		};
 
 		// при большом размере файла (для аватарки) выводим сообщение
 		if (file.size > 1500000) {

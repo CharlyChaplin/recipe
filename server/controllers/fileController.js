@@ -19,7 +19,7 @@ class FileController {
 					.jpeg({ quality: 95 })
 					.toFile(`static/${filePath}`, (err, info) => {
 						if (err) {
-							console.log(err);
+							console.log("Error in sharp: ", err);
 						}
 					});
 
