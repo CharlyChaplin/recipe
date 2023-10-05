@@ -16,7 +16,7 @@ export const AboutWrapper = styled.div`
 	align-self: center;
 	padding: ${rem(1)};
 	${adaptiveValue('border-radius', 10, 5)};
-	${adaptiveValue('margin', 50, 10)};
+	${adaptiveValue('margin', 20, 10)};
 	background-color: ${vars.dark};
 	z-index: 0;
 	position: relative;
