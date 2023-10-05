@@ -22,7 +22,14 @@ const ProfileLineWrapper = styled(({ children, ...props }) => {
 
 export const ProfileMainWrapper = styled(({ children, activated, ...props }) => (
 	<div {...props}>
-		{!activated && <span>Аккаунт не активирован</span>}
+		{
+			!activated &&
+			<span>
+				Аккаунт не активирован.
+				<br />
+				Некоторый функционал недоступен
+			</span>
+		}
 		{children}
 	</div>
 ))`
@@ -40,11 +47,13 @@ export const ProfileMainWrapper = styled(({ children, activated, ...props }) => 
 		width: fit-content;
 		margin: 0 auto;
 		padding: ${rem(5)} ${rem(10)};
-		box-shadow: 0px 0px 5px 0px ${rgba(vars.redColor, .5)};
+		box-shadow: ${rem(0)} ${rem(0)} ${rem(5)} ${rem(0)} ${rgba(vars.redColor, .5)};
 		background-color: ${lighten(.2, vars.redColor)};
 		font-family: "RobotoLight", sans-serif;
 		color: ${vars.whiteColor};
 		letter-spacing: ${rem(1)};
+		line-height: 1.5;
+		text-align: center;
 		z-index: 10;
 	}
 `;
