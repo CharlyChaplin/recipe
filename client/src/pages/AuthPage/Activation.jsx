@@ -21,7 +21,7 @@ const Activation = () => {
 				navigate(paths.home);
 				break;
 			case 'ok':
-				dispatch(showInfo({ text: 'Ваш аккаунт активирован! Укажите ваш ник', ok: true }));
+				dispatch(showInfo({ text: 'Ваш аккаунт активирован!', ok: true }));
 				navigate(paths.home);
 				break;
 			default:
