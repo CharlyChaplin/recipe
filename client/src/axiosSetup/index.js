@@ -10,7 +10,7 @@ const ax = axios.create({
 });
 
 ax.interceptors.request.use(config => {
-	// console.log("interceptor-request: Cookies.get('accesstoken')", Cookies.get('accesstoken'));
+	console.log("interceptor-request: Cookies.get('accesstoken')", Cookies.get('accesstoken'));
 	if (Cookies.get('accesstoken')) {
 		config.headers.Authorization = `Bearer ${Cookies.get('accesstoken')}`;
 	}
@@ -28,7 +28,7 @@ ax.interceptors.response.use(response => {
 				await axios.get(`${vars.remoteHost}/user/refresh`, { withCredentials: true, headers: { 'Content-Type': 'application/json' } });
 				return ax.request(originalRequest);
 			} catch (err) {
-				// console.log(err.message);
+				console.log(err.message);
 			}
 		} else {
 			throw error;
