@@ -1,13 +1,13 @@
 import { styled } from "styled-components";
-import { rem } from "init/mixins";
+import { adaptiveValue, rem } from "init/mixins";
 import { Link } from "react-router-dom";
 import vars from "init/vars";
 
 
 
-export const PreviewItemPhoto = styled(({ image, imageAlt, ...props }) => (
+export const PreviewItemPhoto = styled(({ children, ...props }) => (
 	<div {...props}>
-		<img src={image} alt={imageAlt} />
+		{children}
 	</div>
 ))`
 	flex: 1 0 auto;
@@ -15,8 +15,14 @@ export const PreviewItemPhoto = styled(({ image, imageAlt, ...props }) => (
 	border-radius: ${rem(10)};
 	border: ${rem(1)} solid ${vars.lightGreen};
 	transition: all 0.25s ease 0s;
-	max-height: ${rem(150)};
 	max-width: ${rem(200)};
+	max-height: ${rem(150)};
+	width: ${rem(170)};
+	height: ${rem(140)};
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 	
 	img {
 		width: 100%;
@@ -32,9 +38,9 @@ export const PreviewItemDescription = styled(({ text, ...props }) => (
 	</div>
 ))`
 	font-family: "RalewaySemiBold", sans-serif;
-	font-size: ${rem(20)};
+	${adaptiveValue('font-size', 20, 18)};
 	line-height: calc(20 / ${vars.fz});
-	letter-spacing: ${rem(2)};
+	${adaptiveValue('letter-spacing', 2, 1)};
 	color: ${vars.text};
 	text-align: center;
 	transition: all 0.25s ease 0s;
@@ -48,7 +54,7 @@ export const PreviewItemWrapper = styled(({ url, children, ...props }) => (
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: ${rem(15)};
+	${adaptiveValue('gap', 15, 10)};
 	
 	&:hover {
 		${PreviewItemPhoto} {
