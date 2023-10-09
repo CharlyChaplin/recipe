@@ -5,9 +5,9 @@ import vars from "init/vars";
 
 
 
-export const PreviewItemPhoto = styled(({ image, imageAlt, ...props }) => (
+export const PreviewItemPhoto = styled(({ children, ...props }) => (
 	<div {...props}>
-		<img src={image} alt={imageAlt} />
+		{children}
 	</div>
 ))`
 	flex: 1 0 auto;
