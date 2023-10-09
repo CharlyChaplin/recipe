@@ -32,7 +32,7 @@ export const AboutContent = styled.div`
 	z-index: 1;
 	border: ${rem(1)} solid ${vars.text};
 	color: ${vars.text};
-	max-width: ${rem(500)};
+	max-width: ${rem(740)};
 	
 	hr {
 		background-color: ${rgba(vars.text, .25)};
