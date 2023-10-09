@@ -12,7 +12,7 @@ const PreviewItem = ({ url, image, imageAlt, description }) => {
 	const [imgSrc, setImgSrc] = useState('');
 
 	useEffect(() => {
-		fetch(image)
+		fetch(image, {mode: 'cors', headers: {"Origin": "https://lexun.ru"}})
 			.then(resp => resp.blob())
 			.then(result => setImgSrc(URL.createObjectURL(result)))
 			.catch(err => console.log(err));
