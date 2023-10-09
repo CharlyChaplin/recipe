@@ -21,49 +21,63 @@ const fonts = `
 @font-face{
 	font-family: Giger;
 	font-display: swap;
-	src: url(${GigerWoff2}) format("woff2"), url(${GigerWoff}) format("woff");
+	src: local("Giger"),
+		  url(${GigerWoff2}) format("woff2"),
+		  url(${GigerWoff}) format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
 @font-face{
 	font-family: NewStandardOld;
 	font-display: swap;
-	src: url(${NewStandardOldWoff2}) format("woff2"), url(${NewStandardOldWoff}) format("woff");
+	src: local("NewStandartOld"),
+		  url(${NewStandardOldWoff2}) format("woff2"),
+		  url(${NewStandardOldWoff}) format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
 @font-face{
 	font-family: RalewayRegular;
 	font-display: swap;
-	src: url(${RalewayRegularWoff2}) format("woff2"), url(${RalewayRegularWoff}) format("woff");
+	src: local("RalewayRegular"),
+		  url(${RalewayRegularWoff2}) format("woff2"),
+		  url(${RalewayRegularWoff}) format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
 @font-face{
 	font-family: RalewaySemiBold;
 	font-display: swap;
-	src: url(${RalewaySemiBoldWoff2}) format("woff2"), url(${RalewaySemiBoldWoff}) format("woff");
+	src: local("RalewaySemiBold"),
+		  url(${RalewaySemiBoldWoff2}) format("woff2"),
+		  url(${RalewaySemiBoldWoff}) format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
 @font-face{
 	font-family: RalewayBold;
 	font-display: swap;
-	src: url(${RalewayBoldWoff2}) format("woff2"), url(${RalewayBoldWoff}) format("woff");
+	src: local("RalewayBold"),
+		  url(${RalewayBoldWoff2}) format("woff2"),
+		  url(${RalewayBoldWoff}) format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
 @font-face{
 	font-family: RobotoLight;
 	font-display: swap;
-	src: url(${RobotoLightWoff2}) format("woff2"), url(${RobotoLightWoff}) format("woff");
+	src: local("RobotoLight"),
+		  url(${RobotoLightWoff2}) format("woff2"),
+		  url(${RobotoLightWoff}) format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
 @font-face{
 	font-family: RobotoRegular;
 	font-display: swap;
-	src: url(${RobotoRegularWoff2}) format("woff2"), url(${RobotoRegularWoff}) format("woff");
+	src: local("RobotoRegular"),
+		  url(${RobotoRegularWoff2}) format("woff2"),
+		  url(${RobotoRegularWoff}) format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
