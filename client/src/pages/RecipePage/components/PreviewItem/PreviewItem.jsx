@@ -9,25 +9,25 @@ import { RecipeShowPhotoBlock } from 'pages/RecipeDetailPage/styled';
 
 
 const PreviewItem = ({ url, image, imageAlt, description }) => {
-	const [imgSrc, setImgSrc] = useState('');
+	// const [imgSrc, setImgSrc] = useState('');
 
-	useEffect(() => {
-		fetch(image, {mode: 'cors', headers: {"Origin": "https://lexun.ru"}})
-			.then(resp => resp.blob())
-			.then(result => setImgSrc(URL.createObjectURL(result)))
-			.catch(err => console.log(err));
-	}, []);
+	// useEffect(() => {
+	// 	fetch(image, {mode: 'cors', headers: {"Origin": "https://lexun.ru"}})
+	// 		.then(resp => resp.blob())
+	// 		.then(result => setImgSrc(URL.createObjectURL(result)))
+	// 		.catch(err => console.log(err));
+	// }, []);
 
 	return (
 		<>
 			<PreviewItemWrapper url={url}>
 
 				<PreviewItemPhoto>
-					{/* <img src={image} alt={imageAlt} /> */}
+					<img src={image} alt={imageAlt} />
 					{
-						imgSrc.length > 0
-							? <img src={imgSrc} alt={imageAlt} />
-							: <Spinner height={50} />
+						// imgSrc.length > 0
+						// 	? <img src={imgSrc} alt={imageAlt} />
+						// 	: <Spinner height={50} />
 					}
 				</PreviewItemPhoto>
 				<PreviewItemDescription text={description} />
