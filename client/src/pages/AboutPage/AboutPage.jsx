@@ -20,18 +20,21 @@ const AboutPage = () => {
 						<AboutContent>
 
 							<AboutCaption>О проекте</AboutCaption>
-							<AboutDescription>Pet-проект. SPA full-stack приложение по работе с кулинарными рецептами. Реализована админ-панель. Все компоненты дизайна и панели управления самописны. Sequalize для работы с БД не использовался, т.к. было желание поработать с запросами напрямую.</AboutDescription>
+							<AboutDescription>Pet-проект. SPA full-stack приложение по работе с кулинарными рецептами. Реализована админ-панель. Все компоненты дизайна и панели управления самописны. Sequalize для работы с БД не использовался, т.к. было желание поработать с запросами напрямую. Авторизация использует два токена - 'access' и 'refresh'</AboutDescription>
 							<AboutTechnologies
-								caption="Использовалось:"
+								caption="Frontend-часть:"
 								items={[
 									'HTML',
 									'CSS (Styled Components + адаптивный дизайн)',
-									'JavaScript',
-									'React JS',
+									'React JS'
+								]}
+							/>
+							<AboutTechnologies
+								caption="Backtend-часть:"
+								items={[
 									'Node JS',
 									'Express',
-									'PostgreSQL',
-									'Авторизация по токену (access и refresh)'
+									'PostgreSQL'
 								]}
 							/>
 
