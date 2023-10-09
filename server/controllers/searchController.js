@@ -73,7 +73,7 @@ class SearchController {
 			res.json(outData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 }

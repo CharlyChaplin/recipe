@@ -35,15 +35,15 @@ class PhraseController {
 					.then(resp => res.json(resp.rows[0]))
 					.catch(err => {
 						if (Number(err.code) === 23505) {
-							res.status(400).json({ message: "Такая фраза уже существует!" });
+							res.status(err.status ||400).json({ message: "Такая фраза уже существует!" });
 						} else {
-							res.status(400).json({ message: "Ошибка при добавлении" });
+							res.status(err.status ||400).json({ message: "Ошибка при добавлении" });
 						}
 					});
 			}
 
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 
@@ -67,10 +67,10 @@ class PhraseController {
 				const { phrase } = req.body;
 				db.query(`DELETE FROM phrase WHERE caption='${phrase}' RETURNING caption;`)
 					.then(resp => res.json([resp.rows[0].caption]))
-					.catch(err => res.status(400).json({ message: err }));
+					.catch(err => res.status(err.status ||400).json({ message: err }));
 			}
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 
@@ -108,14 +108,14 @@ class PhraseController {
 					.then(resp => res.json(resp.rows[0]))
 					.catch(err => {
 						if (Number(err.code) === 23505) {
-							res.status(400).json({ message: "Такая фраза уже существует!" });
+							res.status(err.status ||400).json({ message: "Такая фраза уже существует!" });
 						} else {
-							res.status(400).json({ message: "Ошибка при изменении." });
+							res.status(err.status ||400).json({ message: "Ошибка при изменении." });
 						}
 					});
 			}
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 
@@ -141,7 +141,7 @@ class PhraseController {
 					.catch(err => res.json({ message: err }));
 			}
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 
@@ -180,7 +180,7 @@ class PhraseController {
 
 			res.json(phrasesData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 
 	}

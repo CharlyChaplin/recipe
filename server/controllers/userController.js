@@ -74,7 +74,7 @@ class UserController {
 
 			res.json({ message: "User registered. Check your e-mail." });
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -146,7 +146,7 @@ class UserController {
 
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -174,7 +174,7 @@ class UserController {
 			res.cookie('refreshtoken', "", { maxAge: timeToLifeAccessToken * 1000, httpOnly: true, sameSite: "None", secure: true });
 			res.status(200).json({ message: "ok" });
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -280,7 +280,7 @@ class UserController {
 			};
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -311,7 +311,7 @@ class UserController {
 			}
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -340,7 +340,7 @@ class UserController {
 			}
 			res.json(sendData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 
 	}
@@ -384,8 +384,7 @@ class UserController {
 			};
 			res.json(userData);
 		} catch (err) {
-			// console.log(err);
-			res.status(err.status).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -421,7 +420,7 @@ class UserController {
 
 			res.json(rolesData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -454,7 +453,7 @@ class UserController {
 					RETURNING *;
 				`);
 				} else {
-					return res.status(400).json({ message: "Прежний пароль не верен" });
+					return res.status(err.status || 400).json({ message: "Прежний пароль не верен" });
 				}
 			}
 
@@ -500,7 +499,7 @@ class UserController {
 			}
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -549,7 +548,7 @@ class UserController {
 
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -614,7 +613,7 @@ class UserController {
 			};
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -650,8 +649,10 @@ class UserController {
 				// получаем данные о том, есть ли пользовательские данные в рецептах или блогах
 				const isFilledUserRecipe = await db.query(`SELECT * FROM recipe WHERE user_id = ${getUserFromMainTable.rows[0].id};`);
 				if (isFilledUserRecipe.rowCount) throw ApiError.BadRequest("Сначала удали данные пользователя (в рецептах)");
-				const isFilledUserBlog = await db.query(`SELECT * FROM blog WHERE user_id = ${getUserFromMainTable.rows[0].id}`);
+				const isFilledUserBlog = await db.query(`SELECT * FROM blog WHERE user_id = ${getUserFromMainTable.rows[0].id};`);
 				if (isFilledUserBlog.rowCount) throw ApiError.BadRequest("Сначала удали данные пользователя (в блогах)");
+				const isFilledUserCategory = await db.query(`SELECT * FROM category WHERE user_id = ${getUserFromMainTable.rows[0].id};`);
+				if (isFilledUserCategory.rowCount) throw ApiError.BadRequest("Сначала удали данные пользователя (в категориях)");
 
 				// если это текущий юзер, который удалил сам себя, то чистим токены
 				const getCurrentUser = await db.query(`
@@ -690,7 +691,7 @@ class UserController {
 
 			res.json(userData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 

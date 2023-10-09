@@ -86,7 +86,7 @@ class CategoryController {
 
 			res.json(newCategory.rows[0]);
 		} catch (err) {
-			res.status(400).json(err)
+			res.status(err.status ||400).json(err)
 		}
 
 	}
@@ -123,7 +123,7 @@ class CategoryController {
 				res.json(deletedCategory.rows[0].caption);
 			}
 		} catch (err) {
-			res.status(400).json(
+			res.status(err.status ||400).json(
 				Number(err.code) === 23503
 					? { message: "возможно к данной категории ещё принадлежат некоторые блоги или рецепты" }
 					: { message: err }
@@ -211,7 +211,7 @@ class CategoryController {
 
 			res.json(updatedCategory.rows[0]);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 

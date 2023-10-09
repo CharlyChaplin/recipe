@@ -76,7 +76,7 @@ class BlogController {
 			res.json(newBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 
@@ -100,7 +100,7 @@ class BlogController {
 
 			res.json(deletedBlog.rows[0].caption);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 
 	}
@@ -209,7 +209,7 @@ class BlogController {
 			res.json(updatedBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 
 	}
@@ -243,7 +243,7 @@ class BlogController {
 			res.json(userData);
 		} catch (err) {
 			console.log(err);
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 
@@ -267,7 +267,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(400).json({ message: err }));
+				.catch(err => res.status(err.status ||400).json({ message: err }));
 		} else if (roleDescription === 'user') {
 			db.query(`
 				SELECT * FROM blog
@@ -277,7 +277,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(400).json({ message: err }));
+				.catch(err => res.status(err.status ||400).json({ message: err }));
 		}
 
 	}
@@ -305,7 +305,7 @@ class BlogController {
 
 			res.json(blogsData);
 		} catch (err) {
-			res.status(400).json({ message: err.message });
+			res.status(err.status ||400).json({ message: err.message });
 		}
 	}
 }
