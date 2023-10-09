@@ -10,7 +10,7 @@ export const PreviewItemPhoto = styled(({ children, ...props }) => (
 		{children}
 	</div>
 ))`
-	flex: 1 0 auto;
+	flex: 1 1 auto;
 	overflow: hidden;
 	border-radius: ${rem(10)};
 	border: ${rem(1)} solid ${vars.lightGreen};
