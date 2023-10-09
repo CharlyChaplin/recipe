@@ -20,7 +20,7 @@ const AboutPage = () => {
 						<AboutContent>
 
 							<AboutCaption>О проекте</AboutCaption>
-							<AboutDescription>Pet-проект. SPA full-stack приложение по работе с кулинарными рецептами. Реализована админ-панель. Все компоненты дизайна и панели управления самописны. Sequalize для работы с БД не использовался, т.к. было желание поработать с запросами напрямую. Авторизация использует два токена - 'access' и 'refresh'.</AboutDescription>
+							<AboutDescription>Pet-проект. SPA full-stack приложение по работе с кулинарными рецептами. Реализована админ-панель. Все компоненты дизайна и админ-панели управления самописны. Sequalize для работы с БД не использовался, т.к. было желание поработать с запросами напрямую. Авторизация использует два токена - 'access' и 'refresh'.</AboutDescription>
 							<AboutTechnologies
 								caption="Frontend-часть:"
 								items={[
@@ -30,7 +30,7 @@ const AboutPage = () => {
 								]}
 							/>
 							<AboutTechnologies
-								caption="Backtend-часть:"
+								caption="Backend-часть:"
 								items={[
 									'Node JS',
 									'Express',
@@ -42,7 +42,7 @@ const AboutPage = () => {
 
 							<AboutSocials
 								items={[
-									{ icon: <GithubICO />, link: "https://github.com/CharlyChaplin/recipe.git", alt: "github" },
+									{ icon: <GithubICO />, link: "https://github.com/CharlyChaplin/recipe.git", alt: "GitHub" },
 								]}
 							/>
 

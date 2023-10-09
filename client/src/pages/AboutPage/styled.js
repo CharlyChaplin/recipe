@@ -26,7 +26,6 @@ export const AboutWrapper = styled.div`
 export const AboutContent = styled.div`
 	${adaptiveValue('padding', 30, 15)};
 	${adaptiveValue('border-radius', 10, 5)};
-	/* background-color: ${lighten(.25, vars.darkGreen)}; */
 	background-color: ${vars.adminLayer};
 	position: relative;
 	z-index: 1;
@@ -45,7 +44,9 @@ export const AboutContent = styled.div`
 export const AboutCaption = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	font-family: "Giger", sans-serif;
+	/* font-family: "Giger", sans-serif; */
+	font-family: sans-serif;
+	font-style: italic;
 	${adaptiveValue('font-size', 45, 32)};
 	letter-spacing: ${rem(1)};
 	text-align: center;
@@ -55,7 +56,8 @@ export const AboutCaption = styled(({ children, ...props }) => (
 export const AboutDescription = styled(({ children, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
-	font-family: "RobotoRegular", sans-serif;
+	/* font-family: "RobotoRegular", sans-serif; */
+	font-family: sans-serif;
 	${adaptiveValue('font-size', 22, 16)};
 	letter-spacing: ${rem(1)};
 	line-height: 1.2;
@@ -83,14 +85,17 @@ export const AboutTechnologies = styled(({ caption, items, ...props }) => (
 	
 	span {
 		display: block;
-		font-family: "RalewayBold", sans-serif;
+		/* font-family: "RalewayBold", sans-serif; */
+		font-family: sans-serif;
+		font-weight: bold;
 		${adaptiveValue('font-size', 24, 16)};
 		letter-spacing: ${rem(1)};
 		${adaptiveValue('margin-bottom', 20, 10)};
 	}
 	
 	ul {
-		font-family: "RobotoLight", sans-serif;
+		/* font-family: "RobotoLight", sans-serif; */
+		font-family: sans-serif;
 		${adaptiveValue('font-size', 22, 14)};
 		
 		li {
