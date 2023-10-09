@@ -20,17 +20,17 @@ const AboutPage = () => {
 						<AboutContent>
 
 							<AboutCaption>О проекте</AboutCaption>
-							<AboutDescription>Pet-проект. SPA full-stack приложение по работе с кулинарными рецептами. Реализована админ-панель.</AboutDescription>
+							<AboutDescription>Pet-проект. SPA full-stack приложение по работе с кулинарными рецептами. Реализована админ-панель. Все компоненты дизайна и панели управления самописны. Sequalize для работы с БД не использовался, т.к. было желание поработать с запросами напрямую.</AboutDescription>
 							<AboutTechnologies
 								caption="Использовалось:"
 								items={[
 									'HTML',
-									'CSS (+ адаптивный дизайн)',
+									'CSS (Styled Components + адаптивный дизайн)',
 									'JavaScript',
 									'React JS',
 									'Node JS',
 									'Express',
-									'PostgreSQL (Postgres)',
+									'PostgreSQL',
 									'Авторизация по токену (access и refresh)'
 								]}
 							/>
