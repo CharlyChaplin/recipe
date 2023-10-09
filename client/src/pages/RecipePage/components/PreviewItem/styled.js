@@ -17,8 +17,8 @@ export const PreviewItemPhoto = styled(({ children, ...props }) => (
 	transition: all 0.25s ease 0s;
 	max-width: ${rem(200)};
 	max-height: ${rem(150)};
-	width: ${rem(170)};
-	height: ${rem(140)};
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
