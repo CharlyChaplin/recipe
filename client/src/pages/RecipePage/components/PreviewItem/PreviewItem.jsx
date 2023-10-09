@@ -23,7 +23,7 @@ const PreviewItem = ({ url, image, imageAlt, description }) => {
 			<PreviewItemWrapper url={url}>
 
 				<PreviewItemPhoto>
-					<img src={image} alt={imageAlt} />
+					<img src={image} alt={imageAlt} loading='lazy' />
 					{
 						// imgSrc.length > 0
 						// 	? <img src={imgSrc} alt={imageAlt} />
