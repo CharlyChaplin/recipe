@@ -5,9 +5,9 @@ import vars from "init/vars";
 
 
 
-export const PreviewItemPhoto = styled(({ children, ...props }) => (
+export const PreviewItemPhoto = styled(({ image, imageAlt, ...props }) => (
 	<div {...props}>
-		{children}
+		<img src={image} alt={imageAlt} />
 	</div>
 ))`
 	flex: 1 0 auto;
@@ -15,14 +15,8 @@ export const PreviewItemPhoto = styled(({ children, ...props }) => (
 	border-radius: ${rem(10)};
 	border: ${rem(1)} solid ${vars.lightGreen};
 	transition: all 0.25s ease 0s;
-	max-width: ${rem(200)};
 	max-height: ${rem(150)};
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+	max-width: ${rem(200)};
 	
 	img {
 		width: 100%;
