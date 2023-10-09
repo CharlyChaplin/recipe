@@ -17,6 +17,7 @@ export const PreviewItemPhoto = styled(({ children, ...props }) => (
 	transition: all 0.25s ease 0s;
 	max-height: ${rem(150)};
 	max-width: ${rem(200)};
+	height: 100%;
 	
 	img {
 		width: 100%;
