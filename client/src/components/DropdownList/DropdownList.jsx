@@ -49,6 +49,10 @@ const DropdownList = ({
 			el.addEventListener("click", e => {
 				input.current.style.color = input.current.value === placeholder ? vars.placeholderColor : vars.text;
 				setInputText(e.currentTarget.textContent);
+				// при клике на редактируемом DropBox в Input вносим выбранное значение
+				if (editable) {
+					setSearch(e.currentTarget.textContent);
+				}
 				input.current.value = e.currentTarget.textContent;
 				if (selectedValue) selectedValue(input.current.value);
 				onBodyHide();

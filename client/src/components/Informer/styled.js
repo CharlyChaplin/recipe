@@ -5,9 +5,10 @@ import { rgba } from "polished";
 import { ReactComponent as WarningIco } from './img/warning.svg';
 import { ReactComponent as OkIco } from './img/ok.svg';
 import { ReactComponent as CancelIco } from './img/cancel.svg';
+import { ReactComponent as InfoIco } from './img/info.svg';
 
 
-export const Info = styled(({ children, view = false, warning, ok, cancel, ...props }) => (
+export const Info = styled(({ children, view = false, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
 	position: fixed;
@@ -19,8 +20,7 @@ export const Info = styled(({ children, view = false, warning, ok, cancel, ...pr
 	background-color: ${vars.informerBackColor};
 	${adaptiveValue('border-radius', 10, 5)};
 	overflow: hidden;
-	${adaptiveValue('border-width', 2, 1)};
-	border-style: solid;
+	border: ${rem(2)} solid ${rgba(vars.whiteColor, .75)};
 	border-color: ${rgba(vars.whiteColor, .75)};
 	max-width: ${rem(500)};
 	${adaptiveValue('padding-top', 10, 5)};
@@ -31,13 +31,13 @@ export const Info = styled(({ children, view = false, warning, ok, cancel, ...pr
 	cursor: default;
 `;
 
-export const InfoWrapper = styled(({ children, warning, ok, cancel, isConfirm, ...props }) => (
+export const InfoWrapper = styled(({ children, warning, ok, cancel, info, isConfirm, ...props }) => (
 	<div {...props}>{children}</div>
 ))`
 	width: 100%;
 	color: ${vars.whiteColor};
-	display: ${({ warning, ok, cancel, isConfirm }) =>
-		(warning || ok || cancel) && (isConfirm.ok || isConfirm.cancel)
+	display: ${({ warning, ok, cancel, info, isConfirm }) =>
+		(warning || ok || cancel || info) && (isConfirm.ok || isConfirm.cancel)
 			? 'flex'
 			: 'grid'
 	};
@@ -47,18 +47,19 @@ export const InfoWrapper = styled(({ children, warning, ok, cancel, isConfirm, .
 	${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'grid-auto-flow: column' : null};
 	justify-content: start;
 	justify-items: ${({ isConfirm }) => (isConfirm.ok || isConfirm.cancel) ? 'center' : 'start'};
-	${({ warning, ok, cancel, isConfirm }) => (warning || ok || cancel || (isConfirm.ok || isConfirm.cancel)) ? `${adaptiveValue('gap', 20, 10)}` : 0};
+	${({ warning, ok, cancel, info, isConfirm }) => (warning || ok || cancel || info || (isConfirm.ok || isConfirm.cancel)) ? `${adaptiveValue('gap', 20, 10)}` : 0};
 `;
 
-export const InfoIcon = styled(({ warning, ok, cancel, ...props }) => (
+export const InfoIcon = styled(({ warning, ok, cancel, info, ...props }) => (
 	<div {...props}>
 		{warning && <WarningIco />}
 		{ok && <OkIco />}
 		{cancel && <CancelIco />}
+		{info && <InfoIco />}
 	</div>
 ))`
 	align-self: center;
-	display: ${({ warning, ok, cancel }) => (warning || ok || cancel) ? 'flex' : 'none'};
+	display: ${({ warning, ok, cancel, info }) => (warning || ok || cancel || info) ? 'flex' : 'none'};
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
@@ -68,16 +69,18 @@ export const InfoIcon = styled(({ warning, ok, cancel, ...props }) => (
 	svg {
 		width: 100%;
 		height: 100%;
-		fill: ${({ warning, ok, cancel }) => (
-			warning
-				? 'orange'
-				: ok
-					? 'lightgreen'
-					: cancel
-						? 'orangeRed'
+		fill: ${({ warning, ok, cancel, info }) => (
+		warning
+			? 'orange'
+			: ok
+				? 'lightgreen'
+				: cancel
+					? 'orangeRed'
+					: info
+						? 'lightgreen'
 						: 'none'
-			)
-		}
+	)
+	}
 	}
 `;
 
@@ -99,7 +102,7 @@ export const InfoText = styled(({ children, ...props }) => (
 	${adaptiveValue('font-size', 18, 13)};
 	width: 100%;
 	line-height: 1.3;
-	white-space: wrap;
+	white-space: pre-line;
 `;
 
 export const ButtonsWrapper = styled.div`

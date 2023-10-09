@@ -241,32 +241,32 @@ const ProfilePage = () => {
 							</ProfileNickname>
 
 							<ProfilePassword>
-									<ProfilePasswordLabel>Старый пароль:</ProfilePasswordLabel>
-									<Input
-										name='oldPassword'
-										type='password'
-										placeholder='Старый пароль...'
-										value={fields.oldPassword}
-										handleChange={changeInput}
-										handleKeyPress={handleKey}
-									/>
-									<ProfilePasswordLabel>Новый пароль:</ProfilePasswordLabel>
-									<Input
-										name='newPassword'
-										type='password'
-										placeholder='Новый пароль...'
-										value={fields.newPassword}
-										handleChange={changeInput}
-										handleKeyPress={handleKey}
-									/>
-									<Input
-										name='retypeNewPassword'
-										type='password'
-										placeholder='Ещё раз новый пароль...'
-										value={fields.retypeNewPassword}
-										handleChange={changeInput}
-										handleKeyPress={handleKey}
-									/>
+								<ProfilePasswordLabel>Старый пароль:</ProfilePasswordLabel>
+								<Input
+									name='oldPassword'
+									type='password'
+									placeholder='Старый пароль...'
+									value={fields.oldPassword}
+									handleChange={changeInput}
+									handleKeyPress={handleKey}
+								/>
+								<ProfilePasswordLabel>Новый пароль:</ProfilePasswordLabel>
+								<Input
+									name='newPassword'
+									type='password'
+									placeholder='Новый пароль...'
+									value={fields.newPassword}
+									handleChange={changeInput}
+									handleKeyPress={handleKey}
+								/>
+								<Input
+									name='retypeNewPassword'
+									type='password'
+									placeholder='Ещё раз новый пароль...'
+									value={fields.retypeNewPassword}
+									handleChange={changeInput}
+									handleKeyPress={handleKey}
+								/>
 							</ProfilePassword>
 
 							<ProfileActions>
@@ -274,16 +274,16 @@ const ProfilePage = () => {
 								<ProfileActionItem>
 									<ProfileActionItemOperation>Рецепт:</ProfileActionItemOperation>
 									<ProfileActionTasks>
-										<Button equalPadding action={() => navigate(paths.recipeadd)}>{<AddICO />}</Button>
-										<Button equalPadding action={e => showModal(e, 'recipeDeleteChange')}>{<GearICO />}</Button>
+										<Button disabled={!userData?.user?.isactivated} equalPadding action={() => navigate(paths.recipeadd)}>{<AddICO />}</Button>
+										<Button disabled={!userData?.user?.isactivated} equalPadding action={e => showModal(e, 'recipeDeleteChange')}>{<GearICO />}</Button>
 									</ProfileActionTasks>
 								</ProfileActionItem>
 								{/* ======================================================================================================================================================== */}
 								<ProfileActionItem>
 									<ProfileActionItemOperation>Блог:</ProfileActionItemOperation>
 									<ProfileActionTasks>
-										<Button equalPadding action={() => navigate(paths.blogadd)}>{<AddICO />}</Button>
-										<Button equalPadding action={e => showModal(e, 'blogDeleteChange')}>{<GearICO />}</Button>
+										<Button disabled={!userData?.user?.isactivated} equalPadding action={() => navigate(paths.blogadd)}>{<AddICO />}</Button>
+										<Button disabled={!userData?.user?.isactivated} equalPadding action={e => showModal(e, 'blogDeleteChange')}>{<GearICO />}</Button>
 									</ProfileActionTasks>
 								</ProfileActionItem>
 								{/* ======================================================================================================================================================== */}
@@ -293,21 +293,21 @@ const ProfilePage = () => {
 											<ProfileActionItem>
 												<ProfileActionItemOperation>Категория:</ProfileActionItemOperation>
 												<ProfileActionTasks>
-													<Button equalPadding action={e => showModal(e, 'categoryAddChangeDelete')}>{<GearICO />}</Button>
+													<Button disabled={!userData?.user?.isactivated} equalPadding action={e => showModal(e, 'categoryAddChangeDelete')}>{<GearICO />}</Button>
 												</ProfileActionTasks>
 											</ProfileActionItem>
 											{/* ======================================================================================================================================================== */}
 											<ProfileActionItem>
 												<ProfileActionItemOperation>Фраза:</ProfileActionItemOperation>
 												<ProfileActionTasks>
-													<Button equalPadding action={e => showModal(e, 'phraseAddChangeDelete')}><GearICO /></Button>
+													<Button disabled={!userData?.user?.isactivated} equalPadding action={e => showModal(e, 'phraseAddChangeDelete')}><GearICO /></Button>
 												</ProfileActionTasks>
 											</ProfileActionItem>
 											{/* ======================================================================================================================================================== */}
 											<ProfileActionItem>
 												<ProfileActionItemOperation>Пользователь:</ProfileActionItemOperation>
 												<ProfileActionTasks>
-													<Button equalPadding action={e => showModal(e, 'userAddChangeDelete')}>{<GearICO />}</Button>
+													<Button disabled={!userData?.user?.isactivated} equalPadding action={e => showModal(e, 'userAddChangeDelete')}>{<GearICO />}</Button>
 												</ProfileActionTasks>
 											</ProfileActionItem>
 										</>

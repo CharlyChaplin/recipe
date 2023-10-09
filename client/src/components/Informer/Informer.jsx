@@ -21,6 +21,7 @@ const Informer = () => {
 		warning = false,
 		ok = false,
 		cancel = false,
+		info = false,
 		isConfirm,
 		isConfirmResult = false,
 		isLogoutAction = false
@@ -45,6 +46,7 @@ const Informer = () => {
 		changeView = setTimeout(() => {
 			setView(false);
 		}, fast ? 0 : Number(vars.informerShowTime));
+		// дополнительное время после заката за экран
 		showTime = setTimeout(() => {
 			dispatch(hideInfo());
 		}, (fast ? 0 : Number(vars.informerShowTime)) + vars.informerAdditionalTimeAfterHide);
@@ -72,10 +74,10 @@ const Informer = () => {
 	return (
 		<>
 			<Info view={view} onClick={handleClick}>
-				<InfoWrapper warning={warning} ok={ok} cancel={cancel} isConfirm={isConfirm}>
+				<InfoWrapper warning={warning} ok={ok} cancel={cancel} info={info} isConfirm={isConfirm}>
 					{
-						(warning || ok || cancel) &&
-						<InfoIcon warning={warning} ok={ok} cancel={cancel} />
+						(warning || ok || cancel || info) &&
+						<InfoIcon warning={warning} ok={ok} cancel={cancel} info={info} />
 					}
 
 					<InfoContent>

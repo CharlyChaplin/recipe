@@ -21,7 +21,7 @@ class ApiError extends Error {
 	}
 
 	static ValidationError(errors = []) {
-		return new ApiError(500, "Validation error", errors);
+		return new ApiError(500, "Internal server error", errors);
 	}
 }
 

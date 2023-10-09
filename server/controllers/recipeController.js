@@ -77,14 +77,16 @@ class RecipeController {
 			// рождаем строки для множественного добавления
 			const ings = JSON.parse(ingredients).map(ing => {
 				return (
-					`(${userId}, ${newRecipe.rows[0].id}, '${ing.value}')`
+					ing.value.includes('--true')
+						? `(${userId}, ${newRecipe.rows[0].id}, '${ing.value.replace('--true', '')}', true)`
+						: `(${userId}, ${newRecipe.rows[0].id}, '${ing.value}', NULL)`
 				)
 			});
 			// сбрасываем последовательность
 			await ResetSeq.resetSequence('ingredient');
 			// добавляем запись
 			const newIngredients = await db.query(`
-				INSERT INTO ingredient(user_id, recipe_id, caption)
+				INSERT INTO ingredient(user_id, recipe_id, caption, definition)
 				VALUES ${ings}
 				RETURNING *;
 			`);
@@ -141,7 +143,6 @@ class RecipeController {
 		try {
 			// после всех проверок достаём рецепт из запроса для изменения в БД
 			let { dateadd, owner, caption, shortDescription, ingredients, category, cookingText, oldRecipeCaption } = req.body;
-			
 			let file = null;
 			if (req.files) file = Object.values(req.files)[0];
 			if (!oldRecipeCaption) {
@@ -268,10 +269,14 @@ class RecipeController {
 			// создаём ингредиенты для текущего рецепта
 			// рождаем строки для множественного добавления
 			const ings = JSON.parse(ingredients).map(ing => {
-				return (
-					`(${owner}, ${recipeNow.rows[0].id}, '${ing[0]}', ${ing[1]})`
-				);
+				if (ing[0].includes('--true')) {
+					ing[0] = ing[0].replace('--true', '');
+					ing[1] = true;
+				}
+
+				return `(1, ${recipeNow.rows[0].id}, '${ing[0]}', ${ing[1]})`;
 			});
+
 			// сбрасываем счётчик последовательности в таблице ingredient
 			await ResetSeq.resetSequence('ingredient');
 			// добавляем запись
