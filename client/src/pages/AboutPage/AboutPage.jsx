@@ -26,7 +26,8 @@ const AboutPage = () => {
 								items={[
 									'HTML',
 									'CSS (Styled Components + адаптивный дизайн)',
-									'React JS'
+									'React JS',
+									'Redux (Redux Toolkit)'
 								]}
 							/>
 							<AboutTechnologies
