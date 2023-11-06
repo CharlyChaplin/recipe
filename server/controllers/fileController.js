@@ -12,9 +12,9 @@ class FileController {
 			let filePath = '';
 
 			// существует ли папка?
-			if (!fs.existsSync(`users/${userPath}`)) {
+			if (!fs.existsSync(`static/users/${userPath}`)) {
 				console.log("Not folder");
-				// fs.mkdirSync(`users/${userPath}`, err => console.log(err));
+				// fs.mkdirSync(`static/users/${userPath}`, err => console.log(err));
 			};
 
 			myFiles.forEach(file => {
