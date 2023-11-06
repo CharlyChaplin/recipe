@@ -166,7 +166,7 @@ class BlogController {
 					.resize({ width: 170, height: 140 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 80 })
-					.toFile(photoorigPath, (err, info) => {
+					.toFile(photoorig, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
@@ -180,7 +180,7 @@ class BlogController {
 					.resize({ width: 320, height: 240 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 100 })
-					.toFile(photopreviewPath, (err, info) => {
+					.toFile(photopreview, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
