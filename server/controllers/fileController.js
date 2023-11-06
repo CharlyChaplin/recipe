@@ -14,7 +14,7 @@ class FileController {
 			myFiles.forEach(file => {
 				filePath = `users/${userPath}/avatar.jpg`;
 				// существует ли папка?
-				if (!fs.existsSync(`users/${userPath}`)) fs.mkdirSync(`users/${userPath}/`, err => console.log(err));
+				if (!fs.existsSync(`users/${userPath}`)) fs.mkdirSync(`users/${userPath}`, err => console.log(err));
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 120, height: 120 })
