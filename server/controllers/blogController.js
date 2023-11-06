@@ -76,7 +76,7 @@ class BlogController {
 			res.json(newBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
-			res.status(err.status ||400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -100,7 +100,7 @@ class BlogController {
 
 			res.json(deletedBlog.rows[0].caption);
 		} catch (err) {
-			res.status(err.status ||400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 
 	}
@@ -153,26 +153,34 @@ class BlogController {
 			// определяем пути для изображений
 			let photoorig = blogNow.rows[0].photoorig;
 			let photopreview = blogNow.rows[0].photopreview;
+			let photoorigPath = photoorig.replace('/photo.jpg', '');
+			let photopreviewPath = photopreview.replace('/preview.jpg', '');
 
+			// если папка не существует - создать её
+			if (!fs.existsSync(photoorigPath)) fs.mkdirSync(photoorigPath, err => console.log(err));
 
-			// если картинка была заменёна
+			// если картинка была заменена
 			if (file) {
 				// перемещаем файл в папку, изменяя его размер для превью
 				sharp(file.data)
 					.resize({ width: 170, height: 140 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 80 })
-					.toFile(previewPath, (err, info) => {
+					.toFile(photoorigPath, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
 					});
+					
+				// если папка не существует - создать её
+				if (!fs.existsSync(photopreviewPath)) fs.mkdirSync(photopreviewPath, err => console.log(err));
+				
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 320, height: 240 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 100 })
-					.toFile(origPath, (err, info) => {
+					.toFile(photopreviewPath, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
@@ -209,7 +217,7 @@ class BlogController {
 			res.json(updatedBlog.rows[0]);
 		} catch (err) {
 			console.log(err);
-			res.status(err.status ||400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 
 	}
@@ -243,7 +251,7 @@ class BlogController {
 			res.json(userData);
 		} catch (err) {
 			console.log(err);
-			res.status(err.status ||400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 
@@ -267,7 +275,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(err.status ||400).json({ message: err }));
+				.catch(err => res.status(err.status || 400).json({ message: err }));
 		} else if (roleDescription === 'user') {
 			db.query(`
 				SELECT * FROM blog
@@ -277,7 +285,7 @@ class BlogController {
 					const out = resp.rows.map(item => item.caption);
 					res.json(out);
 				})
-				.catch(err => res.status(err.status ||400).json({ message: err }));
+				.catch(err => res.status(err.status || 400).json({ message: err }));
 		}
 
 	}
@@ -305,7 +313,7 @@ class BlogController {
 
 			res.json(blogsData);
 		} catch (err) {
-			res.status(err.status ||400).json({ message: err.message });
+			res.status(err.status || 400).json({ message: err.message });
 		}
 	}
 }
