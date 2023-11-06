@@ -275,8 +275,8 @@ class RecipeController {
 			// создаём ингредиенты для текущего рецепта
 			// рождаем строки для множественного добавления
 			const ings = JSON.parse(ingredients).map(ing => {
-				if (ing[0].includes('--true')) {
-					ing[0] = ing[0].replace('--true', '');
+				if (ing[0].includes('---')) {
+					ing[0] = ing[0].replace('---', '');
 					ing[1] = true;
 				}
 

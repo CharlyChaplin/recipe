@@ -27,7 +27,7 @@ const IngredientItem = ({ mode, locked, data, data1, name, deleteAction, value, 
 								<>
 									<Input
 										name={name}
-										placeholder={data === false ? '' : data[1] ? data[0] + '--true' : data[0]}
+										placeholder={data === false ? '' : data[1] ? data[0] + '---' : data[0]}
 										rectangle
 										fz={12}
 										value={value}
