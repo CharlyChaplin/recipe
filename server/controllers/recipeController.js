@@ -77,8 +77,8 @@ class RecipeController {
 			// рождаем строки для множественного добавления
 			const ings = JSON.parse(ingredients).map(ing => {
 				return (
-					ing.value.includes('--true')
-						? `(${userId}, ${newRecipe.rows[0].id}, '${ing.value.replace('--true', '')}', true)`
+					ing.value.includes('---')
+						? `(${userId}, ${newRecipe.rows[0].id}, '${ing.value.replace('---', '')}', true)`
 						: `(${userId}, ${newRecipe.rows[0].id}, '${ing.value}', NULL)`
 				)
 			});
