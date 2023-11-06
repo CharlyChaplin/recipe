@@ -172,9 +172,6 @@ class BlogController {
 						}
 					});
 					
-				// если папка не существует - создать её
-				if (!fs.existsSync(photopreviewPath)) fs.mkdirSync(photopreviewPath, err => console.log(err));
-				
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 320, height: 240 })
