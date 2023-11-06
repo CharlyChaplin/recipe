@@ -12,6 +12,8 @@ class FileController {
 
 			myFiles.forEach(file => {
 				filePath = `users/${userPath}/avatar.jpg`;
+				// существует ли папка?
+				if (!fs.existsSync(`users/${userPath}`)) fs.mkdirSync(`./users/${userPath}`, err => console.log(err));
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 120, height: 120 })
@@ -38,7 +40,7 @@ class FileController {
 			res.json(out);
 		} catch (err) {
 			console.log(err.message);
-			res.status(err.status ||400).json(err.message);
+			res.status(err.status || 400).json(err.message);
 		}
 	}
 }
