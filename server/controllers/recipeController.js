@@ -205,6 +205,11 @@ class RecipeController {
 			// определяем пути для изображений
 			let photoorig = recipeNow.rows[0].photoorig;
 			let photopreview = recipeNow.rows[0].photopreview;
+			let photoorigPath = 'static' + photoorig.replace('/photo.jpg', '');
+			let photopreviewPath = 'static' + photopreview.replace('/preview.jpg', '');
+
+			// если папка не существует - создать её
+			if (!fs.existsSync(photoorigPath)) fs.mkdirSync(photoorigPath, err => console.log(err));
 
 			// если картинка была заменёна
 			if (file) {
@@ -213,17 +218,21 @@ class RecipeController {
 					.resize({ width: 200, height: 140 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 80 })
-					.toFile(`static/${photopreview}`, (err, info) => {
+					.toFile(`static${photopreview}`, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
 					});
+
+				// если папка не существует - создать её
+				if (!fs.existsSync(photopreviewPath)) fs.mkdirSync(photopreviewPath, err => console.log(err));
+
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 320, height: 240 })
 					.toFormat('jpeg')
 					.jpeg({ quality: 100 })
-					.toFile(`static/${photoorig}`, (err, info) => {
+					.toFile(`static${photoorig}`, (err, info) => {
 						if (err) {
 							console.log(err);
 						}
