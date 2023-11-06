@@ -122,7 +122,10 @@ const AvatarSelect = ({
 					path: `${vars.remoteHost}/users/${source == 'userById' ? userById.email : userData.user.email}${res.data[0].path}`
 				})
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				setLoading(false);
+				console.log(err);
+			});
 	}
 
 
