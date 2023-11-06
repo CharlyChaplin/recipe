@@ -1,5 +1,6 @@
 import sharp from 'sharp';
 import db from '../db.js';
+import fs from 'fs';
 
 class FileController {
 	async addFile(req, res) {
