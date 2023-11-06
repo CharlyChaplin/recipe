@@ -153,8 +153,8 @@ class BlogController {
 			// определяем пути для изображений
 			let photoorig = blogNow.rows[0].photoorig;
 			let photopreview = blogNow.rows[0].photopreview;
-			let photoorigPath = photoorig.replace('/photo.jpg', '');
-			let photopreviewPath = photopreview.replace('/preview.jpg', '');
+			let photoorigPath = 'static' + photoorig.replace('/photo.jpg', '');
+			let photopreviewPath = 'static' + photopreview.replace('/preview.jpg', '');
 
 			// если папка не существует - создать её
 			if (!fs.existsSync(photoorigPath)) fs.mkdirSync(photoorigPath, err => console.log(err));
