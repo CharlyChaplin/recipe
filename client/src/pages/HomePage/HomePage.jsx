@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { MainWrapper } from 'pages/pages.styled';
-import SectionHeader from 'components/SectionHeader';
 import vars from 'init/vars';
 import bg from 'assets/img/main/bg.jpg';
-import { InnerWrapperForMain, QuotationWrapper, SearchBar } from './styled';
+import { InnerWrapperForMain, MainHeader, QuotationWrapper, SearchBar } from './styled';
 import { useState } from 'react';
 import SearchPanel from './components/SearchPanel/SearchPanel';
 import Quotation from './components/Quotation/Quotation';
@@ -38,7 +37,7 @@ const HomePage = () => {
 			<MainWrapper image={bg}>
 				<InnerWrapperForMain>
 
-					<SectionHeader color={vars.whiteColor}>{titlePage}</SectionHeader>
+					<MainHeader color={vars.whiteColor}>{titlePage}</MainHeader>
 
 					<SearchBar>
 						<SearchPanel showQuotationFunc={showQuotationFunc} />
