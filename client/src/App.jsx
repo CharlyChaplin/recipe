@@ -9,6 +9,8 @@ import { userGetUser } from 'redux/slices/userSlice';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import AppContent from 'components/AppContent/AppContent';
+import { isOffline } from 'redux/slices/infoSlice';
+import axios from 'axiosSetup';
 
 
 
@@ -24,9 +26,23 @@ const ProfilePage = lazy(() => import('pages/ProfilePage'));
 const App = () => {
 	const dispatch = useDispatch();
 
+	const onlineCheck = setInterval(async () => {
+		try {
+			const resp = await axios.get('https://lexun.space/test');
+			if (resp.data) console.log('Сервер доступен');
+			dispatch(isOffline(false));
+		} catch (error) {
+			console.log('Сервер недоступен');
+			dispatch(isOffline(true));
+		}
+
+	}, 3000);
+
 	useEffect(() => {
 		dispatch(userGetUser());
-
+		onlineCheck();
+		
+		() => clearInterval(onlineCheck);
 	}, [dispatch]);
 
 

@@ -5,6 +5,7 @@ const fileRouter = Router();
 
 
 fileRouter.post('/upload', FileController.addFile);
+fileRouter.get('/test', FileController.ping);
 
 
 

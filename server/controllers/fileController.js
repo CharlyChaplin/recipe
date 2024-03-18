@@ -13,10 +13,10 @@ class FileController {
 
 			myFiles.forEach(file => {
 				filePath = `users/${userPath}/avatar.jpg`;
-				
+
 				// если папка не существует - создать её
 				if (!fs.existsSync(`static/users/${userPath}`)) fs.mkdirSync(`static/users/${userPath}`, err => console.log(err));
-				
+
 				// перемещаем файл в папку, изменяя его размер
 				sharp(file.data)
 					.resize({ width: 120, height: 120 })
@@ -45,6 +45,10 @@ class FileController {
 			console.log(err.message);
 			res.status(err.status || 400).json(err.message);
 		}
+	}
+
+	async ping(req, res) {
+		res.json("Hello from server!");
 	}
 }
 
