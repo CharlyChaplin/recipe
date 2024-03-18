@@ -7,10 +7,11 @@ import FallbackSpinner from 'components/FallbackSpinner/FallbackSpinner';
 import ProtectedRoute from 'components/ProtectedRoute';
 import { userGetUser } from 'redux/slices/userSlice';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppContent from 'components/AppContent/AppContent';
-import { isOffline } from 'redux/slices/infoSlice';
+import { getOfflineStatus } from 'redux/slices/infoSlice';
 import axios from 'axiosSetup';
+import { ServerDown } from 'app.styled';
 
 
 
@@ -24,29 +25,30 @@ const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
 
 const App = () => {
+	const { showInformation } = useSelector(state => state.infoReducer);
 	const dispatch = useDispatch();
 
-	const onlineCheck = setInterval(async () => {
-		try {
-			const resp = await axios.get('https://lexun.space/file/test');
-			if (resp.data) console.log('Сервер доступен');
-			dispatch(isOffline(false));
-		} catch (error) {
-			console.log('Сервер недоступен');
-			dispatch(isOffline(true));
-		}
-
-	}, 3000);
 
 	useEffect(() => {
 		dispatch(userGetUser());
-		
-		() => clearInterval(onlineCheck);
-	}, [dispatch]);
+
+		const pingTimer = setInterval(async () => {
+			try {
+				const resp = await axios.get('https://lexun.space/file/test');
+				if (resp.data) dispatch(getOfflineStatus(false));
+			} catch (error) {
+				dispatch(getOfflineStatus(true));
+			}
+
+		}, 3000);
+
+		() => clearInterval(pingTimer);
+	}, []);
 
 
 	return (
 		<>
+			{showInformation.isOffline && <ServerDown />}
 
 			<Suspense fallback={<FallbackSpinner />}>
 				<Routes>
