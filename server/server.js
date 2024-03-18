@@ -37,7 +37,7 @@ app.use(express.json());
 app.use(express.static('static'));
 app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
 
-app.use('/test', (req, res) => res.json("Hello from server!"));
+// app.use('/test', (req, res) => res.json("Hello from server!"));
 
 app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));

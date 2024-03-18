@@ -28,7 +28,7 @@ const App = () => {
 
 	const onlineCheck = setInterval(async () => {
 		try {
-			const resp = await axios.get('https://lexun.space/test');
+			const resp = await axios.get('https://lexun.space/file/test');
 			if (resp.data) console.log('Сервер доступен');
 			dispatch(isOffline(false));
 		} catch (error) {
@@ -40,7 +40,6 @@ const App = () => {
 
 	useEffect(() => {
 		dispatch(userGetUser());
-		onlineCheck();
 		
 		() => clearInterval(onlineCheck);
 	}, [dispatch]);
