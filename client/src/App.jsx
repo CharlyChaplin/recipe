@@ -12,6 +12,7 @@ import AppContent from 'components/AppContent/AppContent';
 import { getOfflineStatus } from 'redux/slices/infoSlice';
 import axios from 'axiosSetup';
 import { ServerDown } from 'app.styled';
+import vars from 'init/vars';
 
 
 
@@ -34,7 +35,7 @@ const App = () => {
 
 		const pingTimer = setInterval(async () => {
 			try {
-				const resp = await axios.get('https://lexun.space/file/test');
+				const resp = await axios.get(`${vars.remoteHost}/file/test`);
 				if (resp.data) dispatch(getOfflineStatus(false));
 			} catch (error) {
 				dispatch(getOfflineStatus(true));

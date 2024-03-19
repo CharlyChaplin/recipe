@@ -57,8 +57,8 @@ const vars = {
 	fz: 16,	// базовая высота шрифта
 	borderRadiusSearchInput: 15,	// округлость поиска на главной странице
 	
-	remoteHost: 'https://lexun.space',
-	// remoteHost: 'http://localhost:7000',
+	// remoteHost: 'https://lexun.space',
+	remoteHost: 'http://localhost:7000',
 };
 
 

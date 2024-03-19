@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { paths } from 'routes/helper';
 import { DataContext, modalContextStore } from './context';
 import { useDispatch, useSelector } from 'react-redux';
-import { userGetRoles, userGetUser, userGetUsers, userGetUsersNickname, userUpdate } from 'redux/slices/userSlice';
+import { userGetRoles, userGetUser, userGetUsers, userGetUsersNickname, userUpdate, userUpdateSuccessReset } from 'redux/slices/userSlice';
 import axios from 'axiosSetup';
 import { showInfo } from 'redux/slices/infoSlice';
 import Spinner from 'components/Spinner/Spinner';
@@ -36,7 +36,7 @@ import { Helmet } from 'react-helmet';
 
 const ProfilePage = () => {
 	const navigate = useNavigate();
-	const { userData, loading, errors } = useSelector(state => state.userReducer);
+	const { userData, loading, errors, userUpdateSuccess } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
 	const [modalVisible, setModalVisible] = useState(false);
 	let modalParams = useRef({});
@@ -74,6 +74,25 @@ const ProfilePage = () => {
 			mediaWatcher.removeEventListener('change', updateIsNarrowScreen)
 		}
 	}, []);
+
+	useEffect(() => {
+		if (errors.length > 0 && !loading) {
+			dispatch(showInfo({ text: errors, cancel: true }));
+		}
+	}, [errors]);
+
+	useEffect(() => {
+		if (userUpdateSuccess) {
+			dispatch(showInfo({ text: "Данные успешно изменены", ok: true }));
+			setFields({
+				...fields,
+				['oldPassword']: '',
+				['newPassword']: '',
+				['retypeNewPassword']: ''
+			});
+			dispatch(userUpdateSuccessReset());
+		}
+	}, [userData, userUpdateSuccess]);
 
 
 	const changeInput = useCallback((e) => {
@@ -172,13 +191,6 @@ const ProfilePage = () => {
 
 		try {
 			dispatch(userUpdate(fd));
-			setTimeout(() => {
-				if (errors.length > 0 && !loading) {
-					dispatch(showInfo({ text: errors, cancel: true }));
-				} else {
-					dispatch(showInfo({ text: "Данные успешно изменены", ok: true }));
-				}
-			}, 300);
 		} catch (error) {
 			console.log("Error: ", error);
 		}

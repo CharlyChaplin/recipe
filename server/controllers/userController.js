@@ -448,12 +448,12 @@ class UserController {
 					const cipher = await bcrypt.hash(newPassword, 3);
 					// обновляем в БД пользователя
 					const newUser = await db.query(`
-					UPDATE users SET password = '${cipher}'
-					WHERE id = ${userId}
-					RETURNING *;
-				`);
+						UPDATE users SET password = '${cipher}'
+						WHERE id = ${userId}
+						RETURNING *;
+					`);
 				} else {
-					return res.status(err.status || 400).json({ message: "Прежний пароль не верен" });
+					return res.status(400).json({ message: "Прежний пароль не верен" });
 				}
 			}
 

@@ -6,6 +6,7 @@ const initialState = {
 	isAuth: false,
 	loading: false,
 	userData: [],
+	userUpdateSuccess: false,
 	users: [],
 	usersName: [],
 	userById: [],
@@ -141,6 +142,9 @@ export const userSlice = createSlice({
 			state.errors = "";
 			state.completed = false;
 		},
+		userUpdateSuccessReset: (state, action) => {
+			state.userUpdateSuccess = false;
+		}
 	},
 	extraReducers: (build) => {
 		build.addCase(userRegister.pending, (state, action) => {
@@ -205,12 +209,12 @@ export const userSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(userGetUser.pending, (state, action) => {
 			state.loading = true;
-			state.errors = "";
+			// state.errors = "";
 		});
 		build.addCase(userGetUser.fulfilled, (state, action) => {
 			state.loading = false;
 			state.userData = action.payload;
-			state.errors = "";
+			// state.errors = "";
 			state.isAuth = true;
 		});
 		build.addCase(userGetUser.rejected, (state, action) => {
@@ -222,16 +226,18 @@ export const userSlice = createSlice({
 		//========================================================================================================================================================
 		build.addCase(userUpdate.pending, (state, action) => {
 			state.loading = true;
+			state.userUpdateSuccess = false;
 			state.errors = "";
 		});
 		build.addCase(userUpdate.fulfilled, (state, action) => {
 			state.loading = false;
+			state.userUpdateSuccess = true;
 			state.userData = action.payload;
 			state.errors = "";
 		});
 		build.addCase(userUpdate.rejected, (state, action) => {
 			state.loading = false;
-			state.userData = "";
+			state.userUpdateSuccess = false;
 			state.errors = action.payload;
 		});
 		//========================================================================================================================================================
@@ -299,6 +305,6 @@ export const userSlice = createSlice({
 });
 
 
-export const { authStatus, clearUserDataInStore } = userSlice.actions;
+export const { authStatus, clearUserDataInStore, userUpdateSuccessReset } = userSlice.actions;
 
 export default userSlice.reducer;
