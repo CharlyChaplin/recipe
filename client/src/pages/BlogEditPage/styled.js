@@ -132,6 +132,8 @@ export const BlogEditTextWrapper = styled(({ children, ...props }) => (
 	
 	article {
 		display: flex;
+		/* flex-direction: column;
+		gap: ${rem(15)}; */
 		text-indent: ${rem(25)};
 		hyphens: auto;
 		height: 100%;

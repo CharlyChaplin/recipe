@@ -4,8 +4,16 @@
 	"private": true,
 	"dependencies": {
 		"@reduxjs/toolkit": "1.9.5",
+		"@types/draft-convert": "^2.1.8",
+		"@types/draft-js": "^0.11.18",
+		"@types/node": "^20.11.30",
+		"@types/react": "^18.2.67",
+		"@types/react-dom": "^18.2.22",
 		"ahooks": "3.7.8",
 		"axios": "1.4.0",
+		"classnames": "^2.5.1",
+		"draft-convert": "^2.1.13",
+		"draft-js": "^0.11.7",
 		"js-cookie": "3.0.5",
 		"polished": "4.2.2",
 		"react": "18.2.0",
@@ -15,7 +23,8 @@
 		"react-redux": "8.0.5",
 		"react-router-dom": "6.9.0",
 		"react-scripts": "5.0.1",
-		"styled-components": "6.0.0"
+		"styled-components": "6.0.0",
+		"typescript": "^4.9.5"
 	},
 	"devDependencies": {
 		"babel-plugin-styled-components": "2.1.4",

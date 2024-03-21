@@ -7,7 +7,7 @@ import { BlogEditButtonWrapper, BlogEditCaption, BlogEditTextWrapper, BlogEditTo
 import Input from 'components/Input/Input';
 import { useState } from 'react';
 import { useCallback } from 'react';
-import { AddPhotoBlockChangedForAddBlog, BlogAddPhoto, BlogEditTopChangedForAddBlog, ContentWrapperChangedForAddBlog } from './styled';
+import { AddPhotoBlockChangedForAddBlog, BlogAddPhoto, BlogEditTextWrapperForAdd, BlogEditTopChangedForAddBlog, ContentWrapperChangedForAddBlog } from './styled';
 import Button from 'components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import { blogAddBlog, clearBlogData } from 'redux/slices/blogSlice';
@@ -18,6 +18,8 @@ import { showInfo } from 'redux/slices/infoSlice';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import { InnerWrapperChangedForRecipeDetail } from 'pages/RecipeDetailPage/styled';
 import { Helmet } from 'react-helmet';
+import TextEditor, { TextEditorProvider } from '../../components/TextEditor';
+import ToolPanel from '../../components/ToolPanel';
 
 
 const BlogAddPage = () => {
@@ -115,9 +117,16 @@ const BlogAddPage = () => {
 							<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блога..." />
 						</BlogEditCaption>
 
-						<BlogEditTextWrapper>
+						{/* <BlogEditTextWrapper>
 							<Input type='textarea' name='description' value={fields.description} handleChange={changeInput} center placeholder="Текст блога..." />
-						</BlogEditTextWrapper>
+						</BlogEditTextWrapper> */}
+						<BlogEditTextWrapperForAdd>
+							<TextEditorProvider>
+								<ToolPanel />
+								<TextEditor />
+							</TextEditorProvider>
+						</BlogEditTextWrapperForAdd>
+
 						<BlogEditButtonWrapper>
 							<Button action={handleApplyBlog}>Добавить</Button>
 							<Button action={() => navigate(-1)}>Отмена</Button>

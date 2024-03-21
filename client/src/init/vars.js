@@ -47,8 +47,8 @@ const vars = {
 	quoteColor: '#DDDDDD',
 	searchMainFormBackcolor: '#AFAFAF',
 	informerBackColor: '#2F4F4F',
-	
-	
+
+
 	// переменные для проекта
 	headerPadding: 5,		// размер общего padding в шапке
 	informerShowTime: 5000,	// время показа информера в миллисекундах
@@ -56,9 +56,9 @@ const vars = {
 	cubic: 'cubic-bezier(0.5, -1, 0.5, 2)',	// анимация
 	fz: 16,	// базовая высота шрифта
 	borderRadiusSearchInput: 15,	// округлость поиска на главной странице
-	
-	remoteHost: 'https://lexun.space',
-	// remoteHost: 'http://localhost:7000',
+
+	// remoteHost: 'https://lexun.space',
+	remoteHost: 'http://localhost:7000',
 };
 
 

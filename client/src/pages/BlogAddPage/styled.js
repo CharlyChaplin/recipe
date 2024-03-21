@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { adaptiveValue, rem } from "init/mixins";
-import { BlogEditTop, ContentWrapperChangedForBlogEdit } from "pages/BlogEditPage/styled";
+import { BlogEditTextWrapper, BlogEditTop, ContentWrapperChangedForBlogEdit } from "pages/BlogEditPage/styled";
 import { AddPhotoBlock } from "pages/pages.styled";
 
 
@@ -21,4 +21,13 @@ export const BlogEditTopChangedForAddBlog = styled(BlogEditTop)`
 
 export const AddPhotoBlockChangedForAddBlog = styled(AddPhotoBlock)`
 	${adaptiveValue('height', 175, 150)};
+`;
+
+export const BlogEditTextWrapperForAdd = styled(BlogEditTextWrapper)`
+	article {
+		display: flex;
+		flex-direction: column;
+		gap: ${rem(15)};
+		text-indent: 0;
+	}
 `;
