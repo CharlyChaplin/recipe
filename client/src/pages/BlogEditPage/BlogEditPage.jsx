@@ -158,13 +158,13 @@ const BlogEditPage = () => {
 										}
 									</BlogEditCaption>
 
-									{/* <BlogEditTextWrapper>
+									<BlogEditTextWrapper>
 										<Input type='textarea' name='description' value={fields.description} handleChange={changeInput} center placeholder={dataSource?.description} />
-									</BlogEditTextWrapper> */}
-									<BlogEditTextWrapperForAdd>
+									</BlogEditTextWrapper>
+									{/* <BlogEditTextWrapperForAdd>
 										<ToolPanel />
 										<TextEditor />
-									</BlogEditTextWrapperForAdd>
+									</BlogEditTextWrapperForAdd> */}
 
 									<BlogEditButtonWrapper>
 										<Button action={handleApplyBlog}>Изменить</Button>

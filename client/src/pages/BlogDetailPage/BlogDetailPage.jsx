@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import react, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import bg from 'assets/img/blog/bg.jpg';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -48,7 +48,7 @@ const BlogDetailPage = () => {
 										<BlogDetailTop dateadd={blogData.dateadd} owner={blogData.name} />
 										<BlogDetailPhoto image={blogData.photopreview} imageAltText={blogData.caption} />
 										<BlogDetailCaption text={blogData.caption} />
-										<BlogTextWrapper content={ blogData.description} />
+										<BlogTextWrapper content={blogData.description} />
 									</>
 									: <NoData text="Нет такого блога" />
 						}

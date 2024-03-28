@@ -4,6 +4,7 @@ import vars from "init/vars";
 import { rgba } from "polished";
 import { Link } from "react-router-dom";
 import Button from "components/Button/Button";
+import DOMPurify from "dompurify";
 
 
 export const MainWrapper = styled(({ children, image, noOverlay, ...props }) => {
@@ -149,26 +150,30 @@ export const PreviewCategoryRecipeItem = styled(({ children, url, image, imageAl
 	}
 `;
 
-export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, imageAlt, caption, description, ...props }) => (
-	<Link to={url} {...props}>
-		<header>
-			<time>{dateadd}</time>
-			<span></span>
-			<div>{owner}</div>
-		</header>
-		<article>
-			<div>
-				<img src={image} alt={imageAlt} />
-			</div>
-			<div>
-				<aside>
-					<p>{caption}</p>
-					<span>{description}</span>
-				</aside>
-			</div>
-		</article>
-	</Link>
-))`
+export const PreviewBlogItem = styled(({ children, url, owner, dateadd, image, imageAlt, caption, description, ...props }) => {
+
+
+	return (
+		<Link to={url} {...props}>
+			<header>
+				<time>{dateadd}</time>
+				<span></span>
+				<div>{owner}</div>
+			</header>
+			<article>
+				<div>
+					<img src={image} alt={imageAlt} />
+				</div>
+				<div>
+					<aside>
+						<p>{caption}</p>
+						<span >{description}</span>
+					</aside>
+				</div>
+			</article>
+		</Link>
+	)
+})`
 	max-width: ${rem(420)};
 	color: ${vars.text};
 	display: flex;

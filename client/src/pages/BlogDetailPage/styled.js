@@ -96,12 +96,12 @@ export const BlogDetailCaption = styled(({ text, ...props }) => (
 `;
 
 export const BlogTextWrapper = styled(({ content, ...props }) => {
-	const sanitizedContent = DOMPurify.sanitize(content, { USE_PROFILES: { html: true } });
+	// const sanitizedContent = DOMPurify.sanitize(content, { USE_PROFILES: { html: true } });
 
 	return (
 		<div {...props}>
-			{/* <article>{content}</article> */}
-			<article dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+			<article>{content}</article>
+			{/* <article dangerouslySetInnerHTML={{ __html: sanitizedContent }} /> */}
 		</div>
 	)
 })`

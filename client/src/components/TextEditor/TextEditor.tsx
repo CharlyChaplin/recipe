@@ -1,4 +1,4 @@
-import * as React from "react";
+import react, { FC } from "react";
 import { Editor } from "draft-js";
 import { BLOCK_RENDER_MAP, CUSTOM_STYLE_MAP } from "./config";
 import { useEditorApi } from "./context";
@@ -9,7 +9,7 @@ export type TextEditorProps = {
 	className?: string;
 };
 
-const TextEditor: React.FC<TextEditorProps> = ({ className }) => {
+const TextEditor: FC<TextEditorProps> = ({ className }) => {
 	const editorApi = useEditorApi();
 
 	return (

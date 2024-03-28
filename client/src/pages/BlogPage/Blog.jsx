@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import react, { useCallback, useEffect } from 'react';
 import { ContentPaddingTop, ContentWrapper, InnerWrapper, MainWrapper, PreviewBlogItem } from 'pages/pages.styled';
 import bg from 'assets/img/blog/bg.jpg';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
@@ -27,7 +27,7 @@ const BlogPage = () => {
 	}, [blogsPreview, dispatch]);
 
 
-
+	
 	return (
 		<>
 			<Helmet>

@@ -60,16 +60,16 @@ const BlogAddPage = () => {
 
 	async function handleApplyBlog() {
 		const filledData = Object.entries(fields).filter(item => item[1]?.length > 0);
-		// const { dateadd, caption, description } = Object.fromEntries(filledData);
-		const { dateadd, caption } = Object.fromEntries(filledData);
+		const { dateadd, caption, description } = Object.fromEntries(filledData);
+		// const { dateadd, caption } = Object.fromEntries(filledData);
 
 		const fd = new FormData();
 		if (dateadd?.length > 0) fd.append('dateadd', fields.dateadd);
 		fd.append('file', fields.picture);
 		if (caption?.length > 0) fd.append('caption', fields.caption);
-		// if (description?.length > 0) fd.append('description', fields.description);
-		const description = toHtml();
-		if (description?.length > 0) fd.append('description', description);
+		if (description?.length > 0) fd.append('description', fields.description);
+		// const description = toHtml();
+		// if (description?.length > 0) fd.append('description', description);
 
 		if (!(dateadd && fields.picture && caption && description)) {
 			dispatch(showInfo({ text: "Заполните все поля", cancel: true }))
@@ -119,13 +119,13 @@ const BlogAddPage = () => {
 							<Input name='caption' value={fields.caption} handleChange={changeInput} center placeholder="Название блога..." />
 						</BlogEditCaption>
 
-						{/* <BlogEditTextWrapper>
+						<BlogEditTextWrapper>
 							<Input type='textarea' name='description' value={fields.description} handleChange={changeInput} center placeholder="Текст блога..." />
-						</BlogEditTextWrapper> */}
-						<BlogEditTextWrapperForAdd>
+						</BlogEditTextWrapper>
+						{/* <BlogEditTextWrapperForAdd>
 							<ToolPanel />
 							<TextEditor />
-						</BlogEditTextWrapperForAdd>
+						</BlogEditTextWrapperForAdd> */}
 
 						<BlogEditButtonWrapper>
 							<Button action={handleApplyBlog}>Добавить</Button>

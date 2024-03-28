@@ -1,13 +1,13 @@
-import React, { FC } from "react";
+import react, { FC, createContext, useContext } from "react";
 import { EditorApi, useEditor } from "./useEditor";
 
-const TextEditorContext = React.createContext<EditorApi | undefined>(undefined);
+const TextEditorContext = createContext<EditorApi | undefined>(undefined);
 
-interface ITextEditorProvider {
-	children: any
+type TextEditorProvider = {
+	children: string
 }
 
-export const TextEditorProvider: FC<ITextEditorProvider> = ({ children }) => {
+export const TextEditorProvider: FC<TextEditorProvider> = ({ children }) => {
 	const editorApi = useEditor();
 
 	return (
@@ -18,7 +18,7 @@ export const TextEditorProvider: FC<ITextEditorProvider> = ({ children }) => {
 };
 
 export const useEditorApi = () => {
-	const context = React.useContext(TextEditorContext);
+	const context = useContext(TextEditorContext);
 	if (context === undefined) {
 		throw new Error("useEditorApi must be used within TextEditorProvider");
 	}
