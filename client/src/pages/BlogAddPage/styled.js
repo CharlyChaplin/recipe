@@ -29,5 +29,27 @@ export const BlogEditTextWrapperForAdd = styled(BlogEditTextWrapper)`
 		flex-direction: column;
 		gap: ${rem(15)};
 		text-indent: 0;
+		
+		h1, h2, h3, h4, h5, h6 {
+			font-weight: revert;
+		}
+		h1 {
+			font-size: ${rem(32)};
+		}
+		h2 {
+			font-size: ${rem(24)};
+		}
+		h3 {
+			font-size: ${rem(19)};
+		}
+		h4 {
+			font-size: ${rem(16)};
+		}
+		h5 {
+			font-size: ${rem(14)};
+		}
+		h6 {
+			font-size: ${rem(12)};
+		}
 	}
 `;

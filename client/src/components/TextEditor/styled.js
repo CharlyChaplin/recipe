@@ -15,15 +15,21 @@ export const Editor_Wrapper = styled(({ cls, children, ...props }) => {
 })`
 	border: ${rem(1)} solid ${rgba(vars.lightGreen, .5)};
 	border-radius: ${rem(5)};
-	padding: ${rem(5)} ${rem(7)};
+	overflow: hidden;
 	cursor: text;
 	height: 100%;
 	color: ${vars.text};
+	background-color: ${vars.whiteColor};
 	
 	.DraftEditor-root,
 	.DraftEditor-editorContainer,
 	.public-DraftEditor-content {
 		height: 100%;
+	}
+	
+	.public-DraftEditor-content {
+		// background-color: ${vars.whiteColor};
+		padding: ${rem(5)} ${rem(7)};
 	}
 	
 	h1, h2, h3, h4, h5, h6 {

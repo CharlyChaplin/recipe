@@ -15,7 +15,7 @@ export const Tool_Panel = styled(({ children, ...props }) => {
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: flex-start;
-	margin: 0;
+	margin: 0 0 0 ${rem(10)};
 	row-gap: ${rem(5)};
 	column-gap: ${rem(2)};
 	

@@ -18,7 +18,7 @@ import { showInfo } from 'redux/slices/infoSlice';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import { InnerWrapperChangedForRecipeDetail } from 'pages/RecipeDetailPage/styled';
 import { Helmet } from 'react-helmet';
-import TextEditor, { TextEditorProvider } from '../../components/TextEditor';
+import TextEditor, { TextEditorProvider, useEditorApi } from '../../components/TextEditor';
 import ToolPanel from '../../components/ToolPanel';
 
 
@@ -34,10 +34,10 @@ const BlogAddPage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const { toHtml } = useEditorApi();
 
 	useEffect(() => {
 		setFields({ ...fields, dateadd: datePrepare(Date.now()) });
-
 	}, [blogData]);
 
 	useEffect(() => {
@@ -58,16 +58,18 @@ const BlogAddPage = () => {
 		});
 	}, [fields]);
 
-
 	async function handleApplyBlog() {
 		const filledData = Object.entries(fields).filter(item => item[1]?.length > 0);
-		const { dateadd, caption, description } = Object.fromEntries(filledData);
+		// const { dateadd, caption, description } = Object.fromEntries(filledData);
+		const { dateadd, caption } = Object.fromEntries(filledData);
 
 		const fd = new FormData();
 		if (dateadd?.length > 0) fd.append('dateadd', fields.dateadd);
 		fd.append('file', fields.picture);
 		if (caption?.length > 0) fd.append('caption', fields.caption);
-		if (description?.length > 0) fd.append('description', fields.description);
+		// if (description?.length > 0) fd.append('description', fields.description);
+		const description = toHtml();
+		if (description?.length > 0) fd.append('description', description);
 
 		if (!(dateadd && fields.picture && caption && description)) {
 			dispatch(showInfo({ text: "Заполните все поля", cancel: true }))
@@ -121,10 +123,8 @@ const BlogAddPage = () => {
 							<Input type='textarea' name='description' value={fields.description} handleChange={changeInput} center placeholder="Текст блога..." />
 						</BlogEditTextWrapper> */}
 						<BlogEditTextWrapperForAdd>
-							<TextEditorProvider>
-								<ToolPanel />
-								<TextEditor />
-							</TextEditorProvider>
+							<ToolPanel />
+							<TextEditor />
 						</BlogEditTextWrapperForAdd>
 
 						<BlogEditButtonWrapper>

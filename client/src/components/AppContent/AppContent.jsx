@@ -1,6 +1,7 @@
 import { Page } from 'app.styled';
 import Footer from 'blocks/Footer/Footer';
 import Header from 'blocks/Header/Header';
+import { TextEditorProvider } from 'components/TextEditor';
 import ErrorPage from 'pages/ErrorPage/ErrorPage';
 import React from 'react';
 import { lazy } from 'react';
@@ -36,9 +37,9 @@ const AppContent = () => {
 					<Route path={paths.recipedetail} element={<RecipeDetailPage />} />
 					<Route path={paths.recipeadd} element={<RecipeAddPage />} />
 					<Route path={paths.blog} element={<BlogPage />} />
-					<Route path={paths.blogedit} element={<BlogEditPage />} />
+					<Route path={paths.blogedit} element={<TextEditorProvider><BlogEditPage /></TextEditorProvider>} />
 					<Route path={paths.blogdetail} element={<BlogDetailPage />} />
-					<Route path={paths.blogadd} element={<BlogAddPage />} />
+					<Route path={paths.blogadd} element={<TextEditorProvider><BlogAddPage /></TextEditorProvider>} />
 
 					<Route path={paths.about} element={<AboutPage />} />
 

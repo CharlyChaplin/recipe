@@ -4,6 +4,7 @@ import cn from "classnames";
 import { BlockType, InlineStyle } from "../TextEditor/config";
 import './styled';
 import { Tool_Panel } from "./styled";
+import { Divisor } from "pages/BlogEditPage/styled";
 
 const ToolPanel: FC = () => {
 	const {
@@ -90,6 +91,9 @@ const ToolPanel: FC = () => {
 			>
 				H6
 			</button>
+
+			<Divisor n={3} />
+
 			<button
 				className={cn(
 					"tool-panel__item",
@@ -103,6 +107,8 @@ const ToolPanel: FC = () => {
 				Сноска
 			</button>
 
+			<Divisor n={3} />
+
 			{Object.values(InlineStyle).map((v) => (
 				<button
 					key={v}
@@ -115,9 +121,21 @@ const ToolPanel: FC = () => {
 						toggleInlineStyle(v);
 					}}
 				>
-					{v}
+					{
+						v === 'BOLD'
+							? "B"
+							: v === 'ITALIC'
+								? "I"
+								: v === 'UNDERLINE'
+									? 'U'
+									: v === 'ACCENT'
+										? 'Выделить'
+										: ''
+					}
 				</button>
 			))}
+			
+			<Divisor n={3} />
 
 			<button
 				className="tool-panel__item"
@@ -128,17 +146,17 @@ const ToolPanel: FC = () => {
 					}
 				}}
 			>
-				LINK
+				Ссылка
 			</button>
 
-			<button
+			{/* <button
 				className="tool-panel__item"
 				onClick={() => {
 					console.log(toHtml());
 				}}
 			>
 				Print
-			</button>
+			</button> */}
 
 			{/* <button
 				className={cn(

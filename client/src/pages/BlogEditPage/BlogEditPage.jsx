@@ -14,9 +14,11 @@ import { blogEditBlog, clearBlogData } from 'redux/slices/blogSlice';
 import { showInfo } from 'redux/slices/infoSlice';
 import DropdownList from 'components/DropdownList'
 import { userGetUsersNickname } from 'redux/slices/userSlice';
-import { BlogAddPhoto } from 'pages/BlogAddPage/styled';
+import { BlogAddPhoto, BlogEditTextWrapperForAdd } from 'pages/BlogAddPage/styled';
 import ImageInsert from 'components/ImageInsert/ImageInsert';
 import { Helmet } from 'react-helmet';
+import ToolPanel from 'components/ToolPanel';
+import TextEditor from 'components/TextEditor';
 
 
 let dataSource;
@@ -156,9 +158,13 @@ const BlogEditPage = () => {
 										}
 									</BlogEditCaption>
 
-									<BlogEditTextWrapper>
+									{/* <BlogEditTextWrapper>
 										<Input type='textarea' name='description' value={fields.description} handleChange={changeInput} center placeholder={dataSource?.description} />
-									</BlogEditTextWrapper>
+									</BlogEditTextWrapper> */}
+									<BlogEditTextWrapperForAdd>
+										<ToolPanel />
+										<TextEditor />
+									</BlogEditTextWrapperForAdd>
 
 									<BlogEditButtonWrapper>
 										<Button action={handleApplyBlog}>Изменить</Button>

@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { ContentWrapper, MainWrapper } from 'pages/pages.styled';
 import { adaptiveValue, rem } from "init/mixins";
+import * as DOMPurify from 'dompurify';
 import { rgba } from "polished";
 import vars from "init/vars";
 
@@ -94,11 +95,16 @@ export const BlogDetailCaption = styled(({ text, ...props }) => (
 	}
 `;
 
-export const BlogTextWrapper = styled(({ content, ...props }) => (
-	<div {...props}>
-		<article>{content}</article>
-	</div>
-))`
+export const BlogTextWrapper = styled(({ content, ...props }) => {
+	const sanitizedContent = DOMPurify.sanitize(content, { USE_PROFILES: { html: true } });
+
+	return (
+		<div {...props}>
+			{/* <article>{content}</article> */}
+			<article dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+		</div>
+	)
+})`
 	background-color: ${rgba(vars.whiteColor, .25)};
 	border: ${rem(2)} solid ${rgba(vars.lightGreen, .5)};
 	border-radius: ${rem(5)};
@@ -114,5 +120,27 @@ export const BlogTextWrapper = styled(({ content, ...props }) => (
 		text-indent: ${rem(25)};
 		hyphens: auto;
 		white-space: pre-line;
+		
+		h1, h2, h3, h4, h5, h6 {
+			font-weight: revert;
+		}
+		h1 {
+			font-size: ${rem(32)};
+		}
+		h2 {
+			font-size: ${rem(24)};
+		}
+		h3 {
+			font-size: ${rem(19)};
+		}
+		h4 {
+			font-size: ${rem(16)};
+		}
+		h5 {
+			font-size: ${rem(14)};
+		}
+		h6 {
+			font-size: ${rem(12)};
+		}
 	}
 `;

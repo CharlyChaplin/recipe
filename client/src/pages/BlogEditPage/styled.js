@@ -65,10 +65,10 @@ export const BlogEditTop = styled(({ children, ...props }) => (
 	}
 `;
 
-export const Divisor = styled(({ ...props }) => (
+export const Divisor = styled(({ n = null, ...props }) => (
 	<span {...props}></span>
 ))`
-	margin: 0 ${rem(20)};
+	margin: 0 ${({ n }) => (n && typeof n === 'number') ? rem(n) : rem(20)};
 	height: ${rem(16)};
 	width: ${rem(1)};
 	background-color: ${vars.text};

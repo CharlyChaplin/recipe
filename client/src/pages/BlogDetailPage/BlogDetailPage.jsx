@@ -48,7 +48,7 @@ const BlogDetailPage = () => {
 										<BlogDetailTop dateadd={blogData.dateadd} owner={blogData.name} />
 										<BlogDetailPhoto image={blogData.photopreview} imageAltText={blogData.caption} />
 										<BlogDetailCaption text={blogData.caption} />
-										<BlogTextWrapper content={blogData.description} />
+										<BlogTextWrapper content={ blogData.description} />
 									</>
 									: <NoData text="Нет такого блога" />
 						}
