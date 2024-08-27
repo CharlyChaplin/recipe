@@ -256,7 +256,7 @@ const RecipeAddPage = () => {
 									?
 									<>
 										<Button action={handleAddRecipe}>Добавить</Button>
-										<Button onClick={() => navigate(paths.categories)}>Отмена</Button>
+										<Button onClick={() => navigate(-1)}>Отмена</Button>
 									</>
 									: <Button onClick={() => navigate(paths.profile)}>Отмена</Button>
 							}
